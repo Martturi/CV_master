@@ -1,11 +1,12 @@
 var express = require('express');
 var fs = require('fs');
 var path = require("path");
+var bodyParser = require("body-parser");
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
-
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Main request for index site
 app.get('/', function(request, response) {
@@ -14,11 +15,12 @@ app.get('/', function(request, response) {
 
 //Post request
 app.get('/api/post', function(request, response) {
-  var text = "HELLO"
+  var text = request.body.text || null
   fs.writeFile("cv.txt", text, function(err) {
     if (err) {
       return console.log(err);
     }
+    response.setHeader("200")
     response.send('Save succeeded.');
   });
 });

@@ -20,7 +20,6 @@ app.post('/api/post', function(request, response) {
     if (err) {
       return console.log(err);
     }
-    response.setHeader("200")
     response.send('Save succeeded.');
   });
 });

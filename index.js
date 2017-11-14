@@ -1,5 +1,6 @@
 var express = require('express');
 var fs = require('fs');
+var path = require("path");
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
@@ -8,7 +9,7 @@ app.set('view engine', 'ejs');
 
 //Main request for index site
 app.get('/', function(request, response) {
-  response.render('pages/index');
+  response.sendFile(path.join(__dirname+'/CV.html'));
 });
 
 //Post request

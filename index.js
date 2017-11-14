@@ -1,4 +1,5 @@
 var express = require('express');
+var fs = require('fs');
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
@@ -12,7 +13,13 @@ app.get('/', function(request, response) {
 
 //Post request
 app.post('/api/post', function(request, response) {
-  response.send('Save succeeded.');
+  var text = "HELLO"
+  fs.writeFile("/cv.txt", text, function(err) {
+    if (err) {
+      return console.log(err);
+    }
+    response.send('Save succeeded.');
+  });
 });
 
 app.listen(app.get('port'), function() {

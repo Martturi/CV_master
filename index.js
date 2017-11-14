@@ -12,9 +12,9 @@ app.get('/', function(request, response) {
 });
 
 //Post request
-app.post('/api/post', function(request, response) {
+app.get('/api/post', function(request, response) {
   var text = "HELLO"
-  fs.writeFile("/cv.txt", text, function(err) {
+  fs.writeFile("cv.txt", text, function(err) {
     if (err) {
       return console.log(err);
     }

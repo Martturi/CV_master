@@ -14,7 +14,7 @@ app.get('/', function(request, response) {
 });
 
 //Post request
-app.get('/api/post', function(request, response) {
+app.post('/api/post', function(request, response) {
   var text = request.body.text || null
   fs.writeFile("cv.txt", text, function(err) {
     if (err) {

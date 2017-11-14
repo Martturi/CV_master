@@ -14,12 +14,13 @@ app.get('/', function(request, response) {
 });
 
 //Post request
-app.get('/api/post', function(request, response) {
-  var text = request.body.text || null
+app.post('/api/post', function(request, response) {
+  var text = request.body.textfield || null
   fs.writeFile("cv.txt", text, function(err) {
     if (err) {
       return console.log(err);
     }
+    response.setHeader("200")
     response.send('Save succeeded.');
   });
 });

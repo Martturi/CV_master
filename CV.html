@@ -9,9 +9,16 @@
     <h2>CV master</h2>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+      fetch('/cv.txt').then(function(response) {
+          document.getElementById("textfield").value = response.text()
+      }, function(error) {
+        return console.log("Error!")
+      })
+    </script> 
     <!-- Makes a HTML post request when clicking the button-->
     <form action="api/post" method="post">
-       <textarea type="text" rows="10" cols="50" name="textfield"></textarea>
+       <textarea type="text" rows="10" cols="50" id="textfield" name="textfield"></textarea>
        <div class="form-actions">
        <button type="submit" class="btn btn-primary">Save</button>
        </div>

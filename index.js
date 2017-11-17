@@ -18,7 +18,7 @@ const client = new Client({
 
 client.connect();
 
-text = client.query('SELECT text FROM CVs WHERE id = 0;', (err, res) => {
+client.query('SELECT text FROM CVs WHERE id = 0;', (err, res) => {
   if (err) throw err;
     JSON.parse(JSON.stringify(res.rows[0]), (key, value) => {
       if (key == "text") {
@@ -27,6 +27,16 @@ text = client.query('SELECT text FROM CVs WHERE id = 0;', (err, res) => {
     });
   client.end();
 });
+
+function saveCV(text) {
+  client.connect();
+
+  client.query('UPDATE cvs SET text='+text+' WHERE id = 0;', (err, res) => {
+    if (err) throw err;
+    client.end();
+  });
+};
+
 
 //Main request for index site
 app.get('/', function(request, response) {

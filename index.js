@@ -13,15 +13,22 @@ app.get('/', function(request, response) {
   response.sendFile(path.join(__dirname+'/CV.html'));
 });
 
-//Post request
+var text = ''
+
+//Post request, saves text
 app.post('/api/post', function(request, response) {
-  var text = request.body.textfield || null
+  text = request.body.textfield || null
   fs.writeFile("cv.txt", text, function(err) {
     if (err) {
       return console.log(err);
     }
     response.send('Save succeeded.');
   });
+});
+
+//Get request
+app.get('/api/get', function(request, response) {
+  response.send(text)
 });
 
 app.listen(app.get('port'), function() {

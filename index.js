@@ -14,16 +14,17 @@ var text = ''
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: true,
 });
 
 client.connect();
 
-client.query('SELECT text FROM CVs;', (err, res) => {
+text = client.query('SELECT text FROM CVs WHERE id = 0;', (err, res) => {
   if (err) throw err;
-  for (let row of res.rows) {
-    console.log("row:" + row);
-  }
+    JSON.parse(JSON.stringify(res.rows[0]), (key, value) => {
+      if (key == "text") {
+      text = value;
+    }
+    });
   client.end();
 });
 

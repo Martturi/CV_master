@@ -11,7 +11,8 @@
     <script src="js/bootstrap.min.js"></script>
 
     <script>
-      fetch('/cv.txt').then(function(response) {
+
+      fetch('api/get').then(function(response) {
           document.getElementById("textfield").value = response.text()
       }, function(error) {
         return console.log("Error!")

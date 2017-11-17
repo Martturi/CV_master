@@ -18,12 +18,6 @@ var text = ''
 //Post request, saves text
 app.post('/api/post', function(request, response) {
   text = request.body.textfield || null
-  fs.writeFile("cv.txt", text, function(err) {
-    if (err) {
-      return console.log(err);
-    }
-    response.send('Save succeeded.');
-  });
 });
 
 //Get request

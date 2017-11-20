@@ -46,6 +46,7 @@ app.get('/', function(request, response) {
 //Post request, saves text
 app.post('/api/post', function(request, response) {
   text = request.body.textfield || null
+  saveCV(text)
   response.send("Save succeeded")
 });
 

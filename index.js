@@ -18,7 +18,7 @@ const client = new Client({
 
 client.connect();
 
-client.query('SELECT text FROM CVs WHERE id = 0;', (err, res) => {
+client.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
   if (err) throw err;
     JSON.parse(JSON.stringify(res.rows[0]), (key, value) => {
       if (key == "text") {

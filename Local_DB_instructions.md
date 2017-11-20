@@ -21,6 +21,6 @@
     INSERT INTO   "public"."cv_table"("id", "text")   VALUES(0, 'DEFAULT CV') RETURNING "id", "text";
 
 
-    ### Exit with \q
+    Exit with \q
 
     ### Rename .env.example to .env in this folder

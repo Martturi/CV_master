@@ -18,6 +18,7 @@ var text = ''
 //Post request, saves text
 app.post('/api/post', function(request, response) {
   text = request.body.textfield || null
+  response.send("Save succeeded")
 });
 
 //Get request

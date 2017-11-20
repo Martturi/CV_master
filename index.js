@@ -1,4 +1,5 @@
 var express = require('express');
+var dotenv = require('dotenv').config();
 var fs = require('fs');
 var path = require("path");
 var bodyParser = require("body-parser");
@@ -14,7 +15,7 @@ var text = ''
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl:true
+  ssl: false
 });
 
 client.connect();
@@ -30,8 +31,8 @@ client.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
 });
 
 function saveCV(text) {
-  client.connect();
-  var q = 'UPDATE cv_table SET text=\''+text+'\' WHERE id = 0;'
+
+  var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = 0;"
   console.log(q)
   client.query(q, (err, res) => {
     if (err) throw err;

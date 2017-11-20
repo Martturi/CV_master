@@ -14,6 +14,7 @@ var text = ''
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
+  ssl:true
 });
 
 client.connect();
@@ -30,8 +31,9 @@ client.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
 
 function saveCV(text) {
   client.connect();
-
-  client.query('UPDATE cv_table SET text='+text+' WHERE id = 0;', (err, res) => {
+  var q = 'UPDATE cv_table SET text=\''+text+'\' WHERE id = 0;'
+  console.log(q)
+  client.query(q, (err, res) => {
     if (err) throw err;
     client.end();
   });

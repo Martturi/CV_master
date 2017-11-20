@@ -1,4 +1,9 @@
 cv.txt
+
+#
+# Following copied from a template .gitignore
+#
+
 # Logs
 logs
 *.log

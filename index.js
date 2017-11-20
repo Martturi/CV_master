@@ -27,16 +27,12 @@ client.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
       text = value;
     }
     });
-  client.end();
 });
 
 function saveCV(text) {
-
   var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = 0;"
-  console.log(q)
   client.query(q, (err, res) => {
     if (err) throw err;
-    client.end();
   });
 };
 

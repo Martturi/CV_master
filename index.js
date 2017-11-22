@@ -29,13 +29,6 @@ client.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
     });
 });
 
-function saveCV(text) {
-  var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = 0;"
-  client.query(q, (err, res) => {
-    if (err) throw err;
-  });
-};
-
 
 //Main request for index site
 app.get('/', function(request, response) {
@@ -45,8 +38,12 @@ app.get('/', function(request, response) {
 //Post request, saves text
 app.post('/api/post', function(request, response) {
   text = request.body.textfield || null
-  saveCV(text)
-  response.send("Save succeeded")
+  var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = 0;"
+  client.query(q, (err, res) => {
+    if (err) response.send(err);
+    else response.send("Save succeeded")
+  });
+
 });
 
 //Get request

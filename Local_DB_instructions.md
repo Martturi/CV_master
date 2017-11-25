@@ -6,6 +6,8 @@
 
 ## 2. Setup database
 
+Instructions work for MacOS, probably Linux.
+
   ### Open the database interface. In terminal:
     psql postgres
 
@@ -20,6 +22,6 @@
     );  
     INSERT INTO   "public"."cv_table"("id", "text")   VALUES(0, 'DEFAULT CV') RETURNING "id", "text";
 
-### Exit with \q
+ Exit with ctrl+d
 
 ### Rename .env.example to .env in this folder

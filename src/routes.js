@@ -1,20 +1,37 @@
+var express = require('express');
+var route = express();
+var path = require("path");
+var bodyParser = require("body-parser");
+
+var db = require('./db');
+
+route.set('port', (process.env.PORT || 5000));
+//route.set('views', __dirname + '/views');
+route.set('view engine', 'ejs');
+
+route.use(bodyParser.urlencoded({ extended: true }));
+
 //Main request for index site
-app.get('/', (request, response) => {
-  response.sendFile(path.join(views+'/CV.html'));
+route.get('/', (request, response) => {
+  response.sendFile(path.join(__dirname + '/views/CV.html'));
 });
 
 //Post request, saves text
-app.post('/api/post', (request, response) => {
-  text = request.body.textfield || null
-  var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = 0;"
-  client.query(q, (err, res) => {
-    if (err) response.send(err);
-    else response.send("Save succeeded")
-  });
-
+route.post('/api/post', (request, response) => {
+  var input = request.body.textfield || null
+  db.save(input, (res, err) => {
+    if (err) response.send(err)
+    else response.send(res)
+  })
 });
 
 //Get request
-app.get('/api/get', (request, response) => {
-  response.send(text)
+route.get('/api/get', (request, response) => {
+  response.send(db.load())
 });
+
+route.listen(route.get('port'), () => {
+  console.log('Node app is running on port', route.get('port'));
+});
+
+module.exports = route;

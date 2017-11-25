@@ -14,8 +14,7 @@ var text = ''
 
 
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: false
+  connectionString: process.env.DATABASE_URL
 });
 
 client.connect();
@@ -31,12 +30,12 @@ client.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
 
 
 //Main request for index site
-app.get('/', function(request, response) {
+app.get('/', (request, response) => {
   response.sendFile(path.join(__dirname+'/CV.html'));
 });
 
 //Post request, saves text
-app.post('/api/post', function(request, response) {
+app.post('/api/post', (request, response) => {
   text = request.body.textfield || null
   var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = 0;"
   client.query(q, (err, res) => {
@@ -47,10 +46,10 @@ app.post('/api/post', function(request, response) {
 });
 
 //Get request
-app.get('/api/get', function(request, response) {
+app.get('/api/get', (request, response) => {
   response.send(text)
 });
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));
 });

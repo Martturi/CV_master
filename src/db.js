@@ -1,14 +1,14 @@
 const { Client } = require('pg');
 
-const pg = new Client({
+const client = new Client({
   connectionString: process.env.DATABASE_URL
 });
 
 var text = ''
 
-pg.connect();
+client.connect();
 
-pg.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
+client.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
   if (err) throw err;
     JSON.parse(JSON.stringify(res.rows[0]), (key, value) => {
       if (key == "text") {
@@ -18,12 +18,19 @@ pg.query('SELECT text FROM cv_table WHERE id = 0;', (err, res) => {
 });
 
 var load = () => {
-  return text
+  return text;
 };
 
-var save = (text) => {
-  var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = 0;"
-  return pg.query(q);
+var save = (input) => {
+  text = input
+  var q = "UPDATE cv_table SET text=\'"+input+"\' WHERE id = 0;";
+  client.query(q, (res, err) => {
+    if (err) {
+      return err;
+    } else {
+      return res;
+    }
+  });
 };
 
 module.exports = {load, save};

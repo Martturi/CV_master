@@ -18,16 +18,13 @@ route.get('/', (request, response) => {
 
 //Post request, saves text
 route.post('/api/post', (request, response) => {
-  var input = request.body.textfield || null
-  db.save(input, (res, err) => {
-    if (err) response.send(err)
-    else response.send(res)
-  })
+  var input = request.body.textfield || null;
+  response.send(db.save(input));
 });
 
 //Get request
 route.get('/api/get', (request, response) => {
-  response.send(db.load())
+  response.send(db.load());
 });
 
 route.listen(route.get('port'), () => {

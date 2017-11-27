@@ -5,6 +5,7 @@
 ### Only do steps I, II, III:1-2
 
 ## 2. Setup database
+
 Instructions work for MacOS, probably Linux.
 
   ### Open the database interface. In terminal:
@@ -26,4 +27,3 @@ Instructions work for MacOS, probably Linux.
 ### Rename .env.example to .env in this folder
 
   cp .env.example .env
-

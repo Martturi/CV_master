@@ -26,4 +26,5 @@ Instructions work for MacOS, probably Linux.
 
 ### Rename .env.example to .env in this folder
 
-  mv .env.example .env
+  cp .env.example .env
+

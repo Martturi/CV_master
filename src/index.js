@@ -1,8 +1,6 @@
-var express = require('express');
-var dotenv = require('dotenv').config();
-var route = require('./routes');
-var app = express.Router();
+const express = require('express');
+const route = require('./routes');
 
-var db = require('./db');
+const app = express.Router();
 
 app.use('/', route);

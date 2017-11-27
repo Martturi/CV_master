@@ -5,6 +5,7 @@ const client = new Client({
 });
 
 var text = ''
+var id = 0
 
 client.connect();
 
@@ -23,8 +24,8 @@ var load = () => {
 
 var save = (input) => {
   text = input
-  var q = "UPDATE cv_table SET text=\'"+text+"\' WHERE id = $1;"
-  client.query(q, [id], (err, res) => {
+  var q = "UPDATE cv_table SET text = $1 WHERE id = $2;"
+  client.query(q, [text, id], (err, res) => {
     if (err) {
       return err;
     } else {

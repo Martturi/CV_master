@@ -5,7 +5,7 @@ const client = new Client({
 });
 
 let text = '';
-const id = 0;
+let id = 0;
 
 client.connect();
 

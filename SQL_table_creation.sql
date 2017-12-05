@@ -1,3 +1,5 @@
+DROP DATABASE CV_DB;
+
 CREATE DATABASE CV_DB;
 
 CREATE TABLE   "public"."cv_table" (

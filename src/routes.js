@@ -5,10 +5,7 @@ const db = require('./db');
 
 const route = express();
 
-
 route.set('port', (process.env.PORT || 5000));
-// route.set('views', __dirname + '/views');
-route.set('view engine', 'ejs');
 
 route.use(bodyParser.urlencoded({ extended: true }));
 
@@ -18,13 +15,16 @@ route.get('/', (request, response) => {
 });
 
 // Post request, saves text
-route.post('/api/post', (request, response) => {
+route.post('/api', (request, response) => {
   const input = request.body.textfield || null;
-  response.send(db.save(input));
+  const promise = db.save(input);
+  promise.then((val) => {
+    response.send(val);
+  });
 });
 
 // Get request
-route.get('/api/get', (request, response) => {
+route.get('/api', (request, response) => {
   response.send(db.load());
 });
 

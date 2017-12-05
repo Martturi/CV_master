@@ -6,12 +6,15 @@ const db = require('./db');
 const route = express();
 
 route.set('port', (process.env.PORT || 5000));
+route.set('views', path.join(__dirname, '/views'));
+route.set('view engine', 'ejs');
 
 route.use(bodyParser.urlencoded({ extended: true }));
 
 // Main request for index site
 route.get('/', (request, response) => {
-  response.sendFile(path.join(__dirname, '/views/CV.html'));
+  const output = db.load();
+  response.render('CV.ejs', { text: output, saveResponse: 'Hi' });
 });
 
 // Post request, saves text

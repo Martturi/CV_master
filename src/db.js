@@ -9,9 +9,9 @@ const id = 0;
 
 client.connect();
 
-client.query('SELECT text FROM cv_table WHERE id = $1;', [id], (err, res) => {
+client.query('SELECT text FROM cv_table WHERE id = $1;', [id], (err, result) => {
   if (err) throw err;
-  JSON.parse(JSON.stringify(res.rows[0]), (key, value) => {
+  JSON.parse(JSON.stringify(result.rows[0]), (key, value) => {
     if (key === 'text') {
       text = value;
     }
@@ -22,12 +22,12 @@ const load = () => text;
 
 const save = (input) => {
   text = input;
-  const q = 'UPDATE cv_table SET text = $1 WHERE id = $2;';
-  client.query(q, [text, id], (err, res) => {
-    if (err) {
-      return err;
-    }
-    return res;
+  const query = 'UPDATE cv_table SET text = $1 WHERE id = $2;';
+  return new Promise((resolve, reject) => {
+    client.query(query, [text, id], (err, result) => {
+      if (err) reject(err);
+      else if (result) resolve('Save succeeded.');
+    });
   });
 };
 

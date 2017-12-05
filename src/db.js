@@ -22,7 +22,7 @@ const load = () => text;
 
 const save = (input) => {
   text = input;
-  const query = 'UPDATE cv_table SET text = $1 WHERE id = $2;';
+  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT (id) DO UPDATE SET text = $1 WHERE cv_table.id = $2;';
   return new Promise((resolve, reject) => {
     client.query(query, [text, id], (err, result) => {
       if (err) reject(err);

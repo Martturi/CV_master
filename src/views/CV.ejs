@@ -12,9 +12,9 @@
 
 <script>
 $(document).ready(function() {
-  'use strict';
+  'use strict'
   $( "#cvInput" ).submit(function( event ) {
-    console.log("submitting");
+    console.log("submitting")
     $.ajax({
       url:'/api',
       type:'post',
@@ -22,9 +22,9 @@ $(document).ready(function() {
       success:function(data){
         alert(data)
       }
-    });
-  });
-});
+    })
+  })
+})
 </script>
 
   <!-- Makes an HTML post request when clicking the button-->

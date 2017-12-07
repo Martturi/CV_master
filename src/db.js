@@ -1,34 +1,34 @@
-const { Client } = require('pg');
+const { Client } = require('pg')
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
-});
+})
 
-let text = '';
-const id = 0;
+let text = ''
+const id = 0
 
-client.connect();
+client.connect()
 
 client.query('SELECT text FROM cv_table WHERE id = $1;', [id], (err, result) => {
-  if (err) throw err;
+  if (err) throw err
   JSON.parse(JSON.stringify(result.rows[0]), (key, value) => {
     if (key === 'text') {
-      text = value;
+      text = value
     }
-  });
-});
+  })
+})
 
-const load = () => text;
+const load = () => text
 
 const save = (input) => {
-  text = input;
-  const query = 'UPDATE cv_table SET text = $1 WHERE id = $2;';
+  text = input
+  const query = 'UPDATE cv_table SET text = $1 WHERE id = $2;'
   return new Promise((resolve, reject) => {
     client.query(query, [text, id], (err, result) => {
-      if (err) reject(err);
-      else if (result) resolve('Save succeeded.');
-    });
-  });
-};
+      if (err) reject(err)
+      else if (result) resolve('Save succeeded.')
+    })
+  })
+}
 
-module.exports = { load, save };
+module.exports = { load, save }

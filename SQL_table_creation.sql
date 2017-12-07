@@ -1,12 +1,15 @@
 DROP DATABASE CV_DB;
 
-DROP TABLE "public"."cv_table";
-
 CREATE DATABASE CV_DB;
 
-CREATE TABLE   "public"."cv_table" (
-      "id" serial,
-      "text" text,
-      PRIMARY KEY ("id")
+\connect cv_db;
+
+CREATE TABLE cv_table (
+      "cv_nr" serial,
+      "username" text,
+      "eng_introduction" text,
+      "fin_introduction" text,
+      PRIMARY KEY ("cv_nr")
 );
-INSERT INTO   "public"."cv_table"("id", "text")   VALUES(0, 'DEFAULT CV') RETURNING "id", "text";
+
+INSERT INTO cv_table VALUES (1, 'user1', 'introduction1', 'esittely1');

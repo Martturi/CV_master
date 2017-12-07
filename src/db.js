@@ -24,13 +24,15 @@ const load = () => text
 
 const save = (input) => {
   text = input;
-  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT (id) DO UPDATE SET text = $1 WHERE cv_table.id = $2;';
+  const cv_nr = 1; //for testing purposes - later, cv_nr should be unique
+  const section_nr = 1; //for testing purposes - later, the combination of cv_nr and section_nr should be unique
+  const query = 'INSERT INTO cv_sections VALUES ($1, $2, $3, NULL) ON CONFLICT (cv_nr, section_nr) DO UPDATE SET eng_body = $3 WHERE cv_sections.cv_nr = $1;';
   return new Promise((resolve, reject) => {
-    client.query(query, [text, id], (err, result) => {
-      if (err) reject(err)
-      else if (result) resolve('Save succeeded.')
-    })
-  })
-}
+    client.query(query, [cv_nr, section_nr, text], (err, result) => {
+      if (err) reject(err);
+      else if (result) resolve('Save succeeded.');
+    });
+  });
+};
 
 module.exports = { load, save }

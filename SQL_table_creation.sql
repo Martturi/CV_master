@@ -22,4 +22,4 @@ CREATE TABLE cv_sections (
 
 INSERT INTO cv_table VALUES (1, 'user1', 'introduction1', 'esittely1');
 
-INSERT INTO cv_sections VALUES (1, 1, 'Some text in Eglish', 'Suomenkielistä tekstiä');
+INSERT INTO cv_sections VALUES (1, 1, 'Some text in English', 'Suomenkielistä tekstiä');

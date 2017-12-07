@@ -4,16 +4,18 @@ const client = new Client({
   connectionString: process.env.DATABASE_URL,
 })
 
-let text = ''
-const id = 0
+let text = '';
+const username = 'user1';
 
 client.connect()
 
-client.query('SELECT text FROM cv_table WHERE id = $1;', [id], (err, result) => {
-  if (err) throw err
+const selectQuery = 'SELECT eng_body FROM cv_sections WHERE cv_nr IN (SELECT cv_nr FROM cv_table WHERE username = $1);';
+
+client.query(selectQuery, [username], (err, result) => {
+  if (err) throw err;
   JSON.parse(JSON.stringify(result.rows[0]), (key, value) => {
-    if (key === 'text') {
-      text = value
+    if (key === 'eng_body') {
+      text = value;
     }
   })
 })

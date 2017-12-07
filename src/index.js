@@ -1,6 +1,6 @@
-const express = require('express');
-const route = require('./routes');
+const express = require('express')
+const route = require('./routes')
 
-const app = express.Router();
+const app = express.Router()
 
-app.use('/', route);
+app.use('/', route)

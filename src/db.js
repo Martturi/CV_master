@@ -5,27 +5,30 @@ const client = new Client({
   connectionString: config.databaseURL,
 })
 
-let text = ''
-const id = 0
-
 client.connect()
 
-client.query('SELECT text FROM cv_table WHERE id = $1;', [id], (err, result) => {
-  if (err) throw err
-  JSON.parse(JSON.stringify(result.rows[0]), (key, value) => {
-    if (key === 'text') {
-      text = value
-    }
+const load = (uid) => {
+  const query = 'SELECT text FROM cv_table WHERE id = $1;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [uid], (err, result) => {
+      if (err) reject(err)
+      try {
+        JSON.parse(JSON.stringify(result.rows[0]), (key, value) => {
+          if (key === 'text') {
+            resolve(value)
+          }
+        })
+      } catch (exeption) {
+        reject(exeption)
+      }
+    })
   })
-})
+}
 
-const load = () => text
-
-const save = (input) => {
-  text = input
+const save = (input, uid) => {
   const query = 'UPDATE cv_table SET text = $1 WHERE id = $2;'
   return new Promise((resolve, reject) => {
-    client.query(query, [text, id], (err, result) => {
+    client.query(query, [input, uid], (err, result) => {
       if (err) reject(err)
       else if (result) resolve('Save succeeded.')
     })

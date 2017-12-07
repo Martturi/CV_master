@@ -12,17 +12,25 @@ route.set('view engine', 'ejs')
 route.use(bodyParser.urlencoded({ extended: true }))
 
 // Main request for index site
-route.get('/', (request, response) => {
-  const output = db.load()
-  response.render('CV.ejs', { text: output, saveResponse: 'Hi' })
+route.get('/:uid', (request, response) => {
+  const { uid } = request.params
+  const promise = db.load(uid)
+  promise.then((res) => {
+    response.render('CV.ejs', { text: res })
+  }).catch((err) => {
+    response.send(err)
+  })
 })
 
 // Post request, saves text
-route.post('/api', (request, response) => {
+route.post('/:uid', (request, response) => {
+  const { uid } = request.params
   const input = request.body.textfield || null
-  const promise = db.save(input)
+  const promise = db.save(input, uid)
   promise.then((val) => {
     response.send(val)
+  }).catch((err) => {
+    response.send(err)
   })
 })
 

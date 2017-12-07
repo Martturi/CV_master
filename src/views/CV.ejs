@@ -17,10 +17,10 @@ $(document).ready(function() {
     event.originalEvent.preventDefault()
     console.log(event)
     $.ajax({
-      url:'/api',
+      url:'',
       type:'post',
       data:$('#cvInput').serialize(),
-      success:function(data){
+      success: (data) => {
         alert(data)
       }
     })

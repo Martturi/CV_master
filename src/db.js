@@ -5,14 +5,16 @@ const client = new Client({
 });
 
 let text = '';
-const id = 0;
+const username = 'user1';
 
 client.connect();
 
-client.query('SELECT text FROM cv_table WHERE id = $1;', [id], (err, result) => {
+const selectQuery = 'SELECT eng_body FROM cv_sections WHERE cv_nr IN (SELECT cv_nr FROM cv_table WHERE username = $1);';
+
+client.query(selectQuery, [username], (err, result) => {
   if (err) throw err;
   JSON.parse(JSON.stringify(result.rows[0]), (key, value) => {
-    if (key === 'text') {
+    if (key === 'eng_body') {
       text = value;
     }
   });

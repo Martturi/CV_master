@@ -20,3 +20,4 @@ Instructions work for MacOS, probably Linux.
 ### Rename .env.example to .env in this folder
 
   cp .env.example .env
+

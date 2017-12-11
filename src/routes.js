@@ -21,11 +21,11 @@ route.get('/', (request, response) => {
   })
 })
 
-// Get individual CV
+// Get individual CV. Creates a new CV if used UID doesn't already have one
 route.get('/:uid', (request, response) => {
   const { uid } = request.params || 0
-  const promise = db.load(uid)
-  promise.then((res) => {
+  db.insert('test', uid)
+  db.load(uid).then((res) => {
     response.render('CV.ejs', { text: res })
   }).catch((err) => {
     response.send(err)

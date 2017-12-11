@@ -49,4 +49,16 @@ const save = (input, uid) => {
   })
 }
 
-module.exports = { load, loadAll, save }
+const insert = (input, uid) => {
+  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT DO NOTHING;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [input, uid], (err, result) => {
+      if (err) reject(err)
+      else if (result) resolve('Created new CV')
+    })
+  })
+}
+
+module.exports = {
+  load, loadAll, save, insert,
+}

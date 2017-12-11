@@ -15,7 +15,7 @@ $(document).ready(function() {
   'use strict'
   $( "#cvInput" ).submit(function( event ) {
     event.originalEvent.preventDefault()
-    console.log("submitting")
+    console.log(event)
     $.ajax({
       url:'/api',
       type:'post',

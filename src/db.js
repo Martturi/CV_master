@@ -25,6 +25,20 @@ const load = (uid) => {
   })
 }
 
+const loadAll = () => {
+  const query = 'SELECT id FROM cv_table;'
+  return new Promise((resolve, reject) => {
+    client.query(query, (err, result) => {
+      if (err) reject(err)
+      try {
+        resolve(result.rows)
+      } catch (exeption) {
+        reject(exeption)
+      }
+    })
+  })
+}
+
 const save = (input, uid) => {
   const query = 'UPDATE cv_table SET text = $1 WHERE id = $2;'
   return new Promise((resolve, reject) => {
@@ -35,4 +49,4 @@ const save = (input, uid) => {
   })
 }
 
-module.exports = { load, save }
+module.exports = { load, loadAll, save }

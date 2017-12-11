@@ -12,8 +12,18 @@ route.set('view engine', 'ejs')
 route.use(bodyParser.urlencoded({ extended: true }))
 
 // Main request for index site
+route.get('/', (request, response) => {
+  const promise = db.loadAll()
+  promise.then((res) => {
+    response.render('list.ejs', { results: res })
+  }).catch((err) => {
+    response.send(err)
+  })
+})
+
+// Get individual CV
 route.get('/:uid', (request, response) => {
-  const { uid } = request.params
+  const { uid } = request.params || 0
   const promise = db.load(uid)
   promise.then((res) => {
     response.render('CV.ejs', { text: res })

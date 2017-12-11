@@ -1,7 +1,8 @@
 const { Client } = require('pg')
+const config = require('./config')
 
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: config.databaseURL,
 })
 
 let text = ''

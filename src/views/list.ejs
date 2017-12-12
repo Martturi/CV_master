@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CV master</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--link href="css/bootstrap.min.css" rel="stylesheet" media="screen"-->
+</head>
+<body>
+  <h2>CV master</h2>
+  <!--script src="js/bootstrap.min.js"></script-->
+
+  <h3>The following CVs exist in the database</h3>
+
+
+  <% results.forEach(function(r) { %>
+        <a href="\<%=r.id%>"><li><%= r.id %></li>
+  <% }); %>
+</body>
+</html>

@@ -17,18 +17,17 @@ route.get('/', (request, response) => {
   promise.then((res) => {
     response.render('list.ejs', { results: res })
   }).catch((err) => {
-    response.send(err)
+    response.send(`Database error: \n ${err}`)
   })
 })
 
 // Get individual CV. Creates a new CV if used UID doesn't already have one
 route.get('/:uid', (request, response) => {
   const { uid } = request.params || 0
-  db.insert('test', uid)
   db.load(uid).then((res) => {
     response.render('CV.ejs', { text: res })
   }).catch((err) => {
-    response.send(err)
+    response.send(`Database error: \n ${err}`)
   })
 })
 
@@ -40,7 +39,7 @@ route.post('/:uid', (request, response) => {
   promise.then((val) => {
     response.send(val)
   }).catch((err) => {
-    response.send(err)
+    response.send(`Database error: \n ${err}`)
   })
 })
 

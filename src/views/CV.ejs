@@ -17,8 +17,9 @@ $(document).ready(function() {
   $( "#cvInput" ).submit(function( event ) {
     event.originalEvent.preventDefault()
     console.log(event)
+    var pathname = window.location.pathname;
     $.ajax({
-      url:'',
+      url:`api${pathname}`,
       type:'post',
       data:$('#cvInput').serialize(),
       success: (data) => {

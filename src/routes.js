@@ -13,39 +13,34 @@ route.use(bodyParser.urlencoded({ extended: true }))
 
 // Main request for index site
 route.get('/', (request, response) => {
-  const promise = db.loadAll()
-  promise.then((res) => {
-    response.render('list.ejs', { results: res })
-  }).catch((err) => {
-    response.send(`Database error: \n ${err}`)
-  })
+  db.loadAll()
+    .then((res) => { response.render('list.ejs', { results: res }) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
 // Get individual CV. Creates a new CV if used UID doesn't already have one
 route.get('/:uid', (request, response) => {
   const { uid } = request.params || 0
-  db.load(uid).then((res) => {
-    response.render('CV.ejs', { text: res })
-  }).catch((err) => {
-    response.send(`Database error: \n ${err}`)
-  })
+  db.load(uid)
+    .then((res) => { response.render('CV.ejs', { text: res }) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
 // Post request, saves text
-route.post('/:uid', (request, response) => {
+route.post('/api/:uid', (request, response) => {
   const { uid } = request.params
   const input = request.body.textfield || null
-  const promise = db.save(input, uid)
-  promise.then((val) => {
-    response.send(val)
-  }).catch((err) => {
-    response.send(`Database error: \n ${err}`)
-  })
+  db.save(input, uid)
+    .then((val) => { response.send(val) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
 // Get request
-route.get('/api', (request, response) => {
-  response.send(db.load())
+route.get('/api/:uid', (request, response) => {
+  const { uid } = request.params || 0
+  db.load(uid)
+    .then((res) => { response.send(res) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
 route.listen(route.get('port'), () => {

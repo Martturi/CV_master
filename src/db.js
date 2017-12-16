@@ -20,13 +20,11 @@ const insert = (input, uid) => {
 const load = (uid) => {
   const query = 'SELECT text FROM cv_table WHERE id = $1;'
   return new Promise((resolve, reject) => {
-    client.query(query, [uid]).then((result) => {
-      if (result.rowCount > 0) resolve(result.rows[0].text)
-      else {
-        insert('New CV', uid).then(() => resolve('New CV'))
-          .catch((err) => { reject(err) })
-      }
-    }).catch((err) => { reject(err) })
+    client.query(query, [uid])
+      .then((result) => {
+        if (result.rowCount > 0) resolve(result.rows[0].text)
+        else { resolve('New CV') }
+      }).catch((err) => { reject(err) })
   })
 }
 
@@ -45,12 +43,11 @@ const loadAll = () => {
 }
 
 const save = (input, uid) => {
-  const query = 'UPDATE cv_table SET text = $1 WHERE id = $2;'
+  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT (id) DO UPDATE SET text = $1 WHERE cv_table.id = $2;'
   return new Promise((resolve, reject) => {
-    client.query(query, [input, uid], (err, result) => {
-      if (err) reject(err)
-      else if (result) resolve('Save succeeded.')
-    })
+    client.query(query, [input, uid])
+      .then(() => { resolve('Save succeeded.') })
+      .catch((err) => { reject(err) })
   })
 }
 

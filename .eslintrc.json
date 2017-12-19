@@ -1,7 +1,11 @@
 {
-    "extends": "airbnb",
-    "rules": {
-        "semi": ["error", "never"],
-        "no-console": ["error", { "allow": ["warn", "error", "log"] }]
-    }
+   "extends": "airbnb",
+   "rules": {
+       "semi": ["error", "never"],
+       "no-console": ["error", { "allow": ["warn", "error", "log"] }],
+       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+   },
+   "globals": {
+       "document": true
+   }
 }

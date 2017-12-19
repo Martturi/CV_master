@@ -6,9 +6,11 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
     "watch": "nodemon src/index.js",
-    "lint": "./node_modules/.bin/eslint **/*.js"
+    "lint": "./node_modules/.bin/eslint **/*.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,10 @@
     "ejs": "2.5.6",
     "express": "4.15.2",
     "pg": "7.4.0",
-    "promise": "^8.0.1"
+    "promise": "^8.0.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.0.17"
   },
   "license": "MIT",
   "devDependencies": {

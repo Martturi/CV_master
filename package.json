@@ -6,11 +6,11 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "watch": "nodemon src/index.js",
+    "react": "cd react/ && npm start",
+    "install_all": "npm install && cd react/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "watch": "npm run install_all && nodemon server",
     "lint": "./node_modules/.bin/eslint **/*.js",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "heroku-postbuild": "cd react/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "repository": {
     "type": "git",

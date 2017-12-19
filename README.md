@@ -37,5 +37,5 @@ Configure the database. In the project directory run
 
 #### Run the following commands:
 
-    npm install
-    npm run watch //This runs a watch which automatically restarts the server.
+    npm run install_all
+    npm run watch //This runs a both the react app and the server, and restarts them on changes.

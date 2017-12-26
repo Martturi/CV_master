@@ -9,17 +9,20 @@ route.set('port', (process.env.PORT || 5000))
 route.set('view engine', 'ejs')
 
 route.use(bodyParser.urlencoded({ extended: true }))
+route.use(bodyParser.json())
 
-route.use(express.static(path.resolve(__dirname, '../react/build')))
-
-// 
+if (process.env.NODE_ENV === "production") {
+  route.use(express.static(path.resolve(__dirname, '../react/build')))
+}
+//
 // route.get('*', (req, res) => {
 //   res.sendFile(path.resolve(__dirname, '../react/build', 'index.html'))
 // })
 
 route.post('/api/:uid', (request, response) => {
-  const { uid } = request.params
-  const input = request.body.textfield || null
+  const { uid } = request.params || '0'
+  const input = request.body.text || null
+  console.log(input, uid)
   db.save(input, uid)
     .then((val) => { response.send(val) })
     .catch((err) => { response.send(`Database error: \n ${err}`) })
@@ -28,7 +31,7 @@ route.post('/api/:uid', (request, response) => {
 // Get request
 route.get('/api/:uid', (request, response) => {
   const { uid } = request.params || 0
-  console.log(`loading cv at uid ${uid}`)
+  console.log(uid)
   db.load(uid)
     .then((res) => { response.send(res) })
     .catch((err) => { response.send(`Database error: \n ${err}`) })

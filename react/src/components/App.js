@@ -1,24 +1,46 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 
-class SearchField extends Component {
-  render() {
-    return (
-      <div>
-        <input type="text" id="search"/>
-        <button>Open</button>
-      </div>
-    )
-  }
+function SearchField() {
+  return (
+    <div>
+      <input type="text" id="search" />
+      <button>Open</button>
+    </div>
+  )
 }
 
 class CVEditor extends Component {
+  state = {
+    text: ''
+  }
+
+  componentDidMount() {
+    this.callApi()
+      .then(res => {
+        console.log(res)
+        this.setState({ text: res })
+      })
+      .catch(err => console.log(err))
+    this.render()
+  }
+
+  callApi = async () => {
+    const response = await fetch('api/0')
+    const body = await response.text()
+    console.log(body)
+
+    if (response.status !== 200) throw Error(body.message)
+
+    return body
+  };
+
   render() {
     return (
       <div>
-        <textarea type="text" rows="10" cols="50" id="textfield" name="textfield"></textarea>
-        <div class="form-actions">
-          <button class="btn btn-primary">Save</button>
+        <textarea type="text" rows="10" cols="50" id="textfield" name="textfield" value={this.state.text} />
+        <div>
+          <button>Save</button>
         </div>
       </div>
     )
@@ -36,4 +58,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

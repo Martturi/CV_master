@@ -9,7 +9,7 @@ route.set('port', (process.env.PORT || 5000))
 route.set('views', path.join(__dirname, '/views'))
 route.set('view engine', 'ejs')
 
-route.use(express.static(path.resolve(__dirname,'..', 'public')))
+route.use(express.static(path.resolve(__dirname, '..', 'public')))
 route.use(bodyParser.urlencoded({ extended: true }))
 
 // Main request for index site
@@ -33,7 +33,7 @@ route.get('/:uid', (request, response) => {
 })
 
 // Post request, saves text
-route.post('/api/:uid', (request, response) => {
+route.post('/:uid', (request, response) => {
   const { uid } = request.params
   const input = request.body.textfield || null
   const promise = db.save(input, uid)

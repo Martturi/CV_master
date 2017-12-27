@@ -9,6 +9,7 @@ route.set('port', (process.env.PORT || 5000))
 route.set('views', path.join(__dirname, '/views'))
 route.set('view engine', 'ejs')
 
+route.use(express.static(path.resolve(__dirname, '..', 'public')))
 route.use(bodyParser.urlencoded({ extended: true }))
 
 // Main request for index site

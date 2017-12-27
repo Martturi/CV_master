@@ -1,13 +1,26 @@
 import React, { Component } from 'react'
 import './App.css'
 
-function SearchField() {
-  return (
-    <div>
-      <input type="text" id="search" />
-      <button>Open</button>
-    </div>
-  )
+class SearchField extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      id: this.props.uid
+    }
+  }
+
+  handleChange(event) {
+    this.props.updateUID(event.target.value)
+  }
+
+  render() {
+    return (
+      <div>
+        <input type="text" id="search" value={this.props.uid} onChange={e => this.handleChange(e)} />
+        <button onClick={() => this.props.openCV()}>Open</button>
+      </div>
+    )
+  }
 }
 
 class CVEditor extends Component {
@@ -22,7 +35,6 @@ class CVEditor extends Component {
     this.loadCV()
       .then(res => {
         console.log(this.props.uid)
-        this.setState({ text: res })
       })
       .catch(err => console.log(err))
     this.render()
@@ -33,7 +45,7 @@ class CVEditor extends Component {
     const body = await response.text()
     console.log(body)
     if (response.status !== 200) throw Error(body.message)
-    return body
+    this.setState({ text: body })
   };
 
   saveCV = async () => {
@@ -66,14 +78,26 @@ class CVEditor extends Component {
 
 class App extends Component {
   state = {
-    uid: '1'
+    uid: '0'
    }
+
+  updateUID(newUid) {
+    this.setState({uid: newUid})
+  }
+
+  openCV() {
+    this.refs.cvEditor.loadCV()
+  }
 
   render() {
     return (
       <div>
-        <SearchField />
-        <CVEditor
+        <SearchField
+          uid = {this.state.uid}
+          updateUID = {(uid) => this.updateUID(uid)}
+          openCV = {() => this.openCV()}
+        />
+        <CVEditor ref="cvEditor"
           uid = {this.state.uid}
         />
       </div>

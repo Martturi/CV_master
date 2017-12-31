@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
+import {saveCV, loadCV} from './Api.js'
 
 class SearchField extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: this.props.uid
-    }
-  }
 
   handleChange(event) {
     this.props.updateUID(event.target.value)
@@ -24,52 +19,17 @@ class SearchField extends Component {
 }
 
 class CVEditor extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      text: ''
-    }
-  }
-
-  componentDidMount() {
-    this.loadCV()
-      .then(res => {
-        console.log(this.props.uid)
-      })
-      .catch(err => console.log(err))
-    this.render()
-  }
-
-  loadCV = async () => {
-    const response = await fetch(`api/${this.props.uid}`)
-    const body = await response.text()
-    console.log(body)
-    if (response.status !== 200) throw Error(body.message)
-    this.setState({ text: body })
-  };
-
-  saveCV = async () => {
-    const response = await
-      fetch(`api/${this.props.uid}`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({text: this.state.text}),
-      })
-      if (response.status !== 200) console.log("error")
-  }
 
   handleChange(event) {
-    this.setState({text: event.target.value})
+    this.props.updateText(event.target.value)
   }
 
   render() {
     return (
       <div>
-        <textarea type="text" rows="10" cols="50" id="textfield" name="textfield" value={this.state.text} onChange={e => this.handleChange(e)} />
+        <textarea type="text" rows="10" cols="50" id="textfield" name="textfield" value={this.props.text} onChange={e => this.handleChange(e)} />
         <div>
-          <button onClick={() => this.saveCV()}>Save</button>
+          <button onClick={() => this.props.save()}>Save</button>
         </div>
       </div>
     )
@@ -78,15 +38,33 @@ class CVEditor extends Component {
 
 class App extends Component {
   state = {
-    uid: '0'
-   }
+    uid: '0',
+    text: ''
+  }
+
+  componentDidMount() {
+    this.openCV()
+    this.render()
+  }
 
   updateUID(newUid) {
     this.setState({uid: newUid})
   }
 
+  updateText(text) {
+    this.setState({text: text})
+  }
+
   openCV() {
-    this.refs.cvEditor.loadCV()
+    loadCV(this.state.uid)
+    .then(res => {
+      this.setState({text: res})
+    })
+    .catch(err => console.log(err))
+  }
+
+  saveCV() {
+    saveCV(this.state.uid, this.state.text)
   }
 
   render() {
@@ -97,8 +75,12 @@ class App extends Component {
           updateUID = {(uid) => this.updateUID(uid)}
           openCV = {() => this.openCV()}
         />
-        <CVEditor ref="cvEditor"
+        <CVEditor
           uid = {this.state.uid}
+          text = {this.state.text}
+          updateText = {(text) => this.updateText(text)}
+          openCV = {() => this.openCV()}
+          save = {() => this.saveCV()}
         />
       </div>
     )

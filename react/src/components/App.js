@@ -19,18 +19,26 @@ class SearchField extends Component {
 }
 
 class CVEditor extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      saveStatus: ''
+    }
+  }
 
   handleChange(event) {
     this.props.updateText(event.target.value)
   }
+
 
   render() {
     return (
       <div>
         <textarea type="text" rows="10" cols="50" id="textfield" name="textfield" value={this.props.text} onChange={e => this.handleChange(e)} />
         <div>
-          <button onClick={() => this.props.save()}>Save</button>
+          <button onClick={this.props.saveCV}>Save</button>
         </div>
+        <div id="savestatus">{this.props.saveStatus}</div>
       </div>
     )
   }
@@ -39,7 +47,8 @@ class CVEditor extends Component {
 class App extends Component {
   state = {
     uid: '0',
-    text: ''
+    text: '',
+    saveStatus: ''
   }
 
   componentDidMount() {
@@ -65,6 +74,11 @@ class App extends Component {
 
   saveCV() {
     saveCV(this.state.uid, this.state.text)
+      .then((res) => this.setState({saveStatus: res}))
+      .catch((rej) => this.setState({saveStatus: rej}))
+    setTimeout(
+      () => {this.setState({saveStatus: ''})},
+      3000 )
   }
 
   render() {
@@ -78,9 +92,9 @@ class App extends Component {
         <CVEditor
           uid = {this.state.uid}
           text = {this.state.text}
+          saveStatus = {this.state.saveStatus}
           updateText = {(text) => this.updateText(text)}
-          openCV = {() => this.openCV()}
-          save = {() => this.saveCV()}
+          saveCV = {() => this.saveCV()}
         />
       </div>
     )

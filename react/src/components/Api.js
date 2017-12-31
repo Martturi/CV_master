@@ -1,6 +1,7 @@
 
-  export const saveCV = async (uid, text) => {
-    const response = await
+  export const saveCV = (uid, text) => {
+    return new Promise( async (resolve, reject) => {
+      const response = await
       fetch(`api/${uid}`, {
         method: "POST",
         headers: {
@@ -8,7 +9,9 @@
         },
         body: JSON.stringify({text: text}),
       })
-      if (response.status !== 200) console.log("error")
+      if (response.status !== 200) reject("error " + response)
+      else resolve("Save succeeded.")
+    })
   }
 
   export const loadCV = async (uid) => {

@@ -28,7 +28,9 @@ Master branch auto-deploys to <a href="http://cv-master.herokuapp.com">cv-master
 
 Configure the database. In the project directory run
 
-      psql postgres -f SQL_table_creation.sql
+      psql postgres -c "DROP DATABASE cv_db;"
+      psql postgres -c "CREATE DATABASE cv_db;"
+      psql -d "cv_db" -f SQL_table_creation.sql
 
 
 ### 2. Start server

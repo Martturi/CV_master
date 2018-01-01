@@ -1,6 +1,7 @@
 {
   "name": "cv_master",
   "scripts": {
+     "postdeploy": "psql $DATABASE_URL -f SQL_table_creation.sql"
   },
   "env": {
   },

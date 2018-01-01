@@ -28,7 +28,9 @@ Master branch auto-deploys to <a href="http://cv-master.herokuapp.com">cv-master
 
 Configure the database. In the project directory run
 
-      psql postgres -f SQL_table_creation.sql
+      psql postgres -c "DROP DATABASE cv_db;"
+      psql postgres -c "CREATE DATABASE cv_db;"
+      psql -d "cv_db" -f SQL_table_creation.sql
 
 
 ### 2. Start server
@@ -37,5 +39,5 @@ Configure the database. In the project directory run
 
 #### Run the following commands:
 
-    npm install
-    npm run watch //This runs a watch which automatically restarts the server.
+    npm run install_all
+    npm run watch //This runs a both the react app and the server, and restarts them on changes.

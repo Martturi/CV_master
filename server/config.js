@@ -7,6 +7,6 @@ const production = {
   env: 'production',
 }
 
-const isProduction = process.env.ENVIRONMENT === 'production'
+const isProduction = process.env.NODE_ENV === 'production'
 console.log(`Running, config is production: ${isProduction}`)
 module.exports = isProduction ? production : development

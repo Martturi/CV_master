@@ -1,7 +1,3 @@
-DROP DATABASE cv_db;
-CREATE DATABASE cv_db;
-
-\c cv_db
 CREATE TABLE   "public"."cv_table" (
       "id" text,
       "text" text,

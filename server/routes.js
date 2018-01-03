@@ -11,12 +11,12 @@ route.set('view engine', 'ejs')
 route.use(bodyParser.urlencoded({ extended: true }))
 route.use(bodyParser.json())
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
   route.use(express.static(path.resolve(__dirname, '../react/build')))
 }
 
 route.post('/api/:uid', (request, response) => {
-  const { uid } = request.params || '0'
+  const { uid } = request.params || '0'
   const input = request.body.text || null
   console.log(`Saving ${input} as ${uid}`)
   db.save(input, uid)

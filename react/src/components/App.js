@@ -3,6 +3,7 @@ import './App.css'
 import CVEditor from './CVEditor'
 import SearchField from './SearchField'
 import { saveCV, loadCV } from './Api'
+import Preview from './Preview'
 
 
 class App extends Component {
@@ -39,7 +40,8 @@ class App extends Component {
       .catch(rej => this.setState({ saveStatus: rej }))
     setTimeout(
       () => { this.setState({ saveStatus: '' }) },
-      3000)
+      3000,
+    )
   }
 
   render() {
@@ -55,6 +57,9 @@ class App extends Component {
           saveStatus={this.state.saveStatus}
           updateText={text => this.updateText(text)}
           saveCV={() => this.saveCV()}
+        />
+        <Preview
+          text={this.state.text}
         />
       </div>
     )

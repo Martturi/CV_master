@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 class SearchField extends Component {
-
   handleChange(event) {
     this.props.updateUID(event.target.value)
   }

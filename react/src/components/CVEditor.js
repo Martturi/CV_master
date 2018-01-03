@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 class CVEditor extends Component {
-
   handleChange(event) {
     this.props.updateText(event.target.value)
   }

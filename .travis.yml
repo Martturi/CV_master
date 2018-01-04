@@ -3,6 +3,7 @@ node_js:
   - "6"
 
 script:
+  - npm run install_all
   - npm run lint
 
 branch:

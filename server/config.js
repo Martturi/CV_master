@@ -7,6 +7,27 @@ const production = {
   env: 'production',
 }
 
-const isProduction = process.env.NODE_ENV === 'production'
-console.log(`Running, config is production: ${isProduction}`)
-module.exports = isProduction ? production : development
+const test = {
+  databaseURL: 'postgres:///cv_db_test',
+  env: 'test',
+}
+
+console.log(`Running, config is: ${process.env.NODE_ENV}`)
+
+switch (process.env.NODE_ENV) {
+  case 'development':
+    module.exports = development
+    break
+
+  case 'production':
+    module.exports = production
+    break
+
+  case 'test':
+    module.exports = test
+    break
+
+  default:
+    module.exports = development
+    break
+}

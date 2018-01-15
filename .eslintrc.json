@@ -4,6 +4,7 @@
        "semi": ["error", "never"],
        "no-console": ["error", { "allow": ["warn", "error", "log"] }],
        "jsx-a11y/href-no-hash": false,
+       "arrow-body-style": [0],
        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
        "react/prop-types": 0
    },

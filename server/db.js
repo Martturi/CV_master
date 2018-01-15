@@ -51,6 +51,18 @@ const save = (input, uid) => {
   })
 }
 
+const clear = () => {
+  if (config.env !== 'production') {
+    const query = 'TRUNCATE TABLE cv_table;'
+    return new Promise((resolve, reject) => {
+      client.query(query)
+        .then(() => { resolve('Clear succeeded.') })
+        .catch((err) => { reject(err) })
+    })
+  }
+  return 'Not allowed!'
+}
+
 module.exports = {
-  load, loadAll, save, insert,
+  load, loadAll, save, insert, clear,
 }

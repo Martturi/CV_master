@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-// import { Container, Row, Col } from 'reactstrap'
-import MyCVsButtonGroup from './MyCVsButtonGroup'
+import { Button } from 'reactstrap'
 import './MyCVsApp.css'
-import CreateNewCVComponent from './CreateNewCV'
 import NavBar from '../NavBar'
 import '../NavBar.css'
 import MyCVsList from './MyCVsList'
@@ -14,7 +12,7 @@ class MyCVsApp extends Component {
       <div>
         <NavBar />
         <MyCVsList />
-        <CreateNewCVComponent />
+        <Button outline className="button" id="create-cv-button">Create new CV</Button>
       </div>
     )
   }

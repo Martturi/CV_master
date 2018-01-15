@@ -1,8 +1,11 @@
 .centered-list {
-  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 25%;
+  padding-right:25%;
 }
 
-.list-heading {
+.list-group-item-text > h5 {
   font-family: 'JungkaBold';
 }
 
@@ -12,4 +15,14 @@
 
 .list-group-item > * {
   display: inline;
+}
+
+.my-cvs-buttongroup {
+  float: right;
+  vertical-align: center;
+}
+
+#create-cv-button {
+  margin-top: 5px;
+  margin-left: 25%
 }

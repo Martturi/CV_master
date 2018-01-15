@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
+import { Button } from 'reactstrap'
 
 
 class MyCVsButtonGroup extends Component {
   
   render() {
     return (
-      <div id="my-cvs-buttongroup">
+      <div className="my-cvs-buttongroup">
         <Button outline className="button">
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>

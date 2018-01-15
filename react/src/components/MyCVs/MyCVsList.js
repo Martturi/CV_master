@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading } from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemText } from 'reactstrap'
 import MyCVsButtonGroup from './MyCVsButtonGroup'
 
 class MyCVsList extends React.Component {
@@ -9,18 +9,20 @@ class MyCVsList extends React.Component {
         <ListGroup>
           <ListGroupItem>
             <ListGroupItemText className="list-item">
-              CV1 <br />
+              <h5>CV1</h5>
               Last updated: 04.01.2018</ListGroupItemText>
             <MyCVsButtonGroup />
           </ListGroupItem>
           <ListGroupItem>
-            <ListGroupItemHeading className="list-heading">CV2</ListGroupItemHeading>
-            <ListGroupItemText className="list-item">Last updated: 05.01.2018</ListGroupItemText>
+            <ListGroupItemText className="list-item">
+              <h5>CV2</h5>
+              Last updated: 05.01.2018</ListGroupItemText>
             <MyCVsButtonGroup />
           </ListGroupItem>
           <ListGroupItem>
-            <ListGroupItemHeading className="list-heading">CV3</ListGroupItemHeading>
-            <ListGroupItemText className="list-item">Last updated: 06.01.2018</ListGroupItemText>
+            <ListGroupItemText className="list-item">
+              <h5>CV3</h5>
+              Last updated: 06.01.2018</ListGroupItemText>
             <MyCVsButtonGroup />
           </ListGroupItem>
         </ListGroup>

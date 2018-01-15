@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Buttons from './ButtonGroup'
 import TextFields from './TextFields'
-import NavBar from './NavBar'
-import ExampleCV from './ExampleCV.png'
+import NavBar from '../NavBar'
+import ExampleCV from '../ExampleCV.png'
 import './EditorApp.css'
+import '../NavBar.css'
 
 
 class EditorApp extends Component {

@@ -1,0 +1,31 @@
+@font-face {
+	font-family: 'JungkaBold';
+	src: url('/fonts/Jungka-Bold.otf');
+}
+
+.navigation {
+	padding-bottom: 20px;
+	padding-top: 20px;
+	padding-left: 10px;
+	border-bottom: 1px solid #242730;
+	font-size: 20px;
+	font-family: 'JungkaBold';
+}
+
+.nav-link {
+	color: #FC6054;
+}
+
+.nav-link:hover {
+	color: #ab463a;
+}
+
+.nav-pills .nav-link.active {
+	color: #FFFFFF;
+	background-color: #FC6054;
+}
+
+.nav-pills .nav-link.active:hover {
+	color: #FFFFFF;
+	background-color: #ab463a;
+}

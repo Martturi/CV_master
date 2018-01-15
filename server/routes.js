@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const db = require('./db')
-const pdf = require('./pdf');
+const servePDF = require('./pdf')
 
 const route = express()
 
@@ -39,13 +39,7 @@ route.get('/api/:uid/pdf', (request, response) => {
   console.log(`Loading pdf for cv with uid ${uid}`)
   db.load(uid)
     .then((res) => {
-      pdf.getPDF(res)
-        .then((file) => { response.send(file) })
-        .catch((err) => {
-          console.error(err)
-          response.status(500)
-          response.send('error')
-        })
+      servePDF(res, response)
     })
     .catch((err) => { response.send(`Database error: \n ${err}`) })
 })

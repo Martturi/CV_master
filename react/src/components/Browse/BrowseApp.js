@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import BrowseButtons from './BrowseButtonGroup'
+import BrowseButtonGroup from './BrowseButtonGroup'
 import NavBar from '../NavBar'
 import NameList from './NameList'
 import CVList from './CVList'
@@ -17,21 +17,21 @@ class BrowseApp extends Component {
           <NavBar />
         </header>
         <div id="buttons">
-          <BrowseButtons />
+          <BrowseButtonGroup />
         </div>
         <div id="namelist" className="browseSection">
           <NameList />
         </div>
-        <div className="lineContainer">
+        <div className="lineContainer" id="lineContainer">
           <div className="line" />
         </div>
         <div id="cvlist" className="browseSection">
           <CVList />
         </div>
-        <div id="CVpreview">
+        <div className="CVpreview">
           <img src={ExampleCV} height="726" width="533" alt="First page of an example CV" />
         </div>
-        <div className="lineContainer" id="lineContainer2">
+        <div className="lineContainer">
           <div className="line" />
         </div>
       </div>

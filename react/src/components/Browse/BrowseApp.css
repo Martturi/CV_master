@@ -1,51 +1,6 @@
-@font-face {
-	font-family: 'JungkaRegular';
-	src: url('/fonts/Jungka-Regular.otf');
-}
-
-@font-face {
-	font-family: 'JungkaMedium';
-	src: url('/fonts/Jungka-Medium.otf');
-}
-
-@font-face {
-	font-family: 'JungkaLight';
-	src: url('/fonts/Jungka-Light.otf');
-}
-
-@font-face {
-	font-family: 'JungkaBold';
-	src: url('/fonts/Jungka-Bold.otf');
-}
-
-::placeholder {
-	font-family: 'JungkaLight';
-}
-
 .search {
 	float: left;
 	width: 20%;
-}
-
-#browsegroup {
-	padding-top: 5px;
-	padding-right: 5px;
-	padding-left: 20px;
-	padding-bottom: 5px;
-}
-
-#exportgroup {
-	float: right;
-	font-family: 'JungkaBold';
-}
-
-.buttonClass {
-	color: #242730;
-	font-family: 'JungkaRegular';
-}
-
-.buttonClass:hover {
-	background-color: #242730;
 }
 
 .browseSection {
@@ -55,12 +10,6 @@
 	padding-right: 5px;
 	padding-left: 5px;
 	font-family: 'JungkaRegular';
-}
-
-#CVpreview {
-	float: right;
-	width: 50%;
-	max-height: auto;
 }
 
 .list-group-item {
@@ -74,25 +23,3 @@
 	border-color: #d5d7de;
 	color: #000000;
 }
-
-.lineContainer {
- width: 1px;
- height: 100%;
- left: 25%;
- position: absolute;
-}
-
- #lineContainer2 {
- width: 1px;
- height: 100%;
- left: 50%;
- position: absolute;
-
-}
-.line {
- position: absolute;
- width:100%;
- height: 100%;
- background: #d5d7de;
-}
-

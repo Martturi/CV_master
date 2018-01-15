@@ -18,7 +18,7 @@ class ListGroupCollapse extends React.Component {
     return (
       <ListGroupItem>
         <div>
-          <Button outline className={'buttonClass'} size="sm" onClick={this.toggle}> {field.title} </Button>
+          <Button outline className="button" size="sm" onClick={this.toggle}> {field.title} </Button>
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />

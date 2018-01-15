@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button } from 'reactstrap'
 
 
-class BrowseButtonGroup extends Component {
+class EditorButtonGroup extends Component {
   constructor(props) {
     super(props)
     this.toggle = this.toggle.bind(this)
@@ -21,12 +21,8 @@ class BrowseButtonGroup extends Component {
   render() {
     return (
       <div className="buttonheader">
-        <Input className="search" placeholder="Search..." />
-        <Button outline className="button">
-          <span className="fa fa-search" aria-hidden="true" />
-        </Button>
-        <ButtonGroup className="exportgroup">
-          <Button outline className="button">Edit</Button>
+        <ButtonGroup outline className="exportgroup">
+          <Button outline className="button">Save</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export
@@ -45,4 +41,4 @@ class BrowseButtonGroup extends Component {
 }
 
 
-export default BrowseButtonGroup
+export default EditorButtonGroup

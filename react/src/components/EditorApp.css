@@ -1,7 +1,83 @@
-#buttons {
-  float: right;
+@font-face {
+	font-family: 'JungkaRegular';
+	src: url('/fonts/Jungka-Regular.otf');
 }
 
-#textfield {
+@font-face {
+	font-family: 'JungkaMedium';
+	src: url('/fonts/Jungka-Medium.otf');
+}
+
+@font-face {
+	font-family: 'JungkaLight';
+	src: url('/fonts/Jungka-Light.otf');
+}
+
+@font-face {
+	font-family: 'JungkaBold';
+	src: url('/fonts/Jungka-Bold.otf');
+}
+
+#buttons {
+  float: right;
+  width: 100%;
+  right: 10px;
+}
+
+::placeholder {
+	font-family: 'JungkaLight';
+}
+
+#buttongroup {
+	float: right;
+	font-family: 'JungkaBold';
+}
+
+.buttonClass {
+	color: #242730;
+	font-family: 'JungkaRegular';
+}
+
+.buttonClass:hover {
+	background-color: #242730;
+}
+
+#navbar {
+	padding-bottom: 20px;
+	padding-top: 20px;
+	padding-left: 10px;
+	border-bottom: 1px solid #000;
+	font-size: 20px;
+	font-family: 'JungkaBold';
+}
+
+.nav-link {
+	color: #FC6054;
+}
+
+.nav-link:hover {
+	color: #ab463a;
+}
+
+.nav-pills .nav-link.active {
+	color: #FFFFFF;
+	background-color: #FC6054;
+}
+
+.nav-pills .nav-link.active:hover {
+	color: #FFFFFF;
+	background-color: #ab463a;
+}
+
+
+#CVpreview {
+	float: right;
+	width: 50%;
+	max-height: auto;
+}
+
+#textfields {
   float:left;
+  width: 50%;
+  height: auto;
 }

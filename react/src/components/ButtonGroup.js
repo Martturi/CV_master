@@ -1,35 +1,37 @@
 import React, { Component } from 'react'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button } from 'reactstrap'
 
 
-  class Buttons extends React.Component{
+class Buttons extends Component {
   constructor(props) {
     super(props)
     this.toggle = this.toggle.bind(this)
     this.state = {
-      dropdownOpen: false
+      dropdownOpen: false,
     }
   }
 
   toggle() {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropdownOpen: !this.state.dropdownOpen,
     })
   }
 
+
   render() {
     return (
-        <div id = "export">
+      <ButtonGroup outline id="buttongroup">
+        <Button outline className={'buttonClass'}>Save</Button>
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-          <DropdownToggle caret>
+          <DropdownToggle caret outline className={'buttonClass'}>
             Export
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>Email</DropdownItem>
-            <DropdownItem>Download PDF</DropdownItem>
+            <DropdownItem>Download as PDF</DropdownItem>
+            <DropdownItem>Share via email</DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
-      </div>
+      </ButtonGroup>
 
 
     )

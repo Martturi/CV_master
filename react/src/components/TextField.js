@@ -15,7 +15,7 @@ class TextField extends Component {
   render() {
     return (
       <div>
-        <Button color="primary" onClick={this.toggle} style={{ marginBottom: '1rem' }}>Bio</Button>
+        <Button color="primary" onClick={this.toggle()} style={{ marginBottom: '1rem' }}>Bio</Button>
         <Collapse isOpen={this.state.collapse}>
           <Card>
             <CardBody>

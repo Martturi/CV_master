@@ -1,7 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
-class NavBar extends Component {
+function NavBar() {
+  return (
+    <div className="navigation">
+      <Nav pills>
+        <NavItem>
+          <NavLink href="#">My CVs</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="#" active>Browse</NavLink>
+        </NavItem>
+      </Nav>
+    </div>
+  )
+}
+
+/* class NavBar extends Component {
   render() {
     return (
       <div className="navigation">
@@ -10,12 +25,12 @@ class NavBar extends Component {
             <NavLink href="#">My CVs</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#" active>Browse</NavLink>
+            <NavLink href="#">Browse</NavLink>
           </NavItem>
         </Nav>
       </div>
     )
   }
-}
+} */
 
 export default NavBar

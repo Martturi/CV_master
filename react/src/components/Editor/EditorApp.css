@@ -42,34 +42,6 @@
 	background-color: #242730;
 }
 
-#navbar {
-	padding-bottom: 20px;
-	padding-top: 20px;
-	padding-left: 10px;
-	border-bottom: 1px solid #000;
-	font-size: 20px;
-	font-family: 'JungkaBold';
-}
-
-.nav-link {
-	color: #FC6054;
-}
-
-.nav-link:hover {
-	color: #ab463a;
-}
-
-.nav-pills .nav-link.active {
-	color: #FFFFFF;
-	background-color: #FC6054;
-}
-
-.nav-pills .nav-link.active:hover {
-	color: #FFFFFF;
-	background-color: #ab463a;
-}
-
-
 #CVpreview {
 	float: right;
 	width: 50%;

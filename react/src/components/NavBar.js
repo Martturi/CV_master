@@ -6,7 +6,7 @@ function NavBar() {
     <div className="navigation">
       <Nav pills>
         <NavItem>
-          <NavLink href="#">My CVs</NavLink>
+          <NavLink href="#" active>My CVs</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="#">Browse</NavLink>
@@ -15,22 +15,5 @@ function NavBar() {
     </div>
   )
 }
-
-/* class NavBar extends Component {
-  render() {
-    return (
-      <div className="navigation">
-        <Nav pills>
-          <NavItem>
-            <NavLink href="#">My CVs</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="#">Browse</NavLink>
-          </NavItem>
-        </Nav>
-      </div>
-    )
-  }
-} */
 
 export default NavBar

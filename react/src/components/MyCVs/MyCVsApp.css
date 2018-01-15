@@ -1,0 +1,15 @@
+.centered-list {
+  text-align: center;
+}
+
+.list-heading {
+  font-family: 'JungkaBold';
+}
+
+.list-item {
+  font-family: 'JungkaRegular';
+}
+
+.list-group-item > * {
+  display: inline;
+}

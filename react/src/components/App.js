@@ -44,6 +44,22 @@ class App extends Component {
     )
   }
 
+
+  fetchPDF() {
+    fetch(`api/${this.state.uid}/pdf`)
+      .then(res => res.blob())
+      .then((blob) => {
+        const file = new File([blob], `${this.state.uid}.pdf`, { type: 'application/pdf' })
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(file)
+        a.download = `${this.state.uid}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+      })
+      .catch(err => console.log(err))
+  }
+
   render() {
     return (
       <div>
@@ -57,6 +73,7 @@ class App extends Component {
           saveStatus={this.state.saveStatus}
           updateText={text => this.updateText(text)}
           saveCV={() => this.saveCV()}
+          fetchPDF={() => this.fetchPDF()}
         />
         <Preview
           text={this.state.text}

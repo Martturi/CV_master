@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const db = require('./db')
+const servePDF = require('./pdf')
 
 const route = express()
 
@@ -30,6 +31,16 @@ route.get('/api/:uid', (request, response) => {
   console.log(`Loaded cv with uid ${uid}`)
   db.load(uid)
     .then((res) => { response.send(res) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
+})
+
+route.get('/api/:uid/pdf', (request, response) => {
+  const { uid } = request.params || 0
+  console.log(`Loading pdf for cv with uid ${uid}`)
+  db.load(uid)
+    .then((res) => {
+      servePDF(res, response)
+    })
     .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 

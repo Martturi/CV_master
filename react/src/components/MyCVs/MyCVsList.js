@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, ListGroupItemText } from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading } from 'reactstrap'
 import MyCVsButtonGroup from './MyCVsButtonGroup'
 
 class MyCVsList extends React.Component {
@@ -8,21 +8,30 @@ class MyCVsList extends React.Component {
       <div className="centered-list">
         <ListGroup>
           <ListGroupItem>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV1</ListGroupItemHeading>
             <ListGroupItemText className="list-item">
-              <h5>CV1</h5>
-              Last updated: 04.01.2018</ListGroupItemText>
+              Last updated: 04.01.2018
+            </ListGroupItemText>
+          </div>
             <MyCVsButtonGroup />
           </ListGroupItem>
           <ListGroupItem>
-            <ListGroupItemText className="list-item">
-              <h5>CV2</h5>
-              Last updated: 05.01.2018</ListGroupItemText>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV2</ListGroupItemHeading>
+              <ListGroupItemText className="list-item">
+                Last updated: 05.01.2018
+              </ListGroupItemText>
+            </div>
             <MyCVsButtonGroup />
           </ListGroupItem>
           <ListGroupItem>
-            <ListGroupItemText className="list-item">
-              <h5>CV3</h5>
-              Last updated: 06.01.2018</ListGroupItemText>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV3</ListGroupItemHeading>
+              <ListGroupItemText className="list-item">
+                Last updated: 06.01.2018
+              </ListGroupItemText>
+            </div>
             <MyCVsButtonGroup />
           </ListGroupItem>
         </ListGroup>
@@ -32,4 +41,3 @@ class MyCVsList extends React.Component {
 }
 
 export default MyCVsList
-

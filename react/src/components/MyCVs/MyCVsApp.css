@@ -5,7 +5,7 @@
   padding-right:25%;
 }
 
-.list-group-item-text > h5 {
+.list-group-item-heading {
   font-family: 'JungkaBold';
 }
 
@@ -13,13 +13,24 @@
   font-family: 'JungkaRegular';
 }
 
-.list-group-item > * {
-  display: inline;
+.list-group-item {
+  display:inline;
+}
+
+.cvinfo {
+  float:left;
+  width: 40%;
+  padding-top: 10px;
 }
 
 .my-cvs-buttongroup {
   float: right;
-  vertical-align: center;
+  padding-top: 17px;
+}
+
+
+#rename {
+  margin-right: 5px;
 }
 
 #create-cv-button {

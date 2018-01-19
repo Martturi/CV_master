@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import './App.css'
-import CVEditor from './CVEditor'
-import SearchField from './SearchField'
-import { saveCV, loadCV } from './Api'
-import Preview from './Preview'
+import { loadCV } from './Api'
+import Editor from './Editor'
+import Browse from './Browse'
 
 
 class App extends Component {
   state = {
+    browserView: false,
     uid: '0',
     text: '',
-    saveStatus: '',
   }
 
   componentDidMount() {
@@ -26,6 +25,14 @@ class App extends Component {
     this.setState({ text })
   }
 
+  goBack() {
+    this.setState({ browserView: true })
+  }
+
+  goEdit() {
+    this.setState({ browserView: false })
+  }
+
   openCV() {
     loadCV(this.state.uid)
       .then((res) => {
@@ -34,53 +41,21 @@ class App extends Component {
       .catch(err => console.log(err))
   }
 
-  saveCV() {
-    saveCV(this.state.uid, this.state.text)
-      .then(res => this.setState({ saveStatus: res }))
-      .catch(rej => this.setState({ saveStatus: rej }))
-    setTimeout(
-      () => { this.setState({ saveStatus: '' }) },
-      3000,
-    )
-  }
-
-
-  fetchPDF() {
-    fetch(`api/users/${this.state.uid}/pdf`)
-      .then(res => res.blob())
-      .then((blob) => {
-        const file = new File([blob], `${this.state.uid}.pdf`, { type: 'application/pdf' })
-        const a = document.createElement('a')
-        a.href = URL.createObjectURL(file)
-        a.download = `${this.state.uid}.pdf`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-      })
-      .catch(err => console.log(err))
-  }
-
   render() {
+    if (this.state.browserView) {
+      return (
+        <Browse
+          goEdit={() => this.goEdit()}
+        />
+      )
+    }
     return (
-      <div>
-        <SearchField
-          uid={this.state.uid}
-          updateUID={uid => this.updateUID(uid)}
-          openCV={() => this.openCV()}
-        />
-        <CVEditor
-          text={this.state.text}
-          saveStatus={this.state.saveStatus}
-          updateText={text => this.updateText(text)}
-          saveCV={() => this.saveCV()}
-          fetchPDF={() => this.fetchPDF()}
-        />
-        <Preview
-          text={this.state.text}
-        />
-      </div>
+      <Editor
+        goBack={() => this.goBack()}
+      />
     )
   }
 }
+
 
 export default App

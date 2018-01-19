@@ -9,7 +9,7 @@ function NavBar() {
           <NavLink href="#">My CVs</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="#" active>Browse</NavLink>
+          <NavLink href="#">Browse</NavLink>
         </NavItem>
       </Nav>
     </div>

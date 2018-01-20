@@ -17,12 +17,19 @@ class BrowseApp extends Component {
     }
   }
 
-  toggleExportButton() {
-    this.setState({ exportDropDownOpen: !this.state.exportDropDownOpen })
-  }
-
   cvClicked(index) {
     this.setState({ selectedCV: index })
+  }
+
+  copyClicked() {
+    const newCvName = 'copy of '.concat(this.state.cvList[this.state.selectedCV])
+    const newArray = this.state.cvList
+    newArray.push(newCvName)
+    this.setState({ cvList: newArray })
+  }
+
+  exportButtonClicked() {
+    this.setState({ exportDropDownOpen: !this.state.exportDropDownOpen })
   }
 
   render() {
@@ -34,7 +41,8 @@ class BrowseApp extends Component {
         <div id="buttons">
           <BrowseButtonGroup
             dropdownOpen={this.state.exportDropDownOpen}
-            toggle={() => this.toggleExportButton()}
+            copyClicked={() => this.copyClicked()}
+            exportClicked={() => this.exportButtonClicked()}
           />
         </div>
         <div id="namelist" className="browseSection">

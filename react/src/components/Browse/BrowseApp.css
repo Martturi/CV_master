@@ -16,10 +16,36 @@
     list-style-type: disc !important;
     padding-left: 1em;
     color: #242730;
+
 }
 
 .list-group-item.active {
 	background-color: #d5d7de;
 	border-color: #d5d7de;
 	color: #000000;
+}
+
+#namelist {
+	overflow: scroll;
+	height: 100vh;
+}
+
+#cvlist {
+	overflow: scroll;
+	height: 100vh;
+}
+
+.list-group {
+	overflow: scroll;
+	height: 100vh;
+}
+
+.CVpreview {
+	overflow: scroll;
+	height: 100vh;
+}
+
+
+html, body {
+    overflow: hidden;
 }

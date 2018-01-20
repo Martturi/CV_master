@@ -26,7 +26,6 @@ class BrowseButtonGroup extends Component {
           <span className="fa fa-search" aria-hidden="true" />
         </Button>
         <ButtonGroup className="exportgroup">
-          <Button outline className="button">Edit</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export

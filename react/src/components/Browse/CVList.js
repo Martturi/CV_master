@@ -1,17 +1,13 @@
 import React from 'react'
-import { ListGroup } from 'reactstrap'
-import CVComponent from './CVComponent'
+import { ListGroup, ListGroupItem } from 'reactstrap'
 
 const CVList = () => {
   return (
     <div>
       <ListGroup>
-        <CVComponent
-          name={'CV 1'}
-        />
-        <CVComponent
-          name={'CV 2'}
-        />
+        <ListGroupItem tag="a" href="#" action>CV 1</ListGroupItem>
+        <ListGroupItem tag="a" href="#" action>CV 2</ListGroupItem>
+        <ListGroupItem tag="a" href="#" action>CV 3</ListGroupItem>
       </ListGroup>
     </div>
   )

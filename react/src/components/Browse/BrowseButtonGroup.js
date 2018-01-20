@@ -26,7 +26,18 @@ class BrowseButtonGroup extends Component {
           <span className="fa fa-search" aria-hidden="true" />
         </Button>
         <ButtonGroup className="exportgroup">
-          <Button outline className="button">Edit</Button>
+          <Button outline className="button">
+            Rename
+          </Button>
+          <Button outline className="button">
+            <span className="fa fa-pencil" aria-hidden="true" />
+          </Button>
+          <Button outline className="button">
+            <span className="fa fa-files-o" aria-hidden="true" />
+          </Button>
+          <Button outline className="button">
+            <span className="fa fa-trash-o" aria-hidden="true" />
+          </Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export

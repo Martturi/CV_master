@@ -10,14 +10,33 @@ import '../NavBar.css'
 class BrowseApp extends Component {
   constructor(props) {
     super(props)
+    const testCVs = ['CV 1', 'CV 2', 'CV 3']
+    const testUsers = ['Maija Meikäläinen', 'Heikki Heikäläinen', 'Mikko Mallikas']
+    const testUser = 0
     this.state = {
       exportDropDownOpen: false,
-      cvList: ['CV 1', 'CV 2', 'CV 3'],
+      userList: testUsers,
+      selectedUser: testUser,
+      allCVs: testUsers.map(() => testCVs.slice()), // slice() copies array. only for testing
+      cvList: testCVs,
       selectedCV: 0,
       deleteSelected: false,
       renameSelected: false,
       renameFieldContents: '',
     }
+  }
+
+  // only for testing. will probably be removed later.
+  updateAllCVs() {
+    this.state.allCVs[this.state.selectedUser] = this.state.cvList
+  }
+
+  userClicked(index) {
+    this.setState({
+      selectedUser: index,
+      cvList: this.state.allCVs[index],
+      selectedCV: 0,
+    })
   }
 
   cvClicked(index) {
@@ -26,9 +45,9 @@ class BrowseApp extends Component {
 
   copyClicked() {
     const newCvName = 'copy of '.concat(this.state.cvList[this.state.selectedCV])
-    const newArray = this.state.cvList
-    newArray.push(newCvName)
-    this.setState({ cvList: newArray })
+    this.state.cvList.push(newCvName)
+    this.updateAllCVs()
+    this.forceUpdate() // to force rerender
   }
 
   deleteClicked() {
@@ -36,9 +55,9 @@ class BrowseApp extends Component {
   }
 
   deleteConfirmed() {
-    const newArray = this.state.cvList
-    newArray.splice(this.state.selectedCV, 1)
-    this.setState({ cvList: newArray, deleteSelected: false })
+    this.state.cvList.splice(this.state.selectedCV, 1)
+    this.updateAllCVs()
+    this.setState({ deleteSelected: false, selectedCV: 0 })
   }
 
   deleteCancelled() {
@@ -54,9 +73,9 @@ class BrowseApp extends Component {
   }
 
   renameConfirmed() {
-    const newArray = this.state.cvList
-    newArray[this.state.selectedCV] = this.state.renameFieldContents
-    this.setState({ cvList: newArray, renameSelected: false, renameFieldContents: '' })
+    this.state.cvList[this.state.selectedCV] = this.state.renameFieldContents
+    this.updateAllCVs()
+    this.setState({ renameSelected: false, renameFieldContents: '' })
   }
 
   renameCancelled() {
@@ -92,7 +111,11 @@ class BrowseApp extends Component {
           />
         </div>
         <div id="namelist" className="browseSection">
-          <NameList />
+          <NameList
+            selectedUser={this.state.selectedUser}
+            userList={this.state.userList}
+            userClicked={index => this.userClicked(index)}
+          />
         </div>
         <div className="lineContainer" id="lineContainer">
           <div className="line" />

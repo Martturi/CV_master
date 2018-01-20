@@ -1,13 +1,21 @@
 import React from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 
-const NameList = () => {
+const NameList = (props) => {
+  const listGroupItems = props.userList.map((username, index) => {
+    if (index === props.selectedUser) {
+      return (
+        <ListGroupItem active tag="a" href="#" action onClick={() => props.userClicked(index)}>{username}</ListGroupItem>
+      )
+    }
+    return (
+      <ListGroupItem tag="a" href="#" action onClick={() => props.userClicked(index)}>{username}</ListGroupItem>
+    )
+  })
   return (
     <div>
       <ListGroup>
-        <ListGroupItem tag="a" href="#" action>Maija Meikalainen</ListGroupItem>
-        <ListGroupItem tag="a" href="#" action>Heikki Heikalainen</ListGroupItem>
-        <ListGroupItem active tag="a" href="#" action>Mikko Mallikas</ListGroupItem>
+        {listGroupItems}
       </ListGroup>
     </div>
   )

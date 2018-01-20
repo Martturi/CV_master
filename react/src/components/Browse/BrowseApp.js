@@ -14,6 +14,7 @@ class BrowseApp extends Component {
       exportDropDownOpen: false,
       cvList: ['CV 1', 'CV 2', 'CV 3'],
       selectedCV: 0,
+      deleteSelected: false,
     }
   }
 
@@ -29,9 +30,17 @@ class BrowseApp extends Component {
   }
 
   deleteClicked() {
+    this.setState({ deleteSelected: true })
+  }
+
+  deleteConfirmed() {
     const newArray = this.state.cvList
-    newArray.splice(this.state.selectedCV)
-    this.setState({ cvList: newArray })
+    newArray.splice(this.state.selectedCV, 1)
+    this.setState({ cvList: newArray, deleteSelected: false })
+  }
+
+  deleteCancelled() {
+    this.setState({ deleteSelected: false })
   }
 
   exportButtonClicked() {
@@ -49,7 +58,10 @@ class BrowseApp extends Component {
             dropdownOpen={this.state.exportDropDownOpen}
             copyClicked={() => this.copyClicked()}
             deleteClicked={() => this.deleteClicked()}
+            deleteConfirmed={() => this.deleteConfirmed()}
+            deleteCancelled={() => this.deleteCancelled()}
             exportClicked={() => this.exportButtonClicked()}
+            deleteSelected={this.state.deleteSelected}
           />
         </div>
         <div id="namelist" className="browseSection">

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input, Popover, PopoverBody, PopoverHeader } from 'reactstrap'
 
 
 const BrowseButtonGroup = (props) => {
@@ -19,9 +19,16 @@ const BrowseButtonGroup = (props) => {
         <Button outline className="button" onClick={() => props.copyClicked()}>
           <span className="fa fa-files-o" aria-hidden="true" />
         </Button>
-        <Button outline className="button" onClick={() => props.deleteClicked()}>
+        <Button id="delete" outline className="button" onClick={() => props.deleteClicked()}>
           <span className="fa fa-trash-o" aria-hidden="true" />
         </Button>
+        <Popover placement="bottom" target="delete" isOpen={props.deleteSelected} toggle={() => props.deleteCancelled()}>
+          <PopoverHeader>Are you sure you want to delete the selected CV?</PopoverHeader>
+          <PopoverBody>
+            <Button outline className="button" onClick={() => props.deleteConfirmed()}>Yes</Button>
+            <Button outline className="button" onClick={() => props.deleteCancelled()}>No</Button>
+          </PopoverBody>
+        </Popover>
         <ButtonDropdown isOpen={props.dropdownOpen} toggle={() => props.toggle()}>
           <DropdownToggle caret outline className="button">
               Export

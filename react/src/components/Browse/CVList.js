@@ -1,14 +1,66 @@
 import React from 'react'
-import { ListGroup, ListGroupItem } from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading } from 'reactstrap'
+import EditButtonGroup from './EditButtonGroup'
 
 class CVList extends React.Component {
   render() {
     return (
-      <div>
+      <div className="centered-list">
         <ListGroup>
-          <ListGroupItem tag="a" href="#" action>CV1</ListGroupItem>
-          <ListGroupItem active tag="a" href="#" action>CV2</ListGroupItem>
-          <ListGroupItem tag="a" href="#" action>CV3</ListGroupItem>
+          <ListGroupItem active>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV1</ListGroupItemHeading>
+            <ListGroupItemText className="list-item">
+              Last updated: 04.01.2018
+            </ListGroupItemText>
+          </div>
+            <EditButtonGroup />
+          </ListGroupItem>
+          <ListGroupItem>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV2</ListGroupItemHeading>
+              <ListGroupItemText className="list-item">
+                Last updated: 05.01.2018
+              </ListGroupItemText>
+            </div>
+            <EditButtonGroup />
+          </ListGroupItem>
+          <ListGroupItem>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV3</ListGroupItemHeading>
+              <ListGroupItemText className="list-item">
+                Last updated: 06.01.2018
+              </ListGroupItemText>
+            </div>
+            <EditButtonGroup />
+          </ListGroupItem>
+          <ListGroupItem>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV4</ListGroupItemHeading>
+              <ListGroupItemText className="list-item">
+                Last updated: 06.01.2018
+              </ListGroupItemText>
+            </div>
+            <EditButtonGroup />
+          </ListGroupItem>
+          <ListGroupItem>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV5</ListGroupItemHeading>
+              <ListGroupItemText className="list-item">
+                Last updated: 06.01.2018
+              </ListGroupItemText>
+            </div>
+            <EditButtonGroup />
+          </ListGroupItem>
+          <ListGroupItem>
+            <div className="cvinfo">
+            <ListGroupItemHeading>CV6</ListGroupItemHeading>
+              <ListGroupItemText className="list-item">
+                Last updated: 06.01.2018
+              </ListGroupItemText>
+            </div>
+            <EditButtonGroup />
+          </ListGroupItem>
         </ListGroup>
       </div>
     )
@@ -16,4 +68,3 @@ class CVList extends React.Component {
 }
 
 export default CVList
-

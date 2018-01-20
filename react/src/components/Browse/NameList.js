@@ -9,6 +9,21 @@ class NameList extends React.Component {
           <ListGroupItem tag="a" href="#" action>Maija Meikalainen</ListGroupItem>
           <ListGroupItem tag="a" href="#" action>Heikki Heikalainen</ListGroupItem>
           <ListGroupItem active tag="a" href="#" action>Mikko Mallikas</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Maija Meikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Heikki Heikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Mikko Mallikas</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Maija Meikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Heikki Heikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Mikko Mallikas</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Maija Meikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Heikki Heikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Mikko Mallikas</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Maija Meikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Heikki Heikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Mikko Mallikas</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Maija Meikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Heikki Heikalainen</ListGroupItem>
+          <ListGroupItem tag="a" href="#" action>Mikko Mallikas</ListGroupItem>
         </ListGroup>
       </div>
     )
@@ -16,4 +31,3 @@ class NameList extends React.Component {
 }
 
 export default NameList
-

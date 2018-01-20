@@ -3,6 +3,28 @@ import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup
 
 
 const BrowseButtonGroup = (props) => {
+  const DeletePopover = () => {
+    if (props.cvCount >= 2) {
+      return (
+        <Popover placement="bottom" target="delete" isOpen={props.deleteSelected} toggle={() => props.deleteCancelled()}>
+          <PopoverHeader>Are you sure you want to delete the selected CV?</PopoverHeader>
+          <PopoverBody>
+            <Button outline className="button" onClick={() => props.deleteConfirmed()}>Yes</Button>
+            <Button outline className="button" onClick={() => props.deleteCancelled()}>No</Button>
+          </PopoverBody>
+        </Popover>
+      )
+    }
+    return (
+      <Popover placement="bottom" target="delete" isOpen={props.deleteSelected} toggle={() => props.deleteCancelled()}>
+        <PopoverHeader>Deleting denied</PopoverHeader>
+        <PopoverBody>
+          You cannot delete the only CV of a user.
+        </PopoverBody>
+      </Popover>
+    )
+  }
+
   return (
     <div className="buttonheader">
       <Input className="search" placeholder="Search..." />
@@ -30,13 +52,7 @@ const BrowseButtonGroup = (props) => {
         <Button id="delete" outline className="button" onClick={() => props.deleteClicked()}>
           <span className="fa fa-trash-o" aria-hidden="true" />
         </Button>
-        <Popover placement="bottom" target="delete" isOpen={props.deleteSelected} toggle={() => props.deleteCancelled()}>
-          <PopoverHeader>Are you sure you want to delete the selected CV?</PopoverHeader>
-          <PopoverBody>
-            <Button outline className="button" onClick={() => props.deleteConfirmed()}>Yes</Button>
-            <Button outline className="button" onClick={() => props.deleteCancelled()}>No</Button>
-          </PopoverBody>
-        </Popover>
+        <DeletePopover />
         <ButtonDropdown isOpen={props.exportDropdownOpen} toggle={() => props.exportClicked()}>
           <DropdownToggle caret outline className="button">
               Export

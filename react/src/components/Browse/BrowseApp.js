@@ -88,6 +88,7 @@ class BrowseApp extends Component {
             renameSelected={this.state.renameSelected}
             renameFieldContents={this.state.renameFieldContents}
             renameFieldEdited={newContents => this.renameFieldEdited(newContents)}
+            cvCount={this.state.cvList.length}
           />
         </div>
         <div id="namelist" className="browseSection">

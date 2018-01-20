@@ -58,7 +58,9 @@ const BrowseButtonGroup = (props) => {
               Export
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>Download as PDF</DropdownItem>
+            <DropdownItem onClick={() => props.downloadAsPDFClicked()}>
+              Download as PDF
+            </DropdownItem>
             <DropdownItem>Share via email</DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>

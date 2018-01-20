@@ -25,6 +25,7 @@ const BrowseApp = (props) => {
           renameConfirmed={() => props.renameConfirmed()}
           renameCancelled={() => props.renameCancelled()}
           exportClicked={() => props.exportClicked()}
+          downloadAsPDFClicked={() => props.downloadAsPDFClicked()}
           deleteSelected={props.deleteSelected}
           renameSelected={props.renameSelected}
           renameFieldContents={props.renameFieldContents}

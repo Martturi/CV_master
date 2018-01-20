@@ -75,7 +75,7 @@ class App extends Component {
     const cvs = this.state.cvList
     cvs.splice(this.state.selectedCV, 1)
     this.setState({ cvList: cvs, deleteSelected: false })
-    if (this.state.cvList.length >= this.state.selectedCV) {
+    if (this.state.selectedCV === this.state.cvList.length) {
       const newSelectedCV = this.state.cvList.length - 1
       this.setState({ selectedCV: newSelectedCV })
     }
@@ -136,7 +136,6 @@ class App extends Component {
     )
   }
 
-
   fetchPDF() {
     fetch(`api/${this.state.uid}/pdf`)
       .then(res => res.blob())
@@ -178,6 +177,7 @@ class App extends Component {
           userClicked={index => this.userClicked(index)}
           cvClicked={index => this.cvClicked(index)}
           renameFieldEdited={event => this.renameFieldEdited(event.target.value)}
+          downloadAsPDFClicked={() => this.fetchPDF()}
         />
       )
     }

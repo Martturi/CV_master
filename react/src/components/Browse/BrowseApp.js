@@ -15,6 +15,8 @@ class BrowseApp extends Component {
       cvList: ['CV 1', 'CV 2', 'CV 3'],
       selectedCV: 0,
       deleteSelected: false,
+      renameSelected: false,
+      renameFieldContents: '',
     }
   }
 
@@ -43,6 +45,24 @@ class BrowseApp extends Component {
     this.setState({ deleteSelected: false })
   }
 
+  renameClicked() {
+    this.setState({ renameSelected: true })
+  }
+
+  renameFieldEdited(newContents) {
+    this.setState({ renameFieldContents: newContents })
+  }
+
+  renameConfirmed() {
+    const newArray = this.state.cvList
+    newArray[this.state.selectedCV] = this.state.renameFieldContents
+    this.setState({ cvList: newArray, renameSelected: false, renameFieldContents: '' })
+  }
+
+  renameCancelled() {
+    this.setState({ renameSelected: false, renameFieldContents: '' })
+  }
+
   exportClicked() {
     this.setState({ exportDropDownOpen: !this.state.exportDropDownOpen })
   }
@@ -60,8 +80,14 @@ class BrowseApp extends Component {
             deleteClicked={() => this.deleteClicked()}
             deleteConfirmed={() => this.deleteConfirmed()}
             deleteCancelled={() => this.deleteCancelled()}
+            renameClicked={() => this.renameClicked()}
+            renameConfirmed={() => this.renameConfirmed()}
+            renameCancelled={() => this.renameCancelled()}
             exportClicked={() => this.exportClicked()}
             deleteSelected={this.state.deleteSelected}
+            renameSelected={this.state.renameSelected}
+            renameFieldContents={this.state.renameFieldContents}
+            renameFieldEdited={newContents => this.renameFieldEdited(newContents)}
           />
         </div>
         <div id="namelist" className="browseSection">

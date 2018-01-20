@@ -10,9 +10,17 @@ const BrowseButtonGroup = (props) => {
         <span className="fa fa-search" aria-hidden="true" />
       </Button>
       <ButtonGroup className="exportgroup">
-        <Button outline className="button">
+        <Button id="rename" outline className="button" onClick={() => props.renameClicked()}>
             Rename
         </Button>
+        <Popover placement="bottom" target="rename" isOpen={props.renameSelected} toggle={() => props.renameCancelled()}>
+          <PopoverHeader>Enter a new name for the selected CV</PopoverHeader>
+          <PopoverBody>
+            <Input placeholder="New name..." value={props.renameFieldContents} onChange={event => props.renameFieldEdited(event.target.value)} />
+            <Button outline className="button" onClick={() => props.renameConfirmed()}>Confirm</Button>
+            <Button outline className="button" onClick={() => props.renameCancelled()}>Cancel</Button>
+          </PopoverBody>
+        </Popover>
         <Button outline className="button">
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>

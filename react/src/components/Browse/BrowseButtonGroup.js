@@ -19,7 +19,7 @@ const BrowseButtonGroup = (props) => {
         <Button outline className="button" onClick={() => props.copyClicked()}>
           <span className="fa fa-files-o" aria-hidden="true" />
         </Button>
-        <Button outline className="button">
+        <Button outline className="button" onClick={() => props.deleteClicked()}>
           <span className="fa fa-trash-o" aria-hidden="true" />
         </Button>
         <ButtonDropdown isOpen={props.dropdownOpen} toggle={() => props.toggle()}>

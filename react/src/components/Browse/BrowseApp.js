@@ -28,6 +28,12 @@ class BrowseApp extends Component {
     this.setState({ cvList: newArray })
   }
 
+  deleteClicked() {
+    const newArray = this.state.cvList
+    newArray.splice(this.state.selectedCV)
+    this.setState({ cvList: newArray })
+  }
+
   exportButtonClicked() {
     this.setState({ exportDropDownOpen: !this.state.exportDropDownOpen })
   }
@@ -42,6 +48,7 @@ class BrowseApp extends Component {
           <BrowseButtonGroup
             dropdownOpen={this.state.exportDropDownOpen}
             copyClicked={() => this.copyClicked()}
+            deleteClicked={() => this.deleteClicked()}
             exportClicked={() => this.exportButtonClicked()}
           />
         </div>

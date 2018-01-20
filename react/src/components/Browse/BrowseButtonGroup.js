@@ -29,7 +29,7 @@ const BrowseButtonGroup = (props) => {
             <Button outline className="button" onClick={() => props.deleteCancelled()}>No</Button>
           </PopoverBody>
         </Popover>
-        <ButtonDropdown isOpen={props.dropdownOpen} toggle={() => props.toggle()}>
+        <ButtonDropdown isOpen={props.exportDropdownOpen} toggle={() => props.exportClicked()}>
           <DropdownToggle caret outline className="button">
               Export
           </DropdownToggle>

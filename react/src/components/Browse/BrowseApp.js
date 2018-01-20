@@ -43,7 +43,7 @@ class BrowseApp extends Component {
     this.setState({ deleteSelected: false })
   }
 
-  exportButtonClicked() {
+  exportClicked() {
     this.setState({ exportDropDownOpen: !this.state.exportDropDownOpen })
   }
 
@@ -55,12 +55,12 @@ class BrowseApp extends Component {
         </header>
         <div id="buttons">
           <BrowseButtonGroup
-            dropdownOpen={this.state.exportDropDownOpen}
+            exportDropdownOpen={this.state.exportDropDownOpen}
             copyClicked={() => this.copyClicked()}
             deleteClicked={() => this.deleteClicked()}
             deleteConfirmed={() => this.deleteConfirmed()}
             deleteCancelled={() => this.deleteCancelled()}
-            exportClicked={() => this.exportButtonClicked()}
+            exportClicked={() => this.exportClicked()}
             deleteSelected={this.state.deleteSelected}
           />
         </div>

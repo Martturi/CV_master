@@ -1,54 +1,56 @@
 import React, { Component } from 'react'
 import './App.css'
 import CVEditor from './CVEditor'
-import SearchField from './SearchField'
-import { saveCV, loadCV } from './Api'
+import { saveCV, loadCV, loadUserList, loadCVList } from './Api'
 import Preview from './Preview'
 import BrowseApp from '../Browse/BrowseApp'
 
 class App extends Component {
   constructor(props) {
     super(props)
-    const testCVs = ['CV 1', 'CV 2', 'CV 3']
-    const testUsers = ['Maija Meikäläinen', 'Heikki Heikäläinen', 'Mikko Mallikas']
-    const testUser = 0
+    // const testCVs = ['jee', 'CV 2', 'CV 3']
+    // const testUsers = ['jaahas', 'Heikki Heikäläinen', 'Mikko Mallikas']
+    // const testUser = 0
     this.state = {
       browserView: true,
       // browser configurations:
       exportDropDownOpen: false,
-      userList: testUsers,
-      selectedUser: testUser,
-      allCVs: testUsers.map(() => testCVs.slice()), // slice() copies array. only for testing
-      cvList: testCVs,
-      selectedCV: 0,
+      userList: [],
+      selectedUser: -1,
+      cvList: [],
+      selectedCV: -1,
       deleteSelected: false,
       renameSelected: false,
       renameFieldContents: '',
       // editor configurations:
-      uid: '0',
       text: '',
       saveStatus: '',
     }
   }
 
   componentDidMount() {
-    this.openCV()
+    // this.openCV()
+    this.updateUserList()
     this.render()
   }
 
   // browser methods ->
-  updateAllCVs() {
-    const cvs = this.state.allCVs
-    cvs[this.state.selectedUser] = this.state.cvList
-    this.setState({ allCVs: cvs })
+  updateUserList() {
+    loadUserList()
+      .then((res) => {
+        this.setState({ userList: res, selectedUser: 0 })
+        this.userClicked(0)
+      })
+      .catch(err => console.log(err))
   }
 
   userClicked(index) {
-    this.setState({
-      selectedUser: index,
-      cvList: this.state.allCVs[index],
-      selectedCV: 0,
-    })
+    this.setState({ selectedUser: index, cvList: [], selectedCV: -1 })
+    loadCVList(this.state.userList[index])
+      .then((res) => {
+        this.setState({ cvList: res, selectedCV: 0 })
+      })
+      .catch(err => console.log(err))
   }
 
   cvClicked(index) {
@@ -56,6 +58,7 @@ class App extends Component {
   }
 
   editClicked() {
+    this.openCV()
     this.setState({ browserView: false })
   }
 
@@ -64,7 +67,6 @@ class App extends Component {
     const cvs = this.state.cvList
     cvs.push(newCvName)
     this.setState({ cvList: cvs })
-    this.updateAllCVs()
   }
 
   deleteClicked() {
@@ -79,7 +81,6 @@ class App extends Component {
       const newSelectedCV = this.state.cvList.length - 1
       this.setState({ selectedCV: newSelectedCV })
     }
-    this.updateAllCVs()
   }
 
   deleteCancelled() {
@@ -98,7 +99,6 @@ class App extends Component {
     const cvs = this.state.cvList
     cvs[this.state.selectedCV] = this.state.renameFieldContents
     this.setState({ cvList: cvs, renameSelected: false, renameFieldContents: '' })
-    this.updateAllCVs()
   }
 
   renameCancelled() {
@@ -119,7 +119,7 @@ class App extends Component {
   }
 
   openCV() {
-    loadCV(this.state.uid)
+    loadCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV])
       .then((res) => {
         this.setState({ text: res })
       })
@@ -127,7 +127,8 @@ class App extends Component {
   }
 
   saveCV() {
-    saveCV(this.state.uid, this.state.text)
+    saveCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV],
+      this.state.text)
       .then(res => this.setState({ saveStatus: res }))
       .catch(rej => this.setState({ saveStatus: rej }))
     setTimeout(
@@ -137,13 +138,15 @@ class App extends Component {
   }
 
   fetchPDF() {
-    fetch(`api/${this.state.uid}/pdf`)
+    const username = this.state.userList[this.state.selectedUser]
+    const cvName = this.state.cvList[this.state.selectedCV]
+    fetch(`api/pdf/${username}/${cvName}`)
       .then(res => res.blob())
       .then((blob) => {
-        const file = new File([blob], `${this.state.uid}.pdf`, { type: 'application/pdf' })
+        const file = new File([blob], `${username} - ${cvName}.pdf`, { type: 'application/pdf' })
         const a = document.createElement('a')
         a.href = URL.createObjectURL(file)
-        a.download = `${this.state.uid}.pdf`
+        a.download = `${username} - ${cvName}.pdf`
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
@@ -183,11 +186,7 @@ class App extends Component {
     }
     return (
       <div>
-        <SearchField
-          uid={this.state.uid}
-          updateUID={uid => this.updateUID(uid)}
-          openCV={() => this.openCV()}
-        />
+        <button onClick={() => this.setState({ browserView: true })}>Back</button>
         <CVEditor
           text={this.state.text}
           saveStatus={this.state.saveStatus}

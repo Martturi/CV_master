@@ -4,13 +4,31 @@ import CVEditor from './CVEditor'
 import SearchField from './SearchField'
 import { saveCV, loadCV } from './Api'
 import Preview from './Preview'
-
+import BrowseApp from '../Browse/BrowseApp'
 
 class App extends Component {
-  state = {
-    uid: '0',
-    text: '',
-    saveStatus: '',
+  constructor(props) {
+    super(props)
+    const testCVs = ['CV 1', 'CV 2', 'CV 3']
+    const testUsers = ['Maija Meikäläinen', 'Heikki Heikäläinen', 'Mikko Mallikas']
+    const testUser = 0
+    this.state = {
+      browserView: true,
+      // browser configurations:
+      exportDropDownOpen: false,
+      userList: testUsers,
+      selectedUser: testUser,
+      allCVs: testUsers.map(() => testCVs.slice()), // slice() copies array. only for testing
+      cvList: testCVs,
+      selectedCV: 0,
+      deleteSelected: false,
+      renameSelected: false,
+      renameFieldContents: '',
+      // editor configurations:
+      uid: '0',
+      text: '',
+      saveStatus: '',
+    }
   }
 
   componentDidMount() {
@@ -18,6 +36,80 @@ class App extends Component {
     this.render()
   }
 
+  // browser methods ->
+  updateAllCVs() {
+    const cvs = this.state.allCVs
+    cvs[this.state.selectedUser] = this.state.cvList
+    this.setState({ allCVs: cvs })
+  }
+
+  userClicked(index) {
+    this.setState({
+      selectedUser: index,
+      cvList: this.state.allCVs[index],
+      selectedCV: 0,
+    })
+  }
+
+  cvClicked(index) {
+    this.setState({ selectedCV: index })
+  }
+
+  editClicked() {
+    this.setState({ browserView: false })
+  }
+
+  copyClicked() {
+    const newCvName = 'copy of '.concat(this.state.cvList[this.state.selectedCV])
+    const cvs = this.state.cvList
+    cvs.push(newCvName)
+    this.setState({ cvList: cvs })
+    this.updateAllCVs()
+  }
+
+  deleteClicked() {
+    this.setState({ deleteSelected: true })
+  }
+
+  deleteConfirmed() {
+    const cvs = this.state.cvList
+    cvs.splice(this.state.selectedCV, 1)
+    this.setState({ cvList: cvs, deleteSelected: false })
+    if (this.state.cvList.length >= this.state.selectedCV) {
+      const newSelectedCV = this.state.cvList.length - 1
+      this.setState({ selectedCV: newSelectedCV })
+    }
+    this.updateAllCVs()
+  }
+
+  deleteCancelled() {
+    this.setState({ deleteSelected: false })
+  }
+
+  renameClicked() {
+    this.setState({ renameSelected: true })
+  }
+
+  renameFieldEdited(newContents) {
+    this.setState({ renameFieldContents: newContents })
+  }
+
+  renameConfirmed() {
+    const cvs = this.state.cvList
+    cvs[this.state.selectedCV] = this.state.renameFieldContents
+    this.setState({ cvList: cvs, renameSelected: false, renameFieldContents: '' })
+    this.updateAllCVs()
+  }
+
+  renameCancelled() {
+    this.setState({ renameSelected: false, renameFieldContents: '' })
+  }
+
+  exportClicked() {
+    this.setState({ exportDropDownOpen: !this.state.exportDropDownOpen })
+  }
+
+  // editor methods ->
   updateUID(newUid) {
     this.setState({ uid: newUid })
   }
@@ -61,6 +153,34 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.browserView) {
+      return (
+        <BrowseApp
+          exportDropDownOpen={this.state.exportDropDownOpen}
+          userList={this.state.userList}
+          selectedUser={this.state.selectedUser}
+          allCVs={this.state.allCVs}
+          cvList={this.state.cvList}
+          selectedCV={this.state.selectedCV}
+          deleteSelected={this.state.deleteSelected}
+          renameSelected={this.state.renameSelected}
+          renameFieldContents={this.state.renameFieldContents}
+          cvCount={this.state.cvList.length}
+          editClicked={() => this.editClicked()}
+          copyClicked={() => this.copyClicked()}
+          deleteClicked={() => this.deleteClicked()}
+          deleteConfirmed={() => this.deleteConfirmed()}
+          deleteCancelled={() => this.deleteCancelled()}
+          renameClicked={() => this.renameClicked()}
+          renameConfirmed={() => this.renameConfirmed()}
+          renameCancelled={() => this.renameCancelled()}
+          exportClicked={() => this.exportClicked()}
+          userClicked={index => this.userClicked(index)}
+          cvClicked={index => this.cvClicked(index)}
+          renameFieldEdited={event => this.renameFieldEdited(event.target.value)}
+        />
+      )
+    }
     return (
       <div>
         <SearchField

@@ -10,11 +10,19 @@ import '../NavBar.css'
 class BrowseApp extends Component {
   constructor(props) {
     super(props)
-    this.state = { exportDropDownOpen: false }
+    this.state = {
+      exportDropDownOpen: false,
+      cvList: ['CV 1', 'CV 2', 'CV 3'],
+      selectedCV: 0,
+    }
   }
 
   toggleExportButton() {
     this.setState({ exportDropDownOpen: !this.state.exportDropDownOpen })
+  }
+
+  cvClicked(index) {
+    this.setState({ selectedCV: index })
   }
 
   render() {
@@ -36,7 +44,11 @@ class BrowseApp extends Component {
           <div className="line" />
         </div>
         <div id="cvlist" className="browseSection">
-          <CVList />
+          <CVList
+            selectedCV={this.state.selectedCV}
+            cvList={this.state.cvList}
+            cvClicked={index => this.cvClicked(index)}
+          />
         </div>
         <div className="CVpreview">
           <img src={ExampleCV} height="726" width="533" alt="First page of an example CV" />

@@ -2,8 +2,8 @@ import React from 'react'
 import BrowseButtonGroup from './BrowseButtonGroup'
 import NavBar from '../NavBar'
 import NameList from './NameList'
+import Preview from '../App/Preview'
 import CVList from './CVList'
-import ExampleCV from '../ExampleCV.png'
 import './BrowseApp.css'
 import '../NavBar.css'
 
@@ -51,7 +51,7 @@ const BrowseApp = (props) => {
         />
       </div>
       <div className="CVpreview">
-        <img src={ExampleCV} height="726" width="533" alt="First page of an example CV" />
+        <Preview text={props.text} />
       </div>
       <div className="lineContainer">
         <div className="line" />

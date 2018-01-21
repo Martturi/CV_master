@@ -52,8 +52,11 @@ class App extends Component {
   }
 
   cvClicked(index) {
-    this.setState({ selectedCV: index, text: '' })
-    this.openCV()
+    loadCV(this.state.userList[this.state.selectedUser], this.state.cvList[index])
+      .then((res) => {
+        this.setState({ text: res, selectedCV: index })
+      })
+      .catch(err => console.log(err))
   }
 
   editClicked() {
@@ -195,6 +198,7 @@ class App extends Component {
           renameSelected={this.state.renameSelected}
           renameFieldContents={this.state.renameFieldContents}
           cvCount={this.state.cvList.length}
+          text={this.state.text}
           editClicked={() => this.editClicked()}
           copyClicked={() => this.copyClicked()}
           deleteClicked={() => this.deleteClicked()}

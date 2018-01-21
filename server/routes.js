@@ -36,6 +36,15 @@ route.post('/api/rename/:username/:oldCVName', (request, response) => {
     .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
+route.post('/api/delete/:username/:cvName', (request, response) => {
+  const { username } = request.params || 'user'
+  const { cvName } = request.params || '0'
+  console.log(`Deleting ${cvName} by ${username}`)
+  db.deleteCV(username, cvName)
+    .then((val) => { response.send(val) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
+})
+
 // Get request
 route.get('/api/cv/:username/:cvName', (request, response) => {
   const { username } = request.params || 'user'

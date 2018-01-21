@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import CVEditor from './CVEditor'
-import { saveCV, loadCV, loadUserList, loadCVList, renameCV } from './Api'
+import { saveCV, loadCV, loadUserList, loadCVList, renameCV, deleteCV } from './Api'
 import Preview from './Preview'
 import BrowseApp from '../Browse/BrowseApp'
 
@@ -82,13 +82,21 @@ class App extends Component {
   }
 
   deleteConfirmed() {
-    const cvs = this.state.cvList
-    cvs.splice(this.state.selectedCV, 1)
-    this.setState({ cvList: cvs, deleteSelected: false })
-    if (this.state.selectedCV === this.state.cvList.length) {
-      const newSelectedCV = this.state.cvList.length - 1
-      this.setState({ selectedCV: newSelectedCV })
-    }
+    deleteCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV])
+      .then(() => {
+        this.setState({ deleteSelected: false })
+        loadCVList(this.state.userList[this.state.selectedUser])
+          .then((res) => {
+            if (this.state.selectedCV === this.state.cvList.length) {
+              const newSelectedCV = this.state.cvList.length - 1
+              this.setState({ selectedCV: newSelectedCV })
+            }
+            this.setState({ cvList: res })
+            this.openCV()
+          })
+          .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
   }
 
   deleteCancelled() {

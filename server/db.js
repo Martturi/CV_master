@@ -66,6 +66,15 @@ const rename = (username, oldCVName, newCVName) => {
   })
 }
 
+const deleteCV = (username, cvName) => {
+  const query = 'DELETE FROM cvs WHERE username = $1 AND cv_name = $2;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, cvName])
+      .then(() => { resolve('Delete succeeded.') })
+      .catch((err) => { reject(err) })
+  })
+}
+
 const clear = () => {
   if (config.env !== 'production') {
     const query = 'TRUNCATE TABLE cvs;'
@@ -79,5 +88,5 @@ const clear = () => {
 }
 
 module.exports = {
-  load, loadUserList, loadCVList, save, rename, insert, clear,
+  load, loadUserList, loadCVList, save, rename, deleteCV, insert, clear,
 }

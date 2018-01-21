@@ -8,7 +8,7 @@ const client = new Client({
 client.connect().catch(e => console.error('connection error', e.stack))
 
 const insert = (input, uid) => {
-  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT DO NOTHING;'
+  const query = 'INSERT INTO cvs VALUES ($2, $1) ON CONFLICT DO NOTHING;'
   return new Promise((resolve, reject) => {
     client.query(query, [input, uid], (err, result) => {
       if (err) reject(err)
@@ -17,10 +17,10 @@ const insert = (input, uid) => {
   })
 }
 
-const load = (uid) => {
-  const query = 'SELECT text FROM cv_table WHERE id = $1;'
+const load = (username, cvName) => {
+  const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
   return new Promise((resolve, reject) => {
-    client.query(query, [uid])
+    client.query(query, [username, cvName])
       .then((result) => {
         if (result.rowCount > 0) resolve(result.rows[0].text)
         else { resolve('New CV') }
@@ -28,32 +28,56 @@ const load = (uid) => {
   })
 }
 
-const loadAll = () => {
-  const query = 'SELECT id FROM cv_table;'
+const loadUserList = () => {
+  const query = 'SELECT DISTINCT username FROM cvs ORDER BY username;'
   return new Promise((resolve, reject) => {
-    client.query(query, (err, result) => {
-      if (err) reject(err)
-      try {
+    client.query(query)
+      .then((result) => {
         resolve(result.rows)
-      } catch (exeption) {
-        reject(exeption)
-      }
-    })
+      }).catch((err) => { reject(err) })
   })
 }
 
-const save = (input, uid) => {
-  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT (id) DO UPDATE SET text = $1 WHERE cv_table.id = $2;'
+const loadCVList = (username) => {
+  const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
   return new Promise((resolve, reject) => {
-    client.query(query, [input, uid])
+    client.query(query, [username])
+      .then((result) => {
+        resolve(result.rows)
+      }).catch((err) => { reject(err) })
+  })
+}
+
+const save = (username, cvName, input) => {
+  const query = 'INSERT INTO cvs VALUES ($1, $2, $3) ON CONFLICT (username, cv_name) DO UPDATE SET text=$3;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, cvName, input])
       .then(() => { resolve('Save succeeded.') })
+      .catch((err) => { reject(err) })
+  })
+}
+
+const rename = (username, oldCVName, newCVName) => {
+  const query = 'UPDATE cvs SET cv_name = $3 WHERE username = $1 AND cv_name = $2;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, oldCVName, newCVName])
+      .then(() => { resolve('Rename succeeded.') })
+      .catch((err) => { reject(err) })
+  })
+}
+
+const deleteCV = (username, cvName) => {
+  const query = 'DELETE FROM cvs WHERE username = $1 AND cv_name = $2;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, cvName])
+      .then(() => { resolve('Delete succeeded.') })
       .catch((err) => { reject(err) })
   })
 }
 
 const clear = () => {
   if (config.env !== 'production') {
-    const query = 'TRUNCATE TABLE cv_table;'
+    const query = 'TRUNCATE TABLE cvs;'
     return new Promise((resolve, reject) => {
       client.query(query)
         .then(() => { resolve('Clear succeeded.') })
@@ -64,5 +88,5 @@ const clear = () => {
 }
 
 module.exports = {
-  load, loadAll, save, insert, clear,
+  load, loadUserList, loadCVList, save, rename, deleteCV, insert, clear,
 }

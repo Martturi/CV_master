@@ -56,18 +56,15 @@ class App extends Component {
   }
 
   userClicked(index) {
+    this.setState({ selectedUser: index })
     const defaultCVIndex = 0
     const user = this.state.userList[index]
     loadCVList(user)
       .then((cvs) => {
+        this.setState({ cvList: cvs, selectedCV: defaultCVIndex })
         loadCV(user, cvs[defaultCVIndex])
           .then((cv) => {
-            this.setState({
-              selectedUser: index,
-              selectedCV: defaultCVIndex,
-              cvList: cvs,
-              text: cv,
-            })
+            this.setState({ text: cv })
           })
           .catch(err => console.log(err))
       })
@@ -75,9 +72,10 @@ class App extends Component {
   }
 
   cvClicked(index) {
+    this.setState({ selectedCV: index })
     loadCV(this.state.userList[this.state.selectedUser], this.state.cvList[index])
       .then((cv) => {
-        this.setState({ text: cv, selectedCV: index })
+        this.setState({ text: cv })
       })
       .catch(err => console.log(err))
   }
@@ -115,6 +113,7 @@ class App extends Component {
   }
 
   deleteConfirmed() {
+    this.setState({ deleteSelected: false })
     const username = this.state.userList[this.state.selectedUser]
     const selectedCV = this.state.selectedCV
     const lastCVSelected = selectedCV === (this.state.cvList.length - 1)
@@ -129,7 +128,6 @@ class App extends Component {
                   cvList: cvs,
                   selectedCV: newSelectedCV,
                   text: cv,
-                  deleteSelected: false,
                 })
               })
               .catch(err => console.log(err))
@@ -153,13 +151,14 @@ class App extends Component {
   }
 
   renameConfirmed() {
+    this.setState({ renameSelected: false })
     const username = this.state.userList[this.state.selectedUser]
     const newName = this.state.renameFieldContents
     renameCV(username, this.state.cvList[this.state.selectedCV], newName)
       .then(() => {
         loadCVList(this.state.userList[this.state.selectedUser])
           .then((res) => {
-            this.setState({ cvList: res, selectedCV: res.indexOf(newName), renameSelected: false })
+            this.setState({ cvList: res, selectedCV: res.indexOf(newName) })
           })
           .catch(err => console.log(err))
       })

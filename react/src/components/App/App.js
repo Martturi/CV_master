@@ -26,54 +26,84 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.openCV()
     this.updateUserList()
     this.render()
   }
 
   // browser methods ->
   updateUserList() {
+    const defaultUserIndex = 0
+    const defaultCVIndex = 0
     loadUserList()
-      .then((res) => {
-        this.setState({ userList: res, selectedUser: 0 })
-        this.userClicked(0)
+      .then((users) => {
+        loadCVList(users[defaultUserIndex])
+          .then((cvs) => {
+            loadCV(users[defaultUserIndex], cvs[defaultCVIndex])
+              .then((cv) => {
+                this.setState({
+                  userList: users,
+                  cvList: cvs,
+                  text: cv,
+                  selectedUser: defaultUserIndex,
+                  selectedCV: defaultCVIndex,
+                })
+              })
+              .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
   }
 
   userClicked(index) {
-    this.setState({ selectedUser: index, cvList: [], selectedCV: -1, text: '' })
-    loadCVList(this.state.userList[index])
-      .then((res) => {
-        this.setState({ cvList: res, selectedCV: 0 })
-        this.openCV()
+    const defaultCVIndex = 0
+    const user = this.state.userList[index]
+    loadCVList(user)
+      .then((cvs) => {
+        loadCV(user, cvs[defaultCVIndex])
+          .then((cv) => {
+            this.setState({
+              selectedUser: index,
+              selectedCV: defaultCVIndex,
+              cvList: cvs,
+              text: cv,
+            })
+          })
+          .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
   }
 
   cvClicked(index) {
     loadCV(this.state.userList[this.state.selectedUser], this.state.cvList[index])
-      .then((res) => {
-        this.setState({ text: res, selectedCV: index })
+      .then((cv) => {
+        this.setState({ text: cv, selectedCV: index })
       })
       .catch(err => console.log(err))
   }
 
   editClicked() {
-    this.setState({ browserView: false })
-    this.openCV()
+    loadCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV])
+      .then((cv) => {
+        this.setState({ browserView: false, text: cv })
+      })
+      .catch(err => console.log(err))
   }
 
   copyClicked() {
     // making absolutely sure we have the correct contents in this.state.text before copying:
-    loadCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV])
-      .then((res) => {
-        const newCVName = 'copy of '.concat(this.state.cvList[this.state.selectedCV])
-        saveCV(this.state.userList[this.state.selectedUser], newCVName, res)
-        loadCVList(this.state.userList[this.state.selectedUser])
-          .then((res2) => {
-            this.setState({ cvList: res2, text: res, selectedCV: res2.indexOf(newCVName) })
-            this.openCV()
+    const username = this.state.userList[this.state.selectedUser]
+    const cvName = this.state.cvList[this.state.selectedCV]
+    loadCV(username, cvName)
+      .then((cv) => {
+        const newCVName = 'copy of '.concat(cvName)
+        saveCV(username, newCVName, cv)
+          .then(() => {
+            loadCVList(username)
+              .then((cvs) => {
+                this.setState({ text: cv, cvList: cvs, selectedCV: cvs.indexOf(newCVName) })
+              })
+              .catch(err => console.log(err))
           })
           .catch(err => console.log(err))
       })
@@ -85,17 +115,24 @@ class App extends Component {
   }
 
   deleteConfirmed() {
-    deleteCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV])
+    const username = this.state.userList[this.state.selectedUser]
+    const selectedCV = this.state.selectedCV
+    const lastCVSelected = selectedCV === (this.state.cvList.length - 1)
+    deleteCV(username, this.state.cvList[this.state.selectedCV])
       .then(() => {
-        this.setState({ deleteSelected: false })
-        loadCVList(this.state.userList[this.state.selectedUser])
-          .then((res) => {
-            if (this.state.selectedCV === this.state.cvList.length) {
-              const newSelectedCV = this.state.cvList.length - 1
-              this.setState({ selectedCV: newSelectedCV })
-            }
-            this.setState({ cvList: res })
-            this.openCV()
+        loadCVList(username)
+          .then((cvs) => {
+            const newSelectedCV = lastCVSelected ? (selectedCV - 1) : selectedCV
+            loadCV(username, newSelectedCV)
+              .then((cv) => {
+                this.setState({
+                  cvList: cvs,
+                  selectedCV: newSelectedCV,
+                  text: cv,
+                  deleteSelected: false,
+                })
+              })
+              .catch(err => console.log(err))
           })
           .catch(err => console.log(err))
       })
@@ -107,7 +144,8 @@ class App extends Component {
   }
 
   renameClicked() {
-    this.setState({ renameSelected: true })
+    const cvName = this.state.cvList[this.state.selectedCV]
+    this.setState({ renameSelected: true, renameFieldContents: cvName })
   }
 
   renameFieldEdited(newContents) {
@@ -115,24 +153,21 @@ class App extends Component {
   }
 
   renameConfirmed() {
+    const username = this.state.userList[this.state.selectedUser]
     const newName = this.state.renameFieldContents
-    renameCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV],
-      newName)
+    renameCV(username, this.state.cvList[this.state.selectedCV], newName)
       .then(() => {
         loadCVList(this.state.userList[this.state.selectedUser])
           .then((res) => {
-            this.setState({ cvList: res, selectedCV: res.indexOf(newName) })
+            this.setState({ cvList: res, selectedCV: res.indexOf(newName), renameSelected: false })
           })
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
-    const cvs = this.state.cvList
-    cvs[this.state.selectedCV] = this.state.renameFieldContents
-    this.setState({ cvList: cvs, renameSelected: false, renameFieldContents: '' })
   }
 
   renameCancelled() {
-    this.setState({ renameSelected: false, renameFieldContents: '' })
+    this.setState({ renameSelected: false })
   }
 
   exportClicked() {

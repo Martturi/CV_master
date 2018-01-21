@@ -8,9 +8,6 @@ import BrowseApp from '../Browse/BrowseApp'
 class App extends Component {
   constructor(props) {
     super(props)
-    // const testCVs = ['jee', 'CV 2', 'CV 3']
-    // const testUsers = ['jaahas', 'Heikki Heikäläinen', 'Mikko Mallikas']
-    // const testUser = 0
     this.state = {
       browserView: true,
       // browser configurations:
@@ -45,28 +42,39 @@ class App extends Component {
   }
 
   userClicked(index) {
-    this.setState({ selectedUser: index, cvList: [], selectedCV: -1 })
+    this.setState({ selectedUser: index, cvList: [], selectedCV: -1, text: '' })
     loadCVList(this.state.userList[index])
       .then((res) => {
         this.setState({ cvList: res, selectedCV: 0 })
+        this.openCV()
       })
       .catch(err => console.log(err))
   }
 
   cvClicked(index) {
-    this.setState({ selectedCV: index })
+    this.setState({ selectedCV: index, text: '' })
+    this.openCV()
   }
 
   editClicked() {
-    this.openCV()
     this.setState({ browserView: false })
+    this.openCV()
   }
 
   copyClicked() {
-    const newCvName = 'copy of '.concat(this.state.cvList[this.state.selectedCV])
-    const cvs = this.state.cvList
-    cvs.push(newCvName)
-    this.setState({ cvList: cvs })
+    // making absolutely sure we have the correct contents in this.state.text before copying:
+    loadCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV])
+      .then((res) => {
+        const newCVName = 'copy of '.concat(this.state.cvList[this.state.selectedCV])
+        saveCV(this.state.userList[this.state.selectedUser], newCVName, res)
+        loadCVList(this.state.userList[this.state.selectedUser])
+          .then((res2) => {
+            this.setState({ cvList: res2, text: res, selectedCV: res2.indexOf(newCVName) })
+            this.openCV()
+          })
+          .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
   }
 
   deleteClicked() {

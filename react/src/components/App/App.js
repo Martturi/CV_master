@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import CVEditor from './CVEditor'
-import { saveCV, loadCV, loadUserList, loadCVList } from './Api'
+import { saveCV, loadCV, loadUserList, loadCVList, renameCV } from './Api'
 import Preview from './Preview'
 import BrowseApp from '../Browse/BrowseApp'
 
@@ -104,6 +104,17 @@ class App extends Component {
   }
 
   renameConfirmed() {
+    const newName = this.state.renameFieldContents
+    renameCV(this.state.userList[this.state.selectedUser], this.state.cvList[this.state.selectedCV],
+      newName)
+      .then(() => {
+        loadCVList(this.state.userList[this.state.selectedUser])
+          .then((res) => {
+            this.setState({ cvList: res, selectedCV: res.indexOf(newName) })
+          })
+          .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
     const cvs = this.state.cvList
     cvs[this.state.selectedCV] = this.state.renameFieldContents
     this.setState({ cvList: cvs, renameSelected: false, renameFieldContents: '' })

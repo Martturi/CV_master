@@ -41,3 +41,16 @@ export const loadCVList = async (username) => {
   }
   return cvArray
 }
+
+export const renameCV = async (username, oldCVName, newCVName) => {
+  const response = await
+    fetch(`api/rename/${username}/${oldCVName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ newCVName }),
+    })
+  if (response.status !== 200) throw Error(`error ${response}`)
+  return 'Rename succeeded.'
+}

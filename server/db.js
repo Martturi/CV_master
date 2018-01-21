@@ -57,6 +57,15 @@ const save = (username, cvName, input) => {
   })
 }
 
+const rename = (username, oldCVName, newCVName) => {
+  const query = 'UPDATE cvs SET cv_name = $3 WHERE username = $1 AND cv_name = $2;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, oldCVName, newCVName])
+      .then(() => { resolve('Rename succeeded.') })
+      .catch((err) => { reject(err) })
+  })
+}
+
 const clear = () => {
   if (config.env !== 'production') {
     const query = 'TRUNCATE TABLE cvs;'
@@ -70,5 +79,5 @@ const clear = () => {
 }
 
 module.exports = {
-  load, loadUserList, loadCVList, save, insert, clear,
+  load, loadUserList, loadCVList, save, rename, insert, clear,
 }

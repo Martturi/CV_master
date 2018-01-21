@@ -26,6 +26,16 @@ route.post('/api/cv/:username/:cvName', (request, response) => {
     .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
+route.post('/api/rename/:username/:oldCVName', (request, response) => {
+  const { username } = request.params || 'user'
+  const { oldCVName } = request.params || '0'
+  const newCVName = request.body.newCVName || null
+  console.log(`Renaming ${oldCVName} to ${newCVName}`)
+  db.rename(username, oldCVName, newCVName)
+    .then((val) => { response.send(val) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
+})
+
 // Get request
 route.get('/api/cv/:username/:cvName', (request, response) => {
   const { username } = request.params || 'user'

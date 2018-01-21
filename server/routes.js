@@ -20,7 +20,7 @@ route.post('/api/cv/:username/:cvName', (request, response) => {
   const { username } = request.params || 'user'
   const { cvName } = request.params || '0'
   const input = request.body.text || null
-  console.log(`Saving ${input} as ${username} to cv ${cvName}`)
+  console.log(`Saving cv: ("${username}", "${cvName}", "${input}")`)
   db.save(username, cvName, input)
     .then((val) => { response.send(val) })
     .catch((err) => { response.send(`Database error: \n ${err}`) })
@@ -30,7 +30,7 @@ route.post('/api/rename/:username/:oldCVName', (request, response) => {
   const { username } = request.params || 'user'
   const { oldCVName } = request.params || '0'
   const newCVName = request.body.newCVName || null
-  console.log(`Renaming ${oldCVName} to ${newCVName}`)
+  console.log(`Renaming "${oldCVName}" to "${newCVName}".`)
   db.rename(username, oldCVName, newCVName)
     .then((val) => { response.send(val) })
     .catch((err) => { response.send(`Database error: \n ${err}`) })
@@ -39,7 +39,7 @@ route.post('/api/rename/:username/:oldCVName', (request, response) => {
 route.post('/api/delete/:username/:cvName', (request, response) => {
   const { username } = request.params || 'user'
   const { cvName } = request.params || '0'
-  console.log(`Deleting ${cvName} by ${username}`)
+  console.log(`Deleting "${cvName}" by "${username}"`)
   db.deleteCV(username, cvName)
     .then((val) => { response.send(val) })
     .catch((err) => { response.send(`Database error: \n ${err}`) })
@@ -49,7 +49,7 @@ route.post('/api/delete/:username/:cvName', (request, response) => {
 route.get('/api/cv/:username/:cvName', (request, response) => {
   const { username } = request.params || 'user'
   const { cvName } = request.params || '0'
-  console.log(`Loaded cv: username ${username} cv name ${cvName}`)
+  console.log(`Loading cv: username "${username}", cv name "${cvName}"`)
   db.load(username, cvName)
     .then((res) => { response.send(res) })
     .catch((err) => { console.log(err); response.send(`Database error: \n ${err}`) })
@@ -78,7 +78,7 @@ route.get('/api/userlist', (request, response) => {
 
 route.get('/api/cvlist/:username', (request, response) => {
   const { username } = request.params || 'user'
-  console.log(`Loading ${username}'s CVs`)
+  console.log(`Loading CV names of user "${username}"`)
   db.loadCVList(username)
     .then((res) => {
       const cvs = res.map(row => row.cv_name)

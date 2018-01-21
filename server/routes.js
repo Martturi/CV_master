@@ -69,10 +69,9 @@ route.get('/api/pdf/:username/:cvName', (request, response) => {
 route.get('/api/userlist', (request, response) => {
   console.log('Loading a list of all users')
   db.loadUserList()
-    .then((res) => {
-      const usernames = res.map(row => row.username).join(';')
-      console.log(usernames)
-      response.send(usernames)
+    .then((usernames) => {
+      const usernameArray = usernames.map(row => row.username)
+      response.send(usernameArray)
     })
     .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
@@ -82,8 +81,7 @@ route.get('/api/cvlist/:username', (request, response) => {
   console.log(`Loading ${username}'s CVs`)
   db.loadCVList(username)
     .then((res) => {
-      const cvs = res.map(row => row.cv_name).join(';')
-      console.log(cvs)
+      const cvs = res.map(row => row.cv_name)
       response.send(cvs)
     })
     .catch((err) => { response.send(`Database error: \n ${err}`) })

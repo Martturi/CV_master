@@ -5,11 +5,11 @@ const NameList = (props) => {
   const listGroupItems = props.userList.map((username, index) => {
     if (index === props.selectedUser) {
       return (
-        <ListGroupItem active tag="a" href="#" action onClick={() => props.userClicked(index)}>{username}</ListGroupItem>
+        <ListGroupItem active key={username} tag="a" href="#" action onClick={() => props.userClicked(index)}>{username}</ListGroupItem>
       )
     }
     return (
-      <ListGroupItem tag="a" href="#" action onClick={() => props.userClicked(index)}>{username}</ListGroupItem>
+      <ListGroupItem key={username} tag="a" href="#" action onClick={() => props.userClicked(index)}>{username}</ListGroupItem>
     )
   })
   return (

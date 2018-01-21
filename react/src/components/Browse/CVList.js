@@ -5,11 +5,11 @@ const CVList = (props) => {
   const listGroupItems = props.cvList.map((cvName, index) => {
     if (index === props.selectedCV) {
       return (
-        <ListGroupItem active tag="a" href="#" action onClick={() => props.cvClicked(index)}>{cvName}</ListGroupItem>
+        <ListGroupItem active key={cvName} tag="a" href="#" action onClick={() => props.cvClicked(index)}>{cvName}</ListGroupItem>
       )
     }
     return (
-      <ListGroupItem tag="a" href="#" action onClick={() => props.cvClicked(index)}>{cvName}</ListGroupItem>
+      <ListGroupItem key={cvName} tag="a" href="#" action onClick={() => props.cvClicked(index)}>{cvName}</ListGroupItem>
     )
   })
   return (

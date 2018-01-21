@@ -22,24 +22,16 @@ export const loadCV = async (username, cvName) => {
 
 export const loadUserList = async () => {
   const response = await fetch('api/userlist')
-  const usernames = await response.text()
+  const usernames = await response.json()
   if (response.status !== 200) throw Error(usernames.message)
-  const usernameArray = usernames.split(';')
-  if (usernameArray[0] === '') {
-    usernameArray.pop()
-  }
-  return usernameArray
+  return usernames
 }
 
 export const loadCVList = async (username) => {
   const response = await fetch(`api/cvlist/${username}`)
-  const cvs = await response.text()
+  const cvs = await response.json()
   if (response.status !== 200) throw Error(cvs.message)
-  const cvArray = cvs.split(';')
-  if (cvArray[0] === '') {
-    cvArray.pop()
-  }
-  return cvArray
+  return cvs
 }
 
 export const renameCV = async (username, oldCVName, newCVName) => {

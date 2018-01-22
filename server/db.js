@@ -73,6 +73,16 @@ const loadUserList = () => {
   })
 }
 
+const loadCVList = (username) => {
+  const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username])
+      .then((result) => {
+        resolve(result.rows)
+      }).catch((err) => { reject(err) })
+  })
+}
+
 module.exports = {
-  load, loadAll, save, insert, clear, loadUserList
+  load, loadAll, save, insert, clear, loadUserList, loadCVList,
 }

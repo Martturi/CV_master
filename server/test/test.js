@@ -71,5 +71,17 @@ describe('Save and load tests', () => {
           usernameArray.length.should.be.eql(0)
         })
     })
+
+    it('it should load an empty array of cvs', () => {
+      const nonExistingUsername = 'a'
+      return chai.request(server)
+        .get(`/api/users/${nonExistingUsername}/cvs`)
+        .then((res) => {
+          res.should.have.status(200)
+          const cvArray = res.body
+          cvArray.should.be.a('array')
+          cvArray.length.should.be.eql(0)
+        })
+    })
   })
 })

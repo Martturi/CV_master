@@ -41,17 +41,20 @@
 .buttonheader {
   padding-top: 5px;
   padding-right: 5px;
-  padding-left: 20px;
+  padding-left: 5px;
   padding-bottom: 5px;
   float: right;
   width: 100%;
 }
 
 .CVpreview {
+  padding-left: 5px;
   float: right;
   width: 50%;
   max-height: auto;
 }
+
+/*CSS for the lines in between the containers*/
 
 .lineContainer {
   width: 1px;

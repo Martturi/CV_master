@@ -1,6 +1,12 @@
 .search {
 	float: left;
-	width: 20%;
+	width: 20.5%;
+}
+
+#searchbutton {
+	float: left;
+	width: 4%;
+	min-width: 4%;
 }
 
 .browseSection {
@@ -13,10 +19,8 @@
 }
 
 .list-group-item {
-    list-style-type: disc !important;
     padding-left: 1em;
     color: #242730;
-
 }
 
 .list-group-item.active {
@@ -26,17 +30,17 @@
 }
 
 #namelist {
-	overflow: scroll;
+	overflow: auto;
 	height: 80vh;
 }
 
 #cvlist {
-	overflow: scroll;
+	overflow: auto;
 	height: 80vh;
 }
 
 .CVpreview {
-	overflow: scroll;
+	overflow: auto;
 	height: 80vh;
 }
 

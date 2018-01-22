@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
 
-class EditButtonGroup extends Component {
-
+class CVToolbar extends Component {
   render() {
     return (
       <div className="my-cvs-buttongroup">
@@ -25,4 +24,4 @@ class EditButtonGroup extends Component {
 }
 
 
-export default EditButtonGroup
+export default CVToolbar

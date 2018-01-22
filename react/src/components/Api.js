@@ -26,3 +26,10 @@ export const loadUserList = async () => {
   if (response.status !== 200) throw Error(usernames.message)
   return usernames
 }
+
+export const loadCVList = async (username) => {
+  const response = await fetch(`api/cvlist/${username}`)
+  const cvs = await response.json()
+  if (response.status !== 200) throw Error(cvs.message)
+  return cvs
+}

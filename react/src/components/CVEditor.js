@@ -6,7 +6,7 @@ class CVEditor extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="editor">
         <textarea type="text" rows="10" cols="50" id="textfield" name="textfield" value={this.props.text} onChange={e => this.handleChange(e)} />
         <div>
           <button onClick={this.props.saveCV}>Save</button>

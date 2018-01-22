@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const db = require('./db')
-const servePDF = require('./pdf')
+const pdf = require('./pdf')
 
 const route = express()
 
@@ -30,6 +30,17 @@ route.post('/api/users/:username/cvs/:cvName', (request, response) => {
     })
 })
 
+route.get('/api/users/:uid', (request, response) => {
+  const { uid } = request.params || 0
+  console.log(`Loaded cv with uid ${uid}`)
+  db.load(uid)
+    .then((res) => { response.send(res) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
+})
+
 // Get request for loading CV with username and CV name
 route.get('/api/users/:username/cvs/:cvName', (request, response) => {
   const { username } = request.params || 0
@@ -50,7 +61,7 @@ route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
   console.log(`Loading pdf for cv ${cvName} with username ${username}`)
   db.load(username, cvName)
     .then((res) => {
-      servePDF(res, response)
+      pdf.servePDF(res, response)
     })
     .catch((err) => {
       console.error(err)
@@ -120,6 +131,18 @@ route.delete('/api/users/:username/cvs/:cvName', (request, response) => {
       console.error(err)
       response.status(500).send('Database error')
     })
+})
+
+route.post('/actions/preview', (request, response) => {
+  const text = request.body.text || ''
+  console.log('Loading preview for cv')
+  const preview = pdf.getHTML(text)
+  response.send(preview)
+  // catch((err) => {
+  //     console.error(err)
+  //     response.status(500)
+  //     response.send('Database error')
+  //   })
 })
 
 route.listen(route.get('port'), () => {

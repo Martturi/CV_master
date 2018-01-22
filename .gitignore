@@ -1,5 +1,7 @@
 cv.txt
 build/
+.idea/
+examplecv.md
 
 #
 # Following copied from a template .gitignore

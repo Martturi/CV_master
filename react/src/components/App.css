@@ -1,0 +1,11 @@
+/* @import url("/pdf/style.css"); */
+
+.preview {
+    float: right;
+    width: 595px;
+    border: 1px solid black;
+}
+
+.editor {
+    float: left;
+}

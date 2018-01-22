@@ -14,7 +14,7 @@ class CVToolbar extends Component {
         <Button outline className="button">
           <span className="fa fa-files-o" aria-hidden="true" />
         </Button>
-        <Button outline className="button">
+        <Button outline className="button" onClick={() => this.props.deleteClicked()}>
           <span className="fa fa-trash-o" aria-hidden="true" />
         </Button>
       </div>

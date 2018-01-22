@@ -27,25 +27,19 @@
 
 #namelist {
 	overflow: scroll;
-	height: 100vh;
+	height: 80vh;
 }
 
 #cvlist {
 	overflow: scroll;
-	height: 100vh;
-}
-
-.list-group {
-	overflow: scroll;
-	height: 100vh;
+	height: 80vh;
 }
 
 .CVpreview {
 	overflow: scroll;
-	height: 100vh;
+	height: 80vh;
 }
 
-
 html, body {
-    overflow: hidden;
+  overflow: hidden;
 }

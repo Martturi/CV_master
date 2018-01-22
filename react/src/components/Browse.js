@@ -5,9 +5,42 @@ import NameList from './NameList'
 import CVList from './CVList'
 import './css/Browse.css'
 import './css/NavBar.css'
-
+import { loadUserList, loadCVList } from './Api'
 
 class Browse extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      userList: [],
+      selectedUserIndex: 0,
+      cvList: [],
+      selectedCVIndex: 0,
+    }
+  }
+
+  componentDidMount() {
+    this.updateUserList()
+    this.render()
+  }
+
+  updateUserList() {
+    const defaultUserIndex = 0
+    loadUserList()
+      .then((users) => {
+        this.setState({ userList: users })
+        this.updateCVList(users[defaultUserIndex])
+      })
+      .catch(err => console.log(err))
+  }
+
+  updateCVList(username = this.state.userList[this.state.selectedUserIndex]) {
+    loadCVList(username)
+      .then((cvs) => {
+        this.setState({ cvList: cvs })
+      })
+      .catch(err => console.log(err))
+  }
+
   render() {
     return (
       <div>
@@ -18,13 +51,16 @@ class Browse extends Component {
           <SearchAndExport />
         </div>
         <div id="namelist" className="browseSection">
-          <NameList />
+          <NameList
+            userList={this.state.userList}
+            selectedUserIndex={this.state.selectedUserIndex}
+          />
         </div>
         <div className="lineContainer" id="lineContainer">
           <div className="line" />
         </div>
         <div id="cvlist" className="browseSection">
-          <CVList />
+          <CVList cvList={this.state.cvList} selectedCVIndex={this.state.selectedCVIndex} />
         </div>
         <div className="CVpreview">
           <img src="http://via.placeholder.com/533x726" height="726" width="533" alt="First page of an example CV" />

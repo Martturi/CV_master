@@ -4,7 +4,6 @@ class CVEditor extends Component {
   handleChange(event) {
     this.props.updateText(event.target.value)
   }
-
   render() {
     return (
       <div>
@@ -18,5 +17,4 @@ class CVEditor extends Component {
     )
   }
 }
-
 export default CVEditor

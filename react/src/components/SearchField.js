@@ -4,7 +4,6 @@ class SearchField extends Component {
   handleChange(event) {
     this.props.updateUID(event.target.value)
   }
-
   render() {
     return (
       <div>
@@ -14,5 +13,4 @@ class SearchField extends Component {
     )
   }
 }
-
 export default SearchField

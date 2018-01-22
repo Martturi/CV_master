@@ -1,6 +1,6 @@
 import React from 'react'
 import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading } from 'reactstrap'
-import EditButtonGroup from './EditButtonGroup'
+import CVToolbar from './CVToolbar'
 
 class CVList extends React.Component {
   render() {
@@ -14,7 +14,7 @@ class CVList extends React.Component {
               Last updated: 04.01.2018
             </ListGroupItemText>
           </div>
-            <EditButtonGroup />
+            <CVToolbar />
           </ListGroupItem>
           <ListGroupItem>
             <div className="cvinfo">
@@ -23,7 +23,7 @@ class CVList extends React.Component {
                 Last updated: 05.01.2018
               </ListGroupItemText>
             </div>
-            <EditButtonGroup />
+            <CVToolbar />
           </ListGroupItem>
           <ListGroupItem>
             <div className="cvinfo">
@@ -32,7 +32,7 @@ class CVList extends React.Component {
                 Last updated: 06.01.2018
               </ListGroupItemText>
             </div>
-            <EditButtonGroup />
+            <CVToolbar />
           </ListGroupItem>
           <ListGroupItem>
             <div className="cvinfo">
@@ -41,7 +41,7 @@ class CVList extends React.Component {
                 Last updated: 06.01.2018
               </ListGroupItemText>
             </div>
-            <EditButtonGroup />
+            <CVToolbar />
           </ListGroupItem>
           <ListGroupItem>
             <div className="cvinfo">
@@ -50,7 +50,7 @@ class CVList extends React.Component {
                 Last updated: 06.01.2018
               </ListGroupItemText>
             </div>
-            <EditButtonGroup />
+            <CVToolbar />
           </ListGroupItem>
           <ListGroupItem>
             <div className="cvinfo">
@@ -59,7 +59,7 @@ class CVList extends React.Component {
                 Last updated: 06.01.2018
               </ListGroupItemText>
             </div>
-            <EditButtonGroup />
+            <CVToolbar />
           </ListGroupItem>
         </ListGroup>
       </div>

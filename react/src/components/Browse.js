@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import BrowseButtonGroup from './BrowseButtonGroup'
-import NavBar from '../NavBar'
+import SearchAndExport from './SearchAndExport'
+import NavBar from './NavBar'
 import NameList from './NameList'
 import CVList from './CVList'
-import ExampleCV from '../ExampleCV.png'
-import './BrowseApp.css'
-import '../NavBar.css'
+import './css/Browse.css'
+import './css/NavBar.css'
 
 
-class BrowseApp extends Component {
+class Browse extends Component {
 
   render() {
     return (
@@ -17,7 +16,7 @@ class BrowseApp extends Component {
           <NavBar />
         </header>
         <div id="buttons">
-          <BrowseButtonGroup />
+          <SearchAndExport />
         </div>
         <div id="namelist" className="browseSection">
           <NameList />
@@ -29,7 +28,7 @@ class BrowseApp extends Component {
           <CVList />
         </div>
         <div className="CVpreview">
-          <img src={ExampleCV} height="726" width="533" alt="First page of an example CV" />
+          <img src="http://via.placeholder.com/533x726" height="726" width="533" alt="First page of an example CV" />
         </div>
         <div className="lineContainer">
           <div className="line" />
@@ -41,4 +40,4 @@ class BrowseApp extends Component {
 }
 
 
-export default BrowseApp
+export default Browse

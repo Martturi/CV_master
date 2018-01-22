@@ -53,6 +53,8 @@
   max-height: auto;
 }
 
+/*CSS for the lines in between the containers*/
+
 .lineContainer {
   width: 1px;
   height: 100%;

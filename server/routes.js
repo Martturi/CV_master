@@ -54,6 +54,17 @@ route.get('/api/userlist', (request, response) => {
     .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
+route.get('/api/cvlist/:username', (request, response) => {
+  const { username } = request.params || 'user'
+  console.log(`Loading CV names of user "${username}"`)
+  db.loadCVList(username)
+    .then((res) => {
+      const cvs = res.map(row => row.cv_name)
+      response.send(cvs)
+    })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
+})
+
 route.listen(route.get('port'), () => {
   console.log('Node app is running on port', route.get('port'))
 })

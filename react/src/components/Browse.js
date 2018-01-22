@@ -46,6 +46,10 @@ class Browse extends Component {
     this.updateCVList(this.state.userList[userIndex])
   }
 
+  cvClicked(cvIndex) {
+    this.setState({ selectedCVIndex: cvIndex })
+  }
+
   render() {
     return (
       <div>
@@ -66,7 +70,11 @@ class Browse extends Component {
           <div className="line" />
         </div>
         <div id="cvlist" className="browseSection">
-          <CVList cvList={this.state.cvList} selectedCVIndex={this.state.selectedCVIndex} />
+          <CVList
+            cvList={this.state.cvList}
+            selectedCVIndex={this.state.selectedCVIndex}
+            cvClicked={cvIndex => this.cvClicked(cvIndex)}
+          />
         </div>
         <div className="CVpreview">
           <img src="http://via.placeholder.com/533x726" height="726" width="533" alt="First page of an example CV" />

@@ -19,3 +19,10 @@ export const loadCV = async (uid) => {
   if (response.status !== 200) throw Error(body.message)
   return body
 }
+
+export const loadUserList = async () => {
+  const response = await fetch('api/userlist')
+  const usernames = await response.json()
+  if (response.status !== 200) throw Error(usernames.message)
+  return usernames
+}

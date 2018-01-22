@@ -7,7 +7,7 @@ const fields = {
   cv: {
     title: 'CV',
   },
-  /* bio: {
+  bio: {
     title: 'Bio',
   },
   workExperience: {
@@ -39,7 +39,7 @@ const fields = {
   },
   essentialSkills: {
     title: 'Essential Skills',
-  }, */
+  },
 }
 
 class Sections extends React.Component {

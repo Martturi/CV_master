@@ -21,7 +21,7 @@ class EditorButtonGroup extends Component {
   render() {
     return (
       <div className="buttonheader">
-        <Button onClick={this.props.goBack}>Back</Button>
+        <Button outline className="button" onClick={this.props.goBack}>Back</Button>
         <ButtonGroup outline className="exportgroup">
           <Button outline className="button" onClick={this.props.saveCV}>Save</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>

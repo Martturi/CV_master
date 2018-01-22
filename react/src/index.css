@@ -49,13 +49,6 @@
 .exportgroup {
   float: right;
   font-family: 'JungkaRegular';
-
-}
-
-.exportgroup {
-  float: right;
-  font-family: 'JungkaRegular';
-
 }
 
 .CVpreview {
@@ -91,3 +84,4 @@
   height: 100vh;
   background: #d5d7de;
 }
+

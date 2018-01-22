@@ -15,6 +15,21 @@ export const saveCV = async (username, cvName, text) => {
 export const loadCV = async (username, cvName) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}`)
   const body = await response.text()
+  console.log(`loaded: ${body.substring(0, 50)}`)
+  if (response.status !== 200) throw Error(body.message)
+  return body
+}
+
+export const loadPreview = async (text) => {
+  const response = await fetch('actions/preview', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ text }),
+  })
+  const body = await response.text()
+  console.log(`preview: ${body.substring(0, 50)}`)
   if (response.status !== 200) throw Error(body.message)
   return body
 }

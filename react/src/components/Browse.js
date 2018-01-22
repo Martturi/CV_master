@@ -41,6 +41,11 @@ class Browse extends Component {
       .catch(err => console.log(err))
   }
 
+  userClicked(userIndex) {
+    this.setState({ selectedUserIndex: userIndex })
+    this.updateCVList(this.state.userList[userIndex])
+  }
+
   render() {
     return (
       <div>
@@ -54,6 +59,7 @@ class Browse extends Component {
           <NameList
             userList={this.state.userList}
             selectedUserIndex={this.state.selectedUserIndex}
+            userClicked={userIndex => this.userClicked(userIndex)}
           />
         </div>
         <div className="lineContainer" id="lineContainer">

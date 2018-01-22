@@ -63,6 +63,16 @@ const clear = () => {
   return 'Not allowed!'
 }
 
+const loadUserList = () => {
+  const query = 'SELECT DISTINCT username FROM cvs ORDER BY username;'
+  return new Promise((resolve, reject) => {
+    client.query(query)
+      .then((result) => {
+        resolve(result.rows)
+      }).catch((err) => { reject(err) })
+  })
+}
+
 module.exports = {
-  load, loadAll, save, insert, clear,
+  load, loadAll, save, insert, clear, loadUserList,
 }

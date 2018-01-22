@@ -5,7 +5,8 @@ import NameList from './NameList'
 import CVList from './CVList'
 import './css/Browse.css'
 import './css/NavBar.css'
-import { loadUserList, loadCVList } from './Api'
+import { loadCVPreview, loadUserList, loadCVList } from './Api'
+import Preview from './Preview'
 
 class Browse extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Browse extends Component {
       selectedUserIndex: 0,
       cvList: [],
       selectedCVIndex: 0,
+      cvContents: '',
     }
   }
 
@@ -28,26 +30,31 @@ class Browse extends Component {
     loadUserList()
       .then((users) => {
         this.setState({ userList: users })
-        this.updateCVList(users[defaultUserIndex])
+        this.userClicked(users, defaultUserIndex)
       })
       .catch(err => console.log(err))
   }
 
-  updateCVList(username = this.state.userList[this.state.selectedUserIndex]) {
+  userClicked(userList = this.state.userList, userIndex) {
+    const defaultCVIndex = 0
+    this.setState({ selectedUserIndex: userIndex })
+    const username = userList[userIndex]
     loadCVList(username)
       .then((cvs) => {
         this.setState({ cvList: cvs })
+        this.cvClicked(username, cvs, defaultCVIndex)
       })
       .catch(err => console.log(err))
   }
 
-  userClicked(userIndex) {
-    this.setState({ selectedUserIndex: userIndex })
-    this.updateCVList(this.state.userList[userIndex])
-  }
-
-  cvClicked(cvIndex) {
+  cvClicked(username = this.state.userList[this.state.selectedUserIndex],
+    cvList = this.state.cvList, cvIndex) {
     this.setState({ selectedCVIndex: cvIndex })
+    loadCVPreview(username, cvList[cvIndex])
+      .then((cv) => {
+        this.setState({ cvContents: cv })
+      })
+      .catch(err => console.log(err))
   }
 
   render() {
@@ -63,7 +70,7 @@ class Browse extends Component {
           <NameList
             userList={this.state.userList}
             selectedUserIndex={this.state.selectedUserIndex}
-            userClicked={userIndex => this.userClicked(userIndex)}
+            userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />
         </div>
         <div className="lineContainer" id="lineContainer">
@@ -73,11 +80,11 @@ class Browse extends Component {
           <CVList
             cvList={this.state.cvList}
             selectedCVIndex={this.state.selectedCVIndex}
-            cvClicked={cvIndex => this.cvClicked(cvIndex)}
+            cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
           />
         </div>
         <div className="CVpreview">
-          <img src="http://via.placeholder.com/533x726" height="726" width="533" alt="First page of an example CV" />
+          <Preview text={this.state.cvContents} />
         </div>
         <div className="lineContainer">
           <div className="line" />

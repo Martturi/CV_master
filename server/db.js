@@ -28,6 +28,17 @@ const load = (uid) => {
   })
 }
 
+const loadPreview = (username, cvName) => {
+  const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, cvName])
+      .then((result) => {
+        if (result.rowCount > 0) resolve(result.rows[0].text)
+        else { resolve('New CV') }
+      }).catch((err) => { reject(err) })
+  })
+}
+
 const loadAll = () => {
   const query = 'SELECT id FROM cv_table;'
   return new Promise((resolve, reject) => {
@@ -84,5 +95,5 @@ const loadCVList = (username) => {
 }
 
 module.exports = {
-  load, loadAll, save, insert, clear, loadUserList, loadCVList,
+  load, loadAll, save, insert, clear, loadUserList, loadCVList, loadPreview,
 }

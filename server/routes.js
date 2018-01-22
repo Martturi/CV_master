@@ -34,6 +34,15 @@ route.get('/api/cv/:uid', (request, response) => {
     .catch((err) => { response.send(`Database error: \n ${err}`) })
 })
 
+route.get('/api/cv/:username/:cvName', (request, response) => {
+  const { username } = request.params || 'username'
+  const { cvName } = request.params || 'cvName'
+  console.log(`Loading cv: (username, cv_name) = ("${username}", "${cvName}")`)
+  db.loadPreview(username, cvName)
+    .then((res) => { console.log(`result: ${res}`); response.send(res) })
+    .catch((err) => { response.send(`Database error: \n ${err}`) })
+})
+
 route.get('/api/pdf/:uid', (request, response) => {
   const { uid } = request.params || 0
   console.log(`Loading pdf for cv with uid ${uid}`)

@@ -16,32 +16,68 @@ if (process.env.NODE_ENV === 'production') {
   route.use(express.static(path.resolve(__dirname, '../react/build')))
 }
 
-route.post('/api/:uid', (request, response) => {
+route.post('/api/users/:uid', (request, response) => {
   const { uid } = request.params || '0'
   const input = request.body.text || null
   console.log(`Saving ${input} as ${uid}`)
   db.save(input, uid)
     .then((val) => { response.send(val) })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send(`Database error: \n ${err}`)
+    })
 })
 
 // Get request
-route.get('/api/:uid', (request, response) => {
+route.get('/api/users/:uid', (request, response) => {
   const { uid } = request.params || 0
   console.log(`Loaded cv with uid ${uid}`)
   db.load(uid)
     .then((res) => { response.send(res) })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send(`Database error: \n ${err}`)
+    })
 })
 
-route.get('/api/:uid/pdf', (request, response) => {
+route.get('/api/users/:uid/pdf', (request, response) => {
   const { uid } = request.params || 0
   console.log(`Loading pdf for cv with uid ${uid}`)
   db.load(uid)
     .then((res) => {
       servePDF(res, response)
     })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send(`Database error: \n ${err}`)
+    })
+})
+
+route.get('/api/users', (request, response) => {
+  console.log('Loading a list of all users')
+  db.loadUserList()
+    .then((usernames) => {
+      const usernameArray = usernames.map(row => row.username)
+      response.send(usernameArray)
+    })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send(`Database error: \n ${err}`)
+    })
+})
+
+route.get('/api/users/:username/cvs', (request, response) => {
+  const { username } = request.params || 'user'
+  console.log(`Loading CV names of user "${username}"`)
+  db.loadCVList(username)
+    .then((res) => {
+      const cvs = res.map(row => row.cv_name)
+      response.send(cvs)
+    })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send(`Database error: \n ${err}`)
+    })
 })
 
 route.listen(route.get('port'), () => {

@@ -4,63 +4,24 @@ import CVToolbar from './CVToolbar'
 
 class CVList extends React.Component {
   render() {
+    const listGroupItems = this.props.cvList.map((cvName, index) => {
+      const isActive = this.props.selectedCVIndex === index
+      return (
+        <ListGroupItem active={isActive}>
+          <div className="cvinfo">
+            <ListGroupItemHeading>{cvName}</ListGroupItemHeading>
+            <ListGroupItemText className="list-item">
+              Last updated: 04.01.2018
+            </ListGroupItemText>
+          </div>
+          <CVToolbar />
+        </ListGroupItem>
+      )
+    })
     return (
       <div className="centered-list">
         <ListGroup>
-          <ListGroupItem active>
-            <div className="cvinfo">
-              <ListGroupItemHeading>CV1</ListGroupItemHeading>
-              <ListGroupItemText className="list-item">
-                Last updated: 04.01.2018
-              </ListGroupItemText>
-            </div>
-            <CVToolbar />
-          </ListGroupItem>
-          <ListGroupItem>
-            <div className="cvinfo">
-              <ListGroupItemHeading>CV2</ListGroupItemHeading>
-              <ListGroupItemText className="list-item">
-                Last updated: 05.01.2018
-              </ListGroupItemText>
-            </div>
-            <CVToolbar />
-          </ListGroupItem>
-          <ListGroupItem>
-            <div className="cvinfo">
-              <ListGroupItemHeading>CV3</ListGroupItemHeading>
-              <ListGroupItemText className="list-item">
-                Last updated: 06.01.2018
-              </ListGroupItemText>
-            </div>
-            <CVToolbar />
-          </ListGroupItem>
-          <ListGroupItem>
-            <div className="cvinfo">
-              <ListGroupItemHeading>CV4</ListGroupItemHeading>
-              <ListGroupItemText className="list-item">
-                Last updated: 06.01.2018
-              </ListGroupItemText>
-            </div>
-            <CVToolbar />
-          </ListGroupItem>
-          <ListGroupItem>
-            <div className="cvinfo">
-              <ListGroupItemHeading>CV5</ListGroupItemHeading>
-              <ListGroupItemText className="list-item">
-                Last updated: 06.01.2018
-              </ListGroupItemText>
-            </div>
-            <CVToolbar />
-          </ListGroupItem>
-          <ListGroupItem>
-            <div className="cvinfo">
-              <ListGroupItemHeading>CV6</ListGroupItemHeading>
-              <ListGroupItemText className="list-item">
-                Last updated: 06.01.2018
-              </ListGroupItemText>
-            </div>
-            <CVToolbar />
-          </ListGroupItem>
+          {listGroupItems}
         </ListGroup>
       </div>
     )

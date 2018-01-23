@@ -19,3 +19,18 @@ export const loadCV = async (uid) => {
   if (response.status !== 200) throw Error(body.message)
   return body
 }
+
+export const fetchPDF = async (uid) => {
+  fetch(`api/users/${uid}/pdf`)
+    .then(res => res.blob())
+    .then((blob) => {
+      const file = new File([blob], `${uid}.pdf`, { type: 'application/pdf' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(file)
+      a.download = `${uid}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    })
+    .catch(err => console.log(err))
+}

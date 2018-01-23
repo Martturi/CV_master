@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-// import App from './components/App/App'
+// import App from './components/App'
 import Browse from './components/Browse'
 
 // import registerServiceWorker from './registerServiceWorker' //Caching is disabled for now.

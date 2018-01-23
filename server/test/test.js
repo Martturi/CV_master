@@ -31,7 +31,7 @@ describe('Save and load tests', () => {
     const testText = 'Testing rest-api'
     it('it should answer with 200', () => {
       return chai.request(server)
-        .get('/api/1')
+        .get('/api/users/1')
         .then((res) => {
           res.should.have.status(200)
         })
@@ -39,7 +39,7 @@ describe('Save and load tests', () => {
 
     it('it should save a sample CV', () => {
       return chai.request(server)
-        .post('/api/test2')
+        .post('/api/users/test2')
         .send({ text: testText })
         .then((res) => {
           res.should.have.status(200) // Server currently always returns 200
@@ -49,15 +49,26 @@ describe('Save and load tests', () => {
 
     it('it should load the recently saved CV', () => {
       return chai.request(server)
-        .post('/api/test')
+        .post('/api/users/test')
         .send({ text: testText })
         .then(() => {
           return chai.request(server)
-            .get('/api/test')
+            .get('/api/users/test')
             .then((res) => {
               res.should.have.status(200)
               res.text.should.be.eql(testText)
             })
+        })
+    })
+
+    it('it should load an empty array of users', () => {
+      return chai.request(server)
+        .get('/api/users')
+        .then((res) => {
+          res.should.have.status(200)
+          const usernameArray = res.body
+          usernameArray.should.be.a('array')
+          usernameArray.length.should.be.eql(0)
         })
     })
   })

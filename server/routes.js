@@ -53,6 +53,19 @@ route.get('/api/users/:uid/pdf', (request, response) => {
     })
 })
 
+route.get('/api/users', (request, response) => {
+  console.log('Loading a list of all users')
+  db.loadUserList()
+    .then((usernames) => {
+      const usernameArray = usernames.map(row => row.username)
+      response.send(usernameArray)
+    })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send(`Database error: \n ${err}`)
+    })
+})
+
 route.listen(route.get('port'), () => {
   console.log('Node app is running on port', route.get('port'))
 })

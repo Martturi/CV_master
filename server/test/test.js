@@ -60,5 +60,16 @@ describe('Save and load tests', () => {
             })
         })
     })
+
+    it('it should load an empty array of users', () => {
+      return chai.request(server)
+        .get('/api/users')
+        .then((res) => {
+          res.should.have.status(200)
+          const usernameArray = res.body
+          usernameArray.should.be.a('array')
+          usernameArray.length.should.be.eql(0)
+        })
+    })
   })
 })

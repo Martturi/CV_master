@@ -16,54 +16,69 @@ if (process.env.NODE_ENV === 'production') {
   route.use(express.static(path.resolve(__dirname, '../react/build')))
 }
 
-route.post('/api/cv/:uid', (request, response) => {
+route.post('/api/users/:uid', (request, response) => {
   const { uid } = request.params || '0'
   const input = request.body.text || null
   console.log(`Saving ${input} as ${uid}`)
   db.save(input, uid)
     .then((val) => { response.send(val) })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
 })
 
 // Get request
-route.get('/api/cv/:uid', (request, response) => {
+route.get('/api/users/:uid', (request, response) => {
   const { uid } = request.params || 0
   console.log(`Loaded cv with uid ${uid}`)
   db.load(uid)
     .then((res) => { response.send(res) })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
 })
 
-route.get('/api/cv/:username/:cvName', (request, response) => {
+route.get('/api/users/:username/cvs/:cvName', (request, response) => {
   const { username } = request.params || 'username'
   const { cvName } = request.params || 'cvName'
   console.log(`Loading cv: (username, cv_name) = ("${username}", "${cvName}")`)
   db.loadPreview(username, cvName)
     .then((res) => { console.log(`result: ${res}`); response.send(res) })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
 })
 
-route.get('/api/pdf/:uid', (request, response) => {
+route.get('/api/users/:uid/pdf', (request, response) => {
   const { uid } = request.params || 0
   console.log(`Loading pdf for cv with uid ${uid}`)
   db.load(uid)
     .then((res) => {
       servePDF(res, response)
     })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
 })
 
-route.get('/api/userlist', (request, response) => {
+route.get('/api/users', (request, response) => {
   console.log('Loading a list of all users')
   db.loadUserList()
     .then((usernames) => {
       const usernameArray = usernames.map(row => row.username)
       response.send(usernameArray)
     })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
 })
 
-route.get('/api/cvlist/:username', (request, response) => {
+route.get('/api/users/:username/cvs', (request, response) => {
   const { username } = request.params || 'user'
   console.log(`Loading CV names of user "${username}"`)
   db.loadCVList(username)
@@ -71,7 +86,10 @@ route.get('/api/cvlist/:username', (request, response) => {
       const cvs = res.map(row => row.cv_name)
       response.send(cvs)
     })
-    .catch((err) => { response.send(`Database error: \n ${err}`) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
 })
 
 route.listen(route.get('port'), () => {

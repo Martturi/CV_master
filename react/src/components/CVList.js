@@ -16,6 +16,7 @@ class CVList extends React.Component {
           </div>
           <CVToolbar
             goEdit={this.props.goEdit}
+            copyClicked={() => this.props.copyClicked(cvName)}
           />
         </ListGroupItem>
       )

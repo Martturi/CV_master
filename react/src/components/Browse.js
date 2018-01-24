@@ -5,7 +5,7 @@ import NameList from './NameList'
 import CVList from './CVList'
 import './css/Browse.css'
 import './css/NavBar.css'
-import { loadCVPreview, loadUserList, loadCVList } from './Api'
+import { loadCVPreview, loadUserList, loadCVList, copyCV } from './Api'
 import Preview from './Preview'
 
 class Browse extends Component {
@@ -57,6 +57,22 @@ class Browse extends Component {
       .catch(err => console.log(err))
   }
 
+
+  copyClicked(cvName) {
+    const username = this.state.userList[this.state.selectedUserIndex]
+    copyCV(username, cvName)
+      .then((nameOfCopiedCV) => {
+        loadCVList(username)
+          .then((cvs) => {
+            this.setState({ cvList: cvs })
+            const indexOfCopiedCV = cvs.indexOf(nameOfCopiedCV)
+            this.cvClicked(username, cvs, indexOfCopiedCV)
+          })
+          .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
+  }
+
   render() {
     return (
       <div>
@@ -82,6 +98,7 @@ class Browse extends Component {
             selectedCVIndex={this.state.selectedCVIndex}
             cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
             goEdit={this.props.goEdit}
+            copyClicked={cvName => this.copyClicked(cvName)}
           />
         </div>
         <div className="CVpreview">

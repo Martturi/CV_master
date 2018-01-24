@@ -97,5 +97,33 @@ describe('Save and load tests', () => {
           cvContents.should.be.eql(nonExistingCVString)
         })
     })
+
+
+    it('it should return correct CV names after copying', () => {
+      const copyUser1 = 'user4831178'
+      const copyUser2 = 'user2139782'
+      const cvToBeCopied = 'cv857842' // name of the cv
+      return chai.request(server)
+        .post(`/api/users/${copyUser1}/cvs/${cvToBeCopied}/copy`)
+        .then((firstResult) => {
+          firstResult.should.have.status(200)
+          const firstCVName = firstResult.text
+          firstCVName.should.be.eql(`${cvToBeCopied}(1)`)
+          return chai.request(server)
+            .post(`/api/users/${copyUser2}/cvs/${cvToBeCopied}/copy`)
+            .then((secondResult) => {
+              secondResult.should.have.status(200)
+              const secondCVName = secondResult.text
+              secondCVName.should.be.eql(`${cvToBeCopied}(1)`)
+              return chai.request(server)
+                .post(`/api/users/${copyUser1}/cvs/${cvToBeCopied}/copy`)
+                .then((thirdResult) => {
+                  thirdResult.should.have.status(200)
+                  const thirdCVName = thirdResult.text
+                  thirdCVName.should.be.eql(`${cvToBeCopied}(2)`)
+                })
+            })
+        })
+    })
   })
 })

@@ -10,7 +10,7 @@ class CVToolbar extends Component {
         <Button outline className="button" onClick={this.props.goEdit}>
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>
-        <Button outline className="button">
+        <Button outline className="button" onClick={() => this.props.copyClicked()}>
           <span className="fa fa-files-o" aria-hidden="true" />
         </Button>
         <Button outline className="button">

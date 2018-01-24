@@ -42,3 +42,12 @@ export const loadCVPreview = async (username, cvName) => {
   if (response.status !== 200) throw Error(body.message)
   return body
 }
+
+export const copyCV = async (username, cvName) => {
+  const response = await fetch(`api/users/${username}/cvs/${cvName}/copy`, {
+    method: 'POST',
+  })
+  const nameOfCopiedCV = await response.text()
+  if (response.status !== 200) throw Error(`error ${response}`)
+  return nameOfCopiedCV
+}

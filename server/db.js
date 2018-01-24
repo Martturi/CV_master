@@ -94,6 +94,16 @@ const loadCVList = (username) => {
   })
 }
 
+const copy = (username, cvName) => {
+  const query = 'SELECT copy_cv($1, $2);'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, cvName])
+      .then((result) => {
+        resolve(result.rows[0].copy_cv)
+      }).catch((err) => { reject(err) })
+  })
+}
+
 module.exports = {
-  load, loadAll, save, insert, clear, loadUserList, loadCVList, loadPreview,
+  load, loadAll, save, insert, clear, loadUserList, loadCVList, loadPreview, copy,
 }

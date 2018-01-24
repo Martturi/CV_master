@@ -98,11 +98,10 @@ describe('Save and load tests', () => {
         })
     })
 
-
+    const copyUser1 = 'user4831178'
+    const cvToBeCopied = 'cv857842' // name of the cv
     it('it should return correct CV names after copying', () => {
-      const copyUser1 = 'user4831178'
       const copyUser2 = 'user2139782'
-      const cvToBeCopied = 'cv857842' // name of the cv
       return chai.request(server)
         .post(`/api/users/${copyUser1}/cvs/${cvToBeCopied}/copy`)
         .then((firstResult) => {
@@ -123,6 +122,29 @@ describe('Save and load tests', () => {
                   thirdCVName.should.be.eql(`${cvToBeCopied}(2)`)
                 })
             })
+        })
+    })
+
+    const deleteAcceptedText = 'Delete accepted'
+    const existingCVs = [`${cvToBeCopied}(1)`, `${cvToBeCopied}(2)`]
+    it(`it should return '${deleteAcceptedText}' for a user with two CVs`, () => {
+      return chai.request(server)
+        .delete(`/api/users/${copyUser1}/cvs/${existingCVs[0]}`)
+        .then((result) => {
+          result.should.have.status(200)
+          const returnedText = result.text
+          returnedText.should.be.eql(deleteAcceptedText)
+        })
+    })
+
+    const deleteDeniedText = 'Delete denied'
+    it(`it should return '${deleteDeniedText}' for a user with one CV`, () => {
+      return chai.request(server)
+        .delete(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
+        .then((result) => {
+          result.should.have.status(200)
+          const returnedText = result.text
+          returnedText.should.be.eql(deleteDeniedText)
         })
     })
   })

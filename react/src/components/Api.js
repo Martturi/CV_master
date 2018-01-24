@@ -51,3 +51,12 @@ export const copyCV = async (username, cvName) => {
   if (response.status !== 200) throw Error(`error ${response}`)
   return nameOfCopiedCV
 }
+
+export const deleteCV = async (username, cvName) => {
+  const response = await fetch(`api/users/${username}/cvs/${cvName}`, {
+    method: 'DELETE',
+  })
+  const body = await response.text() // 'Delete accepted' or 'Delete denied'
+  if (response.status !== 200) throw Error(`error ${response}`)
+  return body
+}

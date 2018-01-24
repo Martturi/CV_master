@@ -53,11 +53,48 @@ describe('Save and load tests', () => {
         .send({ text: testText })
         .then(() => {
           return chai.request(server)
-            .get('/api/cv/test')
+            .get('/api/users/test')
             .then((res) => {
               res.should.have.status(200)
               res.text.should.be.eql(testText)
             })
+        })
+    })
+
+
+    it('it should load an empty array of users', () => {
+      return chai.request(server)
+        .get('/api/users')
+        .then((res) => {
+          res.should.have.status(200)
+          const usernameArray = res.body
+          usernameArray.should.be.a('array')
+          usernameArray.length.should.be.eql(0)
+        })
+    })
+
+    it('it should load an empty array of cvs', () => {
+      const nonExistingUsername = 'a'
+      return chai.request(server)
+        .get(`/api/users/${nonExistingUsername}/cvs`)
+        .then((res) => {
+          res.should.have.status(200)
+          const cvArray = res.body
+          cvArray.should.be.a('array')
+          cvArray.length.should.be.eql(0)
+        })
+    })
+
+    const nonExistingCVString = 'New CV'
+    it(`it should return '${nonExistingCVString}' for a non-existing combination of user and CV name`, () => {
+      const nonExistingUsername = 'a'
+      const nonExistingCVName = 'b'
+      return chai.request(server)
+        .get(`/api/users/${nonExistingUsername}/cvs/${nonExistingCVName}`)
+        .then((res) => {
+          res.should.have.status(200)
+          const cvContents = res.text
+          cvContents.should.be.eql(nonExistingCVString)
         })
     })
   })

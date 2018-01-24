@@ -64,7 +64,7 @@ const save = (input, uid) => {
 
 const clear = () => {
   if (config.env !== 'production') {
-    const query = 'TRUNCATE TABLE cv_table;'
+    const query = 'TRUNCATE TABLE cv_table; TRUNCATE TABLE cvs;'
     return new Promise((resolve, reject) => {
       client.query(query)
         .then(() => { resolve('Clear succeeded.') })

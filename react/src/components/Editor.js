@@ -82,11 +82,9 @@ class Editor extends Component {
             updateText={text => this.updateText(text)}
           />
         </div>
-
-        { /* unsure whether line is necessary, pain to implement beautifully
-        <div className="lineContainer">
+        {/*<div className="lineContainer">
           <div className="line" />
-        </div> */}
+        </div>*/}
         <div className="CVpreview">
           <Preview
             text={this.state.text}

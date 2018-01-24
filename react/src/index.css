@@ -52,6 +52,12 @@
 
 }
 
+.exportgroup {
+  float: right;
+  font-family: 'JungkaRegular';
+
+}
+
 .CVpreview {
   float: right;
   width: 50%;
@@ -85,4 +91,3 @@
   height: 100vh;
   background: #d5d7de;
 }
-

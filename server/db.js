@@ -28,6 +28,17 @@ const load = (uid) => {
   })
 }
 
+const loadPreview = (username, cvName) => {
+  const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, cvName])
+      .then((result) => {
+        if (result.rowCount > 0) resolve(result.rows[0].text)
+        else { resolve('New CV') }
+      }).catch((err) => { reject(err) })
+  })
+}
+
 const loadAll = () => {
   const query = 'SELECT id FROM cv_table;'
   return new Promise((resolve, reject) => {
@@ -53,7 +64,7 @@ const save = (input, uid) => {
 
 const clear = () => {
   if (config.env !== 'production') {
-    const query = 'TRUNCATE TABLE cv_table;'
+    const query = 'TRUNCATE TABLE cv_table; TRUNCATE TABLE cvs;'
     return new Promise((resolve, reject) => {
       client.query(query)
         .then(() => { resolve('Clear succeeded.') })
@@ -63,6 +74,26 @@ const clear = () => {
   return 'Not allowed!'
 }
 
+const loadUserList = () => {
+  const query = 'SELECT DISTINCT username FROM cvs ORDER BY username;'
+  return new Promise((resolve, reject) => {
+    client.query(query)
+      .then((result) => {
+        resolve(result.rows)
+      }).catch((err) => { reject(err) })
+  })
+}
+
+const loadCVList = (username) => {
+  const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username])
+      .then((result) => {
+        resolve(result.rows)
+      }).catch((err) => { reject(err) })
+  })
+}
+
 module.exports = {
-  load, loadAll, save, insert, clear,
+  load, loadAll, save, insert, clear, loadUserList, loadCVList, loadPreview,
 }

@@ -14,7 +14,7 @@ class CVList extends React.Component {
               Last updated: 04.01.2018
             </ListGroupItemText>
           </div>
-          <CVToolbar />
+          <CVToolbar copyClicked={() => this.props.copyClicked(cvName)} />
         </ListGroupItem>
       )
     })

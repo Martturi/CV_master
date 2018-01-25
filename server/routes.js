@@ -92,6 +92,18 @@ route.get('/api/users/:username/cvs', (request, response) => {
     })
 })
 
+route.post('/api/users/:username/cvs/:cvName/copy', (request, response) => {
+  const { username } = request.params || 'username'
+  const { cvName } = request.params || 'cvName'
+  console.log(`Copying CV: (username, cvName) = ("${username}", "${cvName}")`)
+  db.copy(username, cvName)
+    .then((val) => { response.send(val) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
+})
+
 route.listen(route.get('port'), () => {
   console.log('Node app is running on port', route.get('port'))
 })

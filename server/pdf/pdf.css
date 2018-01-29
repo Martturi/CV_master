@@ -1,30 +1,30 @@
 @font-face {
 font-family: 'Jungka';
-src: url('/fonts/Jungka-Regular.otf') format('opentype');
+src: url('fonts/Jungka-Regular.otf') format('opentype');
 font-weight: normal;
 font-style: normal;
 }
 @font-face {
 font-family: 'Jungka-Bold';
-src: url('/fonts/Jungka-Bold.otf') format('opentype');
+src: url('fonts/Jungka-Bold.otf') format('opentype');
 font-weight: bold;
 font-style: normal;
  }
 @font-face {
 font-family: 'Jungka-Medium';
-src: url('/fonts/Jungka-Medium.otf') format('opentype');
+src: url('fonts/Jungka-Medium.otf') format('opentype');
 font-weight: medium;
 font-style: normal;
 }
 @font-face {
 font-family: 'Jungka-Light';
-src: url('/fonts/Jungka-Light.otf') format('opentype');
+src: url('fonts/Jungka-Light.otf') format('opentype');
 font-weight: lighter;
 font-style: normal;
 }
 
 
-.preview {
+.cv {
   font-family: "Jungka";
   padding-left: 30px;
   margin-right: 50px;
@@ -33,19 +33,19 @@ font-style: normal;
   width: 600px;
 }
 
-.preview > p > img {
+.cv > p > img {
   float: left;
   width: 100px;
   padding-left: 0px;
 }
 
-.preview > img < p {
+.cv > img < p {
   float: left;
   width: 460px;
   height: 0px;
 }
 
-.preview > img[alt="face"] {
+.cv > img[alt="face"] {
   width: 100px;
   float: none;
   position: relative;
@@ -55,34 +55,34 @@ font-style: normal;
 }
 
 
-.preview > h1,
-.preview > h2,
-.preview > h3,
-.preview > h4,
-.preview > h5,
-.preview > h6 {
+.cv > h1,
+.cv > h2,
+.cv > h3,
+.cv > h4,
+.cv > h5,
+.cv > h6 {
     width: 390px;
     padding-left: 200px;
     margin: 0;
     font-family: "Jungka-Light";
 }
 
-.preview > h1 {
+.cv > h1 {
   font-size: 11px;
   color: #FC6054;
   letter-spacing: 0.5px;
   margin-top: 20px;
 }
-.preview > h2 {
+.cv > h2 {
   margin-top: 15px;
   font-size: 11px;
   color: #666666;
 }
-.preview > h3 {
+.cv > h3 {
   font-size: 10px;
   padding-bottom: 10px;
 }
-.preview > h4 {
+.cv > h4 {
   width: 560px;
   font-size: 15px;
   font-weight: 400;
@@ -94,17 +94,17 @@ font-style: normal;
   padding-top: 10px;
   padding-left: 20px;
 }
-.preview > h5 {
+.cv > h5 {
   margin-top: 80px;
   font-size: 20px;
 }
 
-.preview > h6 {
+.cv > h6 {
   font-size: 18px;
   margin-top: 10px;
 }
 
-.preview > p {
+.cv > p {
   letter-spacing: 0.1px;
   font-size: 9px;
   width: 390px;
@@ -115,7 +115,7 @@ font-style: normal;
   font-family: "Jungka-Light";
 }
 
-.preview > p > code {
+.cv > p > code {
   letter-spacing: 0.1px;
   font-size: 11px;
   width: 390px;
@@ -123,12 +123,12 @@ font-style: normal;
   font-family: "Jungka-Light";
 }
 
-.preview > blockquote {
+.cv > blockquote {
   margin: 0;
   padding: 0;
 }
 
-.preview > blockquote > p {
+.cv > blockquote > p {
   letter-spacing: 0.1px;
   font-size: 9px;
   width: 380px;

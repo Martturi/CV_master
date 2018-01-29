@@ -10,15 +10,16 @@ const options = {
 }
 
 const getHTML = (text) => {
-  const style = fs.readFileSync(path.resolve(__dirname, '../react/public/pdf/style.css'), 'utf-8')
+  const style = fs.readFileSync(path.resolve(__dirname, './pdf/pdf.css'), 'utf-8')
   const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
   const parsedHTML = markdown.toHTML(text)
-  return ejs.render(template, { styles: '', text: parsedHTML })
+  return ejs.render(template, { styles: style, text: parsedHTML })
 }
 
 const servePDF = (text, response) => {
   console.log(`Creating pdf ${text}`)
   const parsedHTML = getHTML(text)
+  console.log(parsedHTML)
   pdf.create(parsedHTML, options).toStream((err, stream) => {
     response.setHeader('Content-Type', 'application/pdf')
     response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')

@@ -81,6 +81,7 @@ class Browse extends Component {
             cvList={this.state.cvList}
             selectedCVIndex={this.state.selectedCVIndex}
             cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
+            goEdit={this.props.goEdit}
           />
         </div>
         <div className="CVpreview">

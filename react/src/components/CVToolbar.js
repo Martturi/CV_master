@@ -7,7 +7,7 @@ class CVToolbar extends Component {
     return (
       <div className="my-cvs-buttongroup">
         <Button outline className="button" id="rename">Rename</Button>
-        <Button outline className="button">
+        <Button outline className="button" onClick={this.props.goEdit}>
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>
         <Button outline className="button">

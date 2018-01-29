@@ -1,0 +1,16 @@
+.sections {
+  float: left;
+  width: 50%;
+  height: 80vh;
+  overflow: auto;
+}
+
+.statusMessage {
+	float: right;
+	padding-right: 10px;
+	padding-top: 8px;
+}
+
+html, body {
+  overflow: hidden;
+}

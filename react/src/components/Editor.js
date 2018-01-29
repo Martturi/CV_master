@@ -48,7 +48,7 @@ class Editor extends Component {
 
 
   fetchPDF() {
-    fetch(`api/${this.state.uid}/pdf`)
+    fetch(`api/users/${this.state.uid}/pdf`)
       .then(res => res.blob())
       .then((blob) => {
         const file = new File([blob], `${this.state.uid}.pdf`, { type: 'application/pdf' })

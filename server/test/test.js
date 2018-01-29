@@ -43,7 +43,6 @@ describe('Save and load tests', () => {
         .then((res) => {
           res.should.have.status(200)
           const usernameArray = res.body
-          console.log(usernameArray)
           usernameArray.should.be.a('array')
           usernameArray.length.should.be.eql(0)
         })

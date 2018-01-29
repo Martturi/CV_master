@@ -1,6 +1,5 @@
 
 export const saveCV = async (username, cvName, text) => {
-  console.log(username, cvName, text)
   const response = await
     fetch(`api/users/${username}/cvs/${cvName}`, {
       method: 'POST',
@@ -9,7 +8,6 @@ export const saveCV = async (username, cvName, text) => {
       },
       body: JSON.stringify({ text }),
     })
-  console.log(response)
   if (response.status !== 200) throw Error(`error ${response}`)
   return 'Save succeeded.'
 }
@@ -17,7 +15,6 @@ export const saveCV = async (username, cvName, text) => {
 export const loadCV = async (username, cvName) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}`)
   const body = await response.text()
-  console.log(body)
   if (response.status !== 200) throw Error(body.message)
   return body
 }

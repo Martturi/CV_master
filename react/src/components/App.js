@@ -28,7 +28,6 @@ class App extends Component {
   // goEdit function changes the view from Browse to Edit. It gets the selectedUser and selectedCV
   // from Browse view.
   goEdit(username, cvName) {
-    console.log(username, cvName)
     this.setState({ selectedUser: username, selectedCV: cvName, view: 'edit' })
   }
 

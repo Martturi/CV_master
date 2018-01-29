@@ -3,8 +3,8 @@ import EditorButtonGroup from './EditorButtonGroup'
 import Sections from './Sections'
 import NavBar from './NavBar'
 import Preview from './Preview'
-import './Editor.css'
-import './NavBar.css'
+import './css/Editor.css'
+import './css/NavBar.css'
 import { saveCV, loadCV } from './Api'
 
 

@@ -5,7 +5,7 @@ import NameList from './NameList'
 import CVList from './CVList'
 import './css/Browse.css'
 import './css/NavBar.css'
-import { loadCV, loadUserList, loadCVList, copyCV, deleteCV } from './Api'
+import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from './Api'
 import Preview from './Preview'
 
 class Browse extends Component {
@@ -56,6 +56,21 @@ class Browse extends Component {
       .catch(err => console.log(err))
   }
 
+  renameConfirmed(cvName, newCVName) {
+    const username = this.state.userList[this.state.selectedUserIndex]
+    console.log(`new cv name: ${newCVName}`)
+    renameCV(username, cvName, newCVName)
+      .then(() => {
+        loadCVList(username)
+          .then((cvs) => {
+            this.setState({ cvList: cvs })
+            const indexOfRenamedCV = cvs.indexOf(newCVName)
+            this.cvClicked(username, cvs, indexOfRenamedCV)
+          })
+          .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
+  }
 
   copyClicked(cvName) {
     const username = this.state.userList[this.state.selectedUserIndex]
@@ -118,6 +133,7 @@ class Browse extends Component {
             cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
             goEdit={() => this.props.goEdit(this.state.userList[this.state.selectedUserIndex],
               this.state.cvList[this.state.selectedCVIndex])}
+            renameConfirmed={(cvName, newCVName) => this.renameConfirmed(cvName, newCVName)}
             copyClicked={cvName => this.copyClicked(cvName)}
             deleteConfirmed={cvName => this.deleteConfirmed(cvName)}
             cvCount={this.state.cvList.length}

@@ -147,5 +147,29 @@ describe('Save and load tests', () => {
           returnedText.should.be.eql(deleteDeniedText)
         })
     })
+
+    const renameSucceededText = 'Rename succeeded'
+    const newName = 'New name'
+    it(`it should return '${renameSucceededText}'`, () => {
+      return chai.request(server)
+        .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
+        .send({ newCVName: newName })
+        .then((result) => {
+          result.should.have.status(200)
+          const returnedText = result.text
+          returnedText.should.be.eql(renameSucceededText)
+        })
+    })
+
+    it(`it should not return '${renameSucceededText} for a non-existing CV name'`, () => {
+      return chai.request(server)
+        .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
+        .send({ newCVName: newName })
+        .then((result) => {
+          result.should.have.status(200)
+          const returnedText = result.text
+          returnedText.should.not.equal(renameSucceededText)
+        })
+    })
   })
 })

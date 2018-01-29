@@ -50,3 +50,16 @@ export const deleteCV = async (username, cvName) => {
   if (response.status !== 200) throw Error(`error ${response}`)
   return body
 }
+
+export const renameCV = async (username, cvName, newCVName) => {
+  const response = await fetch(`api/users/${username}/cvs/${cvName}/`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ newCVName }),
+  })
+  const body = await response.text()
+  if (response.status !== 200) throw Error(body.message)
+  return body
+}

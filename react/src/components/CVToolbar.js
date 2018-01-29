@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Button, Popover, PopoverBody, PopoverHeader } from 'reactstrap'
+import RenamePopover from './RenamePopover'
 
 class CVToolbar extends Component {
   state = {
     deleteSelected: false,
+    renameSelected: false,
   }
 
   deleteConfirmed() {
@@ -17,6 +19,11 @@ class CVToolbar extends Component {
 
   deleteCancelled() {
     this.setState({ deleteSelected: false })
+  }
+
+  renameConfirmed(newName) {
+    this.setState({ renameSelected: false })
+    this.props.renameConfirmed(newName)
   }
 
   render() {
@@ -54,7 +61,7 @@ class CVToolbar extends Component {
 
     return (
       <div className="my-cvs-buttongroup">
-        <Button outline className="button" id="rename">Rename</Button>
+        <Button outline className="button" id={`rename${this.props.index}`} onClick={() => this.setState({ renameSelected: true })}>Rename</Button>
         <Button outline className="button" onClick={() => this.props.goEdit()}>
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>
@@ -65,6 +72,12 @@ class CVToolbar extends Component {
           <span className="fa fa-trash-o" aria-hidden="true" />
         </Button>
         <DeletePopover />
+        <RenamePopover
+          index={this.props.index}
+          renameSelected={this.state.renameSelected}
+          renameCancelled={() => this.setState({ renameSelected: false })}
+          renameConfirmed={newName => this.renameConfirmed(newName)}
+        />
       </div>
 
 

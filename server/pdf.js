@@ -5,8 +5,7 @@ const path = require('path')
 const ejs = require('ejs')
 
 const options = {
-  format: 'A4',
-  base: `file://${__dirname}/../react/public/pdf/`,
+  base: `file://${__dirname}/../react/public/`,
 }
 
 const getHTML = (text) => {

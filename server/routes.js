@@ -16,11 +16,13 @@ if (process.env.NODE_ENV === 'production') {
   route.use(express.static(path.resolve(__dirname, '../react/build')))
 }
 
-route.post('/api/users/:uid', (request, response) => {
-  const { uid } = request.params || '0'
+// Post request for saving CV with username and CV name
+route.post('/api/users/:username/cvs/:cvName', (request, response) => {
+  const { username } = request.params || 'username'
+  const { cvName } = request.params || 'cvName'
   const input = request.body.text || null
-  console.log(`Saving ${input} as ${uid}`)
-  db.save(input, uid)
+  console.log(`Saving cv: (username, cv_name) = ("${username}", "${cvName}")`)
+  db.save(input, username, cvName)
     .then((val) => { response.send(val) })
     .catch((err) => {
       console.error(err)
@@ -28,23 +30,12 @@ route.post('/api/users/:uid', (request, response) => {
     })
 })
 
-// Get request
-route.get('/api/users/:uid', (request, response) => {
-  const { uid } = request.params || 0
-  console.log(`Loaded cv with uid ${uid}`)
-  db.load(uid)
-    .then((res) => { response.send(res) })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
-})
-
+// Get request for loading CV with username and CV name
 route.get('/api/users/:username/cvs/:cvName', (request, response) => {
-  const { username } = request.params || 'username'
-  const { cvName } = request.params || 'cvName'
+  const { username } = request.params || 0
+  const { cvName } = request.params || 0
   console.log(`Loading cv: (username, cv_name) = ("${username}", "${cvName}")`)
-  db.loadPreview(username, cvName)
+  db.load(username, cvName)
     .then((res) => { console.log(`result: ${res}`); response.send(res) })
     .catch((err) => {
       console.error(err)
@@ -52,10 +43,12 @@ route.get('/api/users/:username/cvs/:cvName', (request, response) => {
     })
 })
 
-route.get('/api/users/:uid/pdf', (request, response) => {
-  const { uid } = request.params || 0
-  console.log(`Loading pdf for cv with uid ${uid}`)
-  db.load(uid)
+// Get request for loading pdf with username and CV name
+route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
+  const { username } = request.params || 0
+  const { cvName } = request.params || 0
+  console.log(`Loading pdf for cv ${cvName} with username ${username}`)
+  db.load(username, cvName)
     .then((res) => {
       servePDF(res, response)
     })

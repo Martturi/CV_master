@@ -32,6 +32,16 @@
   background-color: #242730;
 }
 
+/* The right color stays when the Export dropdown is opened */
+.show > .btn-outline-secondary.dropdown-toggle {
+  background-color: #242730;
+  border-color: #242730;
+}
+
+.dropdown-menu {
+  border: 1px solid #6c757d;
+}
+
 .buttonheader {
   padding-top: 10px;
   padding-right: 5px;

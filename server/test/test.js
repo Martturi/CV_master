@@ -31,36 +31,11 @@ describe('Save and load tests', () => {
     const testText = 'Testing rest-api'
     it('it should answer with 200', () => {
       return chai.request(server)
-        .get('/api/users/1')
+        .get('/api/users/1/cvs/1')
         .then((res) => {
           res.should.have.status(200)
         })
     })
-
-    it('it should save a sample CV', () => {
-      return chai.request(server)
-        .post('/api/users/test2')
-        .send({ text: testText })
-        .then((res) => {
-          res.should.have.status(200) // Server currently always returns 200
-          res.text.should.be.eql('Save succeeded.')
-        })
-    })
-
-    it('it should load the recently saved CV', () => {
-      return chai.request(server)
-        .post('/api/users/test')
-        .send({ text: testText })
-        .then(() => {
-          return chai.request(server)
-            .get('/api/users/test')
-            .then((res) => {
-              res.should.have.status(200)
-              res.text.should.be.eql(testText)
-            })
-        })
-    })
-
 
     it('it should load an empty array of users', () => {
       return chai.request(server)
@@ -68,6 +43,7 @@ describe('Save and load tests', () => {
         .then((res) => {
           res.should.have.status(200)
           const usernameArray = res.body
+          console.log(usernameArray)
           usernameArray.should.be.a('array')
           usernameArray.length.should.be.eql(0)
         })
@@ -84,6 +60,31 @@ describe('Save and load tests', () => {
           cvArray.length.should.be.eql(0)
         })
     })
+
+    it('it should save a sample CV', () => {
+      return chai.request(server)
+        .post('/api/users/test2/cvs/test1')
+        .send({ text: testText })
+        .then((res) => {
+          res.should.have.status(200) // Server currently always returns 200
+          res.text.should.be.eql('Save succeeded.')
+        })
+    })
+
+    it('it should load the recently saved CV', () => {
+      return chai.request(server)
+        .post('/api/users/test/cvs/1')
+        .send({ text: testText })
+        .then(() => {
+          return chai.request(server)
+            .get('/api/users/test/cvs/1')
+            .then((res) => {
+              res.should.have.status(200)
+              res.text.should.be.eql(testText)
+            })
+        })
+    })
+
 
     const nonExistingCVString = 'New CV'
     it(`it should return '${nonExistingCVString}' for a non-existing combination of user and CV name`, () => {

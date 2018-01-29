@@ -5,7 +5,7 @@ import NameList from './NameList'
 import CVList from './CVList'
 import './css/Browse.css'
 import './css/NavBar.css'
-import { loadCVPreview, loadUserList, loadCVList, copyCV, deleteCV } from './Api'
+import { loadCV, loadUserList, loadCVList, copyCV, deleteCV } from './Api'
 import Preview from './Preview'
 
 class Browse extends Component {
@@ -22,7 +22,6 @@ class Browse extends Component {
 
   componentDidMount() {
     this.updateUserList()
-    this.render()
   }
 
   updateUserList() {
@@ -50,7 +49,7 @@ class Browse extends Component {
   cvClicked(username = this.state.userList[this.state.selectedUserIndex],
     cvList = this.state.cvList, cvIndex) {
     this.setState({ selectedCVIndex: cvIndex })
-    loadCVPreview(username, cvList[cvIndex])
+    loadCV(username, cvList[cvIndex])
       .then((cv) => {
         this.setState({ cvContents: cv })
       })
@@ -107,15 +106,18 @@ class Browse extends Component {
             userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />
         </div>
-        <div className="lineContainer" id="lineContainer">
+        {/* <div className="lineContainer" id="lineContainer">
           <div className="line" />
-        </div>
+        </div> */}
         <div id="cvlist" className="browseSection">
           <CVList
+            userList={this.state.userList}
+            selectedUserIndex={this.state.selectedUserIndex}
             cvList={this.state.cvList}
             selectedCVIndex={this.state.selectedCVIndex}
             cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
-            goEdit={this.props.goEdit}
+            goEdit={() => this.props.goEdit(this.state.userList[this.state.selectedUserIndex],
+              this.state.cvList[this.state.selectedCVIndex])}
             copyClicked={cvName => this.copyClicked(cvName)}
             deleteConfirmed={cvName => this.deleteConfirmed(cvName)}
             cvCount={this.state.cvList.length}
@@ -124,9 +126,9 @@ class Browse extends Component {
         <div className="CVpreview">
           <Preview text={this.state.cvContents} />
         </div>
-        <div className="lineContainer">
+        {/* <div className="lineContainer">
           <div className="line" />
-        </div>
+        </div> */}
       </div>
 
     )

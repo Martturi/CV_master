@@ -92,6 +92,30 @@ route.get('/api/users/:username/cvs', (request, response) => {
     })
 })
 
+route.post('/api/users/:username/cvs/:cvName/copy', (request, response) => {
+  const { username } = request.params || 'username'
+  const { cvName } = request.params || 'cvName'
+  console.log(`Copying CV: (username, cvName) = ("${username}", "${cvName}")`)
+  db.copy(username, cvName)
+    .then((val) => { response.send(val) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
+})
+
+route.delete('/api/users/:username/cvs/:cvName', (request, response) => {
+  const { username } = request.params || 'user'
+  const { cvName } = request.params || '0'
+  console.log(`Deleting CV: (username, cv_name) = ("${username}", "${cvName}")`)
+  db.deleteCV(username, cvName)
+    .then((val) => { response.send(val) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
+})
+
 route.listen(route.get('port'), () => {
   console.log('Node app is running on port', route.get('port'))
 })

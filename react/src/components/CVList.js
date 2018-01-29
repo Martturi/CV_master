@@ -16,6 +16,10 @@ class CVList extends React.Component {
           </div>
           <CVToolbar
             goEdit={this.props.goEdit}
+            copyClicked={() => this.props.copyClicked(cvName)}
+            deleteConfirmed={() => this.props.deleteConfirmed(cvName)}
+            cvCount={this.props.cvCount}
+            index={index}
           />
         </ListGroupItem>
       )

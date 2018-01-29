@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { loadPreview } from './Api'
-import './css/pdf.css'
+// import './css/pdf.css'
 
 /* eslint react/no-danger: 0 */
 class Preview extends Component {

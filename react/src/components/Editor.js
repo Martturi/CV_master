@@ -40,22 +40,6 @@ class Editor extends Component {
     )
   }
 
-
-  fetchPDF() {
-    fetch(`api/users/${this.props.username}/cvs/${this.props.cvName}/pdf`)
-      .then(res => res.blob())
-      .then((blob) => {
-        const file = new File([blob], `${this.props.username}_${this.props.cvName}.pdf`, { type: 'application/pdf' })
-        const a = document.createElement('a')
-        a.href = URL.createObjectURL(file)
-        a.download = `${this.props.username}_${this.props.cvName}.pdf`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-      })
-      .catch(err => console.log(err))
-  }
-
   render() {
     return (
       <div>
@@ -65,7 +49,7 @@ class Editor extends Component {
         <div id="buttons">
           <EditorButtonGroup
             saveCV={() => this.saveCV()}
-            fetchPDF={() => this.fetchPDF()}
+            fetchPDF={() => this.props.fetchPDF()}
             saveStatus={this.state.saveStatus}
             goBack={this.props.goBack}
           />

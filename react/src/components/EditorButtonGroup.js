@@ -5,16 +5,21 @@ import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup
 class EditorButtonGroup extends Component {
   constructor(props) {
     super(props)
-    this.toggle = this.toggle.bind(this)
     this.state = {
       dropdownOpen: false,
     }
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     })
+  }
+
+  // The content gets saved automatically when it's downloaded.
+  saveAndExport = () => {
+    this.props.saveCV()
+    this.props.fetchPDF()
   }
 
 
@@ -29,7 +34,7 @@ class EditorButtonGroup extends Component {
               Export
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={this.props.fetchPDF}>Download as PDF</DropdownItem>
+              <DropdownItem onClick={this.saveAndExport}>Download as PDF</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>

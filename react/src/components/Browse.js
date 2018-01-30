@@ -112,7 +112,10 @@ class Browse extends Component {
           <NavBar />
         </header>
         <div id="buttons">
-          <SearchAndExport />
+          <SearchAndExport
+            fetchPDF={() => this.props.fetchPDF(this.state.userList[this.state.selectedUserIndex],
+              this.state.cvList[this.state.selectedCVIndex])}
+          />
         </div>
         <div id="namelist" className="browseSection">
           <NameList

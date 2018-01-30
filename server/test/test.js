@@ -65,7 +65,7 @@ describe('Save and load tests', () => {
         .post('/api/users/test2/cvs/test1')
         .send({ text: testText })
         .then((res) => {
-          res.should.have.status(200) // Server currently always returns 200
+          res.should.have.status(200)
           res.text.should.be.eql('Save succeeded.')
         })
     })

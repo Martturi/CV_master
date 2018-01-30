@@ -5,7 +5,7 @@ class NameList extends React.Component {
   render() {
     const listGroupItems = this.props.userList.map((username, index) => {
       const isActive = this.props.selectedUserIndex === index
-      return <ListGroupItem active={isActive} tag="a" href="#" action onClick={() => this.props.userClicked(index)}>{username}</ListGroupItem>
+      return <ListGroupItem key={username} active={isActive} tag="a" href="#" action onClick={() => this.props.userClicked(index)}>{username}</ListGroupItem>
     })
     return (
       <div>

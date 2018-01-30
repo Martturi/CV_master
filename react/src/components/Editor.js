@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import EditorButtonGroup from './EditorButtonGroup'
 import Sections from './Sections'
-import NavBar from './NavBar'
 import Preview from './Preview'
 import './css/Editor.css'
 import './css/NavBar.css'
@@ -25,6 +24,7 @@ class Editor extends Component {
   openCV() {
     loadCV(this.props.username, this.props.cvName)
       .then((res) => {
+        console.log(res)
         this.setState({ text: res })
       })
       .catch(err => console.log(err))
@@ -45,9 +45,6 @@ class Editor extends Component {
   render() {
     return (
       <div>
-        <header id="navbar">
-          <NavBar />
-        </header>
         <div id="buttons">
           <EditorButtonGroup
             saveCV={() => this.saveCV()}

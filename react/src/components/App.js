@@ -3,11 +3,13 @@ import './App.css'
 import Editor from './Editor'
 import Browse from './Browse'
 import { fetchPDF } from './Api'
+import NavBar from './NavBar'
 
 
 class App extends Component {
   state = {
     view: 'browse',
+    lastView: 'browse',
     selectedUser: '',
     selectedCV: '',
   }
@@ -29,7 +31,8 @@ class App extends Component {
   // goEdit function changes the view from Browse to Edit. It gets the selectedUser and selectedCV
   // from Browse view.
   goEdit(username, cvName) {
-    this.setState({ selectedUser: username, selectedCV: cvName, view: 'edit' })
+    this.setState({ selectedUser: username, selectedCV: cvName })
+    this.changeView('edit')
   }
 
   fetchPDF(username, cvName) {
@@ -48,22 +51,45 @@ class App extends Component {
       .catch(err => console.log(err))
   }
 
+  changeView = (page) => {
+    this.setState({
+      view: page,
+      lastView: this.state.view,
+    })
+  }
+
   render() {
-    if (this.state.view === 'browse') {
+    if (this.state.view === 'browse' || this.state.view === 'myCVs') {
       return (
-        <Browse
-          goEdit={(username, cvName) => this.goEdit(username, cvName)}
-          fetchPDF={(username, cvName) => this.fetchPDF(username, cvName)}
-        />
+        <div>
+          <header id="navbar">
+            <NavBar view={this.state.view} changeViewName={this.changeView} />
+          </header>
+          <Browse
+            view={this.state.view}
+            goEdit={(username, cvName) => this.goEdit(username, cvName)}
+            fetchPDF={(username, cvName) => this.fetchPDF(username, cvName)}
+          />
+        </div>
       )
     }
     return (
-      <Editor
-        username={this.state.selectedUser}
-        cvName={this.state.selectedCV}
-        goBack={() => this.goBack()}
-        fetchPDF={() => this.fetchPDF(this.state.selectedUser, this.state.selectedCV)}
-      />
+      <div>
+        <header id="navbar">
+          <NavBar view={this.state.view} changeViewName={this.changeView} />
+        </header>
+        <Editor
+          view={this.state.view}
+          username={this.state.selectedUser}
+          cvName={this.state.selectedCV}
+          goBack={() => {
+            const nextView = this.state.lastView === 'browse' ? 'browse' : 'myCVs'
+            this.changeView(nextView)
+          }}
+          fetchPDF={() => this.fetchPDF(this.state.selectedUser, this.state.selectedCV)}
+
+        />
+      </div>
     )
   }
 }

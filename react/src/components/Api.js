@@ -1,7 +1,7 @@
 
-export const saveCV = async (uid, text) => {
+export const saveCV = async (username, cvName, text) => {
   const response = await
-    fetch(`api/users/${uid}`, {
+    fetch(`api/users/${username}/cvs/${cvName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -12,10 +12,9 @@ export const saveCV = async (uid, text) => {
   return 'Save succeeded.'
 }
 
-export const loadCV = async (uid) => {
-  const response = await fetch(`api/users/${uid}`)
+export const loadCV = async (username, cvName) => {
+  const response = await fetch(`api/users/${username}/cvs/${cvName}`)
   const body = await response.text()
-  console.log(body)
   if (response.status !== 200) throw Error(body.message)
   return body
 }
@@ -32,15 +31,6 @@ export const loadCVList = async (username) => {
   const cvs = await response.json()
   if (response.status !== 200) throw Error(cvs.message)
   return cvs
-}
-
-// loadCV will later be replaced with this function:
-export const loadCVPreview = async (username, cvName) => {
-  const response = await fetch(`api/users/${username}/cvs/${cvName}`)
-  const body = await response.text()
-  console.log(body)
-  if (response.status !== 200) throw Error(body.message)
-  return body
 }
 
 export const copyCV = async (username, cvName) => {

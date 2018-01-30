@@ -33,7 +33,7 @@ class EditorButtonGroup extends Component {
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>
-        <div id="savestatus" className="statusMessage">{this.props.saveStatus}</div>
+        <div id="savestatus" className="statusMessage">{this.props.saveStatus.toString()}</div>
       </div>
     )
   }

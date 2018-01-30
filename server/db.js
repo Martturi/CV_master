@@ -7,7 +7,8 @@ const client = new Client({
 
 client.connect().catch(e => console.error('connection error', e.stack))
 
-const insert = (input, uid) => {
+// Old methods for cv_table
+/* const insert = (input, uid) => {
   const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT DO NOTHING;'
   return new Promise((resolve, reject) => {
     client.query(query, [input, uid], (err, result) => {
@@ -28,17 +29,6 @@ const load = (uid) => {
   })
 }
 
-const loadPreview = (username, cvName) => {
-  const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
-  return new Promise((resolve, reject) => {
-    client.query(query, [username, cvName])
-      .then((result) => {
-        if (result.rowCount > 0) resolve(result.rows[0].text)
-        else { resolve('New CV') }
-      }).catch((err) => { reject(err) })
-  })
-}
-
 const loadAll = () => {
   const query = 'SELECT id FROM cv_table;'
   return new Promise((resolve, reject) => {
@@ -51,12 +41,23 @@ const loadAll = () => {
       }
     })
   })
+} */
+
+const load = (username, cvName) => {
+  const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, cvName])
+      .then((result) => {
+        if (result.rowCount > 0) resolve(result.rows[0].text)
+        else { resolve('New CV') }
+      }).catch((err) => { reject(err) })
+  })
 }
 
-const save = (input, uid) => {
-  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT (id) DO UPDATE SET text = $1 WHERE cv_table.id = $2;'
+const save = (input, username, cvName) => {
+  const query = 'INSERT INTO cvs VALUES ($2, $3, $1) ON CONFLICT (username, cv_name) DO UPDATE SET text = $1'
   return new Promise((resolve, reject) => {
-    client.query(query, [input, uid])
+    client.query(query, [input, username, cvName])
       .then(() => { resolve('Save succeeded.') })
       .catch((err) => { reject(err) })
   })
@@ -114,5 +115,5 @@ const deleteCV = (username, cvName) => {
 }
 
 module.exports = {
-  load, loadAll, save, insert, clear, loadUserList, loadCVList, loadPreview, copy, deleteCV,
+  load, save, clear, loadUserList, loadCVList, copy, deleteCV,
 }

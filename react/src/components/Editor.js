@@ -3,25 +3,19 @@ import EditorButtonGroup from './EditorButtonGroup'
 import Sections from './Sections'
 import NavBar from './NavBar'
 import Preview from './Preview'
-import './Editor.css'
-import './NavBar.css'
+import './css/Editor.css'
+import './css/NavBar.css'
 import { saveCV, loadCV } from './Api'
 
 
 class Editor extends Component {
   state = {
-    uid: '0',
     text: '',
     saveStatus: '',
   }
 
   componentDidMount() {
     this.openCV()
-    this.render()
-  }
-
-  updateUID(newUid) {
-    this.setState({ uid: newUid })
   }
 
   updateText(text) {
@@ -29,7 +23,7 @@ class Editor extends Component {
   }
 
   openCV() {
-    loadCV(this.state.uid)
+    loadCV(this.props.username, this.props.cvName)
       .then((res) => {
         this.setState({ text: res })
       })
@@ -37,7 +31,7 @@ class Editor extends Component {
   }
 
   saveCV() {
-    saveCV(this.state.uid, this.state.text)
+    saveCV(this.props.username, this.props.cvName, this.state.text)
       .then(res => this.setState({ saveStatus: res }))
       .catch(rej => this.setState({ saveStatus: rej }))
     setTimeout(
@@ -48,13 +42,13 @@ class Editor extends Component {
 
 
   fetchPDF() {
-    fetch(`api/users/${this.state.uid}/pdf`)
+    fetch(`api/users/${this.props.username}/cvs/${this.props.cvName}/pdf`)
       .then(res => res.blob())
       .then((blob) => {
-        const file = new File([blob], `${this.state.uid}.pdf`, { type: 'application/pdf' })
+        const file = new File([blob], `${this.props.username}_${this.props.cvName}.pdf`, { type: 'application/pdf' })
         const a = document.createElement('a')
         a.href = URL.createObjectURL(file)
-        a.download = `${this.state.uid}.pdf`
+        a.download = `${this.props.username}_${this.props.cvName}.pdf`
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)

@@ -1,57 +1,49 @@
 import React, { Component } from 'react'
 import './App.css'
-import { loadCV } from './Api'
 import Editor from './Editor'
 import Browse from './Browse'
 
 
 class App extends Component {
   state = {
-    browserView: false,
-    uid: '0',
-    text: '',
+    view: 'browse',
+    selectedUser: '',
+    selectedCV: '',
   }
 
-  componentDidMount() {
+  /* componentDidMount() {
     this.openCV()
-    this.render()
   }
 
   updateUID(newUid) {
     this.setState({ uid: newUid })
-  }
+  } */
 
-  updateText(text) {
-    this.setState({ text })
-  }
-
+  // goBack changes the view back to Browse. Given as a prop to Editor.
+  // TODO: goBack leads back to previously selected user, not user indexed 0.
   goBack() {
-    this.setState({ browserView: true })
+    this.setState({ view: 'browse' })
   }
 
-  goEdit() {
-    this.setState({ browserView: false })
-  }
-
-  openCV() {
-    loadCV(this.state.uid)
-      .then((res) => {
-        this.setState({ text: res })
-      })
-      .catch(err => console.log(err))
+  // goEdit function changes the view from Browse to Edit. It gets the selectedUser and selectedCV
+  // from Browse view.
+  goEdit(username, cvName) {
+    this.setState({ selectedUser: username, selectedCV: cvName, view: 'edit' })
   }
 
   render() {
-    if (this.state.browserView) {
+    if (this.state.view === 'browse') {
       return (
         <Browse
-          goEdit={() => this.goEdit()}
+          goEdit={(username, cvName) => this.goEdit(username, cvName)}
         />
       )
     }
     return (
       <Editor
         goBack={() => this.goBack()}
+        username={this.state.selectedUser}
+        cvName={this.state.selectedCV}
       />
     )
   }

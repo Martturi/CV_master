@@ -33,7 +33,6 @@ class SearchAndExport extends Component {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>Download as PDF</DropdownItem>
-              <DropdownItem>Share via email</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>

@@ -63,3 +63,13 @@ export const renameCV = async (username, cvName, newCVName) => {
   if (response.status !== 200) throw Error(body.message)
   return body
 }
+
+export const fetchPDF = async (username, cvName) => {
+  const response = await fetch(`api/users/${username}/cvs/${cvName}/pdf`, {
+    headers: {
+      'Content-Type': 'application/pdf',
+    },
+  })
+  if (response.status !== 200) throw Error(`error ${response}`)
+  return response
+}

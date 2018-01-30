@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Editor from './Editor'
 import Browse from './Browse'
+import { fetchPDF } from './Api'
 
 
 class App extends Component {
@@ -33,7 +34,7 @@ class App extends Component {
 
   fetchPDF(username, cvName) {
     this.setState({ selectedUser: username, selectedCV: cvName })
-    fetch(`api/users/${username}/cvs/${cvName}/pdf`)
+    fetchPDF(username, cvName)
       .then(res => res.blob())
       .then((blob) => {
         const file = new File([blob], `${username}_${cvName}.pdf`, { type: 'application/pdf' })

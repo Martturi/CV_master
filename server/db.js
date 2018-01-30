@@ -95,6 +95,15 @@ const loadCVList = (username) => {
   })
 }
 
+const rename = (username, oldCVName, newCVName) => {
+  const query = 'SELECT rename_cv($1, $2, $3)'
+  return new Promise((resolve, reject) => {
+    client.query(query, [username, oldCVName, newCVName])
+      .then((result) => { resolve(result.rows[0].rename_cv) })
+      .catch((err) => { reject(err) })
+  })
+}
+
 const copy = (username, cvName) => {
   const query = 'SELECT copy_cv($1, $2);'
   return new Promise((resolve, reject) => {
@@ -115,5 +124,5 @@ const deleteCV = (username, cvName) => {
 }
 
 module.exports = {
-  load, save, clear, loadUserList, loadCVList, copy, deleteCV,
+  load, save, clear, loadUserList, loadCVList, copy, deleteCV, rename,
 }

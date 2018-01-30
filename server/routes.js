@@ -58,6 +58,19 @@ route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
     })
 })
 
+route.put('/api/users/:username/cvs/:cvName', (request, response) => {
+  const { username } = request.params || 'username'
+  const { cvName } = request.params || 'cvName'
+  const newCVName = request.body.newCVName || 'newCVName'
+  console.log(`Renaming cv: (username, cv_name) = ("${username}", "${cvName}") to cv_name = "${newCVName}"`)
+  db.rename(username, cvName, newCVName)
+    .then((res) => { response.send(res) })
+    .catch((err) => {
+      console.error(err)
+      response.status(500).send('Database error')
+    })
+})
+
 route.get('/api/users', (request, response) => {
   console.log('Loading a list of all users')
   db.loadUserList()

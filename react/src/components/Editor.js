@@ -30,9 +30,11 @@ class Editor extends Component {
       .catch(err => console.log(err))
   }
 
-  saveCV() {
-    saveCV(this.props.username, this.props.cvName, this.state.text)
-      .then(res => this.setState({ saveStatus: res }))
+  async saveCV() {
+    await saveCV(this.props.username, this.props.cvName, this.state.text)
+      .then((res) => {
+        this.setState({ saveStatus: res })
+      })
       .catch(rej => this.setState({ saveStatus: rej }))
     setTimeout(
       () => { this.setState({ saveStatus: '' }) },

@@ -19,8 +19,8 @@ class EditorButtonGroup extends Component {
   }
 
   // The content gets saved automatically when it's downloaded.
-  saveAndExport() {
-    this.props.saveCV()
+  async saveAndExport() {
+    await this.props.saveCV()
     this.props.fetchPDF()
   }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import SearchAndExport from './SearchAndExport'
-import NavBar from './NavBar'
 import NameList from './NameList'
 import CVList from './CVList'
 import './css/Browse.css'
@@ -24,7 +23,7 @@ class Browse extends Component {
     this.updateUserList()
   }
 
-  updateUserList() {
+  updateUserList = () => {
     const defaultUserIndex = 0
     loadUserList()
       .then((users) => {
@@ -106,11 +105,9 @@ class Browse extends Component {
   }
 
   render() {
+    const user = this.state.userList[0]
     return (
       <div>
-        <header id="navbar">
-          <NavBar />
-        </header>
         <div id="buttons">
           <SearchAndExport
             fetchPDF={() => this.props.fetchPDF(this.state.userList[this.state.selectedUserIndex],
@@ -119,7 +116,7 @@ class Browse extends Component {
         </div>
         <div id="namelist" className="browseSection">
           <NameList
-            userList={this.state.userList}
+            userList={this.props.view === 'browse' ? this.state.userList : [user]}
             selectedUserIndex={this.state.selectedUserIndex}
             userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />

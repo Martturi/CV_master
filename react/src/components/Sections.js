@@ -54,6 +54,7 @@ class Sections extends React.Component {
         <br /> */}
         {Object.keys(fields).map(i =>
           (<ListGroupCollapse
+            key={i}
             field={fields[i]}
             text={this.props.text}
             updateText={text => this.props.updateText(text)}

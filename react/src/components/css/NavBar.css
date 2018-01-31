@@ -8,24 +8,30 @@
 	padding-top: 20px;
 	padding-left: 10px;
 	border-bottom: 1px solid #242730;
-	font-size: 20px;
 	font-family: 'JungkaBold';
 }
 
-.nav-link {
+.btn-secondary {
+	background-color: #fff;
+	border-color: #fff;
 	color: #FC6054;
+	font-size: 20px;
 }
 
-.nav-link:hover {
+.btn-secondary:hover {
 	color: #ab463a;
+	background-color: #fff;
+	border-color: #fff;
 }
 
-.nav-pills .nav-link.active {
-	color: #FFFFFF;
+.btn-secondary:not([disabled]):not(.disabled).active {
 	background-color: #FC6054;
+	color: #FFFFFF;
+	border-color: #FC6054;
 }
 
-.nav-pills .nav-link.active:hover {
-	color: #FFFFFF;
+.btn-secondary:not([disabled]):not(.disabled).active:hover {
 	background-color: #ab463a;
+	color: #fff;
+	border-color: #ab463a;
 }

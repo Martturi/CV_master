@@ -29,7 +29,7 @@ class EditorButtonGroup extends Component {
     return (
       <div className="buttonheader" id="editor-buttonheader">
         <Button outline className="button" onClick={this.props.goBack}>Back</Button>
-        <ButtonGroup outline className="exportgroup">
+        <ButtonGroup outline="true" className="exportgroup">
           <Button outline className="button" onClick={this.props.saveCV}>Save</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">

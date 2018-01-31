@@ -7,7 +7,7 @@ class CVList extends React.Component {
     const listGroupItems = this.props.cvList.map((cvName, index) => {
       const isActive = this.props.selectedCVIndex === index
       return (
-        <ListGroupItem active={isActive} tag="a" href="#" action onClick={() => this.props.cvClicked(index)}>
+        <ListGroupItem key={cvName} active={isActive} tag="a" href="#" action onClick={() => this.props.cvClicked(index)}>
           <div className="cvinfo">
             <ListGroupItemHeading>{cvName}</ListGroupItemHeading>
             <ListGroupItemText className="list-item">

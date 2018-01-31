@@ -36,6 +36,7 @@
 .show > .btn-outline-secondary.dropdown-toggle {
   background-color: #242730;
   border-color: #242730;
+  color: #FFFFFF;
 }
 
 .dropdown-menu {

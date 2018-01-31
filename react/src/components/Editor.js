@@ -30,30 +30,16 @@ class Editor extends Component {
       .catch(err => console.log(err))
   }
 
-  saveCV() {
-    saveCV(this.props.username, this.props.cvName, this.state.text)
-      .then(res => this.setState({ saveStatus: res }))
+  async saveCV() {
+    await saveCV(this.props.username, this.props.cvName, this.state.text)
+      .then((res) => {
+        this.setState({ saveStatus: res })
+      })
       .catch(rej => this.setState({ saveStatus: rej }))
     setTimeout(
       () => { this.setState({ saveStatus: '' }) },
       3000,
     )
-  }
-
-
-  fetchPDF() {
-    fetch(`api/users/${this.props.username}/cvs/${this.props.cvName}/pdf`)
-      .then(res => res.blob())
-      .then((blob) => {
-        const file = new File([blob], `${this.props.username}_${this.props.cvName}.pdf`, { type: 'application/pdf' })
-        const a = document.createElement('a')
-        a.href = URL.createObjectURL(file)
-        a.download = `${this.props.username}_${this.props.cvName}.pdf`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-      })
-      .catch(err => console.log(err))
   }
 
   render() {
@@ -65,7 +51,7 @@ class Editor extends Component {
         <div id="buttons">
           <EditorButtonGroup
             saveCV={() => this.saveCV()}
-            fetchPDF={() => this.fetchPDF()}
+            fetchPDF={() => this.props.fetchPDF()}
             saveStatus={this.state.saveStatus}
             goBack={this.props.goBack}
           />

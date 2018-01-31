@@ -32,7 +32,7 @@ class SearchAndExport extends Component {
               Export
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>Download as PDF</DropdownItem>
+              <DropdownItem onClick={this.props.fetchPDF}>Download as PDF</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Editor from './Editor'
 import Browse from './Browse'
+import { fetchPDF } from './Api'
 
 
 class App extends Component {
@@ -20,7 +21,7 @@ class App extends Component {
   } */
 
   // goBack changes the view back to Browse. Given as a prop to Editor.
-  // TODO: goBack leads back to previously selected user, not user indexed 0.
+  // TODO: goBack should lead back to previously selected user, not user indexed 0.
   goBack() {
     this.setState({ view: 'browse' })
   }
@@ -31,19 +32,37 @@ class App extends Component {
     this.setState({ selectedUser: username, selectedCV: cvName, view: 'edit' })
   }
 
+  fetchPDF(username, cvName) {
+    this.setState({ selectedUser: username, selectedCV: cvName })
+    fetchPDF(username, cvName)
+      .then(res => res.blob())
+      .then((blob) => {
+        const file = new File([blob], `${username}_${cvName}.pdf`, { type: 'application/pdf' })
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(file)
+        a.download = `${username}_${cvName}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+      })
+      .catch(err => console.log(err))
+  }
+
   render() {
     if (this.state.view === 'browse') {
       return (
         <Browse
           goEdit={(username, cvName) => this.goEdit(username, cvName)}
+          fetchPDF={(username, cvName) => this.fetchPDF(username, cvName)}
         />
       )
     }
     return (
       <Editor
-        goBack={() => this.goBack()}
         username={this.state.selectedUser}
         cvName={this.state.selectedCV}
+        goBack={() => this.goBack()}
+        fetchPDF={() => this.fetchPDF(this.state.selectedUser, this.state.selectedCV)}
       />
     )
   }

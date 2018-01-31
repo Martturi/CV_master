@@ -22,12 +22,6 @@ class App extends Component {
     this.setState({ uid: newUid })
   } */
 
-  // goBack changes the view back to Browse. Given as a prop to Editor.
-  // TODO: goBack should lead back to previously selected user, not user indexed 0.
-  goBack() {
-    this.setState({ view: 'browse' })
-  }
-
   // goEdit function changes the view from Browse to Edit. It gets the selectedUser and selectedCV
   // from Browse view.
   goEdit(username, cvName) {

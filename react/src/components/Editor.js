@@ -24,7 +24,6 @@ class Editor extends Component {
   openCV() {
     loadCV(this.props.username, this.props.cvName)
       .then((res) => {
-        console.log(res)
         this.setState({ text: res })
       })
       .catch(err => console.log(err))

@@ -131,8 +131,8 @@ class Browse extends Component {
             cvList={this.state.cvList}
             selectedCVIndex={this.state.selectedCVIndex}
             cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
-            goEdit={() => this.props.goEdit(this.state.userList[this.state.selectedUserIndex],
-              this.state.cvList[this.state.selectedCVIndex])}
+            goEdit={cvName => this.props.goEdit(this.state.userList[this.state.selectedUserIndex],
+              cvName)}
             renameConfirmed={(cvName, newCVName) => this.renameConfirmed(cvName, newCVName)}
             copyClicked={cvName => this.copyClicked(cvName)}
             deleteConfirmed={cvName => this.deleteConfirmed(cvName)}

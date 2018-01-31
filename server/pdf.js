@@ -28,3 +28,8 @@ const servePDF = (text, response) => {
   })
 }
 module.exports = { getHTML, servePDF }
+
+/*
+FIXME header and footer only show on first and last page, respectively.
+FIXME page breaks on PDF
+ */

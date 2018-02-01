@@ -148,27 +148,24 @@ describe('Save and load tests', () => {
         })
     })
 
-    const renameSucceededText = 'Rename succeeded'
     const newName = 'New name'
-    it(`it should return '${renameSucceededText}'`, () => {
+    it('it should update one row when renaming an existing CV and not violating unique constraint', () => {
       return chai.request(server)
         .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
         .send({ newCVName: newName })
         .then((result) => {
           result.should.have.status(200)
-          const returnedText = result.text
-          returnedText.should.be.eql(renameSucceededText)
+          result.text.should.be.eql('1')
         })
     })
 
-    it(`it should not return '${renameSucceededText} for a non-existing CV name'`, () => {
+    it('it should update zero rows when renaming a non-existing CV name', () => {
       return chai.request(server)
         .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
         .send({ newCVName: newName })
         .then((result) => {
           result.should.have.status(200)
-          const returnedText = result.text
-          returnedText.should.not.equal(renameSucceededText)
+          result.text.should.be.eql('0')
         })
     })
   })

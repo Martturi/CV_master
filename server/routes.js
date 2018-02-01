@@ -24,7 +24,10 @@ const handleDBRequest = (dbFunction, request, response) => {
               `${params.toString() || 'null'}`)
   dbFunction(params)
     .then((res) => { response.send(res) })
-    .catch(() => response.status(500).send('Database error'))
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send('Database error')
+    })
 }
 
 // Post request for saving CV with username and CV name

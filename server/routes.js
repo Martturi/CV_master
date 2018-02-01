@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 route.post('/api/users/:username/cvs/:cvName', (request, response) => {
   const { username } = request.params || 'username'
   const { cvName } = request.params || 'cvName'
-  const text = request.body.text || null
+  const text = request.body.text || ''
   console.log(`Saving cv: (username, cv_name) = ("${username}", "${cvName}")`)
   db.save(username, cvName, text)
     .then((val) => { response.send(val) })

@@ -8,10 +8,6 @@ class Preview extends Component {
     html: '',
   }
 
-  componentDidMount() {
-    this.updatePreview()
-  }
-
   componentWillReceiveProps(props) {
     this.updatePreview(props.text)
   }

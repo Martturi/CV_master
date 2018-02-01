@@ -55,9 +55,15 @@ const copy = (params) => {
 }
 
 const deleteCV = (params) => {
-  const query = 'SELECT delete_cv($1, $2);'
-  return client.query(query, params)
-    .then(result => result.rows[0].delete_cv)
+  return loadCVList([params[0]])
+    .then((cvs) => {
+      if (cvs.length >= 2) {
+        const query = 'DELETE FROM cvs WHERE username = $1 AND cv_name = $2;'
+        return client.query(query, params)
+          .then(result => result.rowCount.toString())
+      }
+      return Promise.resolve('0')
+    })
 }
 
 module.exports = {

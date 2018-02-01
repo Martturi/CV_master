@@ -33,17 +33,3 @@ BEGIN
     RETURN newCVName;
 END;
 $$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION delete_cv(uname TEXT, cvName TEXT)
-RETURNS TEXT AS $$
-DECLARE
-    cvCount INTEGER := (SELECT count(*) FROM cvs WHERE username = uname);
-BEGIN
-    IF (cvCount >= 2) THEN
-      DELETE FROM cvs WHERE username = uname AND cv_name = cvName;
-      RETURN 'Delete accepted';
-    ELSE
-      RETURN 'Delete denied';
-    END IF;
-END;
-$$ LANGUAGE plpgsql;

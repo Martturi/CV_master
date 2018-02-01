@@ -42,9 +42,10 @@ const loadCVList = (params) => {
 }
 
 const rename = (params) => {
-  const query = 'SELECT rename_cv($1, $2, $3);'
+  const query = 'UPDATE cvs SET cv_name = $3 WHERE username = $1 AND ' +
+                'cv_name = $2;'
   return client.query(query, params)
-    .then(result => result.rows[0].rename_cv)
+    .then(result => result.rowCount.toString())
 }
 
 const copy = (params) => {

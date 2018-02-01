@@ -7,16 +7,16 @@ const client = new Client({
 
 client.connect().catch(e => console.error('connection error', e.stack))
 
-const load = (username, cvName) => {
+const load = (params) => {
   const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
-  return client.query(query, [username, cvName])
+  return client.query(query, params)
     .then(result => (result.rows[0] ? result.rows[0].text : 'New CV'))
 }
 
-const save = (username, cvName, text) => {
+const save = (params) => {
   const query = 'INSERT INTO cvs VALUES ($1, $2, $3) ON CONFLICT (username, ' +
                 'cv_name) DO UPDATE SET text = $3;'
-  return client.query(query, [username, cvName, text])
+  return client.query(query, params)
     .then(() => 'Save succeeded.')
 }
 
@@ -32,30 +32,30 @@ const clear = () => {
 const loadUserList = () => {
   const query = 'SELECT DISTINCT username FROM cvs ORDER BY username;'
   return client.query(query)
-    .then(result => result.rows)
+    .then(result => result.rows.map(row => row.username))
 }
 
-const loadCVList = (username) => {
+const loadCVList = (params) => {
   const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
-  return client.query(query, [username])
-    .then(result => result.rows)
+  return client.query(query, params)
+    .then(result => result.rows.map(row => row.cv_name))
 }
 
-const rename = (username, oldCVName, newCVName) => {
+const rename = (params) => {
   const query = 'SELECT rename_cv($1, $2, $3);'
-  return client.query(query, [username, oldCVName, newCVName])
+  return client.query(query, params)
     .then(result => result.rows[0].rename_cv)
 }
 
-const copy = (username, cvName) => {
+const copy = (params) => {
   const query = 'SELECT copy_cv($1, $2);'
-  return client.query(query, [username, cvName])
+  return client.query(query, params)
     .then(result => result.rows[0].copy_cv)
 }
 
-const deleteCV = (username, cvName) => {
+const deleteCV = (params) => {
   const query = 'SELECT delete_cv($1, $2);'
-  return client.query(query, [username, cvName])
+  return client.query(query, params)
     .then(result => result.rows[0].delete_cv)
 }
 

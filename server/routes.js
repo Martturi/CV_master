@@ -16,39 +16,35 @@ if (process.env.NODE_ENV === 'production') {
   route.use(express.static(path.resolve(__dirname, '../react/build')))
 }
 
-// Post request for saving CV with username and CV name
-route.post('/api/users/:username/cvs/:cvName', (request, response) => {
-  const { username } = request.params || 'username'
-  const { cvName } = request.params || 'cvName'
-  const text = request.body.text || ''
-  console.log(`Saving cv: (username, cv_name) = ("${username}", "${cvName}")`)
-  db.save(username, cvName, text)
-    .then((val) => { response.send(val) })
+const handleDBRequest = (dbFunction, request, response) => {
+  const params = Object.values(request.params || { })
+  const body = Object.values(request.body || { })
+  body.forEach(param => params.push(param))
+  console.log(`Performing db operation "${dbFunction.name}" with params ` +
+              `${params.toString() || 'null'}`)
+  dbFunction(params)
+    .then((res) => { response.send(res) })
     .catch((err) => {
-      console.error(err)
+      console.log(err)
       response.status(500).send('Database error')
     })
+}
+
+// Post request for saving CV with username and CV name
+route.post('/api/users/:username/cvs/:cvName', (request, response) => {
+  handleDBRequest(db.save, request, response)
 })
 
 // Get request for loading CV with username and CV name
 route.get('/api/users/:username/cvs/:cvName', (request, response) => {
-  const { username } = request.params || 0
-  const { cvName } = request.params || 0
-  console.log(`Loading cv: (username, cv_name) = ("${username}", "${cvName}")`)
-  db.load(username, cvName)
-    .then((res) => { console.log(`result: ${res.substring(0, 50)}`); response.send(res) })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
+  handleDBRequest(db.load, request, response)
 })
 
 // Get request for loading pdf with username and CV name
 route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
-  const { username } = request.params || 0
-  const { cvName } = request.params || 0
-  console.log(`Loading pdf for cv ${cvName} with username ${username}`)
-  db.load(username, cvName)
+  const params = Object.values(request.params)
+  console.log(`Loading pdf for cv ${params[0]} with username ${params[1]}`)
+  db.load(params)
     .then((res) => {
       pdf.servePDF(res, response)
     })
@@ -59,67 +55,23 @@ route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
 })
 
 route.put('/api/users/:username/cvs/:cvName', (request, response) => {
-  const { username } = request.params || 'username'
-  const { cvName } = request.params || 'cvName'
-  const newCVName = request.body.newCVName || 'newCVName'
-  console.log(`Renaming cv: (username, cv_name) = ("${username}", "${cvName}") to cv_name = "${newCVName}"`)
-  db.rename(username, cvName, newCVName)
-    .then((res) => { response.send(res) })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
+  handleDBRequest(db.rename, request, response)
 })
 
 route.get('/api/users', (request, response) => {
-  console.log('Loading a list of all users')
-  db.loadUserList()
-    .then((usernames) => {
-      const usernameArray = usernames.map(row => row.username)
-      response.send(usernameArray)
-    })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
+  handleDBRequest(db.loadUserList, request, response)
 })
 
 route.get('/api/users/:username/cvs', (request, response) => {
-  const { username } = request.params || 'user'
-  console.log(`Loading CV names of user "${username}"`)
-  db.loadCVList(username)
-    .then((res) => {
-      const cvs = res.map(row => row.cv_name)
-      response.send(cvs)
-    })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
+  handleDBRequest(db.loadCVList, request, response)
 })
 
 route.post('/api/users/:username/cvs/:cvName/copy', (request, response) => {
-  const { username } = request.params || 'username'
-  const { cvName } = request.params || 'cvName'
-  console.log(`Copying CV: (username, cvName) = ("${username}", "${cvName}")`)
-  db.copy(username, cvName)
-    .then((val) => { response.send(val) })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
+  handleDBRequest(db.copy, request, response)
 })
 
 route.delete('/api/users/:username/cvs/:cvName', (request, response) => {
-  const { username } = request.params || 'user'
-  const { cvName } = request.params || '0'
-  console.log(`Deleting CV: (username, cv_name) = ("${username}", "${cvName}")`)
-  db.deleteCV(username, cvName)
-    .then((val) => { response.send(val) })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
+  handleDBRequest(db.deleteCV, request, response)
 })
 
 // Sends a preview based on the text from the request.

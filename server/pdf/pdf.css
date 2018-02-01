@@ -38,6 +38,7 @@ header > .confidential{
   padding-bottom: 20px;
   padding-top: 20px;
   width: 595px;
+  min-height: 350px;
 }
 
 .face {

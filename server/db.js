@@ -49,9 +49,23 @@ const rename = (params) => {
 }
 
 const copy = (params) => {
-  const query = 'SELECT copy_cv($1, $2);'
-  return client.query(query, params)
-    .then(result => result.rows[0].copy_cv)
+  return load(params)
+    .then((cvContents) => {
+      const oldCVName = params.pop()
+      return loadCVList(params)
+        .then((cvs) => {
+          let n = 1
+          let newCVName
+          do {
+            newCVName = `${oldCVName}(${n})`
+            n += 1
+          } while (cvs.includes(newCVName))
+          params.push(newCVName)
+          params.push(cvContents)
+          return save(params)
+            .then(() => newCVName)
+        })
+    })
 }
 
 const deleteCV = (params) => {

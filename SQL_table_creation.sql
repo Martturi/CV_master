@@ -17,20 +17,6 @@ INSERT INTO   "public"."cvs"("username", "cv_name", "text")   VALUES('Heikki Hei
 INSERT INTO   "public"."cvs"("username", "cv_name", "text")   VALUES('Matti Meikalainen', 'CV 20.09.2015', 'DEFAULT CV') RETURNING "username", "cv_name", "text";
 INSERT INTO   "public"."cvs"("username", "cv_name", "text") VALUES('Matti Meikalainen', 'CV final version', 'I know how to code') RETURNING "username", "cv_name", "text";
 
-CREATE OR REPLACE FUNCTION rename_cv(uname TEXT, cvName TEXT, newCVName TEXT)
-RETURNS TEXT AS $$
-DECLARE
-    cvExists BOOLEAN := (EXISTS (SELECT * FROM cvs WHERE username = uname AND cv_name = cvName));
-BEGIN
-    IF (cvExists) THEN
-      UPDATE cvs SET cv_name = newCVName WHERE username = uname AND cv_name = cvName;
-      RETURN 'Rename succeeded';
-    ELSE
-      RETURN concat('Rename failed - CV ', cvName, ' does not exist');
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE OR REPLACE FUNCTION copy_cv(uname TEXT, cvName TEXT)
 RETURNS TEXT AS $$
 DECLARE
@@ -45,19 +31,5 @@ BEGIN
     END LOOP;
     INSERT INTO cvs VALUES (uname, newCVName, cvContents);
     RETURN newCVName;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION delete_cv(uname TEXT, cvName TEXT)
-RETURNS TEXT AS $$
-DECLARE
-    cvCount INTEGER := (SELECT count(*) FROM cvs WHERE username = uname);
-BEGIN
-    IF (cvCount >= 2) THEN
-      DELETE FROM cvs WHERE username = uname AND cv_name = cvName;
-      RETURN 'Delete accepted';
-    ELSE
-      RETURN 'Delete denied';
-    END IF;
 END;
 $$ LANGUAGE plpgsql;

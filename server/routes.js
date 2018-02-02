@@ -17,11 +17,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const handleDBRequest = (dbFunction, request, response) => {
-  const params = Object.values(request.params || { })
-  const body = Object.values(request.body || { })
-  body.forEach(param => params.push(param))
-  console.log(`Performing db operation "${dbFunction.name}" with params ` +
-              `${params.toString() || 'null'}`)
+  // make a new, empty object and fill it with the contents of request.params and request.body:
+  const params = Object.assign({}, request.params, request.body)
+  console.log(`Performing db operation "${dbFunction.name}" with params (next line):`)
+  console.log(params)
   dbFunction(params)
     .then((res) => { response.send(res) })
     .catch((err) => {
@@ -42,9 +41,11 @@ route.get('/api/users/:username/cvs/:cvName', (request, response) => {
 
 // Get request for loading pdf with username and CV name
 route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
-  const params = Object.values(request.params)
-  console.log(`Loading pdf for cv ${params[0]} with username ${params[1]}`)
-  db.load(params)
+  const params = Object.assign({}, request.params)
+  const f = db.load
+  console.log(`Performing db operation "${f.name}" with params (next line):`)
+  console.log(params)
+  f(params)
     .then((res) => {
       pdf.servePDF(res, response)
     })

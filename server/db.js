@@ -7,16 +7,16 @@ const client = new Client({
 
 client.connect().catch(e => console.error('connection error', e.stack))
 
-const load = (params) => {
+const load = ({ username, cvName }) => {
   const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
-  return client.query(query, params)
+  return client.query(query, [username, cvName])
     .then(result => (result.rows[0] ? result.rows[0].text : 'New CV'))
 }
 
-const save = (params) => {
+const save = ({ username, cvName, text }) => {
   const query = 'INSERT INTO cvs VALUES ($1, $2, $3) ON CONFLICT (username, ' +
                 'cv_name) DO UPDATE SET text = $3;'
-  return client.query(query, params)
+  return client.query(query, [username, cvName, text])
     .then(() => 'Save succeeded.')
 }
 
@@ -35,45 +35,43 @@ const loadUserList = () => {
     .then(result => result.rows.map(row => row.username))
 }
 
-const loadCVList = (params) => {
+const loadCVList = ({ username }) => {
   const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
-  return client.query(query, params)
+  return client.query(query, [username])
     .then(result => result.rows.map(row => row.cv_name))
 }
 
-const rename = (params) => {
+const rename = ({ username, cvName, newCVName }) => {
   const query = 'UPDATE cvs SET cv_name = $3 WHERE username = $1 AND ' +
                 'cv_name = $2;'
-  return client.query(query, params)
+  return client.query(query, [username, cvName, newCVName])
     .then(result => result.rowCount.toString())
 }
 
-const copy = (params) => {
-  return load(params)
-    .then((cvContents) => {
-      const oldCVName = params.pop()
-      return loadCVList(params)
+const copy = ({ username, cvName }) => {
+  return load({ username, cvName })
+    .then((text) => {
+      return loadCVList({ username })
         .then((cvs) => {
           let n = 1
           let newCVName
           do {
-            newCVName = `${oldCVName}(${n})`
+            newCVName = `${cvName}(${n})`
             n += 1
           } while (cvs.includes(newCVName))
-          params.push(newCVName)
-          params.push(cvContents)
-          return save(params)
+          const saveArray = { username, text, cvName: newCVName }
+          return save(saveArray)
             .then(() => newCVName)
         })
     })
 }
 
-const deleteCV = (params) => {
-  return loadCVList([params[0]])
+const deleteCV = ({ username, cvName }) => {
+  return loadCVList({ username })
     .then((cvs) => {
       if (cvs.length >= 2) {
         const query = 'DELETE FROM cvs WHERE username = $1 AND cv_name = $2;'
-        return client.query(query, params)
+        return client.query(query, [username, cvName])
           .then(result => result.rowCount.toString())
       }
       return Promise.resolve('0')

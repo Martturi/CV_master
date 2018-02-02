@@ -7,120 +7,77 @@ const client = new Client({
 
 client.connect().catch(e => console.error('connection error', e.stack))
 
-// Old methods for cv_table
-/* const insert = (input, uid) => {
-  const query = 'INSERT INTO cv_table VALUES ($2, $1) ON CONFLICT DO NOTHING;'
-  return new Promise((resolve, reject) => {
-    client.query(query, [input, uid], (err, result) => {
-      if (err) reject(err)
-      else if (result) resolve('Created new CV')
-    })
-  })
-}
-
-const load = (uid) => {
-  const query = 'SELECT text FROM cv_table WHERE id = $1;'
-  return new Promise((resolve, reject) => {
-    client.query(query, [uid])
-      .then((result) => {
-        if (result.rowCount > 0) resolve(result.rows[0].text)
-        else { resolve('New CV') }
-      }).catch((err) => { reject(err) })
-  })
-}
-
-const loadAll = () => {
-  const query = 'SELECT id FROM cv_table;'
-  return new Promise((resolve, reject) => {
-    client.query(query, (err, result) => {
-      if (err) reject(err)
-      try {
-        resolve(result.rows)
-      } catch (exeption) {
-        reject(exeption)
-      }
-    })
-  })
-} */
-
-const load = (username, cvName) => {
+const load = (params) => {
   const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
-  return new Promise((resolve, reject) => {
-    client.query(query, [username, cvName])
-      .then((result) => {
-        if (result.rowCount > 0) resolve(result.rows[0].text)
-        else { resolve('New CV') }
-      }).catch((err) => { reject(err) })
-  })
+  return client.query(query, params)
+    .then(result => (result.rows[0] ? result.rows[0].text : 'New CV'))
 }
 
-const save = (input, username, cvName) => {
-  const query = 'INSERT INTO cvs VALUES ($2, $3, $1) ON CONFLICT (username, cv_name) DO UPDATE SET text = $1'
-  return new Promise((resolve, reject) => {
-    client.query(query, [input, username, cvName])
-      .then(() => { resolve('Save succeeded.') })
-      .catch((err) => { reject(err) })
-  })
+const save = (params) => {
+  const query = 'INSERT INTO cvs VALUES ($1, $2, $3) ON CONFLICT (username, ' +
+                'cv_name) DO UPDATE SET text = $3;'
+  return client.query(query, params)
+    .then(() => 'Save succeeded.')
 }
 
 const clear = () => {
   if (config.env !== 'production') {
     const query = 'TRUNCATE TABLE cv_table; TRUNCATE TABLE cvs;'
-    return new Promise((resolve, reject) => {
-      client.query(query)
-        .then(() => { resolve('Clear succeeded.') })
-        .catch((err) => { reject(err) })
-    })
+    return client.query(query)
+      .then(() => 'Clear succeeded.')
   }
   return 'Not allowed!'
 }
 
 const loadUserList = () => {
   const query = 'SELECT DISTINCT username FROM cvs ORDER BY username;'
-  return new Promise((resolve, reject) => {
-    client.query(query)
-      .then((result) => {
-        resolve(result.rows)
-      }).catch((err) => { reject(err) })
-  })
+  return client.query(query)
+    .then(result => result.rows.map(row => row.username))
 }
 
-const loadCVList = (username) => {
+const loadCVList = (params) => {
   const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
-  return new Promise((resolve, reject) => {
-    client.query(query, [username])
-      .then((result) => {
-        resolve(result.rows)
-      }).catch((err) => { reject(err) })
-  })
+  return client.query(query, params)
+    .then(result => result.rows.map(row => row.cv_name))
 }
 
-const rename = (username, oldCVName, newCVName) => {
-  const query = 'SELECT rename_cv($1, $2, $3)'
-  return new Promise((resolve, reject) => {
-    client.query(query, [username, oldCVName, newCVName])
-      .then((result) => { resolve(result.rows[0].rename_cv) })
-      .catch((err) => { reject(err) })
-  })
+const rename = (params) => {
+  const query = 'UPDATE cvs SET cv_name = $3 WHERE username = $1 AND ' +
+                'cv_name = $2;'
+  return client.query(query, params)
+    .then(result => result.rowCount.toString())
 }
 
-const copy = (username, cvName) => {
-  const query = 'SELECT copy_cv($1, $2);'
-  return new Promise((resolve, reject) => {
-    client.query(query, [username, cvName])
-      .then((result) => {
-        resolve(result.rows[0].copy_cv)
-      }).catch((err) => { reject(err) })
-  })
+const copy = (params) => {
+  return load(params)
+    .then((cvContents) => {
+      const oldCVName = params.pop()
+      return loadCVList(params)
+        .then((cvs) => {
+          let n = 1
+          let newCVName
+          do {
+            newCVName = `${oldCVName}(${n})`
+            n += 1
+          } while (cvs.includes(newCVName))
+          params.push(newCVName)
+          params.push(cvContents)
+          return save(params)
+            .then(() => newCVName)
+        })
+    })
 }
 
-const deleteCV = (username, cvName) => {
-  const query = 'SELECT delete_cv($1, $2);'
-  return new Promise((resolve, reject) => {
-    client.query(query, [username, cvName])
-      .then((result) => { resolve(result.rows[0].delete_cv) })
-      .catch((err) => { reject(err) })
-  })
+const deleteCV = (params) => {
+  return loadCVList([params[0]])
+    .then((cvs) => {
+      if (cvs.length >= 2) {
+        const query = 'DELETE FROM cvs WHERE username = $1 AND cv_name = $2;'
+        return client.query(query, params)
+          .then(result => result.rowCount.toString())
+      }
+      return Promise.resolve('0')
+    })
 }
 
 module.exports = {

@@ -12,6 +12,7 @@ class Browse extends Component {
     super(props)
     this.state = {
       userList: [],
+      usernameList: [],
       selectedUserIndex: 0,
       cvList: [],
       selectedCVIndex: 0,
@@ -27,7 +28,7 @@ class Browse extends Component {
     const defaultUserIndex = 0
     loadUserList()
       .then((users) => {
-        this.setState({ userList: users })
+        this.setState({ userList: users, usernameList: users.map(user => user.username) })
         this.userClicked(users, defaultUserIndex)
       })
       .catch(err => console.log(err))
@@ -36,7 +37,7 @@ class Browse extends Component {
   userClicked(userList = this.state.userList, userIndex) {
     const defaultCVIndex = 0
     this.setState({ selectedUserIndex: userIndex })
-    const username = userList[userIndex]
+    const username = userList[userIndex].username
     loadCVList(username)
       .then((cvs) => {
         this.setState({ cvList: cvs })
@@ -45,7 +46,7 @@ class Browse extends Component {
       .catch(err => console.log(err))
   }
 
-  cvClicked(username = this.state.userList[this.state.selectedUserIndex],
+  cvClicked(username = this.state.usernameList[this.state.selectedUserIndex],
     cvList = this.state.cvList, cvIndex) {
     this.setState({ selectedCVIndex: cvIndex })
     loadCV(username, cvList[cvIndex])
@@ -56,7 +57,7 @@ class Browse extends Component {
   }
 
   renameConfirmed(cvName, newCVName) {
-    const username = this.state.userList[this.state.selectedUserIndex]
+    const username = this.state.usernameList[this.state.selectedUserIndex]
     console.log(`new cv name: ${newCVName}`)
     renameCV(username, cvName, newCVName)
       .then(() => {
@@ -72,7 +73,7 @@ class Browse extends Component {
   }
 
   copyClicked(cvName) {
-    const username = this.state.userList[this.state.selectedUserIndex]
+    const username = this.state.usernameList[this.state.selectedUserIndex]
     copyCV(username, cvName)
       .then((nameOfCopiedCV) => {
         loadCVList(username)
@@ -87,7 +88,7 @@ class Browse extends Component {
   }
 
   deleteConfirmed(cvName) {
-    const username = this.state.userList[this.state.selectedUserIndex]
+    const username = this.state.usernameList[this.state.selectedUserIndex]
     deleteCV(username, cvName)
       .then(() => {
         loadCVList(username)
@@ -105,12 +106,13 @@ class Browse extends Component {
   }
 
   render() {
-    const user = this.state.userList[0]
+    const user = this.state.usernameList[0]
     return (
       <div>
         <div id="buttons">
           <SearchAndExport
-            fetchPDF={() => this.props.fetchPDF(this.state.userList[this.state.selectedUserIndex],
+            fetchPDF={() => this.props.fetchPDF(
+              this.state.usernameList[this.state.selectedUserIndex],
               this.state.cvList[this.state.selectedCVIndex])}
           />
         </div>
@@ -126,12 +128,13 @@ class Browse extends Component {
         </div> */}
         <div id="cvlist" className="browseSection">
           <CVList
-            userList={this.state.userList}
+            userList={this.state.usernameList}
             selectedUserIndex={this.state.selectedUserIndex}
             cvList={this.state.cvList}
             selectedCVIndex={this.state.selectedCVIndex}
             cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
-            goEdit={cvName => this.props.goEdit(this.state.userList[this.state.selectedUserIndex],
+            goEdit={cvName => this.props.goEdit(
+              this.state.usernameList[this.state.selectedUserIndex],
               cvName)}
             renameConfirmed={(cvName, newCVName) => this.renameConfirmed(cvName, newCVName)}
             copyClicked={cvName => this.copyClicked(cvName)}
@@ -141,7 +144,7 @@ class Browse extends Component {
         </div>
         <div className="CVpreview">
           <Preview
-            username={this.state.userList[this.state.selectedUserIndex]}
+            username={this.state.usernameList[this.state.selectedUserIndex]}
             text={this.state.cvContents}
           />
         </div>

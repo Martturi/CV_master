@@ -140,7 +140,10 @@ class Browse extends Component {
           />
         </div>
         <div className="CVpreview">
-          <Preview text={this.state.cvContents} />
+          <Preview
+            username={this.state.userList[this.state.selectedUserIndex]}
+            text={this.state.cvContents}
+          />
         </div>
         {/* <div className="lineContainer">
           <div className="line" />

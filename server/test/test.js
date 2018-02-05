@@ -171,5 +171,17 @@ describe('Save and load tests', () => {
           returnedText.should.not.equal(renameSucceededText)
         })
     })
+
+    it('it should return HTML page with contents for preview route', () => {
+      return chai.request(server)
+        .post('/actions/preview')
+        .send({ text: testText })
+        .then((result) => {
+          result.should.have.status(200)
+          const returnedText = result.text
+          returnedText.should.match(/^<!DOCTYPE html/)
+          returnedText.should.match(/.cv/)
+        })
+    })
   })
 })

@@ -14,9 +14,7 @@ const options = {
   },
   footer: {
     height: '12mm',
-    contents: {
-      default: footer,
-    },
+    contents: footer,
   },
 }
 

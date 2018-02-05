@@ -11,6 +11,7 @@ class Browse extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      currentUserIndex: 0,
       userList: [],
       userIDList: [],
       selectedUserIndex: 0,
@@ -21,13 +22,35 @@ class Browse extends Component {
     this.updateUserList()
   }
 
+  myCVsToggle = () => {
+    if (this.props.view === 'browse') {
+      this.props.changeViewName('myCVs')
+      this.setState({
+        userList: [this.state.userList[this.state.currentUserIndex]],
+        userIDList: [this.state.userIDList[this.state.currentUserIndex]],
+        selectedUserIndex: 0,
+        selectedCVIndex: 0,
+      })
+      this.userClicked([this.state.userList[this.state.currentUserIndex]], 0)
+    } else {
+      this.props.changeViewName('browse')
+      this.updateUserList()
+    }
+  }
 
   updateUserList = () => {
-    const defaultUserIndex = 0
     loadUserList()
-      .then((users) => {
-        this.setState({ userList: users, userIDList: users.map(user => user.username) })
-        this.userClicked(users, defaultUserIndex)
+      .then(({ users, currentUser }) => {
+        const userIDs = users.map(user => user.username)
+        const currentUserIndexIfExists = userIDs.indexOf(currentUser)
+        const currentUserIndex = currentUserIndexIfExists !== -1 ? currentUserIndexIfExists : 0
+        this.setState({
+          currentUserIndex,
+          userList: users,
+          userIDList: userIDs,
+        })
+        console.log('current user', currentUser)
+        this.userClicked(users, currentUserIndex)
       })
       .catch(err => console.log(err))
   }
@@ -104,7 +127,6 @@ class Browse extends Component {
   }
 
   render() {
-    const user = this.state.userList.length === 0 ? [] : [this.state.userList[0]]
     return (
       <div>
         <SearchAndExport
@@ -112,12 +134,12 @@ class Browse extends Component {
             this.state.userIDList[this.state.selectedUserIndex],
             this.state.cvList[this.state.selectedCVIndex])}
           view={this.props.view}
-          changeViewName={this.props.changeViewName}
+          myCVsToggle={this.myCVsToggle}
           updateUserList={() => this.updateUserList()}
         />
         <div id="namelist" className="browse-section">
           <NameList
-            userList={this.props.view === 'browse' ? this.state.userList : user}
+            userList={this.state.userList}
             selectedUserIndex={this.state.selectedUserIndex}
             userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />

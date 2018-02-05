@@ -39,9 +39,7 @@ route.set('view engine', 'ejs')
 route.use(bodyParser.urlencoded({ extended: true }))
 route.use(bodyParser.json())
 
-// if (process.env.NODE_ENV === 'production') {
 route.use(express.static(path.resolve(__dirname, '../react/build')))
-// }
 
 const handleDBRequest = (dbFunction, request, response) => {
   // make a new, empty object and fill it with the contents of request.params and request.body:
@@ -84,6 +82,12 @@ route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
 
 route.put('/api/users/:username/cvs/:cvName', (request, response) => {
   handleDBRequest(db.rename, request, response)
+})
+
+route.get('/api/currentUser', (request, response) => {
+  const email = request.user.emails[0].value
+  const uid = email.split('@')[0]
+  response.send(uid)
 })
 
 route.get('/api/users', (request, response) => {

@@ -1,4 +1,3 @@
-
 export const saveCV = async (username, cvName, text) => {
   const response = await
     fetch(`api/users/${username}/cvs/${cvName}`, {
@@ -37,10 +36,13 @@ export const loadPreview = async (text, username) => {
 }
 
 export const loadUserList = async () => {
-  const response = await fetch('api/users', { credentials: 'include' })
-  const users = await response.json()
-  if (response.status !== 200) throw Error(users.message)
-  return users
+  const response1 = await fetch('api/currentUser', { credentials: 'include' })
+  const currentUser = await response1.text()
+  if (response1.status !== 200) throw Error(currentUser.message)
+  const response2 = await fetch('api/users', { credentials: 'include' })
+  const users = await response2.json()
+  if (response2.status !== 200) throw Error(users.message)
+  return { users, currentUser }
 }
 
 export const loadCVList = async (username) => {

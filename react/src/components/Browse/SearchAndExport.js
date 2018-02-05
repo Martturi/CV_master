@@ -11,11 +11,7 @@ class SearchAndExport extends Component {
   }
 
   onClick = () => {
-    if (this.props.view === 'browse') {
-      this.props.changeViewName('myCVs')
-    } else {
-      this.props.changeViewName('browse')
-    }
+    this.props.myCVsToggle()
   }
 
   toggle() {

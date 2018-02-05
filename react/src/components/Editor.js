@@ -65,6 +65,7 @@ class Editor extends Component {
         </div> */}
         <div className="CVpreview">
           <Preview
+            username={this.props.username}
             text={this.state.text}
           />
         </div>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { loadPreview } from './Api'
-// import './css/pdf.css'
 
 /* eslint react/no-danger: 0 */
 class Preview extends Component {
@@ -12,8 +11,10 @@ class Preview extends Component {
     this.updatePreview(props.text)
   }
 
-  updatePreview(text = this.props.text) {
-    loadPreview(text).then((resolve) => {
+  // loadPreview requires username to find the correct photo from CDN for the preview
+  // The username is given as props from both Browse and Editor components
+  updatePreview(text = this.props.text, username = this.props.username) {
+    loadPreview(text, username).then((resolve) => {
       this.setState({ html: resolve })
     })
   }

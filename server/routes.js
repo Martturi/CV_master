@@ -47,7 +47,7 @@ route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
   console.log(params)
   f(params)
     .then((res) => {
-      pdf.servePDF(res, response)
+      pdf.servePDF(res, response, params.username)
     })
     .catch((err) => {
       console.error(err)
@@ -78,8 +78,9 @@ route.delete('/api/users/:username/cvs/:cvName', (request, response) => {
 // Sends a preview based on the text from the request.
 route.post('/actions/preview', (request, response) => {
   const text = request.body.text || ''
+  const username = request.body.username || ''
   console.log('Loading preview for cv')
-  const preview = pdf.getHTML(text)
+  const preview = pdf.getHTML(text, username)
   response.send(preview)
 })
 

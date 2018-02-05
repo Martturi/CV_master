@@ -20,13 +20,13 @@ export const loadCV = async (username, cvName) => {
   return body
 }
 
-export const loadPreview = async (text) => {
+export const loadPreview = async (text, username) => {
   const response = await fetch('actions/preview', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, username }),
   })
   const body = await response.text()
   console.log(`preview: ${body.substring(0, 50)}`)

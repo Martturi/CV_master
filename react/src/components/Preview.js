@@ -9,7 +9,9 @@ class Preview extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.updatePreview(props.text)
+    if (this.props.text !== props.text) {
+      this.updatePreview(props.text)
+    }
   }
 
   updatePreview(text = this.props.text) {

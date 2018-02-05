@@ -36,9 +36,9 @@ export const loadPreview = async (text, username) => {
 
 export const loadUserList = async () => {
   const response = await fetch('api/users')
-  const usernames = await response.json()
-  if (response.status !== 200) throw Error(usernames.message)
-  return usernames
+  const users = await response.json()
+  if (response.status !== 200) throw Error(users.message)
+  return users
 }
 
 export const loadCVList = async (username) => {

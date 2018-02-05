@@ -22,7 +22,7 @@ const save = ({ username, cvName, text }) => {
 
 const clear = () => {
   if (config.env !== 'production') {
-    const query = 'TRUNCATE TABLE cv_table; TRUNCATE TABLE cvs;'
+    const query = 'TRUNCATE TABLE cvs; TRUNCATE TABLE users;'
     return client.query(query)
       .then(() => 'Clear succeeded.')
   }
@@ -30,9 +30,9 @@ const clear = () => {
 }
 
 const loadUserList = () => {
-  const query = 'SELECT DISTINCT username FROM cvs ORDER BY username;'
+  const query = 'SELECT username, full_name FROM users ORDER BY full_name;'
   return client.query(query)
-    .then(result => result.rows.map(row => row.username))
+    .then(result => result.rows)
 }
 
 const loadCVList = ({ username }) => {

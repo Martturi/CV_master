@@ -8,7 +8,9 @@ class Preview extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.updatePreview(props.text)
+    if (this.props.text !== props.text) {
+      this.updatePreview(props.text)
+    }
   }
 
   // loadPreview requires username to find the correct photo from CDN for the preview

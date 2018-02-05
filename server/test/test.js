@@ -125,50 +125,43 @@ describe('Save and load tests', () => {
         })
     })
 
-    const deleteAcceptedText = 'Delete accepted'
     const existingCVs = [`${cvToBeCopied}(1)`, `${cvToBeCopied}(2)`]
-    it(`it should return '${deleteAcceptedText}' for a user with two CVs`, () => {
+    it('it should delete one row for a user with two CVs', () => {
       return chai.request(server)
         .delete(`/api/users/${copyUser1}/cvs/${existingCVs[0]}`)
         .then((result) => {
           result.should.have.status(200)
-          const returnedText = result.text
-          returnedText.should.be.eql(deleteAcceptedText)
+          result.text.should.be.eql('1')
         })
     })
 
-    const deleteDeniedText = 'Delete denied'
-    it(`it should return '${deleteDeniedText}' for a user with one CV`, () => {
+    it('it should delete 0 rows for a user with one CV', () => {
       return chai.request(server)
         .delete(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
         .then((result) => {
           result.should.have.status(200)
-          const returnedText = result.text
-          returnedText.should.be.eql(deleteDeniedText)
+          result.text.should.be.eql('0')
         })
     })
 
-    const renameSucceededText = 'Rename succeeded'
     const newName = 'New name'
-    it(`it should return '${renameSucceededText}'`, () => {
+    it('it should update one row when renaming an existing CV and not violating unique constraint', () => {
       return chai.request(server)
         .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
         .send({ newCVName: newName })
         .then((result) => {
           result.should.have.status(200)
-          const returnedText = result.text
-          returnedText.should.be.eql(renameSucceededText)
+          result.text.should.be.eql('1')
         })
     })
 
-    it(`it should not return '${renameSucceededText} for a non-existing CV name'`, () => {
+    it('it should update zero rows when renaming a non-existing CV name', () => {
       return chai.request(server)
         .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
         .send({ newCVName: newName })
         .then((result) => {
           result.should.have.status(200)
-          const returnedText = result.text
-          returnedText.should.not.equal(renameSucceededText)
+          result.text.should.be.eql('0')
         })
     })
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ListGroupItem, Collapse, Button, Input } from 'reactstrap'
 
-class ListGroupCollapse extends React.Component {
+class InputSectionCollapser extends React.Component {
   constructor(props) {
     super(props)
 
@@ -35,4 +35,4 @@ class ListGroupCollapse extends React.Component {
   }
 }
 
-export default ListGroupCollapse
+export default InputSectionCollapser

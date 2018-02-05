@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './App.css'
-import Editor from './Editor'
-import Browse from './Browse'
+import Editor from './Editor/Editor'
+import Browse from './Browse/Browse'
 import { fetchPDF } from './Api'
-import NavBar from './NavBar'
+import Header from './Header'
 
 
 class App extends Component {
@@ -56,10 +56,9 @@ class App extends Component {
     if (this.state.view === 'browse' || this.state.view === 'myCVs') {
       return (
         <div>
-          <header id="navbar">
-            <NavBar view={this.state.view} changeViewName={this.changeView} />
-          </header>
+          <Header />
           <Browse
+            changeViewName={this.changeView}
             view={this.state.view}
             goEdit={(username, cvName) => this.goEdit(username, cvName)}
             fetchPDF={(username, cvName) => this.fetchPDF(username, cvName)}
@@ -69,9 +68,7 @@ class App extends Component {
     }
     return (
       <div>
-        <header id="navbar">
-          <NavBar view={this.state.view} changeViewName={this.changeView} />
-        </header>
+        <Header />
         <Editor
           view={this.state.view}
           username={this.state.selectedUser}

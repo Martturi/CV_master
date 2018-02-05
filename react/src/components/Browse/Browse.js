@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import SearchAndExport from './SearchAndExport'
 import NameList from './NameList'
 import CVList from './CVList'
-import './css/Browse.css'
-import './css/NavBar.css'
-import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from './Api'
-import Preview from './Preview'
+import './Browse.css'
+import '../Header.css'
+import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from '../Api'
+import Preview from '../Preview'
 
 class Browse extends Component {
   constructor(props) {
@@ -109,13 +109,13 @@ class Browse extends Component {
     const user = this.state.userIDList[0]
     return (
       <div>
-        <div id="buttons">
-          <SearchAndExport
-            fetchPDF={() => this.props.fetchPDF(
-              this.state.userIDList[this.state.selectedUserIndex],
-              this.state.cvList[this.state.selectedCVIndex])}
-          />
-        </div>
+        <SearchAndExport
+          fetchPDF={() => this.props.fetchPDF(
+            this.state.userIDList[this.state.selectedUserIndex],
+            this.state.cvList[this.state.selectedCVIndex])}
+          view={this.props.view}
+          changeViewName={this.props.changeViewName}
+        />
         <div id="namelist" className="browseSection">
           <NameList
             userList={this.props.view === 'browse' ? this.state.userList : [user]}
@@ -123,9 +123,6 @@ class Browse extends Component {
             userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />
         </div>
-        {/* <div className="lineContainer" id="lineContainer">
-          <div className="line" />
-        </div> */}
         <div id="cvlist" className="browseSection">
           <CVList
             userList={this.state.userIDList}
@@ -148,9 +145,6 @@ class Browse extends Component {
             text={this.state.cvContents}
           />
         </div>
-        {/* <div className="lineContainer">
-          <div className="line" />
-        </div> */}
       </div>
 
     )

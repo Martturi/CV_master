@@ -1,0 +1,92 @@
+.search {
+	float: left;
+	width: 60%;
+	min-width: 10%;
+	box-shadow: none;
+}
+
+.searchAndMyCVs {
+	display:inline-block;
+	width: 35%;
+	min-width: 10%;
+}
+
+.searchAndMyCVs > input {
+	display:inline-block;
+	min-width: 5%;
+}
+
+#searchbutton {
+	float: left;
+	min-width: 10px;
+	box-shadow: none;
+	margin-right: 13px;
+}
+
+#myCVsButton {
+	float: left;
+	color: #242730;
+	box-shadow: none;
+}
+
+#myCVsButton.active, #myCVsButton:hover  {
+	background-color: #242730;
+	color: #FFFFFF;
+	border-color: #242730;
+}
+
+.search.form-control {
+	box-shadow: none;
+	color: #242730;
+	border-color: #868e95;
+}
+
+.searchheader {
+  padding-top: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 10px;
+  float: right;
+  width: 100%;
+  font-family: 'JungkaRegular';
+	display: inline-block;
+}
+
+.browseSection {
+	float: left;
+	display: inline;
+	width: 25%;
+	padding-right: 5px;
+	padding-left: 5px;
+	font-family: 'JungkaRegular';
+}
+
+.list-group-item {
+    padding-left: 1em;
+    color: #242730;
+}
+
+.list-group-item.active {
+	background-color: #d5d7de;
+	border-color: #d5d7de;
+	color: #000000;
+}
+
+#namelist {
+	overflow: auto;
+	height: 80vh;
+}
+
+#cvlist {
+	overflow: auto;
+	height: 80vh;
+}
+
+.CVpreview {
+	overflow: auto;
+	height: 80vh;
+}
+
+html, body {
+  overflow: hidden;
+}

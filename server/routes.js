@@ -39,15 +39,15 @@ route.get('/api/users/:username/cvs/:cvName', (request, response) => {
   handleDBRequest(db.load, request, response)
 })
 
-// Get request for loading pdf with username and CV name
-route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
-  const params = Object.assign({}, request.params)
+// Post request for loading pdf with username and CV name
+route.post('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
+  const params = Object.assign({}, request.params, request.body)
   const f = db.load
-  console.log(`Performing db operation "${f.name}" with params (next line):`)
+  console.log(`(pdf) Performing db operation "${f.name}" with params (next line):`)
   console.log(params)
   f(params)
-    .then((res) => {
-      pdf.servePDF(res, response, params.username)
+    .then((sectionContents) => {
+      pdf.servePDF(sectionContents, response, params)
     })
     .catch((err) => {
       console.error(err)
@@ -77,10 +77,9 @@ route.delete('/api/users/:username/cvs/:cvName', (request, response) => {
 
 // Sends a preview based on the text from the request.
 route.post('/actions/preview', (request, response) => {
-  const text = request.body.text || ''
-  const username = request.body.username || ''
+  const params = request.body
   console.log('Loading preview for cv')
-  const preview = pdf.getHTML(text, username)
+  const preview = pdf.getHTML(params)
   response.send(preview)
 })
 

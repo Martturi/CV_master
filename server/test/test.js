@@ -63,7 +63,7 @@ describe('Save and load tests', () => {
     it('it should save a sample CV', () => {
       return chai.request(server)
         .post('/api/users/test2/cvs/test1')
-        .send({ text: testText })
+        .send({ sectionContents: [testText] })
         .then((res) => {
           res.should.have.status(200)
           res.text.should.be.eql('Save succeeded.')
@@ -73,28 +73,32 @@ describe('Save and load tests', () => {
     it('it should load the recently saved CV', () => {
       return chai.request(server)
         .post('/api/users/test/cvs/1')
-        .send({ text: testText })
+        .send({ sectionContents: [testText] })
         .then(() => {
           return chai.request(server)
             .get('/api/users/test/cvs/1')
             .then((res) => {
               res.should.have.status(200)
-              res.text.should.be.eql(testText)
+              const sectionContents = res.body
+              sectionContents.should.be.a('array')
+              sectionContents.filter(text => text !== '').length.should.be.eql(1)
+              sectionContents[0].should.be.eql(testText)
             })
         })
     })
 
 
-    const nonExistingCVString = 'New CV'
-    it(`it should return '${nonExistingCVString}' for a non-existing combination of user and CV name`, () => {
+    it('it should return [ \'\' ] for a non-existing combination of user and CV name', () => {
       const nonExistingUsername = 'a'
       const nonExistingCVName = 'b'
       return chai.request(server)
         .get(`/api/users/${nonExistingUsername}/cvs/${nonExistingCVName}`)
         .then((res) => {
           res.should.have.status(200)
-          const cvContents = res.text
-          cvContents.should.be.eql(nonExistingCVString)
+          const sectionContents = res.body
+          sectionContents.should.be.a('array')
+          sectionContents.length.should.be.eql(1)
+          sectionContents[0].should.be.eql('')
         })
     })
 
@@ -168,7 +172,7 @@ describe('Save and load tests', () => {
     it('it should return HTML page with contents for preview route', () => {
       return chai.request(server)
         .post('/actions/preview')
-        .send({ text: testText })
+        .send({ sectionContents: [testText], sectionTitles: ['Bio'] })
         .then((result) => {
           result.should.have.status(200)
           const returnedText = result.text

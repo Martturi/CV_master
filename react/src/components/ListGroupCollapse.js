@@ -6,7 +6,7 @@ class ListGroupCollapse extends React.Component {
     super(props)
 
     this.toggle = this.toggle.bind(this)
-    this.state = { collapse: false }
+    this.state = { collapse: true }
   }
 
   handleChange(event) {
@@ -18,11 +18,10 @@ class ListGroupCollapse extends React.Component {
   }
 
   render() {
-    const field = this.props.field
     return (
       <ListGroupItem>
         <div>
-          <Button outline className="button" size="sm" onClick={this.toggle}> {field.title} </Button>
+          <Button outline className="button" size="sm" onClick={this.toggle}> {this.props.title || 'No Title'} </Button>
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />

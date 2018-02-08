@@ -8,15 +8,18 @@ class Preview extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (this.props.text !== props.text) {
-      this.updatePreview(props.text)
+    const oldArray = this.props.sectionContents
+    const newArray = props.sectionContents
+    const hasSameContents = newArray.every((value, index) => value === oldArray[index])
+    if (!hasSameContents) {
+      this.updatePreview(newArray)
     }
   }
 
   // loadPreview requires username to find the correct photo from CDN for the preview
   // The username is given as props from both Browse and Editor components
-  updatePreview(text = this.props.text, username = this.props.username) {
-    loadPreview(text, username).then((resolve) => {
+  updatePreview(sectionContents) {
+    loadPreview(this.props.sectionTitles, sectionContents, this.props.username).then((resolve) => {
       this.setState({ html: resolve })
     })
   }

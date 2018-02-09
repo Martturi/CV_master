@@ -8,21 +8,47 @@ const client = new Client({
 client.connect().catch(e => console.error('connection error', e.stack))
 
 const load = ({ username, cvName }) => {
-  const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
+  const query = 'SELECT section_nr, text FROM Sections WHERE username = $1 AND cv_name = $2 ORDER BY section_nr;'
   return client.query(query, [username, cvName])
-    .then(result => (result.rows[0] ? result.rows[0].text : 'New CV'))
+    .then((result) => {
+      const rows = result.rows
+      const lastSectionNr = rows.length === 0 ? 0 : rows[rows.length - 1].section_nr
+      const sectionContents = []
+      for (let i = 0; i <= lastSectionNr; i += 1) sectionContents.push('')
+      rows.forEach((row) => { sectionContents[row.section_nr] = row.text })
+      return sectionContents
+    })
 }
 
-const save = ({ username, cvName, text }) => {
-  const query = 'INSERT INTO cvs VALUES ($1, $2, $3) ON CONFLICT (username, ' +
-                'cv_name) DO UPDATE SET text = $3;'
-  return client.query(query, [username, cvName, text])
-    .then(() => 'Save succeeded.')
+const save = ({ username, cvName, sectionContents }) => {
+  const insertOrDelete = (index, nonEmptySectionCount) => {
+    if (index < sectionContents.length) {
+      // if sectionContents[index] is non-empty do upsert
+      if (sectionContents[index]) {
+        const query = `INSERT INTO Sections VALUES ($1, $2, ${index}, $3) ON CONFLICT (username, cv_name, section_nr) DO UPDATE SET text = $3;`
+        return client.query(query, [username, cvName, sectionContents[index]])
+          .then(() => insertOrDelete(index + 1, nonEmptySectionCount + 1))
+      }
+      // otherwise, delete an empty section from db:
+      const query = `DELETE FROM Sections WHERE username = $1 AND cv_name = $2 and section_nr = ${index};`
+      return client.query(query, [username, cvName])
+        .then(() => insertOrDelete(index + 1, nonEmptySectionCount))
+    }
+    // if all sections were empty (and so all sections were deleted), add an empty section so that
+    // the whole CV doesn't get deleted:
+    if (!nonEmptySectionCount) {
+      const query = 'INSERT INTO Sections VALUES ($1, $2, 0, \'\') ON CONFLICT (username, cv_name, section_nr) DO UPDATE SET text = \'\';'
+      return client.query(query, [username, cvName])
+        .then(() => 'Save succeeded.')
+    }
+    return Promise.resolve('Save succeeded.')
+  }
+  return insertOrDelete(0, 0)
 }
 
 const clear = () => {
   if (config.env !== 'production') {
-    const query = 'TRUNCATE TABLE cvs; TRUNCATE TABLE users;'
+    const query = 'TRUNCATE TABLE Sections; TRUNCATE TABLE cvs; TRUNCATE TABLE users;'
     return client.query(query)
       .then(() => 'Clear succeeded.')
   }
@@ -36,21 +62,20 @@ const loadUserList = () => {
 }
 
 const loadCVList = ({ username }) => {
-  const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
+  const query = 'SELECT DISTINCT cv_name FROM Sections WHERE username = $1 ORDER BY cv_name;'
   return client.query(query, [username])
     .then(result => result.rows.map(row => row.cv_name))
 }
 
 const rename = ({ username, cvName, newCVName }) => {
-  const query = 'UPDATE cvs SET cv_name = $3 WHERE username = $1 AND ' +
-                'cv_name = $2;'
+  const query = 'UPDATE Sections SET cv_name = $3 WHERE username = $1 AND cv_name = $2;'
   return client.query(query, [username, cvName, newCVName])
     .then(result => result.rowCount.toString())
 }
 
 const copy = ({ username, cvName }) => {
   return load({ username, cvName })
-    .then((text) => {
+    .then((sectionContents) => {
       return loadCVList({ username })
         .then((cvs) => {
           let n = 1
@@ -59,7 +84,7 @@ const copy = ({ username, cvName }) => {
             newCVName = `${cvName}(${n})`
             n += 1
           } while (cvs.includes(newCVName))
-          const saveArray = { username, text, cvName: newCVName }
+          const saveArray = { username, sectionContents, cvName: newCVName }
           return save(saveArray)
             .then(() => newCVName)
         })
@@ -70,7 +95,7 @@ const deleteCV = ({ username, cvName }) => {
   return loadCVList({ username })
     .then((cvs) => {
       if (cvs.length >= 2) {
-        const query = 'DELETE FROM cvs WHERE username = $1 AND cv_name = $2;'
+        const query = 'DELETE FROM Sections WHERE username = $1 AND cv_name = $2;'
         return client.query(query, [username, cvName])
           .then(result => result.rowCount.toString())
       }

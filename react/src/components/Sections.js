@@ -2,46 +2,6 @@ import React from 'react'
 import { Container } from 'reactstrap'
 import ListGroupCollapse from './ListGroupCollapse'
 
-
-const fields = {
-  cv: {
-    title: 'CV',
-  },
-  /* bio: {
-    title: 'Bio',
-  },
-  workExperience: {
-    title: 'Work Experience',
-  },
-  prevEmployment: {
-    title: 'Previous Employment',
-  },
-  education: {
-    title: 'Education',
-  },
-  certificates: {
-    title: 'Certificates',
-  },
-  languageSkills: {
-    title: 'Language Skills',
-  },
-  awards: {
-    title: 'Awards',
-  },
-  publications: {
-    title: 'Publications',
-  },
-  conferences: {
-    title: 'Conferences',
-  },
-  other: {
-    title: 'Other Activities',
-  },
-  essentialSkills: {
-    title: 'Essential Skills',
-  }, */
-}
-
 class Sections extends React.Component {
   render() {
     return (
@@ -52,12 +12,12 @@ class Sections extends React.Component {
         <br />
         <Input placeholder="Job title" />
         <br /> */}
-        {Object.keys(fields).map(i =>
+        {this.props.sectionTitles.map((title, index) =>
           (<ListGroupCollapse
-            key={i}
-            field={fields[i]}
-            text={this.props.text}
-            updateText={text => this.props.updateText(text)}
+            key={title}
+            title={title}
+            text={this.props.sectionContents[index]}
+            updateText={text => this.props.updateText(text, index)}
           />),
         )}
       </Container>

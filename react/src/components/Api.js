@@ -1,12 +1,12 @@
 
-export const saveCV = async (username, cvName, text) => {
+export const saveCV = async (username, cvName, sectionContents) => {
   const response = await
     fetch(`api/users/${username}/cvs/${cvName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ sectionContents }),
     })
   if (response.status !== 200) throw Error(`error ${response}`)
   return 'Save succeeded.'
@@ -14,22 +14,20 @@ export const saveCV = async (username, cvName, text) => {
 
 export const loadCV = async (username, cvName) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}`)
-  const body = await response.text()
-  console.log(`loaded: ${body.substring(0, 50)}`)
+  const body = await response.json()
   if (response.status !== 200) throw Error(body.message)
   return body
 }
 
-export const loadPreview = async (text, username) => {
+export const loadPreview = async (sectionTitles, sectionContents, username) => {
   const response = await fetch('actions/preview', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ text, username }),
+    body: JSON.stringify({ sectionTitles, sectionContents, username }),
   })
   const body = await response.text()
-  console.log(`preview: ${body.substring(0, 50)}`)
   if (response.status !== 200) throw Error(body.message)
   return body
 }
@@ -79,11 +77,13 @@ export const renameCV = async (username, cvName, newCVName) => {
   return body
 }
 
-export const fetchPDF = async (username, cvName) => {
+export const fetchPDF = async (username, cvName, sectionTitles) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}/pdf`, {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/pdf',
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ sectionTitles }),
   })
   if (response.status !== 200) throw Error(`error ${response}`)
   return response

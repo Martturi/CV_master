@@ -16,7 +16,7 @@ class Browse extends Component {
       selectedUserIndex: 0,
       cvList: [],
       selectedCVIndex: 0,
-      cvContents: '',
+      sectionContents: [],
     }
   }
 
@@ -50,8 +50,11 @@ class Browse extends Component {
     cvList = this.state.cvList, cvIndex) {
     this.setState({ selectedCVIndex: cvIndex })
     loadCV(username, cvList[cvIndex])
-      .then((cv) => {
-        this.setState({ cvContents: cv })
+      .then((sections) => {
+        const diff = sections.length - this.props.sectionTitles.length
+        for (let i = 0; i < diff; i += 1) sections.pop() // removing sections from the end
+        for (let i = 0; i < -diff; i += 1) sections.push('') // adding (empty) sections to the end
+        this.setState({ sectionContents: sections })
       })
       .catch(err => console.log(err))
   }
@@ -145,7 +148,8 @@ class Browse extends Component {
         <div className="CVpreview">
           <Preview
             username={this.state.userIDList[this.state.selectedUserIndex]}
-            text={this.state.cvContents}
+            sectionTitles={this.props.sectionTitles}
+            sectionContents={this.state.sectionContents}
           />
         </div>
         {/* <div className="lineContainer">

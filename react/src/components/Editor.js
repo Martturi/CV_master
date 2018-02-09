@@ -9,7 +9,7 @@ import { saveCV, loadCV } from './Api'
 
 class Editor extends Component {
   state = {
-    text: '',
+    sectionContents: [],
     saveStatus: '',
   }
 
@@ -17,20 +17,25 @@ class Editor extends Component {
     this.openCV()
   }
 
-  updateText(text) {
-    this.setState({ text })
+  updateSection(text, sectionIndex) {
+    const newContents = [...this.state.sectionContents]
+    newContents[sectionIndex] = text
+    this.setState({ sectionContents: newContents })
   }
 
   openCV() {
     loadCV(this.props.username, this.props.cvName)
-      .then((res) => {
-        this.setState({ text: res })
+      .then((sections) => {
+        const diff = sections.length - this.props.sectionTitles.length
+        for (let i = 0; i < diff; i += 1) sections.pop() // removing sections from the end
+        for (let i = 0; i < -diff; i += 1) sections.push('') // adding (empty) sections to the end
+        this.setState({ sectionContents: sections })
       })
       .catch(err => console.log(err))
   }
 
   async saveCV() {
-    await saveCV(this.props.username, this.props.cvName, this.state.text)
+    await saveCV(this.props.username, this.props.cvName, this.state.sectionContents)
       .then((res) => {
         this.setState({ saveStatus: res })
       })
@@ -54,8 +59,9 @@ class Editor extends Component {
         </div>
         <div className="sections">
           <Sections
-            text={this.state.text}
-            updateText={text => this.updateText(text)}
+            sectionTitles={this.props.sectionTitles}
+            sectionContents={this.state.sectionContents}
+            updateText={(text, sectionIndex) => this.updateSection(text, sectionIndex)}
           />
         </div>
 
@@ -66,7 +72,8 @@ class Editor extends Component {
         <div className="CVpreview">
           <Preview
             username={this.props.username}
-            text={this.state.text}
+            sectionTitles={this.props.sectionTitles}
+            sectionContents={this.state.sectionContents}
           />
         </div>
       </div>

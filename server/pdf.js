@@ -18,17 +18,27 @@ const options = {
   },
 }
 
+const sectionsToText = (sectionTitles, sectionContents) => {
+  let wholeText = ''
+  sectionTitles.forEach((title, index) => {
+    const text = sectionContents[index]
+    const titleAsMarkdown = (sectionTitles[index] ? `#${title}\n` : '')
+    wholeText += (text ? `${titleAsMarkdown}${text}\n` : '')
+  })
+  return wholeText
+}
+
 // getHTML requires uid to find the correct picture from CDN. The uid is given to it via servePDF.
-const getHTML = (text, uid) => {
+const getHTML = ({ sectionTitles, sectionContents, username }) => {
+  const text = sectionsToText(sectionTitles, sectionContents)
   const style = fs.readFileSync(path.resolve(__dirname, 'pdf/pdf.css'), 'utf-8')
   const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
   const parsedHTML = markdown.toHTML(text)
-  return ejs.render(template, { styles: style, text: parsedHTML, userID: uid })
+  return ejs.render(template, { styles: style, text: parsedHTML, userID: username })
 }
 
-const servePDF = (text, response, uid) => {
-  console.log(`Creating pdf ${text.substring(0, 100)}`)
-  const parsedHTML = getHTML(text, uid)
+const servePDF = (sectionContents, response, { username, sectionTitles }) => {
+  const parsedHTML = getHTML({ sectionTitles, sectionContents, username })
   pdf.create(parsedHTML, options).toStream((err, stream) => {
     response.setHeader('Content-Type', 'application/pdf')
     response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')

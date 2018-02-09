@@ -5,6 +5,19 @@ import Browse from './Browse'
 import { fetchPDF } from './Api'
 import NavBar from './NavBar'
 
+const sectionTitles = [
+  '',
+  'WORK EXPERIENCE',
+  'PREVIOUS EMPLOYMENT',
+  'EDUCATION',
+  'CERTIFICATES',
+  'LANGUAGE SKILLS',
+  'AWARDS',
+  'PUBLICATIONS',
+  'CONFERENCES',
+  'OTHER ACTIVITIES',
+  'ESSENTIAL SKILLS',
+]
 
 class App extends Component {
   state = {
@@ -31,7 +44,7 @@ class App extends Component {
 
   fetchPDF(username, cvName) {
     this.setState({ selectedUser: username, selectedCV: cvName })
-    fetchPDF(username, cvName)
+    fetchPDF(username, cvName, sectionTitles)
       .then(res => res.blob())
       .then((blob) => {
         const file = new File([blob], `${username}_${cvName}.pdf`, { type: 'application/pdf' })
@@ -60,6 +73,7 @@ class App extends Component {
             <NavBar view={this.state.view} changeViewName={this.changeView} />
           </header>
           <Browse
+            sectionTitles={sectionTitles}
             view={this.state.view}
             goEdit={(username, cvName) => this.goEdit(username, cvName)}
             fetchPDF={(username, cvName) => this.fetchPDF(username, cvName)}
@@ -73,6 +87,7 @@ class App extends Component {
           <NavBar view={this.state.view} changeViewName={this.changeView} />
         </header>
         <Editor
+          sectionTitles={sectionTitles}
           view={this.state.view}
           username={this.state.selectedUser}
           cvName={this.state.selectedCV}

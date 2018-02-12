@@ -54,6 +54,7 @@ class InputSections extends React.Component {
         <br /> */}
         {Object.keys(fields).map(i =>
           (<InputSectionCollapser
+            index={i}
             key={i}
             field={fields[i]}
             text={this.props.text}

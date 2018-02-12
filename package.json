@@ -10,7 +10,7 @@
     "react_build": "cd react/ && npm run build",
     "install": "cd react/ && npm install",
     "watch": "concurrently -n \"React,Server\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run react\" \"nodemon server\"",
-    "lint": "./node_modules/.bin/eslint server/**/*.js && ./node_modules/.bin/eslint react/src/**/*.js",
+    "lint": "./node_modules/.bin/eslint server/**/*.js && ./node_modules/.bin/eslint react/src/**/*.js && ./node_modules/.bin/eslint react/src/**/**/*.js",
     "heroku-postbuild": "cd react/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "mocha server/test/ --timeout 10000 && npm run lint"
   },

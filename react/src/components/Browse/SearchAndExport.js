@@ -10,21 +10,29 @@ class SearchAndExport extends Component {
     }
   }
 
+  onClick = () => {
+    if (this.props.view === 'browse') {
+      this.props.changeViewName('myCVs')
+    } else {
+      this.props.changeViewName('browse')
+    }
+  }
+
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     })
   }
 
-
   render() {
     return (
-      <div className="buttonheader">
-        <div>
+      <div className="searchheader">
+        <div className="searchAndMyCVs">
           <Input className="search" placeholder="Search..." />
           <Button outline className="button" id="searchbutton">
             <span className="fa fa-search" aria-hidden="true" />
           </Button>
+          <Button outline active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.onClick}>My CVs</Button>
         </div>
         <ButtonGroup className="exportgroup">
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>

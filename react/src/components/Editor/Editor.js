@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import EditorButtonGroup from './EditorButtonGroup'
-import Sections from './Sections'
-import Preview from './Preview'
-import './css/Editor.css'
-import './css/NavBar.css'
-import { saveCV, loadCV } from './Api'
+import InputSections from './InputSections'
+import Preview from '../Preview'
+import './Editor.css'
+import { saveCV, loadCV } from '../Api'
 
 
 class Editor extends Component {
@@ -53,16 +52,11 @@ class Editor extends Component {
           />
         </div>
         <div className="sections">
-          <Sections
+          <InputSections
             text={this.state.text}
             updateText={text => this.updateText(text)}
           />
         </div>
-
-        { /* unsure whether line is necessary, pain to implement beautifully
-        <div className="lineContainer">
-          <div className="line" />
-        </div> */}
         <div className="CVpreview">
           <Preview
             username={this.props.username}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container } from 'reactstrap'
-import ListGroupCollapse from './ListGroupCollapse'
+import InputSectionCollapser from './InputSectionCollapser'
 
 
 const fields = {
@@ -42,7 +42,7 @@ const fields = {
   }, */
 }
 
-class Sections extends React.Component {
+class InputSections extends React.Component {
   render() {
     return (
       <Container>
@@ -53,7 +53,7 @@ class Sections extends React.Component {
         <Input placeholder="Job title" />
         <br /> */}
         {Object.keys(fields).map(i =>
-          (<ListGroupCollapse
+          (<InputSectionCollapser
             key={i}
             field={fields[i]}
             text={this.props.text}
@@ -64,4 +64,4 @@ class Sections extends React.Component {
     )
   }
 }
-export default Sections
+export default InputSections

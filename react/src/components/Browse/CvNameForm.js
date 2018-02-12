@@ -10,12 +10,21 @@ class CvNameForm extends React.Component {
     }
   }
 
+  onClick = (event) => {
+    event.stopPropagation()
+  }
+
   handleChange = (event) => {
     this.setState({ value: event.target.value })
   }
 
-  saveAndExit = (event) => {
-    console.log(event)
+  enterPressed = (event) => {
+    if (event.key === 'Enter') {
+      this.saveAndExit()
+    }
+  }
+
+  saveAndExit = () => {
     const newCVName = this.state.value === '' ? this.props.cvName : this.state.value
     this.props.renameConfirmed(newCVName)
     this.setState({
@@ -32,6 +41,8 @@ class CvNameForm extends React.Component {
           value={this.state.value}
           onChange={this.handleChange}
           onBlur={this.saveAndExit}
+          onClick={this.onClick}
+          onKeyUp={this.enterPressed}
         />
       )
     }

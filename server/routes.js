@@ -1,10 +1,37 @@
 const express = require('express')
+const session = require('express-session')
+const gauth = require('@reaktor/express-gauth')
 const path = require('path')
 const bodyParser = require('body-parser')
 const db = require('./db')
 const pdf = require('./pdf')
+const config = require('./config')
 
 const route = express()
+
+console.log('starting server')
+
+const allowedLoginFromDomains = ['reaktor.com', 'reaktor.fi', 'gmail.com']
+const myGauth = gauth({
+  clientID: '233998639985-i5o8sbo7p1a2qtr9eu6cis37atvv9l28.apps.googleusercontent.com',
+  clientSecret: 'JzR9SQGzPk1jGKvJiVGH17HV',
+  clientDomain: config.clientURL,
+  allowedDomains: allowedLoginFromDomains,
+})
+
+route.use(session({
+  secret: 'lol',
+  resave: false,
+  saveUninitialized: true,
+}))
+
+route.use(myGauth)
+
+route.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  console.log('user id', req.user && req.user.emails && req.user.emails[0])
+  next()
+})
 
 route.set('port', (process.env.PORT || 5000))
 route.set('view engine', 'ejs')
@@ -12,9 +39,9 @@ route.set('view engine', 'ejs')
 route.use(bodyParser.urlencoded({ extended: true }))
 route.use(bodyParser.json())
 
-if (process.env.NODE_ENV === 'production') {
-  route.use(express.static(path.resolve(__dirname, '../react/build')))
-}
+// if (process.env.NODE_ENV === 'production') {
+route.use(express.static(path.resolve(__dirname, '../react/build')))
+// }
 
 const handleDBRequest = (dbFunction, request, response) => {
   // make a new, empty object and fill it with the contents of request.params and request.body:

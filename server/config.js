@@ -1,9 +1,11 @@
 const development = {
   databaseURL: 'postgres:///cv_db',
+  clientURL: 'http://localhost:5000',
   env: 'local',
 }
 const production = {
   databaseURL: process.env.DATABASE_URL,
+  clientURL: process.env.CLIENT_URL,
   env: 'production',
 }
 

@@ -7,10 +7,11 @@
   "main": "src/index.js",
   "scripts": {
     "react": "cd react/ && npm start",
+    "start": "nodemon server",
     "react_build": "cd react/ && npm run build",
     "install": "cd react/ && npm install",
     "watch": "concurrently -n \"React,Server\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run react\" \"nodemon server\"",
-    "lint": "./node_modules/.bin/eslint server/**/*.js && ./node_modules/.bin/eslint react/src/**/*.js",
+    "lint": "./node_modules/.bin/eslint server/**/*.js && ./node_modules/.bin/eslint react/src/**/*.js && ./node_modules/.bin/eslint react/src/**/**/*.js",
     "heroku-postbuild": "cd react/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "mocha server/test/ --timeout 10000 && npm run lint"
   },
@@ -19,11 +20,13 @@
     "url": "git+https://github.com/Martturi/cv_master.git"
   },
   "dependencies": {
+    "@reaktor/express-gauth": "^2.2.0",
     "body-parser": "^1.18.2",
     "concurrently": "^3.5.1",
     "dotenv": "^4.0.0",
     "ejs": "2.5.6",
     "express": "4.15.2",
+    "express-session": "^1.15.6",
     "html-pdf": "^2.2.0",
     "markdown": "^0.5.0",
     "pg": "7.4.0",

@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import SearchAndExport from './SearchAndExport'
 import NameList from './NameList'
 import CVList from './CVList'
-import './css/Browse.css'
-import './css/NavBar.css'
-import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from './Api'
-import Preview from './Preview'
+import './Browse.css'
+import '../Header.css'
+import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from '../Api'
+import Preview from '../Preview'
 
 class Browse extends Component {
   constructor(props) {
@@ -18,11 +18,9 @@ class Browse extends Component {
       selectedCVIndex: 0,
       cvContents: '',
     }
-  }
-
-  componentDidMount() {
     this.updateUserList()
   }
+
 
   updateUserList = () => {
     const defaultUserIndex = 0
@@ -106,27 +104,25 @@ class Browse extends Component {
   }
 
   render() {
-    const user = this.state.userIDList[0]
+    const user = this.state.userList.length === 0 ? [] : [this.state.userList[0]]
     return (
       <div>
-        <div id="buttons">
-          <SearchAndExport
-            fetchPDF={() => this.props.fetchPDF(
-              this.state.userIDList[this.state.selectedUserIndex],
-              this.state.cvList[this.state.selectedCVIndex])}
-          />
-        </div>
-        <div id="namelist" className="browseSection">
+        <SearchAndExport
+          fetchPDF={() => this.props.fetchPDF(
+            this.state.userIDList[this.state.selectedUserIndex],
+            this.state.cvList[this.state.selectedCVIndex])}
+          view={this.props.view}
+          changeViewName={this.props.changeViewName}
+          updateUserList={() => this.updateUserList()}
+        />
+        <div id="namelist" className="browse-section">
           <NameList
-            userList={this.props.view === 'browse' ? this.state.userList : [user]}
+            userList={this.props.view === 'browse' ? this.state.userList : user}
             selectedUserIndex={this.state.selectedUserIndex}
             userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />
         </div>
-        {/* <div className="lineContainer" id="lineContainer">
-          <div className="line" />
-        </div> */}
-        <div id="cvlist" className="browseSection">
+        <div id="cvlist" className="browse-section">
           <CVList
             userList={this.state.userIDList}
             selectedUserIndex={this.state.selectedUserIndex}
@@ -148,9 +144,6 @@ class Browse extends Component {
             text={this.state.cvContents}
           />
         </div>
-        {/* <div className="lineContainer">
-          <div className="line" />
-        </div> */}
       </div>
 
     )

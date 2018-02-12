@@ -52,13 +52,19 @@
 	display: inline-block;
 }
 
-.browseSection {
+.popover-body > .form-control {
+	margin-bottom: 0.5em;
+}
+
+.browse-section {
 	float: left;
 	display: inline;
 	width: 25%;
 	padding-right: 5px;
 	padding-left: 5px;
 	font-family: 'JungkaRegular';
+	overflow: auto;
+	height: 80vh;
 }
 
 .list-group-item {
@@ -70,16 +76,6 @@
 	background-color: #d5d7de;
 	border-color: #d5d7de;
 	color: #000000;
-}
-
-#namelist {
-	overflow: auto;
-	height: 80vh;
-}
-
-#cvlist {
-	overflow: auto;
-	height: 80vh;
 }
 
 .CVpreview {

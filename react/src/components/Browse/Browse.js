@@ -18,11 +18,9 @@ class Browse extends Component {
       selectedCVIndex: 0,
       cvContents: '',
     }
-  }
-
-  componentDidMount() {
     this.updateUserList()
   }
+
 
   updateUserList = () => {
     const defaultUserIndex = 0
@@ -106,7 +104,7 @@ class Browse extends Component {
   }
 
   render() {
-    const user = this.state.userIDList[0]
+    const user = this.state.userList.length === 0 ? [] : [this.state.userList[0]]
     return (
       <div>
         <SearchAndExport
@@ -115,15 +113,16 @@ class Browse extends Component {
             this.state.cvList[this.state.selectedCVIndex])}
           view={this.props.view}
           changeViewName={this.props.changeViewName}
+          updateUserList={() => this.updateUserList()}
         />
-        <div id="namelist" className="browseSection">
+        <div id="namelist" className="browse-section">
           <NameList
-            userList={this.props.view === 'browse' ? this.state.userList : [user]}
+            userList={this.props.view === 'browse' ? this.state.userList : user}
             selectedUserIndex={this.state.selectedUserIndex}
             userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />
         </div>
-        <div id="cvlist" className="browseSection">
+        <div id="cvlist" className="browse-section">
           <CVList
             userList={this.state.userIDList}
             selectedUserIndex={this.state.selectedUserIndex}

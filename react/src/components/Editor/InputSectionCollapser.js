@@ -6,7 +6,9 @@ class InputSectionCollapser extends React.Component {
     super(props)
 
     this.toggle = this.toggle.bind(this)
-    this.state = { collapse: false }
+    /* First sections selection is currently hardcoded, later select
+     the first element of section-array. */
+    this.state = { collapse: this.props.index === 'cv' }
   }
 
   handleChange(event) {
@@ -26,7 +28,7 @@ class InputSectionCollapser extends React.Component {
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />
-              <Input type="textarea" rows="5" cols="73" id="textfield" value={this.props.text} onChange={e => this.handleChange(e)} />
+              <Input type="textarea" rows="20" cols="73" id="textfield" value={this.props.text} onChange={e => this.handleChange(e)} />
             </div>
           </Collapse>
         </div>

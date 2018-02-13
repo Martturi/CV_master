@@ -11,27 +11,28 @@ const route = express()
 
 console.log('starting server')
 
-const allowedLoginFromDomains = ['reaktor.com', 'reaktor.fi', 'gmail.com']
-const myGauth = gauth({
-  clientID: '233998639985-i5o8sbo7p1a2qtr9eu6cis37atvv9l28.apps.googleusercontent.com',
-  clientSecret: 'JzR9SQGzPk1jGKvJiVGH17HV',
-  clientDomain: config.clientURL,
-  allowedDomains: allowedLoginFromDomains,
-})
+if (config.auth_id) {
+  console.log('Using authentication')
+  const allowedLoginFromDomains = ['reaktor.com', 'reaktor.fi', 'gmail.com']
+  const myGauth = gauth({
+    clientID: config.auth_id,
+    clientSecret: config.auth_secret,
+    clientDomain: config.clientURL,
+    allowedDomains: allowedLoginFromDomains,
+  })
 
-route.use(session({
-  secret: 'lol',
-  resave: false,
-  saveUninitialized: true,
-}))
+  route.use(session({
+    secret: 'lol',
+    resave: false,
+    saveUninitialized: true,
+  }))
 
-route.use(myGauth)
-
-route.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  console.log('user id', req.user && req.user.emails && req.user.emails[0])
-  next()
-})
+  route.use(myGauth)
+}
+// route.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   next()
+// })
 
 route.set('port', (process.env.PORT || 5000))
 route.set('view engine', 'ejs')
@@ -85,9 +86,13 @@ route.put('/api/users/:username/cvs/:cvName', (request, response) => {
 })
 
 route.get('/api/currentUser', (request, response) => {
-  const email = request.user.emails[0].value
-  const uid = email.split('@')[0]
-  response.send(uid)
+  if (config.auth_id) {
+    const email = request.user.emails[0].value
+    const uid = email.split('@')[0]
+    response.send(uid)
+  } else {
+    response.send('defaultUser')
+  }
 })
 
 route.get('/api/users', (request, response) => {

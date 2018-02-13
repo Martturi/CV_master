@@ -24,6 +24,19 @@ describe('Save and load tests', () => {
     console.log('Cleaning your messes up!')
     db.clear()
   })
+
+  // Test the returning of current user
+  describe('Get current user with no auth', () => {
+    it('it should answer with 200', () => {
+      return chai.request(server)
+        .get('/api/currentUser')
+        .then((res) => {
+          res.should.have.status(200)
+          res.text.should.equal('defaultUser')
+        })
+    })
+  })
+
   /*
   * Test the /GET route
   */

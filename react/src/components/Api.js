@@ -1,8 +1,8 @@
-
 export const saveCV = async (username, cvName, text) => {
   const response = await
     fetch(`api/users/${username}/cvs/${cvName}`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -13,7 +13,7 @@ export const saveCV = async (username, cvName, text) => {
 }
 
 export const loadCV = async (username, cvName) => {
-  const response = await fetch(`api/users/${username}/cvs/${cvName}`)
+  const response = await fetch(`api/users/${username}/cvs/${cvName}`, { credentials: 'include' })
   const body = await response.text()
   console.log(`loaded: ${body.substring(0, 50)}`)
   if (response.status !== 200) throw Error(body.message)
@@ -22,6 +22,7 @@ export const loadCV = async (username, cvName) => {
 
 export const loadPreview = async (text, username) => {
   const response = await fetch('actions/preview', {
+    credentials: 'include',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,14 +36,17 @@ export const loadPreview = async (text, username) => {
 }
 
 export const loadUserList = async () => {
-  const response = await fetch('api/users')
-  const users = await response.json()
-  if (response.status !== 200) throw Error(users.message)
-  return users
+  const response1 = await fetch('api/currentUser', { credentials: 'include' })
+  const currentUser = await response1.text()
+  if (response1.status !== 200) throw Error(currentUser.message)
+  const response2 = await fetch('api/users', { credentials: 'include' })
+  const users = await response2.json()
+  if (response2.status !== 200) throw Error(users.message)
+  return { users, currentUser }
 }
 
 export const loadCVList = async (username) => {
-  const response = await fetch(`api/users/${username}/cvs`)
+  const response = await fetch(`api/users/${username}/cvs`, { credentials: 'include' })
   const cvs = await response.json()
   if (response.status !== 200) throw Error(cvs.message)
   return cvs
@@ -51,6 +55,7 @@ export const loadCVList = async (username) => {
 export const copyCV = async (username, cvName) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}/copy`, {
     method: 'POST',
+    credentials: 'include',
   })
   const nameOfCopiedCV = await response.text()
   if (response.status !== 200) throw Error(`error ${response}`)
@@ -60,6 +65,7 @@ export const copyCV = async (username, cvName) => {
 export const deleteCV = async (username, cvName) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}`, {
     method: 'DELETE',
+    credentials: 'include',
   })
   const body = await response.text() // 'Delete accepted' or 'Delete denied'
   if (response.status !== 200) throw Error(`error ${response}`)
@@ -69,6 +75,7 @@ export const deleteCV = async (username, cvName) => {
 export const renameCV = async (username, cvName, newCVName) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}/`, {
     method: 'PUT',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -81,6 +88,7 @@ export const renameCV = async (username, cvName, newCVName) => {
 
 export const fetchPDF = async (username, cvName) => {
   const response = await fetch(`api/users/${username}/cvs/${cvName}/pdf`, {
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/pdf',
     },

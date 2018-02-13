@@ -1,4 +1,6 @@
 const { Client } = require('pg')
+const fs = require('fs')
+const path = require('path')
 const config = require('./config')
 
 const client = new Client({
@@ -123,6 +125,18 @@ const loadFullName = (uid) => {
     .then(result => result.rows[0].full_name)
 }
 
+const renameUser = ({ username, fullname }) => {
+  const query = 'UPDATE users SET full_name = $2 WHERE username = $1'
+  client.query(query, [username, fullname])
+    .then(result => result.rowCount.toString())
+}
+
+const addUser = ({ username, fullname }) => {
+  const query = 'INSERT INTO users VALUES ($1, $2)'
+  client.query(query, [username, fullname])
+    .then(result => result.rowCount.toString())
+}
+
 const copy = ({ cvID }) => {
   const query = 'SELECT username, cv_name FROM cvs WHERE cv_id = $1'
   return client.query(query, [cvID])
@@ -158,6 +172,22 @@ const deleteCV = ({ cvID }) => {
     })
 }
 
+const configureUser = ({ username, fullname }) => {
+  console.log('configuring user', username, fullname)
+  loadUserList()
+    .then((userList) => {
+      const usernameList = userList.map(u => u.username)
+      const iOfUser = usernameList.indexOf(username)
+      if (iOfUser === -1) {
+        const text = fs.readFileSync(path.resolve(__dirname, '../examplecv.md'), 'utf-8')
+        addUser({ username, fullname })
+        save({ username, cvName: 'DEFAULTCV', text })
+      } else if (userList(iOfUser).full_name !== fullname) {
+        renameUser({ username, fullname })
+      }
+    })
+}
+
 module.exports = {
   load,
   save,
@@ -169,4 +199,5 @@ module.exports = {
   rename,
   loadFullName,
   initializeTestDB,
+  configureUser,
 }

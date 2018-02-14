@@ -48,6 +48,16 @@ const rename = ({ username, cvName, newCVName }) => {
     .then(result => result.rowCount.toString())
 }
 
+const loadFullName = (uid) => {
+  const query = `
+    SELECT full_name
+    FROM users
+    WHERE username = $1;
+  `
+  return client.query(query, [uid])
+    .then(result => result.rows[0].full_name)
+}
+
 const copy = ({ username, cvName }) => {
   return load({ username, cvName })
     .then((text) => {
@@ -79,5 +89,5 @@ const deleteCV = ({ username, cvName }) => {
 }
 
 module.exports = {
-  load, save, clear, loadUserList, loadCVList, copy, deleteCV, rename,
+  load, save, clear, loadUserList, loadCVList, copy, deleteCV, rename, loadFullName,
 }

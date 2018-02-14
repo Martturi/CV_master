@@ -6,7 +6,8 @@ CREATE TABLE users (
 CREATE TABLE cvs (
   cv_id SERIAL PRIMARY KEY,
   username TEXT REFERENCES users(username) ON DELETE CASCADE,
-  cv_name TEXT
+  cv_name TEXT,
+  last_updated TIMESTAMP WITH TIME ZONE
 );
 
 CREATE INDEX username_idx ON cvs (username);
@@ -32,11 +33,11 @@ INSERT INTO users VALUES('heikki', 'Heikki Heikalainen');
 INSERT INTO users VALUES('matti', 'Matti Meikalainen');
 INSERT INTO users VALUES('pikkumatti', 'Matti Meikalainen');
 
-INSERT INTO cvs VALUES (DEFAULT, 'korkkii', 'cv');
-INSERT INTO cvs VALUES (DEFAULT, 'heikki', 'CV (not complete)');
-INSERT INTO cvs VALUES (DEFAULT, 'matti', 'CV 20.09.2015');
-INSERT INTO cvs VALUES (DEFAULT, 'matti', 'CV final version');
-INSERT INTO cvs VALUES (DEFAULT, 'pikkumatti', 'Pikku-Matin CV');
+INSERT INTO cvs VALUES (DEFAULT, 'korkkii', 'cv', '2018-01-01 15:15:16+0');
+INSERT INTO cvs VALUES (DEFAULT, 'heikki', 'CV (not complete)', '2018-01-15 11:08:12+0');
+INSERT INTO cvs VALUES (DEFAULT, 'matti', 'CV 20.09.2015', '2015-09-20 22:53:46+0');
+INSERT INTO cvs VALUES (DEFAULT, 'matti', 'CV final version', '2015-09-27 07:58:06+0');
+INSERT INTO cvs VALUES (DEFAULT, 'pikkumatti', 'Pikku-Matin CV', '2017-12-27 17:00:22+0');
 
 INSERT INTO cv_sections VALUES (DEFAULT, '', '', 0);
 INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', 100);

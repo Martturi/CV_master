@@ -20,7 +20,7 @@ class CVList extends React.Component {
               />
             </ListGroupItemHeading>
             <ListGroupItemText className="list-item">
-              Last updated: 04.01.2018
+              {`Last updated: ${new Date(cvObject.last_updated).toLocaleString()}`}
             </ListGroupItemText>
           </div>
           <CVToolbar

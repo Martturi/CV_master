@@ -8,6 +8,9 @@ class Preview extends Component {
   }
 
   componentWillReceiveProps(props) {
+    // making sure we don't update preview before getting sections:
+    if (!props.sections.length) return
+    // update only if contents or username has changed:
     const oldArray = this.props.sections
     const newArray = props.sections
     const hasSameLength = newArray.length === oldArray.length

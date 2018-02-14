@@ -1,6 +1,7 @@
 import React from 'react'
 import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading } from 'reactstrap'
 import CVToolbar from './CVToolbar'
+import CvNameForm from './CvNameForm'
 
 class CVList extends React.Component {
   render() {
@@ -9,14 +10,19 @@ class CVList extends React.Component {
       return (
         <ListGroupItem key={cvName} active={isActive} tag="a" href="#" action onClick={() => this.props.cvClicked(index)}>
           <div className="cvinfo">
-            <ListGroupItemHeading>{cvName}</ListGroupItemHeading>
+            <ListGroupItemHeading>
+              <CvNameForm
+                cvName={cvName}
+                index={index}
+                renameConfirmed={newCVName => this.props.renameConfirmed(cvName, newCVName)}
+              />
+            </ListGroupItemHeading>
             <ListGroupItemText className="list-item">
-              Last updated: 04.01.2018
+              04.01.2018
             </ListGroupItemText>
           </div>
           <CVToolbar
             goEdit={() => this.props.goEdit(cvName)}
-            renameConfirmed={newCVName => this.props.renameConfirmed(cvName, newCVName)}
             copyClicked={() => this.props.copyClicked(cvName)}
             deleteConfirmed={() => this.props.deleteConfirmed(cvName)}
             cvCount={this.props.cvCount}

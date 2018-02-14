@@ -55,6 +55,7 @@
   width: 100%;
   font-family: 'JungkaRegular';
   box-shadow: none;
+  height: 10vh;
 }
 
 #editor-buttonheader {

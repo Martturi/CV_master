@@ -35,6 +35,12 @@
 	border-color: #242730;
 }
 
+.rename-button {
+	padding: 0.2em 0.5em 0.2em 0.5em;
+	margin-left: 0.5em;
+	font-size: x-small;
+}
+
 .search.form-control {
 	box-shadow: none;
 	color: #242730;
@@ -42,14 +48,15 @@
 }
 
 .searchheader {
-  padding-top: 10px;
-  padding-right: 5px;
-  padding-left: 5px;
-  padding-bottom: 10px;
+  padding-top: 1rem;
+  padding-right: 0.5rem;
+  padding-left: 1rem;
+  padding-bottom: 0.5rem;
   float: right;
   width: 100%;
   font-family: 'JungkaRegular';
-	display: inline-block;
+  display: inline-block;
+  height: 10vh;
 }
 
 .popover-body > .form-control {
@@ -60,15 +67,15 @@
 	float: left;
 	display: inline;
 	width: 25%;
-	padding-right: 5px;
-	padding-left: 5px;
+	padding-right: 0.25rem;
+	padding-left: 0.25rem;
 	font-family: 'JungkaRegular';
 	overflow: auto;
 	height: 80vh;
 }
 
 .list-group-item {
-    padding-left: 1em;
+    padding-left: 1rem;
     color: #242730;
 }
 
@@ -76,11 +83,6 @@
 	background-color: #d5d7de;
 	border-color: #d5d7de;
 	color: #000000;
-}
-
-.CVpreview {
-	overflow: auto;
-	height: 80vh;
 }
 
 html, body {

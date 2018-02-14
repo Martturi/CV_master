@@ -1,6 +1,7 @@
 export const saveCV = async (username, cvName, text) => {
+  const encodedCVName = encodeURIComponent(cvName)
   const response = await
-    fetch(`api/users/${username}/cvs/${cvName}`, {
+    fetch(`api/users/${username}/cvs/${encodedCVName}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -13,7 +14,8 @@ export const saveCV = async (username, cvName, text) => {
 }
 
 export const loadCV = async (username, cvName) => {
-  const response = await fetch(`api/users/${username}/cvs/${cvName}`, { credentials: 'include' })
+  const encodedCVName = encodeURIComponent(cvName)
+  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}`, { credentials: 'include' })
   const body = await response.text()
   console.log(`loaded: ${body.substring(0, 50)}`)
   if (response.status !== 200) throw Error(body.message)
@@ -53,7 +55,8 @@ export const loadCVList = async (username) => {
 }
 
 export const copyCV = async (username, cvName) => {
-  const response = await fetch(`api/users/${username}/cvs/${cvName}/copy`, {
+  const encodedCVName = encodeURIComponent(cvName)
+  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}/copy`, {
     method: 'POST',
     credentials: 'include',
   })
@@ -63,7 +66,8 @@ export const copyCV = async (username, cvName) => {
 }
 
 export const deleteCV = async (username, cvName) => {
-  const response = await fetch(`api/users/${username}/cvs/${cvName}`, {
+  const encodedCVName = encodeURIComponent(cvName)
+  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}`, {
     method: 'DELETE',
     credentials: 'include',
   })
@@ -73,7 +77,8 @@ export const deleteCV = async (username, cvName) => {
 }
 
 export const renameCV = async (username, cvName, newCVName) => {
-  const response = await fetch(`api/users/${username}/cvs/${cvName}/`, {
+  const encodedCVName = encodeURIComponent(cvName)
+  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}/`, {
     method: 'PUT',
     credentials: 'include',
     headers: {
@@ -87,7 +92,8 @@ export const renameCV = async (username, cvName, newCVName) => {
 }
 
 export const fetchPDF = async (username, cvName) => {
-  const response = await fetch(`api/users/${username}/cvs/${cvName}/pdf`, {
+  const encodedCVName = encodeURIComponent(cvName)
+  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}/pdf`, {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/pdf',

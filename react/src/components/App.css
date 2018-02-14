@@ -1,7 +1,7 @@
 /* @import url("/pdf/style.css"); */
 
 .preview {
-    width: 595px;
+    width: 37em;
     border: 1px solid black;
     margin: auto
 }

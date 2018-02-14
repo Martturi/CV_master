@@ -1,4 +1,4 @@
-#####Mikko Mallikas
+##### Mikko Mallikas
 ###Master of Science
 
 ######Senior Software Architect
@@ -19,7 +19,7 @@ example, he has designed the user interfaces of RAY’s Loyal Customers and
 Online Casino services.
 
 #### WORK EXPERIENCE
-#Reaktor Innovations Oy, 1/2013-
+#**Reaktor Innovations Oy, 1/2013-**
 ###Senior Software Architect
 This space is reserved for some general information about Mikko’s Reaktor work
 experience. Mikko has been involved in various projects at Reaktor and played a
@@ -27,7 +27,8 @@ significant role in creating solutions for customers, for example in relation to
 services. Mikko’s tasks include software architecture, user interface design, and
 conceptualising, for example.
 Projects include:
-##OP-Pohjola, VendorWeb, 6/2015-
+
+##**OP-Pohjola, VendorWeb, 6/2015-**
 ###Senior Software Architect
 What was done? What is the big picture? What did Mikko do or be responsible for?
 Something else important? Reaktor has been developing OP’s web services. In the
@@ -40,14 +41,14 @@ received a lot of positive attention and it has X monthly unique users.
 > Keywords: xxx, xxx, xxx (technologies, methods, tools, operation systems... Cross
 check with the last section “knowledge and experience of”)
 
-##Luottokunta, Transaction management system, 8/2014-5/2015
+##**Luottokunta, Transaction management system, 8/2014-5/2015**
 ###Senior UI Designer
 Mikko was involved in a project, in which Luottokunta’s critical system for
 transaction monitoring and management was renewed and developed. Mikko’s
 responsibility was user interface design and his tasks included e.g. user interviews,
 
 
-##Slot Machine Association, Loyal Customers and Online Casino, 5/2013-5/2014
+##**Slot Machine Association, Loyal Customers and Online Casino, 5/2013-5/2014**
 ###UI Designer
 Reaktor is developing various RAY’s services and Mikko has been in a significant role
 as an UI designer in a number of these services. He did, for example, concept
@@ -57,16 +58,18 @@ money at Online Casino on ray.fi. His duties included e.g. desinging, testing, a
 documentation.
 Online Casino: www.ray.fi/en
 Loyal Customer: www.ray.fi/en/etuasiakas
-Keywords:
+> Keywords:
 
-###Reaktor R&D, Hours, 1-4/2013
+##**Reaktor R&D, Hours, 1-4/2013**
 Hours is a Java based software for working time tracking. Development process also
 included some Scala. Mikko was responsible for the architecture and UI design of
 the application. Agile methods, such as Kanban, were used in the development
 process.
-Keywords:
+>Keywords:
 
-##Futurice, 3/2009-12/2012
+####PREVIOUS EMPLOYMENT
+
+#**Futurice, 3/2009-12/2012**
 ###Concept and UI Designer
 While working at Futurice, Mikko’s tasks varied in different mobile and web projects
 from UI design to usability testing and from Scrum Mastering to project
@@ -75,44 +78,45 @@ project for Company X, and Mikko was responsible for the UI design of the mobile
 application. Mikko’s clients were e.g. Company A, Company B, and Company C.
 Additionally, his responsibilities included leading team of 15 developers and senior
 technical expert, and product owner in R&D projects.
-Keywords:
+> Keywords:
 
-##Idean, 5/2007-3/2009
+#**Idean, 5/2007-3/2009**
 ###UI Specialist, Coach
 At Idean’s research department, Mikko’s responsibilities included usability testing,
 conceptualisation research and service design. Additionally, he acted as a coach in
 several projects, helping clients through the project.
-Keywords:
+> Keywords:
 Projects include:
 Company Y, Further development of web service, 1-12/2008
 • Mikko worked as an UI designer and conceptualiser
 • Mikko was planning and implementing Company Y’s new web service for
 corporate customers
-### Keywords: xxx, xxx, xxx
+> Keywords: xxx, xxx, xxx
 
-####PREVIOUS EMPLOYMENT
+###**Company X, Coaching, 12/2007-3/2008**
+Mikko worked as a coach for Company X, who was simultaneously
+working on a large scale development project.
 
-##Company X, Coaching, 12/2007-3/2008
-*  Mikko worked as a coach for Company X, who was simultaneously
-working on a large scale development project
-
-* . Mikko organised three separate trainings, where he sparred personnel
+Mikko organised three separate trainings, where he sparred personnel
 working on the large development project, helping them through the
 project
-*  The trainings received a lot of good feedback and the client’s
-development project was also successful
-### Keywords: xxx, xxx, xxx
 
-####CERTIFICATES
-##Master of Science, Helsinki University of Technology, 2002-2008
+The trainings received a lot of good feedback and the client’s
+development project was also successful
+> Keywords: xxx, xxx, xxx
+
+####Education
+#**Master of Science, Helsinki University of Technology, 2002-2008**
 Information Networks
 Major: Ihmisläheiset tietojärjestelmät
 Minor: International Design Business Management
 Master’s thesis: xxx
 
-##Non-graduate studies, Aalto University School of Science, 2011-2012
+#**Non-graduate studies, Aalto University School of Science, 2011-2012**
 Courses after graduation at the Department of Computer Science
+
 • Advanced module of user interfaces and usability, 2012
+
 • Continuous Integration advanced course, 2010
 
 ####CERTIFICATES
@@ -120,38 +124,48 @@ Certified Scrum Master, August 2013
 Certified Kanban Developer, Reaktor, November 2011
 
 ####LANGUAGE SKILLS
-*  Finnish native
-*  English excellent
-*  Swedish good
-*  German satisfactory
+Finnish native
+
+English excellent
+
+Swedish good
+
+German satisfactory
 
 ####AWARDS
-##Finnish Champion in coding, August 2010
+Finnish Champion in coding, August 2010
 
 ####PUBLICATIONS
 Article: Mikko Mallikas, 2009, Overfitting in making comparisons between variable
 selection methods, Journal of Machine Learning Research 3, 1371-1382
+
 Book: Mikko Mallikas, 2008, Agile Software Development with Scrum, Pearson,
 ISBN 978-0130676344
+
 Patent: Mikko Mallikas and Antti Saarela, 2003, Method and apparatus for
 recognizing repeating patterns. Europe patent no. 1867979, US patent 8023720
 
 ####CONFERENECES
 2007 Name of the Conference, City, Country, speaker/participant
+
 2005 Name of the Conference, City, Country, speaker/participant
-Reaktor Innovations Oy Mannerheimintie 2, 00100 Helsinki, Finland www.reaktor.com
 
 ####OTHER ACTIVITIES
 • GitHub/Bitbucket: www.xxxx.fi
+
 • Portfolio: www.xxxx.fi
+
 • Participates in OpenSource projects, such as
+
 • xxx
+
 • xxx
+
 • Has held several courses and lectures for co-workers about various technology
 topics
 
 ####ESSENTIAL SKILLS
-##Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
+• Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
 
 • Long experience in designing user-friendly interfaces
 
@@ -165,7 +179,7 @@ topics
 
 • Expertise in data security
 
-##Additionally, some “softer” skills, e.g.:
+• Additionally, some “softer” skills, e.g.:
 
 • Passionate problem solver
 
@@ -179,44 +193,44 @@ topics
 
 • Excellent interpersonal and communication skills
 
-##Knowledge and experience of:
+#Knowledge and experience of:
 
 • Specific technologies are listed here under various categories, no sentences
 
-• Object-oriented and functional programming
+• **Object-oriented and functional programming**
 
-• Software integrations
+• **Software integrations**
 
-• Agile methods: Scrum, Lean, Kanban, BDD, TDD, CI
+• **Agile methods:** Scrum, Lean, Kanban, BDD, TDD, CI
 
-• Programming languages: Java, Scala, C++, Ruby, Python, JavaScript
+• **Programming languages:** Java, Scala, C++, Ruby, Python, JavaScript
 
-• Java technologies
+• **Java technologies**
 
 • Java SE: JNDI, JDBC, JavaMail
 
 • Java EE: EJB3, EJB2, JPA, JTA, JMS, JAAS, JNDI, JCA, CDI
 
-• Application servers and environments: JBoss, Oracle WebLogic, Glassfish, Jetty, Tomcat, Rails, Heroku, CloudBees
+• **Application servers and environments:** JBoss, Oracle WebLogic, Glassfish, Jetty, Tomcat, Rails, Heroku, CloudBees
 
-• Web-tier components and tools: HTML5, JavaScript, JSON, AJAX, jQuery, angular.js, Backbone.js
+• **Web-tier components and tools:** HTML5, JavaScript, JSON, AJAX, jQuery, angular.js, Backbone.js
 
-• Software frameworks and libraries: Spring, Play, Struts, Vaadin, Restlet, Jersey, Jackson, Servlets, JSF, RichFaces, JSP, Velocity, JSTL, Apache CXF
+• **Software frameworks and libraries:** Spring, Play, Struts, Vaadin, Restlet, Jersey, Jackson, Servlets, JSF, RichFaces, JSP, Velocity, JSTL, Apache CXF
 
-• SOA and Web Services: REST, SOAP, XML-RPC, WSDL, WS-*, BPMN, BPEL, JAX-WS, JAX-RS
+• **SOA and Web Services:** REST, SOAP, XML-RPC, WSDL, WS-*, BPMN, BPEL, JAX-WS, JAX-RS
 
-• XML technologies: XML Schema, RDF, DOM, SAX, XSLT, XQuery, XPath
+• **XML technologies:** XML Schema, RDF, DOM, SAX, XSLT, XQuery, XPath
 
-• ORM tools: Hibernate, EJB3, JPA, QueryDSL, EBean, Morphia, Spring data
+• **ORM tools:** Hibernate, EJB3, JPA, QueryDSL, EBean, Morphia, Spring data
 
-• Databases: Oracle, MySQL, MongoDB, PostgreSQL, Oracle 11g, H2
+• **Databases:** Oracle, MySQL, MongoDB, PostgreSQL, Oracle 11g, H2
 
-• Build systems, continuous integration and development environments: Ant, Maven, Rake, SBT, Bamboo, Jenkins, Eclipse, IntelliJ IDEA
+• **Build systems, continuous integration and development environments:** Ant, Maven, Rake, SBT, Bamboo, Jenkins, Eclipse, IntelliJ IDEA
 
-• Editors/Integrated Development Environments: Xcode, Eclipse, Aptana Studio, NetBeans, Sublime Text, Espresso, Coda
+• **Editors/Integrated Development Environments:** Xcode, Eclipse, Aptana Studio, NetBeans, Sublime Text, Espresso, Coda
 
-• Testing: Selenium, PhantomJS, CasperJS, Mocha
+• **Testing:** Selenium, PhantomJS, CasperJS, Mocha
 
-• Version control softwares: Git, Apache Subversion
+• **Version control softwares:** Git, Apache Subversion
 
-• Graphic design tools: Adobe Photoshop, Adobe Illustrator, Adobe InDesign
+• **Graphic design tools:** Adobe Photoshop, Adobe Illustrator, Adobe InDesign

@@ -8,7 +8,7 @@ import { saveCV, loadCV } from '../Api'
 
 class Editor extends Component {
   state = {
-    text: '',
+    sections: [],
     saveStatus: '',
   }
 
@@ -16,20 +16,22 @@ class Editor extends Component {
     this.openCV()
   }
 
-  updateText(text) {
-    this.setState({ text })
+  updateSection(sectionIndex, text) {
+    const newContents = this.state.sections.map(obj => Object.assign({}, obj)) // deep copy
+    newContents[sectionIndex].text = text
+    this.setState({ sections: newContents })
   }
 
   openCV() {
-    loadCV(this.props.username, this.props.cvName)
-      .then((res) => {
-        this.setState({ text: res })
+    loadCV(this.props.cvID)
+      .then((sections) => {
+        this.setState({ sections })
       })
       .catch(err => console.log(err))
   }
 
   async saveCV() {
-    await saveCV(this.props.username, this.props.cvName, this.state.text)
+    await saveCV(this.props.cvID, this.state.sections)
       .then((res) => {
         this.setState({ saveStatus: res })
       })
@@ -46,21 +48,21 @@ class Editor extends Component {
         <div id="buttons">
           <EditorButtonGroup
             saveCV={() => this.saveCV()}
-            fetchPDF={() => this.props.fetchPDF()}
+            fetchPDF={() => this.props.fetchPDF(this.state.sections)}
             saveStatus={this.state.saveStatus}
             goBack={this.props.goBack}
           />
         </div>
         <div className="sections">
           <InputSections
-            text={this.state.text}
-            updateText={text => this.updateText(text)}
+            sections={this.state.sections}
+            updateSection={(sectionIndex, text) => this.updateSection(sectionIndex, text)}
           />
         </div>
         <div className="CVpreview">
           <Preview
             username={this.props.username}
-            text={this.state.text}
+            sections={this.state.sections}
           />
         </div>
       </div>

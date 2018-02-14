@@ -7,22 +7,78 @@ const client = new Client({
 
 client.connect().catch(e => console.error('connection error', e.stack))
 
-const load = ({ username, cvName }) => {
-  const query = 'SELECT text FROM cvs WHERE username = $1 AND cv_name = $2;'
-  return client.query(query, [username, cvName])
-    .then(result => (result.rows[0] ? result.rows[0].text : 'New CV'))
+const load = ({ cvID }) => {
+  const query = `
+    SELECT a.section_id AS section_id, eng_title, text FROM cv_sections AS a LEFT OUTER JOIN
+    section_data AS b ON a.section_id = b.section_id AND cv_id = $1 ORDER BY section_order;
+  `
+  return client.query(query, [cvID])
+    .then((result) => {
+      const rows = result.rows
+      // after left outer join result.rows[i].text can be NULL so we have to be careful:
+      for (let i = 0; i < rows.length; i += 1) {
+        if (!rows[i].text) rows[i].text = ''
+      }
+      return rows
+    })
 }
 
-const save = ({ username, cvName, text }) => {
-  const query = 'INSERT INTO cvs VALUES ($1, $2, $3) ON CONFLICT (username, ' +
-                'cv_name) DO UPDATE SET text = $3;'
-  return client.query(query, [username, cvName, text])
-    .then(() => 'Save succeeded.')
+const createCV = ({ username, cvName }) => {
+  const query = 'INSERT INTO cvs VALUES (DEFAULT, $1, $2) RETURNING cv_id;'
+  return client.query(query, [username, cvName])
+    .then((res) => {
+      // default query never causes a conflict so we don't have to check whether res.rows[0] is
+      // defined:
+      return res.rows[0].cv_id
+    })
+}
+
+const save = ({ cvID, sections }) => {
+  const insertOrDelete = (index) => {
+    if (index < sections.length) {
+      const section = sections[index]
+      // if section.text is non-empty do upsert
+      if (section.text) {
+        const query = `
+          INSERT INTO section_data VALUES ($1, $2, $3) ON CONFLICT (cv_id, section_id) DO UPDATE SET
+          text = $3;
+        `
+        return client.query(query, [cvID, section.section_id, section.text])
+          .then(() => insertOrDelete(index + 1))
+      }
+      // otherwise, delete an empty section from db:
+      const query = 'DELETE FROM section_data WHERE cv_id = $1 AND section_id = $2;'
+      return client.query(query, [cvID, section.section_id])
+        .then(() => insertOrDelete(index + 1))
+    }
+    return Promise.resolve('Save succeeded.')
+  }
+  return insertOrDelete(0)
+}
+
+const initializeTestDB = (testUsername, testCVName, testSections) => {
+  if (config.env !== 'production') {
+    const sectionInserts = testSections.map(section => (
+      `INSERT INTO cv_sections VALUES (${section.section_id}, '', '${section.eng_title}', ` +
+      `${section.order})`
+    )).join('; ')
+    const query = `
+      DELETE FROM users;
+      DELETE FROM cv_sections;
+      INSERT INTO users VALUES ('${testUsername}', '');
+      ALTER SEQUENCE cvs_cv_id_seq RESTART WITH 1;
+      INSERT INTO cvs VALUES (DEFAULT, '${testUsername}', '${testCVName}');
+      ${sectionInserts};
+    `
+    return client.query(query)
+      .then(() => 'Initialize succeeded.')
+  }
+  return 'Not allowed!'
 }
 
 const clear = () => {
   if (config.env !== 'production') {
-    const query = 'TRUNCATE TABLE cvs; TRUNCATE TABLE users;'
+    const query = 'TRUNCATE TABLE users CASCADE; TRUNCATE TABLE cv_sections CASCADE;'
     return client.query(query)
       .then(() => 'Clear succeeded.')
   }
@@ -36,15 +92,14 @@ const loadUserList = () => {
 }
 
 const loadCVList = ({ username }) => {
-  const query = 'SELECT cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
+  const query = 'SELECT cv_id, cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
   return client.query(query, [username])
-    .then(result => result.rows.map(row => row.cv_name))
+    .then(result => result.rows)
 }
 
-const rename = ({ username, cvName, newCVName }) => {
-  const query = 'UPDATE cvs SET cv_name = $3 WHERE username = $1 AND ' +
-                'cv_name = $2;'
-  return client.query(query, [username, cvName, newCVName])
+const rename = ({ cvID, newCVName }) => {
+  const query = 'UPDATE cvs SET cv_name = $2 WHERE cv_id = $1;'
+  return client.query(query, [cvID, newCVName])
     .then(result => result.rowCount.toString())
 }
 
@@ -58,36 +113,50 @@ const loadFullName = (uid) => {
     .then(result => result.rows[0].full_name)
 }
 
-const copy = ({ username, cvName }) => {
-  return load({ username, cvName })
-    .then((text) => {
-      return loadCVList({ username })
-        .then((cvs) => {
-          let n = 1
-          let newCVName
-          do {
-            newCVName = `${cvName}(${n})`
-            n += 1
-          } while (cvs.includes(newCVName))
-          const saveArray = { username, text, cvName: newCVName }
-          return save(saveArray)
-            .then(() => newCVName)
+const copy = ({ cvID }) => {
+  const query = 'SELECT username, cv_name FROM cvs WHERE cv_id = $1'
+  return client.query(query, [cvID])
+    .then(result => (result.rows[0] || Promise.reject('Copy failed')))
+    .then((row) => {
+      const username = row.username
+      const newCVName = `${row.cv_name} (copy)`
+      return createCV({ username, cvName: newCVName })
+        .then((newCVID) => {
+          return load({ cvID })
+            .then((sections) => {
+              return save({ cvID: newCVID, sections })
+                .then(() => newCVID.toString())
+            })
         })
     })
 }
 
-const deleteCV = ({ username, cvName }) => {
-  return loadCVList({ username })
-    .then((cvs) => {
-      if (cvs.length >= 2) {
-        const query = 'DELETE FROM cvs WHERE username = $1 AND cv_name = $2;'
-        return client.query(query, [username, cvName])
-          .then(result => result.rowCount.toString())
-      }
-      return Promise.resolve('0')
+const deleteCV = ({ cvID }) => {
+  const selectQuery = 'SELECT username FROM cvs WHERE cv_id = $1'
+  return client.query(selectQuery, [cvID])
+    .then(result => (result.rows[0] ? result.rows[0].username : Promise.reject('Deleting failed')))
+    .then((username) => {
+      return loadCVList({ username })
+        .then((cvs) => {
+          if (cvs.length >= 2) {
+            const query = 'DELETE FROM cvs WHERE cv_id = $1;'
+            return client.query(query, [cvID])
+              .then(result => result.rowCount.toString())
+          }
+          return Promise.resolve('0')
+        })
     })
 }
 
 module.exports = {
-  load, save, clear, loadUserList, loadCVList, copy, deleteCV, rename, loadFullName,
+  load,
+  save,
+  clear,
+  loadUserList,
+  loadCVList,
+  copy,
+  deleteCV,
+  rename,
+  loadFullName,
+  initializeTestDB,
 }

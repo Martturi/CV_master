@@ -6,13 +6,11 @@ class InputSectionCollapser extends React.Component {
     super(props)
 
     this.toggle = this.toggle.bind(this)
-    /* First sections selection is currently hardcoded, later select
-     the first element of section-array. */
-    this.state = { collapse: this.props.index === 'cv' }
+    this.state = { collapse: !props.index }
   }
 
   handleChange(event) {
-    this.props.updateText(event.target.value)
+    this.props.updateSection(event.target.value)
   }
 
   toggle() {
@@ -20,15 +18,14 @@ class InputSectionCollapser extends React.Component {
   }
 
   render() {
-    const field = this.props.field
     return (
       <ListGroupItem>
         <div>
-          <Button outline className="button" size="sm" onClick={this.toggle}> {field.title} </Button>
+          <Button outline className="button" size="sm" onClick={this.toggle}> {this.props.section.eng_title || 'No Title'} </Button>
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />
-              <Input type="textarea" rows="20" cols="73" id="textfield" value={this.props.text} onChange={e => this.handleChange(e)} />
+              <Input type="textarea" rows="15" cols="73" id="textfield" value={this.props.section.text} onChange={e => this.handleChange(e)} />
             </div>
           </Collapse>
         </div>

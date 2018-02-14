@@ -56,32 +56,21 @@ const handleDBRequest = (dbFunction, request, response) => {
 }
 
 // Post request for saving CV with username and CV name
-route.post('/api/users/:username/cvs/:cvName', (request, response) => {
+route.post('/api/cvs/:cvID', (request, response) => {
   handleDBRequest(db.save, request, response)
 })
 
 // Get request for loading CV with username and CV name
-route.get('/api/users/:username/cvs/:cvName', (request, response) => {
+route.get('/api/cvs/:cvID', (request, response) => {
   handleDBRequest(db.load, request, response)
 })
 
-// Get request for loading pdf with username and CV name
-route.get('/api/users/:username/cvs/:cvName/pdf', (request, response) => {
-  const params = Object.assign({}, request.params)
-  const f = db.load
-  console.log(`Performing db operation "${f.name}" with params (next line):`)
-  console.log(params)
-  f(params)
-    .then((res) => {
-      pdf.servePDF(res, response, params.username)
-    })
-    .catch((err) => {
-      console.error(err)
-      response.status(500).send('Database error')
-    })
+// Post request for loading pdf
+route.post('/api/pdf', (request, response) => {
+  pdf.servePDF(response, request.body)
 })
 
-route.put('/api/users/:username/cvs/:cvName', (request, response) => {
+route.put('/api/cvs/:cvID', (request, response) => {
   handleDBRequest(db.rename, request, response)
 })
 
@@ -103,20 +92,19 @@ route.get('/api/users/:username/cvs', (request, response) => {
   handleDBRequest(db.loadCVList, request, response)
 })
 
-route.post('/api/users/:username/cvs/:cvName/copy', (request, response) => {
+route.post('/api/cvs/:cvID/copy', (request, response) => {
   handleDBRequest(db.copy, request, response)
 })
 
-route.delete('/api/users/:username/cvs/:cvName', (request, response) => {
+route.delete('/api/cvs/:cvID', (request, response) => {
   handleDBRequest(db.deleteCV, request, response)
 })
 
 // Sends a preview based on the text from the request.
 route.post('/actions/preview', (request, response) => {
-  const text = request.body.text || ''
-  const username = request.body.username || ''
+  const params = request.body
   console.log('Loading preview for cv')
-  const preview = pdf.getHTML(text, username)
+  const preview = pdf.getHTML(params)
   preview.then((result) => {
     response.send(result)
   })

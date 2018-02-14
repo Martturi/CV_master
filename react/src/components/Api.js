@@ -1,38 +1,34 @@
-export const saveCV = async (username, cvName, text) => {
-  const encodedCVName = encodeURIComponent(cvName)
+export const saveCV = async (cvID, sections) => {
   const response = await
-    fetch(`api/users/${username}/cvs/${encodedCVName}`, {
+    fetch(`api/cvs/${cvID}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ sections }),
     })
   if (response.status !== 200) throw Error(`error ${response}`)
   return 'Save succeeded.'
 }
 
-export const loadCV = async (username, cvName) => {
-  const encodedCVName = encodeURIComponent(cvName)
-  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}`, { credentials: 'include' })
-  const body = await response.text()
-  console.log(`loaded: ${body.substring(0, 50)}`)
+export const loadCV = async (cvID) => {
+  const response = await fetch(`api/cvs/${cvID}`, { credentials: 'include' })
+  const body = await response.json()
   if (response.status !== 200) throw Error(body.message)
   return body
 }
 
-export const loadPreview = async (text, username) => {
+export const loadPreview = async (sections, username) => {
   const response = await fetch('actions/preview', {
     credentials: 'include',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ text, username }),
+    body: JSON.stringify({ sections, username }),
   })
   const body = await response.text()
-  console.log(`preview: ${body.substring(0, 50)}`)
   if (response.status !== 200) throw Error(body.message)
   return body
 }
@@ -54,9 +50,8 @@ export const loadCVList = async (username) => {
   return cvs
 }
 
-export const copyCV = async (username, cvName) => {
-  const encodedCVName = encodeURIComponent(cvName)
-  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}/copy`, {
+export const copyCV = async (cvID) => {
+  const response = await fetch(`api/cvs/${cvID}/copy`, {
     method: 'POST',
     credentials: 'include',
   })
@@ -65,9 +60,8 @@ export const copyCV = async (username, cvName) => {
   return nameOfCopiedCV
 }
 
-export const deleteCV = async (username, cvName) => {
-  const encodedCVName = encodeURIComponent(cvName)
-  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}`, {
+export const deleteCV = async (cvID) => {
+  const response = await fetch(`api/cvs/${cvID}`, {
     method: 'DELETE',
     credentials: 'include',
   })
@@ -76,9 +70,8 @@ export const deleteCV = async (username, cvName) => {
   return body
 }
 
-export const renameCV = async (username, cvName, newCVName) => {
-  const encodedCVName = encodeURIComponent(cvName)
-  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}/`, {
+export const renameCV = async (cvID, newCVName) => {
+  const response = await fetch(`api/cvs/${cvID}`, {
     method: 'PUT',
     credentials: 'include',
     headers: {
@@ -91,13 +84,14 @@ export const renameCV = async (username, cvName, newCVName) => {
   return body
 }
 
-export const fetchPDF = async (username, cvName) => {
-  const encodedCVName = encodeURIComponent(cvName)
-  const response = await fetch(`api/users/${username}/cvs/${encodedCVName}/pdf`, {
+export const fetchPDF = async (username, sections) => {
+  const response = await fetch('api/pdf', {
     credentials: 'include',
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/pdf',
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ sections, username }),
   })
   if (response.status !== 200) throw Error(`error ${response}`)
   return response

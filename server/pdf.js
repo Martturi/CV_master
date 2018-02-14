@@ -24,7 +24,7 @@ const sectionsToText = (sections) => {
   sections.forEach((section) => {
     const title = section.eng_title
     const text = section.text
-    const titleAsMarkdown = (title ? `#${title}\n` : '')
+    const titleAsMarkdown = (title ? `####${title}\n` : '')
     wholeText += (text ? `${titleAsMarkdown}${text}\n` : '')
   })
   return wholeText

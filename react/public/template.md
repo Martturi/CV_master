@@ -1,4 +1,3 @@
-##### Mikko Mallikas
 ###Master of Science
 
 ######Senior Software Architect
@@ -27,7 +26,6 @@ significant role in creating solutions for customers, for example in relation to
 services. Mikko’s tasks include software architecture, user interface design, and
 conceptualising, for example.
 Projects include:
-
 ##**OP-Pohjola, VendorWeb, 6/2015-**
 ###Senior Software Architect
 What was done? What is the big picture? What did Mikko do or be responsible for?
@@ -165,7 +163,7 @@ recognizing repeating patterns. Europe patent no. 1867979, US patent 8023720
 topics
 
 ####ESSENTIAL SKILLS
-• Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
+##Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
 
 • Long experience in designing user-friendly interfaces
 
@@ -179,7 +177,7 @@ topics
 
 • Expertise in data security
 
-• Additionally, some “softer” skills, e.g.:
+##Additionally, some “softer” skills, e.g.:
 
 • Passionate problem solver
 
@@ -193,44 +191,44 @@ topics
 
 • Excellent interpersonal and communication skills
 
-#Knowledge and experience of:
+##Knowledge and experience of:
 
 • Specific technologies are listed here under various categories, no sentences
 
-• **Object-oriented and functional programming**
+• Object-oriented and functional programming
 
-• **Software integrations**
+• Software integrations
 
-• **Agile methods:** Scrum, Lean, Kanban, BDD, TDD, CI
+• Agile methods: Scrum, Lean, Kanban, BDD, TDD, CI
 
-• **Programming languages:** Java, Scala, C++, Ruby, Python, JavaScript
+• Programming languages: Java, Scala, C++, Ruby, Python, JavaScript
 
-• **Java technologies**
+• Java technologies
 
 • Java SE: JNDI, JDBC, JavaMail
 
 • Java EE: EJB3, EJB2, JPA, JTA, JMS, JAAS, JNDI, JCA, CDI
 
-• **Application servers and environments:** JBoss, Oracle WebLogic, Glassfish, Jetty, Tomcat, Rails, Heroku, CloudBees
+• Application servers and environments: JBoss, Oracle WebLogic, Glassfish, Jetty, Tomcat, Rails, Heroku, CloudBees
 
-• **Web-tier components and tools:** HTML5, JavaScript, JSON, AJAX, jQuery, angular.js, Backbone.js
+• Web-tier components and tools: HTML5, JavaScript, JSON, AJAX, jQuery, angular.js, Backbone.js
 
-• **Software frameworks and libraries:** Spring, Play, Struts, Vaadin, Restlet, Jersey, Jackson, Servlets, JSF, RichFaces, JSP, Velocity, JSTL, Apache CXF
+• Software frameworks and libraries: Spring, Play, Struts, Vaadin, Restlet, Jersey, Jackson, Servlets, JSF, RichFaces, JSP, Velocity, JSTL, Apache CXF
 
-• **SOA and Web Services:** REST, SOAP, XML-RPC, WSDL, WS-*, BPMN, BPEL, JAX-WS, JAX-RS
+• SOA and Web Services: REST, SOAP, XML-RPC, WSDL, WS-*, BPMN, BPEL, JAX-WS, JAX-RS
 
-• **XML technologies:** XML Schema, RDF, DOM, SAX, XSLT, XQuery, XPath
+• XML technologies: XML Schema, RDF, DOM, SAX, XSLT, XQuery, XPath
 
-• **ORM tools:** Hibernate, EJB3, JPA, QueryDSL, EBean, Morphia, Spring data
+• ORM tools: Hibernate, EJB3, JPA, QueryDSL, EBean, Morphia, Spring data
 
-• **Databases:** Oracle, MySQL, MongoDB, PostgreSQL, Oracle 11g, H2
+• Databases: Oracle, MySQL, MongoDB, PostgreSQL, Oracle 11g, H2
 
-• **Build systems, continuous integration and development environments:** Ant, Maven, Rake, SBT, Bamboo, Jenkins, Eclipse, IntelliJ IDEA
+• Build systems, continuous integration and development environments: Ant, Maven, Rake, SBT, Bamboo, Jenkins, Eclipse, IntelliJ IDEA
 
-• **Editors/Integrated Development Environments:** Xcode, Eclipse, Aptana Studio, NetBeans, Sublime Text, Espresso, Coda
+• Editors/Integrated Development Environments: Xcode, Eclipse, Aptana Studio, NetBeans, Sublime Text, Espresso, Coda
 
-• **Testing:** Selenium, PhantomJS, CasperJS, Mocha
+• Testing: Selenium, PhantomJS, CasperJS, Mocha
 
-• **Version control softwares:** Git, Apache Subversion
+• Version control softwares: Git, Apache Subversion
 
-• **Graphic design tools:** Adobe Photoshop, Adobe Illustrator, Adobe InDesign
+• Graphic design tools: Adobe Photoshop, Adobe Illustrator, Adobe InDesign

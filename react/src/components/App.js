@@ -24,20 +24,20 @@ class App extends Component {
 
   // goEdit function changes the view from Browse to Edit. It gets the selectedUser and selectedCV
   // from Browse view.
-  goEdit(username, cvName) {
-    this.setState({ selectedUser: username, selectedCV: cvName })
+  goEdit(username, cvID) {
+    this.setState({ selectedUser: username, selectedCV: cvID })
     this.changeView('edit')
   }
 
-  fetchPDF(username, cvName) {
-    this.setState({ selectedUser: username, selectedCV: cvName })
-    fetchPDF(username, cvName)
+  fetchPDF(username = this.state.selectedUser, cvID = this.state.selectedCV, sections) {
+    this.setState({ selectedUser: username, selectedCV: cvID })
+    fetchPDF(username, sections)
       .then(res => res.blob())
       .then((blob) => {
-        const file = new File([blob], `${username}_${cvName}.pdf`, { type: 'application/pdf' })
+        const file = new File([blob], `${username}_${cvID}.pdf`, { type: 'application/pdf' })
         const a = document.createElement('a')
         a.href = URL.createObjectURL(file)
-        a.download = `${username}_${cvName}.pdf`
+        a.download = `${username}_${cvID}.pdf`
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
@@ -60,8 +60,8 @@ class App extends Component {
           <Browse
             changeViewName={this.changeView}
             view={this.state.view}
-            goEdit={(username, cvName) => this.goEdit(username, cvName)}
-            fetchPDF={(username, cvName) => this.fetchPDF(username, cvName)}
+            goEdit={(username, cvID) => this.goEdit(username, cvID)}
+            fetchPDF={(username, cvID, sections) => this.fetchPDF(username, cvID, sections)}
           />
         </div>
       )
@@ -72,13 +72,12 @@ class App extends Component {
         <Editor
           view={this.state.view}
           username={this.state.selectedUser}
-          cvName={this.state.selectedCV}
+          cvID={this.state.selectedCV}
           goBack={() => {
             const nextView = this.state.lastView === 'browse' ? 'browse' : 'myCVs'
             this.changeView(nextView)
           }}
-          fetchPDF={() => this.fetchPDF(this.state.selectedUser, this.state.selectedCV)}
-
+          fetchPDF={sections => this.fetchPDF(undefined, undefined, sections)}
         />
       </div>
     )

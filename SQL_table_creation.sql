@@ -1,23 +1,51 @@
-CREATE TABLE   "public"."cvs" (
-      "username" text,
-      "cv_name" text,
-      "text" text,
-      PRIMARY KEY ("username", "cv_name")
+CREATE TABLE users (
+	  username TEXT PRIMARY KEY,
+	  full_name TEXT
 );
 
-CREATE TABLE "public"."users" (
-	  "username" text,
-	  "full_name" text,
-	  PRIMARY KEY ("username")
+CREATE TABLE cvs (
+  cv_id SERIAL PRIMARY KEY,
+  username TEXT REFERENCES users(username) ON DELETE CASCADE,
+  cv_name TEXT
 );
 
-INSERT INTO   "public"."cvs"("username", "cv_name", "text")   VALUES('korkkii', 'cv', 'cv contents') RETURNING "username", "cv_name", "text";
-INSERT INTO   "public"."cvs"("username", "cv_name", "text")   VALUES('heikki', 'CV (not complete)', 'Hello') RETURNING "username", "cv_name", "text";
-INSERT INTO   "public"."cvs"("username", "cv_name", "text")   VALUES('matti', 'CV 20.09.2015', 'DEFAULT CV') RETURNING "username", "cv_name", "text";
-INSERT INTO   "public"."cvs"("username", "cv_name", "text") VALUES('matti', 'CV final version', 'I know how to code') RETURNING "username", "cv_name", "text";
-INSERT INTO   "public"."cvs"("username", "cv_name", "text") VALUES('pikkumatti', 'Pikku-Matin CV', 'cv cv') RETURNING "username", "cv_name", "text";
+CREATE INDEX username_idx ON cvs (username);
 
-INSERT INTO   "public"."users"("username", "full_name")   VALUES('korkkii', 'Henri Korhonen') RETURNING "username", "full_name";
-INSERT INTO   "public"."users"("username", "full_name")   VALUES('heikki', 'Heikki Heikalainen') RETURNING "username", "full_name";
-INSERT INTO   "public"."users"("username", "full_name")   VALUES('matti', 'Matti Meikalainen') RETURNING "username", "full_name";
-INSERT INTO   "public"."users"("username", "full_name")   VALUES('pikkumatti', 'Matti Meikalainen') RETURNING "username", "full_name";
+CREATE TABLE cv_sections (
+  section_id SERIAL PRIMARY KEY,
+  fin_title TEXT,
+  eng_title TEXT,
+  section_order INTEGER
+);
+
+CREATE TABLE section_data (
+  cv_id INTEGER REFERENCES cvs(cv_id) ON DELETE CASCADE,
+  section_id INTEGER REFERENCES cv_sections(section_id) ON DELETE CASCADE,
+  text TEXT,
+	PRIMARY KEY (cv_id, section_id)
+);
+
+CREATE INDEX cv_id_idx ON section_data (cv_id);
+
+INSERT INTO users VALUES('korkkii', 'Henri Korhonen');
+INSERT INTO users VALUES('heikki', 'Heikki Heikalainen');
+INSERT INTO users VALUES('matti', 'Matti Meikalainen');
+INSERT INTO users VALUES('pikkumatti', 'Matti Meikalainen');
+
+INSERT INTO cvs VALUES (DEFAULT, 'korkkii', 'cv');
+INSERT INTO cvs VALUES (DEFAULT, 'heikki', 'CV (not complete)');
+INSERT INTO cvs VALUES (DEFAULT, 'matti', 'CV 20.09.2015');
+INSERT INTO cvs VALUES (DEFAULT, 'matti', 'CV final version');
+INSERT INTO cvs VALUES (DEFAULT, 'pikkumatti', 'Pikku-Matin CV');
+
+INSERT INTO cv_sections VALUES (DEFAULT, '', '', 0);
+INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', 100);
+INSERT INTO cv_sections VALUES (DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', 200);
+INSERT INTO cv_sections VALUES (DEFAULT, 'KOULUTUS', 'EDUCATION', 300);
+INSERT INTO cv_sections VALUES (DEFAULT, 'SERTIFIKAATIT', 'CERTIFICATES', 400);
+INSERT INTO cv_sections VALUES (DEFAULT, 'KIELITAITO', 'LANGUAGE SKILLS', 500);
+INSERT INTO cv_sections VALUES (DEFAULT, 'PALKINNOT', 'AWARDS', 600);
+INSERT INTO cv_sections VALUES (DEFAULT, 'JULKAISUT', 'PUBLICATIONS', 700);
+INSERT INTO cv_sections VALUES (DEFAULT, 'KONFERENSSIT', 'CONFERENCES', 800);
+INSERT INTO cv_sections VALUES (DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', 900);
+INSERT INTO cv_sections VALUES (DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', 1000);

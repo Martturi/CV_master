@@ -17,8 +17,11 @@ class Browse extends Component {
       selectedUserIndex: 0,
       cvList: [],
       selectedCVIndex: 0,
-      cvContents: '',
+      sections: [],
     }
+  }
+
+  componentDidMount() {
     this.updateUserList()
   }
 
@@ -62,55 +65,55 @@ class Browse extends Component {
     loadCVList(username)
       .then((cvs) => {
         this.setState({ cvList: cvs })
-        this.cvClicked(username, cvs, defaultCVIndex)
+        this.cvClicked(cvs, defaultCVIndex)
       })
       .catch(err => console.log(err))
   }
 
-  cvClicked(username = this.state.userIDList[this.state.selectedUserIndex],
-    cvList = this.state.cvList, cvIndex) {
+  cvClicked(cvList = this.state.cvList, cvIndex) {
+    const cvID = cvList[cvIndex].cv_id
     this.setState({ selectedCVIndex: cvIndex })
-    loadCV(username, cvList[cvIndex])
-      .then((cv) => {
-        this.setState({ cvContents: cv })
+    loadCV(cvID)
+      .then((sections) => {
+        this.setState({ sections })
       })
       .catch(err => console.log(err))
   }
 
-  renameConfirmed(cvName, newCVName) {
+  renameConfirmed(cvID, newCVName) {
     const username = this.state.userIDList[this.state.selectedUserIndex]
     console.log(`new cv name: ${newCVName}`)
-    renameCV(username, cvName, newCVName)
+    renameCV(cvID, newCVName)
       .then(() => {
         loadCVList(username)
           .then((cvs) => {
             this.setState({ cvList: cvs })
-            const indexOfRenamedCV = cvs.indexOf(newCVName)
-            this.cvClicked(username, cvs, indexOfRenamedCV)
+            const indexOfRenamedCV = cvs.map(row => row.cv_id).indexOf(cvID)
+            this.cvClicked(cvs, indexOfRenamedCV)
           })
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
   }
 
-  copyClicked(cvName) {
+  copyClicked(cvID) {
     const username = this.state.userIDList[this.state.selectedUserIndex]
-    copyCV(username, cvName)
-      .then((nameOfCopiedCV) => {
+    copyCV(cvID)
+      .then((idOfCopiedCV) => {
         loadCVList(username)
           .then((cvs) => {
             this.setState({ cvList: cvs })
-            const indexOfCopiedCV = cvs.indexOf(nameOfCopiedCV)
-            this.cvClicked(username, cvs, indexOfCopiedCV)
+            const indexOfCopiedCV = cvs.map(row => row.cv_id).indexOf(Number(idOfCopiedCV))
+            this.cvClicked(cvs, indexOfCopiedCV)
           })
           .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
   }
 
-  deleteConfirmed(cvName) {
+  deleteConfirmed(cvID) {
     const username = this.state.userIDList[this.state.selectedUserIndex]
-    deleteCV(username, cvName)
+    deleteCV(cvID)
       .then(() => {
         loadCVList(username)
           .then((cvs) => {
@@ -119,7 +122,7 @@ class Browse extends Component {
             const newSelectedCVIndex = (
               indexOutOfBounds ? (cvs.length - 1) : this.state.selectedCVIndex
             )
-            this.cvClicked(username, cvs, newSelectedCVIndex)
+            this.cvClicked(cvs, newSelectedCVIndex)
           })
           .catch(err => console.log(err))
       })
@@ -132,7 +135,8 @@ class Browse extends Component {
         <SearchAndExport
           fetchPDF={() => this.props.fetchPDF(
             this.state.userIDList[this.state.selectedUserIndex],
-            this.state.cvList[this.state.selectedCVIndex])}
+            this.state.cvList[this.state.selectedCVIndex].cv_id,
+            this.state.sections)}
           view={this.props.view}
           myCVsToggle={this.myCVsToggle}
           updateUserList={() => this.updateUserList()}
@@ -150,20 +154,20 @@ class Browse extends Component {
             selectedUserIndex={this.state.selectedUserIndex}
             cvList={this.state.cvList}
             selectedCVIndex={this.state.selectedCVIndex}
-            cvClicked={cvIndex => this.cvClicked(undefined, undefined, cvIndex)}
-            goEdit={cvName => this.props.goEdit(
+            cvClicked={cvIndex => this.cvClicked(undefined, cvIndex)}
+            goEdit={cvID => this.props.goEdit(
               this.state.userIDList[this.state.selectedUserIndex],
-              cvName)}
-            renameConfirmed={(cvName, newCVName) => this.renameConfirmed(cvName, newCVName)}
-            copyClicked={cvName => this.copyClicked(cvName)}
-            deleteConfirmed={cvName => this.deleteConfirmed(cvName)}
+              cvID)}
+            renameConfirmed={(cvID, newCVName) => this.renameConfirmed(cvID, newCVName)}
+            copyClicked={cvID => this.copyClicked(cvID)}
+            deleteConfirmed={cvID => this.deleteConfirmed(cvID)}
             cvCount={this.state.cvList.length}
           />
         </div>
         <div className="CVpreview">
           <Preview
             username={this.state.userIDList[this.state.selectedUserIndex]}
-            text={this.state.cvContents}
+            sections={this.state.sections}
           />
         </div>
       </div>

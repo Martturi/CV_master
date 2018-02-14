@@ -13,12 +13,22 @@ const db = require('../db')
 chai.should()
 chai.use(chaiHttp)
 
+const testCVID = 1
+const testUsername = 'a'
+const testCVName = 'b'
+const testSections = [ // ids hardcoded on purpose
+  { section_id: 1, eng_title: 'c', order: 50 },
+  { section_id: 2, eng_title: 'd', order: 100 },
+  { section_id: 3, eng_title: 'e', order: 0 },
+  { section_id: 4, eng_title: 'f', order: 150 },
+]
+
 /* global before after */
 // Our parent block
 describe('Save and load tests', () => {
   before(() => { // Before each test we empty the database
-    console.log('Clearing the database for you!')
-    db.clear()
+    console.log('Initializing the test database for you!')
+    db.initializeTestDB(testUsername, testCVName, testSections)
   })
   after(() => {
     console.log('Cleaning your messes up!')
@@ -42,41 +52,43 @@ describe('Save and load tests', () => {
   */
   describe('Get first CV', () => {
     const testText = 'Testing rest-api'
+
+    it('it should load an array containing one specific cv', () => {
+      return chai.request(server)
+        .get(`/api/users/${testUsername}/cvs`)
+        .then((res) => {
+          res.should.have.status(200)
+          const cvArray = res.body
+          cvArray.should.be.a('array')
+          cvArray.length.should.be.eql(1)
+          cvArray[0].cv_name.should.be.eql(testCVName)
+        })
+    })
+
     it('it should answer with 200', () => {
       return chai.request(server)
-        .get('/api/users/1/cvs/1')
+        .get(`/api/cvs/${testCVID}`)
         .then((res) => {
           res.should.have.status(200)
         })
     })
 
-    it('it should load an empty array of users', () => {
+    it('it should load an array containing one specific user', () => {
       return chai.request(server)
         .get('/api/users')
         .then((res) => {
           res.should.have.status(200)
           const usernameArray = res.body
           usernameArray.should.be.a('array')
-          usernameArray.length.should.be.eql(0)
-        })
-    })
-
-    it('it should load an empty array of cvs', () => {
-      const nonExistingUsername = 'a'
-      return chai.request(server)
-        .get(`/api/users/${nonExistingUsername}/cvs`)
-        .then((res) => {
-          res.should.have.status(200)
-          const cvArray = res.body
-          cvArray.should.be.a('array')
-          cvArray.length.should.be.eql(0)
+          usernameArray.length.should.be.eql(1)
+          usernameArray[0].username.should.be.eql(testUsername)
         })
     })
 
     it('it should save a sample CV', () => {
       return chai.request(server)
-        .post('/api/users/test2/cvs/test1')
-        .send({ text: testText })
+        .post(`/api/cvs/${testCVID}`)
+        .send({ sections: [] })
         .then((res) => {
           res.should.have.status(200)
           res.text.should.be.eql('Save succeeded.')
@@ -84,83 +96,73 @@ describe('Save and load tests', () => {
     })
 
     it('it should load the recently saved CV', () => {
+      const firstSection = testSections.find(s1 => testSections.every(s2 => s2.order >= s1.order))
       return chai.request(server)
-        .post('/api/users/test/cvs/1')
-        .send({ text: testText })
+        .post(`/api/cvs/${testCVID}`)
+        .send({ sections: [{ section_id: firstSection.section_id, text: testText }] })
         .then(() => {
           return chai.request(server)
-            .get('/api/users/test/cvs/1')
+            .get(`/api/cvs/${testCVID}`)
             .then((res) => {
               res.should.have.status(200)
-              res.text.should.be.eql(testText)
+              const sections = res.body
+              sections.should.be.a('array')
+              sections.length.should.be.eql(testSections.length)
+              sections[0].section_id.should.be.eql(firstSection.section_id)
+              sections[0].text.should.be.eql(testText)
+              for (let i = 1; i < testSections.length; i += 1) sections[i].text.should.be.eql('')
             })
         })
     })
 
-
-    const nonExistingCVString = 'New CV'
-    it(`it should return '${nonExistingCVString}' for a non-existing combination of user and CV name`, () => {
-      const nonExistingUsername = 'a'
-      const nonExistingCVName = 'b'
+    it('it should return an array of sections with empty contents for a non-existing CV', () => {
+      const nonExistingCVID = 428319
       return chai.request(server)
-        .get(`/api/users/${nonExistingUsername}/cvs/${nonExistingCVName}`)
+        .get(`/api/cvs/${nonExistingCVID}`)
         .then((res) => {
           res.should.have.status(200)
-          const cvContents = res.text
-          cvContents.should.be.eql(nonExistingCVString)
+          const sections = res.body
+          sections.should.be.a('array')
+          sections.length.should.be.eql(testSections.length)
+          for (let i = 0; i < testSections.length; i += 1) sections[i].text.should.be.eql('')
         })
     })
 
-    const copyUser1 = 'user4831178'
-    const cvToBeCopied = 'cv857842' // name of the cv
-    it('it should return correct CV names after copying', () => {
-      const copyUser2 = 'user2139782'
+    const existingCVs = []
+    it('it should return a reasonable CV id after copying', () => {
+      existingCVs.push(testCVID)
       return chai.request(server)
-        .post(`/api/users/${copyUser1}/cvs/${cvToBeCopied}/copy`)
-        .then((firstResult) => {
-          firstResult.should.have.status(200)
-          const firstCVName = firstResult.text
-          firstCVName.should.be.eql(`${cvToBeCopied}(1)`)
-          return chai.request(server)
-            .post(`/api/users/${copyUser2}/cvs/${cvToBeCopied}/copy`)
-            .then((secondResult) => {
-              secondResult.should.have.status(200)
-              const secondCVName = secondResult.text
-              secondCVName.should.be.eql(`${cvToBeCopied}(1)`)
-              return chai.request(server)
-                .post(`/api/users/${copyUser1}/cvs/${cvToBeCopied}/copy`)
-                .then((thirdResult) => {
-                  thirdResult.should.have.status(200)
-                  const thirdCVName = thirdResult.text
-                  thirdCVName.should.be.eql(`${cvToBeCopied}(2)`)
-                })
-            })
-        })
-    })
-
-    const existingCVs = [`${cvToBeCopied}(1)`, `${cvToBeCopied}(2)`]
-    it('it should delete one row for a user with two CVs', () => {
-      return chai.request(server)
-        .delete(`/api/users/${copyUser1}/cvs/${existingCVs[0]}`)
+        .post(`/api/cvs/${testCVID}/copy`)
         .then((result) => {
           result.should.have.status(200)
-          result.text.should.be.eql('1')
+          const cvID = Number(result.text)
+          if (result.status === 200) existingCVs.push(cvID)
+          cvID.should.be.gt(testCVID)
         })
     })
 
-    it('it should delete 0 rows for a user with one CV', () => {
-      return chai.request(server)
-        .delete(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
-        .then((result) => {
-          result.should.have.status(200)
-          result.text.should.be.eql('0')
-        })
+    it('it should delete one row when a user has at least two CVs, otherwise it should delete none', () => {
+      const deleteCV = () => {
+        return chai.request(server)
+          .delete(`/api/cvs/${existingCVs[existingCVs.length - 1]}`)
+          .then((result) => {
+            result.should.have.status(200)
+            if (existingCVs.length >= 2) {
+              if (result.text === '1') existingCVs.pop()
+              result.text.should.be.eql('1')
+              deleteCV()
+            } else {
+              result.text.should.be.eql('0')
+            }
+          })
+      }
+      deleteCV()
     })
 
     const newName = 'New name'
-    it('it should update one row when renaming an existing CV and not violating unique constraint', () => {
+    it('it should update one row when renaming an existing CV', () => {
       return chai.request(server)
-        .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
+        .put(`/api/cvs/${existingCVs[0]}`)
         .send({ newCVName: newName })
         .then((result) => {
           result.should.have.status(200)
@@ -169,8 +171,9 @@ describe('Save and load tests', () => {
     })
 
     it('it should update zero rows when renaming a non-existing CV name', () => {
+      const nonExistingCVID = 9248285
       return chai.request(server)
-        .put(`/api/users/${copyUser1}/cvs/${existingCVs[1]}`)
+        .put(`/api/cvs/${nonExistingCVID}`)
         .send({ newCVName: newName })
         .then((result) => {
           result.should.have.status(200)
@@ -181,7 +184,7 @@ describe('Save and load tests', () => {
     it('it should return HTML page with contents for preview route', () => {
       return chai.request(server)
         .post('/actions/preview')
-        .send({ text: testText })
+        .send({ sections: [], username: testUsername })
         .then((result) => {
           result.should.have.status(200)
           const returnedText = result.text

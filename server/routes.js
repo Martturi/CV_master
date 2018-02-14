@@ -117,7 +117,9 @@ route.post('/actions/preview', (request, response) => {
   const username = request.body.username || ''
   console.log('Loading preview for cv')
   const preview = pdf.getHTML(text, username)
-  response.send(preview)
+  preview.then((result) => {
+    response.send(result)
+  })
 })
 
 route.listen(route.get('port'), () => {

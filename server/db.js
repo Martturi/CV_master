@@ -24,7 +24,8 @@ const load = ({ cvID }) => {
 }
 
 const createCV = ({ username, cvName }) => {
-  const query = 'INSERT INTO cvs VALUES (DEFAULT, $1, $2) RETURNING cv_id;'
+  const date = new Date().toUTCString()
+  const query = `INSERT INTO cvs VALUES (DEFAULT, $1, $2, '${date}') RETURNING cv_id;`
   return client.query(query, [username, cvName])
     .then((res) => {
       // default query never causes a conflict so we don't have to check whether res.rows[0] is
@@ -53,11 +54,16 @@ const save = ({ cvID, sections }) => {
     }
     return Promise.resolve('Save succeeded.')
   }
-  return insertOrDelete(0)
+  const date = new Date().toUTCString() // for example: 'Fri, 09 Feb 2018 13:55:00 GMT'.
+  // Postgres automatically translates this string into a correct date object.
+  const query = `UPDATE cvs SET last_updated = '${date}' WHERE cv_id = $1;`
+  return client.query(query, [cvID])
+    .then(() => insertOrDelete(0))
 }
 
 const initializeTestDB = (testUsername, testCVName, testSections) => {
   if (config.env !== 'production') {
+    const date = new Date().toUTCString()
     const sectionInserts = testSections.map(section => (
       `INSERT INTO cv_sections VALUES (${section.section_id}, '', '${section.eng_title}', ` +
       `${section.order})`
@@ -67,7 +73,7 @@ const initializeTestDB = (testUsername, testCVName, testSections) => {
       DELETE FROM cv_sections;
       INSERT INTO users VALUES ('${testUsername}', '');
       ALTER SEQUENCE cvs_cv_id_seq RESTART WITH 1;
-      INSERT INTO cvs VALUES (DEFAULT, '${testUsername}', '${testCVName}');
+      INSERT INTO cvs VALUES (DEFAULT, '${testUsername}', '${testCVName}', '${date}');
       ${sectionInserts};
     `
     return client.query(query)
@@ -92,7 +98,9 @@ const loadUserList = () => {
 }
 
 const loadCVList = ({ username }) => {
-  const query = 'SELECT cv_id, cv_name FROM cvs WHERE username = $1 ORDER BY cv_name;'
+  const query = `
+    SELECT cv_id, cv_name, last_updated FROM cvs WHERE username = $1 ORDER BY last_updated DESC;
+  `
   return client.query(query, [username])
     .then(result => result.rows)
 }

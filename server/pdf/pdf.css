@@ -104,13 +104,11 @@ header > .confidential{
   letter-spacing: 0.5px;
 }
 .cv > h2 {
-  margin-top: 30px;
   font-size: 11px;
   color: #666666;
 }
 .cv > h3 {
   font-size: 10px;
-  padding-bottom: 8px;
 }
 .cv > h4 {
   float: left;
@@ -122,14 +120,11 @@ header > .confidential{
   top: 30px;
 }
 .cv > h5 {
-  margin-bottom: 0px;
   font-size: 20px;
 }
 
 .cv > h6 {
   font-size: 18px;
-  margin-top: 0px;
-  margin-bottom: 0px;
 }
 
 .cv > p > code {

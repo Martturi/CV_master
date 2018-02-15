@@ -35,9 +35,6 @@ header > .confidential{
 #whole-cv {
   margin-left: 9%;
   margin-right: 9%;
-  margin-bottom: 10px; /* try to minimize this.
-                        if too large, footer can unnecessarily appear on
-                        the next page. */
   margin-top: 40px;
 }
 

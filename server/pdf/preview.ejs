@@ -14,7 +14,9 @@
       <%- firstSection %>
     </div>
     <% for (let i = 0; i < otherSections.length; i += 1) {%>
-      <%- `<div class="cv"${i === otherSections.length - 1 ? 'id=\"last-section\"' : ''}>${otherSections[i]}</div>` %>
+      <div class="cv"<%= i === otherSections.length - 1 ? 'id=last-section' : '' %>>
+        <%- otherSections[i] %>
+      </div>
     <% } %>
   </div>
 </body>

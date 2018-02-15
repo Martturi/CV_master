@@ -3,7 +3,9 @@
 .preview {
     width: 597px;
     border: 1px solid black;
-    margin: auto
+    margin: auto;
+    margin-bottom: 200px;
+    padding-bottom: 40px;
 }
 
 .editor {

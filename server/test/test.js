@@ -184,7 +184,7 @@ describe('Save and load tests', () => {
     it('it should return HTML page with contents for preview route', () => {
       return chai.request(server)
         .post('/actions/preview')
-        .send({ sections: [], username: testUsername })
+        .send({ sections: [{ section_id: 1, text: 'test' }], username: testUsername })
         .then((result) => {
           result.should.have.status(200)
           const returnedText = result.text

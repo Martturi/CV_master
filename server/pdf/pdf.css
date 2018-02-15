@@ -15,36 +15,50 @@ font-family: 'Jungka-Light';
 src: url('fonts/Jungka-Light.otf') format('opentype');
 }
 
+.cv_header {
+  margin-left: 9%;
+  margin-right: 9%;
+  padding-top: 20px;
+}
 
 .reaktor {
-  width: 150px;
-  padding-left: 30px;
-  padding-top: 20px;
+  width: 120px;
 }
 
 header > .confidential{
   float:right;
-  padding-top: 20px;
-  padding-right: 40px;
   font-family: "Jungka-Light";
   font-size: 9px;
   right: 0;
 }
 
+#whole-cv {
+  margin-left: 9%;
+  margin-right: 9%;
+  margin-top: 40px;
+}
+
 .cv {
   font-family: "Jungka";
-  padding-left: 30px;
-  padding-right: 50px;
-  padding-bottom: 20px;
-  padding-top: 20px;
-  width: 595px;
-  min-height: 350px;
+  min-height: 29px;
+  border-top: 1px solid #DDD;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+#first-section {
+  min-height: 200px;
+  border-top: none;
+  padding-top: 0;
+}
+
+#last-section {
+  margin-bottom: 0;
 }
 
 .face {
   float: left;
   width: 160px;
-  padding-top: 20px;
 }
 
 .cv > p {
@@ -76,7 +90,6 @@ header > .confidential{
 .cv > h6,
 .cv > p,
 .cv > blockquote  {
-    width: 330px;
     margin-left: 200px;
     font-family: "Jungka-Light";
     margin-top: 0px;
@@ -89,7 +102,6 @@ header > .confidential{
   font-size: 11px;
   color: #FC6054;
   letter-spacing: 0.5px;
-  margin-top: 20px;
 }
 .cv > h2 {
   margin-top: 30px;
@@ -98,24 +110,18 @@ header > .confidential{
 }
 .cv > h3 {
   font-size: 10px;
-  padding-bottom: 5px;
+  padding-bottom: 8px;
 }
 .cv > h4 {
   float: left;
-  width: 515px;
+  width: 180px;
   font-size: 15px;
   font-weight: 400;
   margin-left: 0;
   color: #FC6054;
-  position: relative;
   top: 30px;
-  border-top: 1px solid #DDD;
-  padding-top: 10px;
-  padding-left: 20px;
-  padding-bottom: 10px;
 }
 .cv > h5 {
-  margin-top: 20px;
   margin-bottom: 0px;
   font-size: 20px;
 }
@@ -148,7 +154,6 @@ header > .confidential{
 
 footer {
   margin: 0px auto;
-  width: 595px;
 
   /*FIXME*/
   padding-left: 90px

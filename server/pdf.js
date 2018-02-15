@@ -30,10 +30,14 @@ const sectionToText = (section) => {
 const getHTML = ({ sections, username }) => {
   const style = fs.readFileSync(path.resolve(__dirname, 'pdf/pdf.css'), 'utf-8')
   const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
+  // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
+  // let's undo it for better user control:
   const firstSection = markdown.toHTML(sections[0].text)
+    .split('&lt;br&gt;').join('<br>')
   const otherSections = sections.slice(1)
     .filter(section => section.text !== '')
     .map(section => markdown.toHTML(sectionToText(section)))
+    .map(html => html.split('&lt;br&gt;').join('<br>'))
   const fullName = db.loadFullName(username)
   return fullName.then((name) => {
     return ejs.render(template, {

@@ -10,7 +10,7 @@ class CVList extends React.Component {
       const cvID = cvObject.cv_id
       const isActive = this.props.selectedCVIndex === index
       return (
-        <ListGroupItem key={cvID} active={isActive} tag="a" href="#" action onClick={() => this.props.cvClicked(index)}>
+        <ListGroupItem key={cvID} active={isActive} onClick={() => this.props.cvClicked(index)}>
           <div className="cvinfo">
             <ListGroupItemHeading>
               <CvNameForm

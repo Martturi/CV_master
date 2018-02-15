@@ -29,7 +29,7 @@ class CvNameForm extends React.Component {
     this.props.renameConfirmed(newCVName)
     this.setState({
       editing: false,
-      value: this.props.cvName,
+      value: newCVName,
     })
   }
 

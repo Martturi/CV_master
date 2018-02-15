@@ -20,7 +20,7 @@
 	float: left;
 	min-width: 10px;
 	box-shadow: none;
-	margin-right: 13px;
+	margin-right: 1vw;
 }
 
 #myCVsButton {
@@ -48,34 +48,22 @@
 }
 
 .searchheader {
-  padding-top: 1rem;
-  padding-right: 0.5rem;
-  padding-left: 1rem;
-  padding-bottom: 0.5rem;
-  float: right;
-  width: 100%;
-  font-family: 'JungkaRegular';
   display: inline-block;
-  height: 10vh;
-}
-
-.popover-body > .form-control {
-	margin-bottom: 0.5em;
 }
 
 .browse-section {
 	float: left;
 	display: inline;
 	width: 25%;
-	padding-right: 0.25rem;
-	padding-left: 0.25rem;
+	padding-right: 0.5vw;
+	padding-left: 0.5vw;
 	font-family: 'JungkaRegular';
 	overflow: auto;
 	height: 80vh;
 }
 
 .list-group-item {
-    padding-left: 1rem;
+    padding-left: 1vw;
     color: #242730;
 }
 

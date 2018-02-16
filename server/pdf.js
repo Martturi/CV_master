@@ -33,11 +33,11 @@ const getHTML = ({ sections, username }) => {
   // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
   // let's undo it for better user control:
   const firstSection = markdown.toHTML(sections[0].text)
-    .split('&lt;br&gt;').join('<br>')
+    .replace(/&lt;br&gt;/g, '<br>')
   const otherSections = sections.slice(1)
     .filter(section => section.text !== '')
     .map(section => markdown.toHTML(sectionToText(section)))
-    .map(html => html.split('&lt;br&gt;').join('<br>'))
+    .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
   const fullName = db.loadFullName(username)
   return fullName.then((name) => {
     return ejs.render(template, {

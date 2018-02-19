@@ -20,20 +20,42 @@ const options = {
 }
 
 const sectionToText = (section) => {
-  const title = section.eng_title
-  const text = section.text
-  const titleAsMarkdown = (title ? `####${title}\n` : '')
-  return (text ? `${titleAsMarkdown}${text}\n` : '')
+  if (!section.text) {
+    return ''
+  } else {
+    const title = section.eng_title
+    // markdown: one \n = one space
+    // markdown: two \n's in a row = one line break
+    // markdown: three, four, five... \n's in a row = still only one line break
+    // --> we have to replace 3rd, 4th, 5th... consecutive \n with <br>
+    const rows = section.text.split('\n')
+    // holds that: '1\n1\n\n1\n\n\n1'.split('\n') === ['1', '1', '', '1'. ''. ''. '1'].
+    // so we need to find two or more consecutive empty strings:
+    for (let i = rows.length - 1; i > 0; i--) {
+      // trimming so that spaces don't matter:
+      if (rows[i].trim() === '' && rows[i - 1].trim() === '') {
+        rows[i] = '<br>'
+      }
+    }
+    // joining the modified array:
+    const text = rows.join('\n')
+    const titleAsMarkdown = (title ? `####${title}\n` : '')
+    return `${titleAsMarkdown}${text}`
+  }
 }
 
 // getHTML requires uid to find the correct picture from CDN. The uid is given to it via servePDF.
 const getHTML = ({ sections, username }) => {
   const style = fs.readFileSync(path.resolve(__dirname, 'pdf/pdf.css'), 'utf-8')
   const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
-  const firstSection = markdown.toHTML(sections[0].text)
+  // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
+  // let's undo it for better user control:
+  const firstSection = markdown.toHTML(sectionToText(sections[0]))
+    .replace(/&lt;br&gt;/g, '<br>')
   const otherSections = sections.slice(1)
     .filter(section => section.text !== '')
     .map(section => markdown.toHTML(sectionToText(section)))
+    .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
   const fullName = db.loadFullName(username)
   return fullName.then((name) => {
     return ejs.render(template, {

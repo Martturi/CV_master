@@ -40,9 +40,3 @@ export const selectCVIndex = (cvIndex) => {
   	cvIndex,
   }
 }
-
-export const selectMyCVs = (cvIndex) => {
-  return {
-  	type: 'SELECT_MY_CVS',
-  }
-}

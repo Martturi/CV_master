@@ -55,14 +55,6 @@ const CVreducer = (state = initialState, action) => {
             selectedCVIndex: action.cvIndex,
           }
 
-        case 'SELECT_MY_CVS':
-          return {
-            ...state,
-            userList: [state.userList[state.loggedInUserIndex]],
-            selectedUserIndex: 0,
-            selectedCVIndex: 0,
-          }
-
         default:
             return state
     }

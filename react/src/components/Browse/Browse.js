@@ -7,7 +7,7 @@ import './Browse.css'
 import '../Header.css'
 import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from '../Api'
 import Preview from '../Preview'
-import { changeView, updateUserList, updateCVList, updateSections, selectUserIndex, selectCVIndex, selectMyCVs } from '../../actions'
+import { changeView, updateUserList, updateCVList, updateSections, selectUserIndex, selectCVIndex } from '../../actions'
 
 class Browse extends Component {
   /* constructor(props) {
@@ -24,11 +24,9 @@ class Browse extends Component {
   myCVsToggle = () => {
     if (this.props.view === 'browse') {
       this.props.changeView('myCVs')
-      this.props.selectMyCVs()
       this.userClicked([this.props.userList[this.props.loggedInUserIndex]], 0)
     } else {
       this.props.changeView('browse')
-      this.updateUserList()
     }
   }
 
@@ -39,14 +37,12 @@ class Browse extends Component {
         const loggedInUserIndexIfExists = userIDs.indexOf(loggedInUser)
         const loggedInUserIndex = loggedInUserIndexIfExists !== -1 ? loggedInUserIndexIfExists : 0
         this.props.updateUserList(users, loggedInUserIndex)
-        console.log('logged in user', loggedInUser)
         this.userClicked(users, loggedInUserIndex)
       })
       .catch(err => console.log(err))
   }
 
   userClicked(userList = this.props.userList, userIndex) {
-    console.log('clicked user ', userList[userIndex])
     const defaultCVIndex = 0
     this.props.selectUserIndex(userIndex)
     const username = userList[userIndex].username
@@ -122,7 +118,6 @@ class Browse extends Component {
             this.props.cvList[this.props.selectedCVIndex].cv_id,
             this.props.sections)}
           myCVsToggle={this.myCVsToggle}
-          updateUserList={() => this.updateUserList()}
         />
         <div id="namelist" className="browse-section">
           <NameList
@@ -152,7 +147,10 @@ class Browse extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return state
+  return {
+    ...state,
+    userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
+  }
 }
 
 
@@ -163,7 +161,6 @@ const mapDispatchToProps = {
   updateSections,
   selectUserIndex,
   selectCVIndex,
-  selectMyCVs,
 }
 
 export default connect(

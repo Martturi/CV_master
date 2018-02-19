@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
+import { changeView } from '../../actions'
 
 class SearchAndExport extends Component {
   constructor(props) {
     super(props)
-    this.toggle = this.toggle.bind(this)
     this.state = {
       dropdownOpen: false,
     }
   }
 
-  onClick = () => {
-    this.props.myCVsToggle()
-  }
-
-  toggle() {
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     })
+  }
+
+  onClick = () => {
+    this.props.myCVsToggle()
   }
 
   render() {
@@ -52,7 +52,12 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = {
+  changeView,
+}
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(SearchAndExport)
 

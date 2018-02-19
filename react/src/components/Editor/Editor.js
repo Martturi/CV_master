@@ -5,10 +5,10 @@ import InputSections from './InputSections'
 import Preview from '../Preview'
 import './Editor.css'
 import { saveCV, loadCV } from '../Api'
+import { updateSections } from '../../actions'
 
 class Editor extends Component {
   state = {
-    sections: [],
     saveStatus: '',
   }
 
@@ -17,21 +17,21 @@ class Editor extends Component {
   }
 
   updateSection(sectionIndex, text) {
-    const newContents = this.state.sections.map(obj => Object.assign({}, obj)) // deep copy
+    const newContents = this.props.sections.map(obj => Object.assign({}, obj)) // deep copy
     newContents[sectionIndex].text = text
-    this.setState({ sections: newContents })
+    this.props.updateSections(newContents)
   }
 
   openCV() {
-    loadCV(this.props.cvList[this.props.selectedCVIndex].cv_id)
+    loadCV(this.props.cvID)
       .then((sections) => {
-        this.setState({ sections })
+        this.props.updateSections(sections)
       })
       .catch(err => console.log(err))
   }
 
   async saveCV() {
-    await saveCV(this.props.cvList[this.props.selectedCVIndex].cv_id, this.state.sections)
+    await saveCV(this.props.cvID, this.props.sections)
       .then((res) => {
         this.setState({ saveStatus: res })
       })
@@ -48,21 +48,18 @@ class Editor extends Component {
         <div id="buttons">
           <EditorButtonGroup
             saveCV={() => this.saveCV()}
-            fetchPDF={() => this.props.fetchPDF(this.state.sections)}
+            fetchPDF={() => this.props.fetchPDF(this.props.sections)}
             saveStatus={this.state.saveStatus}
           />
         </div>
         <div className="sections">
           <InputSections
-            sections={this.state.sections}
+            sections={this.props.sections}
             updateSection={(sectionIndex, text) => this.updateSection(sectionIndex, text)}
           />
         </div>
         <div className="CVpreview">
-          <Preview
-            username={this.props.userList[this.props.selectedUserIndex].username}
-            sections={this.state.sections}
-          />
+          <Preview />
         </div>
       </div>
 
@@ -71,9 +68,17 @@ class Editor extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return state
+  return {
+    ...state,
+    cvID: state.cvList[state.selectedCVIndex].cv_id,
+  }
+}
+
+const mapDispatchToProps = {
+  updateSections,
 }
 
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(Editor)

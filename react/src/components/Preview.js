@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { loadPreview } from './Api'
 
 /* eslint react/no-danger: 0 */
@@ -8,24 +9,11 @@ class Preview extends Component {
   }
 
   componentWillReceiveProps(props) {
-    // making sure we don't update preview before getting sections:
-    if (!props.sections.length) return
-    // update only if contents or username has changed:
-    const oldArray = this.props.sections
-    const newArray = props.sections
-    const hasSameLength = newArray.length === oldArray.length
-    const hasSameTitles = hasSameLength &&
-        newArray.every((obj, index) => obj.eng_title === oldArray[index].eng_title)
-    const hasSameContents = hasSameTitles &&
-        newArray.every((obj, index) => obj.text === oldArray[index].text)
-    const hasSameUser = props.username === this.props.username // for the image to update
-    if (!(hasSameContents && hasSameUser)) {
-      this.updatePreview(newArray, props.username)
-    }
+    // TODO: Preview only updates when user or content is changed
+    this.updatePreview(props.sections, props.username)
   }
 
   // loadPreview requires username to find the correct photo from CDN for the preview
-  // The username is given as props from both Browse and Editor components
   updatePreview(sections, username) {
     loadPreview(sections, username).then((resolve) => {
       this.setState({ html: resolve })
@@ -39,4 +27,14 @@ class Preview extends Component {
   }
 }
 
-export default Preview
+const mapStateToProps = (state) => {
+  return {
+    sections: state.sections,
+    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
+  }
+}
+
+export default connect(
+  mapStateToProps,
+)(Preview)
+

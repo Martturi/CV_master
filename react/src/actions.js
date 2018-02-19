@@ -20,6 +20,13 @@ export const updateCVList = (cvList) => {
   }
 }
 
+export const updateSections = (sections) => {
+  return {
+  	type: 'UPDATE_SECTIONS',
+  	sections,
+  }
+}
+
 export const selectUserIndex = (userIndex) => {
   return {
   	type: 'SELECT_USER_INDEX',

@@ -6,6 +6,7 @@ const initialState = {
   cvList: [],
   selectedCVIndex: 0,
   loggedInUserIndex: 0,
+  sections: [],
 }
 
 const CVreducer = (state = initialState, action) => {
@@ -34,6 +35,12 @@ const CVreducer = (state = initialState, action) => {
             ...state,
             selectedCVIndex: newSelectedCVIndex,
             cvList: action.cvList,
+          }
+
+        case 'UPDATE_SECTIONS':
+          return {
+            ...state,
+            sections: action.sections,
           }
 
         case 'SELECT_USER_INDEX':

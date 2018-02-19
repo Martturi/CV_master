@@ -7,21 +7,15 @@ import './Browse.css'
 import '../Header.css'
 import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from '../Api'
 import Preview from '../Preview'
-import { changeView, updateUserList, updateCVList, selectUserIndex, selectCVIndex, selectMyCVs } from '../../actions'
+import { changeView, updateUserList, updateCVList, updateSections, selectUserIndex, selectCVIndex, selectMyCVs } from '../../actions'
 
 class Browse extends Component {
-  constructor(props) {
+  /* constructor(props) {
     super(props)
     this.state = {
-      /*currentUserIndex: 0,
-      userList: [],
-      userIDList: [],
-      selectedUserIndex: 0,
-      cvList: [],
-      selectedCVIndex: 0,*/
       sections: [],
     }
-  }
+  } */
 
   componentDidMount() {
     this.updateUserList()
@@ -69,7 +63,7 @@ class Browse extends Component {
     this.props.selectCVIndex(cvIndex)
     loadCV(cvID)
       .then((sections) => {
-        this.setState({ sections })
+        this.props.updateSections(sections)
       })
       .catch(err => console.log(err))
   }
@@ -126,7 +120,7 @@ class Browse extends Component {
           fetchPDF={() => this.props.fetchPDF(
             this.props.userList[this.props.selectedUserIndex].username,
             this.props.cvList[this.props.selectedCVIndex].cv_id,
-            this.state.sections)}
+            this.props.sections)}
           myCVsToggle={this.myCVsToggle}
           updateUserList={() => this.updateUserList()}
         />
@@ -149,11 +143,7 @@ class Browse extends Component {
           />
         </div>
         <div className="CVpreview">
-          <Preview
-            /* Use 'defaultUser' until userlist is populated */
-            username={this.props.userList.length ? this.props.userList[this.props.selectedUserIndex].username : 'defaultUser'}
-            sections={this.state.sections}
-          />
+          <Preview />
         </div>
       </div>
 
@@ -170,6 +160,7 @@ const mapDispatchToProps = {
   changeView,
   updateUserList,
   updateCVList,
+  updateSections,
   selectUserIndex,
   selectCVIndex,
   selectMyCVs,

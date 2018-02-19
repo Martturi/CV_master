@@ -4,6 +4,8 @@ import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import { fetchPDF } from './Api'
 import Header from './Header'
+import { connect } from 'react-redux'
+import {selectCV, selectUser} from "../actions";
 
 
 class App extends Component {
@@ -25,11 +27,12 @@ class App extends Component {
   // goEdit function changes the view from Browse to Edit. It gets the selectedUser and selectedCV
   // from Browse view.
   goEdit(username, cvID) {
-    this.setState({ selectedUser: username, selectedCV: cvID })
+    this.props.selectUser(username)
+    this.props.selectCV(cvID)
     this.changeView('edit')
   }
 
-  fetchPDF(username = this.state.selectedUser, cvID = this.state.selectedCV, sections) {
+  fetchPDF(username = this.props.selectedUser, cvID = this.props.selectedCV, sections) {
     this.setState({ selectedUser: username, selectedCV: cvID })
     fetchPDF(username, sections)
       .then(res => res.blob())
@@ -71,8 +74,8 @@ class App extends Component {
         <Header />
         <Editor
           view={this.state.view}
-          username={this.state.selectedUser}
-          cvID={this.state.selectedCV}
+          username={this.props.selectedUser}
+          cvID={this.props.selectedCV}
           goBack={() => {
             const nextView = this.state.lastView === 'browse' ? 'browse' : 'myCVs'
             this.changeView(nextView)
@@ -84,5 +87,18 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => {
+    return state
+}
 
-export default App
+
+const mapDispatchToProps = {
+    selectUser,
+    selectCV
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App)
+

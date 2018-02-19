@@ -1,56 +1,46 @@
-.search {
+/*Searchfield in browse-view*/
+.searchfield {
 	float: left;
-	width: 60%;
-	min-width: 10%;
+	width: 20.75vw;
+	min-width: 5vw;
 	box-shadow: none;
+	color: #242730;
+	border-color: #868e95;
 }
 
-.searchAndMyCVs {
-	display:inline-block;
-	width: 35%;
-	min-width: 10%;
+/*Sets the width for searchfield and
+searchicon*/
+.searchfield-and-button {
+	float:left;
 }
 
-.searchAndMyCVs > input {
-	display:inline-block;
-	min-width: 5%;
-}
-
+/*Searchicon-button after searchfield*/
 #searchbutton {
-	float: left;
-	min-width: 10px;
-	box-shadow: none;
 	margin-right: 1vw;
+	box-shadow: none;
 }
-
+/*MyCVs-button next to searchfield*/
 #myCVsButton {
 	float: left;
-	color: #242730;
 	box-shadow: none;
 }
 
-#myCVsButton.active, #myCVsButton:hover  {
+/*MyCVs-button next to searchfield when active*/
+#myCVsButton.active{
 	background-color: #242730;
 	color: #FFFFFF;
 	border-color: #242730;
 }
 
+/*Rename-button next to CVs name*/
 .rename-button {
 	padding: 0.2em 0.5em 0.2em 0.5em;
 	margin-left: 0.5em;
 	font-size: x-small;
 }
 
-.search.form-control {
-	box-shadow: none;
-	color: #242730;
-	border-color: #868e95;
-}
-
-.searchheader {
-  display: inline-block;
-}
-
+/*Sections where people and their
+CVs are listed*/
 .browse-section {
 	float: left;
 	display: inline;
@@ -62,17 +52,20 @@
 	height: 80vh;
 }
 
+/*People and their CVs in the lists*/
 .list-group-item {
     padding-left: 1vw;
     color: #242730;
 }
 
+/*People and their CVs in the lists, when active*/
 .list-group-item.active {
 	background-color: #d5d7de;
 	border-color: #d5d7de;
 	color: #000000;
 }
 
+/*Stops the scrolling for the whole page*/
 html, body {
   overflow: hidden;
 }

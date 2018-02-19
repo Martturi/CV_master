@@ -112,11 +112,7 @@ class Browse extends Component {
         loadCVList(username)
           .then((cvs) => {
             this.props.updateCVList(cvs)
-            const indexOutOfBounds = this.props.selectedCVIndex >= cvs.length
-            const newSelectedCVIndex = (
-              indexOutOfBounds ? (cvs.length - 1) : this.props.selectedCVIndex
-            )
-            this.cvClicked(cvs, newSelectedCVIndex)
+            this.cvClicked(cvs, this.props.selectedCVIndex)
           })
           .catch(err => console.log(err))
       })

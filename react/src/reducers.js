@@ -26,8 +26,13 @@ const CVreducer = (state = initialState, action) => {
           }
 
         case 'UPDATE_CVLIST':
+          const indexOutOfBounds = state.selectedCVIndex >= action.cvList.length
+          const newSelectedCVIndex = (
+            indexOutOfBounds ? (action.cvList.length - 1) : state.selectedCVIndex
+          )
           return {
             ...state,
+            selectedCVIndex: newSelectedCVIndex,
             cvList: action.cvList,
           }
 

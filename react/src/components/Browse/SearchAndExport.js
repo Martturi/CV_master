@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
 
 class SearchAndExport extends Component {
@@ -45,5 +46,13 @@ class SearchAndExport extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    view: state.view,
+  }
+}
 
-export default SearchAndExport
+export default connect(
+  mapStateToProps,
+)(SearchAndExport)
+

@@ -50,8 +50,6 @@ class App extends Component {
         <div>
           <Header />
           <Browse
-            changeViewName={this.changeView}
-            view={this.props.view}
             goEdit={(username, cvID) => this.goEdit(username, cvID)}
             fetchPDF={(username, cvID, sections) => this.fetchPDF(username, cvID, sections)}
           />
@@ -62,7 +60,6 @@ class App extends Component {
       <div>
         <Header />
         <Editor
-          view={this.props.view}
           username={this.props.selectedUser}
           cvID={this.props.selectedCV}
           goBack={() => {

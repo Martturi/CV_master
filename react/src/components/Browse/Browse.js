@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import SearchAndExport from './SearchAndExport'
 import NameList from './NameList'
 import CVList from './CVList'
@@ -6,6 +7,7 @@ import './Browse.css'
 import '../Header.css'
 import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from '../Api'
 import Preview from '../Preview'
+import { changeView } from '../../actions'
 
 class Browse extends Component {
   constructor(props) {
@@ -27,7 +29,7 @@ class Browse extends Component {
 
   myCVsToggle = () => {
     if (this.props.view === 'browse') {
-      this.props.changeViewName('myCVs')
+      this.props.changeView('myCVs')
       this.setState({
         userList: [this.state.userList[this.state.currentUserIndex]],
         userIDList: [this.state.userIDList[this.state.currentUserIndex]],
@@ -36,7 +38,7 @@ class Browse extends Component {
       })
       this.userClicked([this.state.userList[this.state.currentUserIndex]], 0)
     } else {
-      this.props.changeViewName('browse')
+      this.props.changeView('browse')
       this.updateUserList()
     }
   }
@@ -137,7 +139,6 @@ class Browse extends Component {
             this.state.userIDList[this.state.selectedUserIndex],
             this.state.cvList[this.state.selectedCVIndex].cv_id,
             this.state.sections)}
-          view={this.props.view}
           myCVsToggle={this.myCVsToggle}
           updateUserList={() => this.updateUserList()}
         />
@@ -176,4 +177,19 @@ class Browse extends Component {
   }
 }
 
-export default Browse
+const mapStateToProps = (state) => {
+  return {
+    view: state.view,
+  }
+}
+
+
+const mapDispatchToProps = {
+  changeView,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Browse)
+

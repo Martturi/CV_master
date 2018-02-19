@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button } from 'reactstrap'
 import { changeView } from '../../actions'
+import { saveCV } from '../Api'
 
 
 class EditorButtonGroup extends Component {
@@ -9,18 +10,22 @@ class EditorButtonGroup extends Component {
     super(props)
     this.state = {
       dropdownOpen: false,
+      saveStatus: '',
     }
   }
 
   toggle = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    })
+    this.setState({ dropdownOpen: !this.state.dropdownOpen })
+  }
+
+  saveCV = async () => {
+    const saveMessage = await saveCV(this.props.cvID, this.props.sections)
+    this.setState({ saveStatus: saveMessage })
   }
 
   // The content gets saved automatically when it's downloaded.
   saveAndExport = async () => {
-    await this.props.saveCV()
+    await this.saveCV()
     this.props.fetchPDF()
   }
 
@@ -34,7 +39,7 @@ class EditorButtonGroup extends Component {
       <div className="buttonheader editor-buttonheader">
         <Button outline className="button" onClick={this.goBack}>Back</Button>
         <ButtonGroup outline="true" className="exportgroup">
-          <Button outline className="button" onClick={this.props.saveCV}>Save</Button>
+          <Button outline className="button" onClick={this.saveCV}>Save</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export
@@ -44,7 +49,7 @@ class EditorButtonGroup extends Component {
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>
-        <div id="savestatus" className="statusMessage">{this.props.saveStatus.toString()}</div>
+        <div id="savestatus" className="statusMessage">{this.state.saveStatus.toString()}</div>
       </div>
     )
   }
@@ -53,6 +58,10 @@ class EditorButtonGroup extends Component {
 const mapStateToProps = (state) => {
   return {
     lastView: state.lastView,
+    sections: state.sections,
+    cvList: state.cvList,
+    selectedCVIndex: state.selectedCVIndex,
+    cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
   }
 }
 

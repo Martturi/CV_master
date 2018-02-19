@@ -4,8 +4,6 @@ import { ListGroupItem, Collapse, Button, Input } from 'reactstrap'
 class InputSectionCollapser extends React.Component {
   constructor(props) {
     super(props)
-
-    this.toggle = this.toggle.bind(this)
     this.state = { collapse: !props.index }
   }
 
@@ -13,7 +11,7 @@ class InputSectionCollapser extends React.Component {
     this.props.updateSection(event.target.value)
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({ collapse: !this.state.collapse })
   }
 

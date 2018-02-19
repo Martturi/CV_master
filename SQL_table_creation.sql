@@ -16,6 +16,8 @@ CREATE TABLE cv_sections (
   section_id SERIAL PRIMARY KEY,
   fin_title TEXT,
   eng_title TEXT,
+  fin_template TEXT,
+  eng_template TEXT,
   section_order INTEGER
 );
 
@@ -236,27 +238,15 @@ INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0'),
 (DEFAULT, 'defaultUser', 'cv', '2018-01-01 15:15:16+0');
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, '', '', 0),
-(DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', 100),
-(DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', 200),
-(DEFAULT, 'KOULUTUS', 'EDUCATION', 300),
-(DEFAULT, 'SERTIFIKAATIT', 'CERTIFICATES', 400),
-(DEFAULT, 'KIELITAITO', 'LANGUAGE SKILLS', 500),
-(DEFAULT, 'PALKINNOT', 'AWARDS', 600),
-(DEFAULT, 'JULKAISUT', 'PUBLICATIONS', 700),
-(DEFAULT, 'KONFERENSSIT', 'CONFERENCES', 800),
-(DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', 900),
-(DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', 1000);
-
-INSERT INTO section_data VALUES (2, 1,
+INSERT INTO cv_sections VALUES (DEFAULT, '', '', '',
 '###Master of Science
 
 
 ######Senior Software Architect
 The idea is that the bio is a summary of Heikki and the reader gets a good grip of Heikki and his talents only by reading this (some might not read further). You can write e.g. about: relevant industries with special experience, certificates, systems/languages/tools/etc. with special experience. Heikki is an extremely experienced senior software architect who designs functional and successful digital services. He is an experienced specialist of user-driven research and design methods, whose work is always based on determining the actual use and needs of the users. Heikki’s special skills also include conceptualising and user testing. Furthermore, Heikki is also a certified Scrum Master. Heikki has a lot of experience of development projects especially in finance and insurance sectors and his customers include e.g. OP-Pohjola, Luottokunta, DNA, and RAY. For example, he has designed the user interfaces of RAY’s Loyal Customers and Online Casino services.'
-);
+, 0);
 
-INSERT INTO section_data VALUES (2, 2,
+INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', '',
 '#**Reaktor Innovations Oy, 1/2013-**
 ###Senior Software Architect
 
@@ -290,4 +280,14 @@ Loyal Customer: www.ray.fi/en/etuasiakas
 ##**Reaktor R&D, Hours, 1-4/2013**
 Hours is a Java based software for working time tracking. Development process also included some Scala. Heikki was responsible for the architecture and UI design of the application. Agile methods, such as Kanban, were used in the development process.
 >Keywords:'
-);
+, 100);
+
+INSERT INTO cv_sections VALUES (DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', '', '', 200);
+INSERT INTO cv_sections VALUES (DEFAULT, 'KOULUTUS', 'EDUCATION', '', '', 300);
+INSERT INTO cv_sections VALUES (DEFAULT, 'SERTIFIKAATIT', 'CERTIFICATES', '', '', 400);
+INSERT INTO cv_sections VALUES (DEFAULT, 'KIELITAITO', 'LANGUAGE SKILLS', '', '', 500);
+INSERT INTO cv_sections VALUES (DEFAULT, 'PALKINNOT', 'AWARDS', '', '', 600);
+INSERT INTO cv_sections VALUES (DEFAULT, 'JULKAISUT', 'PUBLICATIONS', '', '', 700);
+INSERT INTO cv_sections VALUES (DEFAULT, 'KONFERENSSIT', 'CONFERENCES', '', '', 800);
+INSERT INTO cv_sections VALUES (DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', '', '', 900);
+INSERT INTO cv_sections VALUES (DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', '', '', 1000);

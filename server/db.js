@@ -69,8 +69,8 @@ const initializeTestDB = (testUsername, testCVName, testSections) => {
   if (config.env !== 'production') {
     const date = new Date().toUTCString()
     const sectionInserts = testSections.map(section => (
-      `INSERT INTO cv_sections VALUES (${section.section_id}, '', '${section.eng_title}', ` +
-      `${section.order})`
+      `INSERT INTO cv_sections VALUES (${section.section_id}, '',
+      '${section.eng_title}', '', '${section.eng_template}', ${section.order})`
     )).join('; ')
     const query = `
       DELETE FROM users;
@@ -82,6 +82,7 @@ const initializeTestDB = (testUsername, testCVName, testSections) => {
     `
     return client.query(query)
       .then(() => 'Initialize succeeded.')
+      .catch(() => 'Initialize failed.')
   }
   return 'Not allowed!'
 }
@@ -126,19 +127,19 @@ const loadFullName = (uid) => {
 }
 
 const renameUser = ({ username, fullname }) => {
-  const query = 'UPDATE users SET full_name = $2 WHERE username = $1'
+  const query = 'UPDATE users SET full_name = $2 WHERE username = $1;'
   client.query(query, [username, fullname])
     .then(result => result.rowCount.toString())
 }
 
 const addUser = ({ username, fullname }) => {
-  const query = 'INSERT INTO users VALUES ($1, $2)'
+  const query = 'INSERT INTO users VALUES ($1, $2);'
   client.query(query, [username, fullname])
     .then(result => result.rowCount.toString())
 }
 
 const copy = ({ cvID }) => {
-  const query = 'SELECT username, cv_name FROM cvs WHERE cv_id = $1'
+  const query = 'SELECT username, cv_name FROM cvs WHERE cv_id = $1;'
   return client.query(query, [cvID])
     .then(result => (result.rows[0] || Promise.reject('Copy failed')))
     .then((row) => {
@@ -156,7 +157,7 @@ const copy = ({ cvID }) => {
 }
 
 const deleteCV = ({ cvID }) => {
-  const selectQuery = 'SELECT username FROM cvs WHERE cv_id = $1'
+  const selectQuery = 'SELECT username FROM cvs WHERE cv_id = $1;'
   return client.query(selectQuery, [cvID])
     .then(result => (result.rows[0] ? result.rows[0].username : Promise.reject('Deleting failed')))
     .then((username) => {

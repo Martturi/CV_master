@@ -13,22 +13,12 @@ const db = require('../db')
 chai.should()
 chai.use(chaiHttp)
 
-const testCVID = 1
-const testUsername = 'a'
-const testCVName = 'b'
-const testSections = [ // ids hardcoded on purpose
-  { section_id: 1, eng_title: 'c', order: 50 },
-  { section_id: 2, eng_title: 'd', order: 100 },
-  { section_id: 3, eng_title: 'e', order: 0 },
-  { section_id: 4, eng_title: 'f', order: 150 },
-]
-
 /* global before after */
 // Our parent block
 describe('Save and load tests', () => {
   before(() => { // Before each test we empty the database
-    console.log('Initializing the test database for you!')
-    db.initializeTestDB(testUsername, testCVName, testSections)
+    console.log('Clearing the test database!')
+    db.clear()
   })
   after(() => {
     console.log('Cleaning your messes up!')
@@ -53,15 +43,30 @@ describe('Save and load tests', () => {
   describe('Get first CV', () => {
     const testText = 'Testing rest-api'
 
-    it('it should load an array containing one specific cv', () => {
-      return chai.request(server)
-        .get(`/api/users/${testUsername}/cvs`)
-        .then((res) => {
-          res.should.have.status(200)
-          const cvArray = res.body
-          cvArray.should.be.a('array')
-          cvArray.length.should.be.eql(1)
-          cvArray[0].cv_name.should.be.eql(testCVName)
+    const initSuccessMessage = 'Initialize succeeded.'
+    const testCVID = 1
+    const testUsername = 'a'
+    const testCVName = 'b'
+    const testSections = [ // ids hardcoded on purpose
+      { section_id: 1, eng_title: 'c', eng_template: 't1', order: 50 },
+      { section_id: 2, eng_title: 'd', eng_template: 't2', order: 100 },
+      { section_id: 3, eng_title: 'e', eng_template: 't3', order: 0 },
+      { section_id: 4, eng_title: 'f', eng_template: 't4', order: 150 },
+    ]
+
+    it('it should load an array containing one specific cv after initializing test db', () => {
+      return db.initializeTestDB(testUsername, testCVName, testSections)
+        .then((resText) => {
+          resText.should.be.eql(initSuccessMessage)
+          return chai.request(server)
+            .get(`/api/users/${testUsername}/cvs`)
+            .then((res) => {
+              res.should.have.status(200)
+              const cvArray = res.body
+              cvArray.should.be.a('array')
+              cvArray.length.should.be.eql(1)
+              cvArray[0].cv_name.should.be.eql(testCVName)
+            })
         })
     })
 
@@ -73,15 +78,18 @@ describe('Save and load tests', () => {
         })
     })
 
-    it('it should load an array containing one specific user', () => {
-      return chai.request(server)
-        .get('/api/users')
-        .then((res) => {
-          res.should.have.status(200)
-          const usernameArray = res.body
-          usernameArray.should.be.a('array')
-          usernameArray.length.should.be.eql(1)
-          usernameArray[0].username.should.be.eql(testUsername)
+    it('it should load an array containing one specific user after initializing test db', () => {
+      return db.initializeTestDB(testUsername, testCVName, testSections)
+        .then(() => {
+          return chai.request(server)
+            .get('/api/users')
+            .then((res) => {
+              res.should.have.status(200)
+              const usernameArray = res.body
+              usernameArray.should.be.a('array')
+              usernameArray.length.should.be.eql(1)
+              usernameArray[0].username.should.be.eql(testUsername)
+            })
         })
     })
 

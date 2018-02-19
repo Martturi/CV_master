@@ -7,9 +7,20 @@ const db = require('./db')
 const pdf = require('./pdf')
 const config = require('./config')
 
-const route = express()
+const route = express.Router()
 
 console.log('starting server')
+
+/* Force https-redirect */
+if(config.env == 'production') {
+  route.use((req, res, next) => {
+    if (req.header ('x-forwarded-proto') !== 'https') {
+      res.redirect(`https://${req.header('host')}${req.url}`)
+    } else {
+      next()
+    }
+  })
+}
 
 if (config.auth_id) {
   console.log('Using authentication')
@@ -29,13 +40,6 @@ if (config.auth_id) {
 
   route.use(myGauth)
 }
-// route.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*')
-//   next()
-// })
-
-route.set('port', (process.env.PORT || 5000))
-route.set('view engine', 'ejs')
 
 route.use(bodyParser.urlencoded({ extended: true }))
 route.use(bodyParser.json())
@@ -108,10 +112,6 @@ route.post('/actions/preview', (request, response) => {
   preview.then((result) => {
     response.send(result)
   })
-})
-
-route.listen(route.get('port'), () => {
-  console.log('Node app is running on port', route.get('port'))
 })
 
 module.exports = route

@@ -19,9 +19,7 @@ class Editor extends Component {
     return (
       <div>
         <div id="buttons">
-          <EditorButtonGroup
-            fetchPDF={() => this.props.fetchPDF(this.props.sections)}
-          />
+          <EditorButtonGroup />
         </div>
         <div className="sections">
           <InputSections />

@@ -9,55 +9,58 @@ const initialState = {
   sections: [],
 }
 
+const getCVIndex = (state, action) => {
+  const indexOutOfBounds = state.selectedCVIndex >= action.cvList.length
+  const newSelectedCVIndex = (
+    indexOutOfBounds ? (action.cvList.length - 1) : state.selectedCVIndex
+  )
+  return newSelectedCVIndex
+}
+
 const CVreducer = (state = initialState, action) => {
-    switch (action.type) {
+  switch (action.type) {
+    case 'CHANGE_VIEW':
+      return {
+        ...state,
+        lastView: state.view,
+        view: action.view,
+      }
 
-        case 'CHANGE_VIEW':
-          return {
-            ...state,
-            lastView: state.view,
-            view: action.view,
-          }
+    case 'UPDATE_USERLIST':
+      return {
+        ...state,
+        userList: action.userList,
+        loggedInUserIndex: action.loggedInUserIndex,
+      }
 
-        case 'UPDATE_USERLIST':
-          return {
-            ...state,
-            userList: action.userList,
-            loggedInUserIndex: action.loggedInUserIndex,
-          }
+    case 'UPDATE_CVLIST':
+      return {
+        ...state,
+        selectedCVIndex: getCVIndex(state, action),
+        cvList: action.cvList,
+      }
 
-        case 'UPDATE_CVLIST':
-          const indexOutOfBounds = state.selectedCVIndex >= action.cvList.length
-          const newSelectedCVIndex = (
-            indexOutOfBounds ? (action.cvList.length - 1) : state.selectedCVIndex
-          )
-          return {
-            ...state,
-            selectedCVIndex: newSelectedCVIndex,
-            cvList: action.cvList,
-          }
+    case 'UPDATE_SECTIONS':
+      return {
+        ...state,
+        sections: action.sections,
+      }
 
-        case 'UPDATE_SECTIONS':
-          return {
-            ...state,
-            sections: action.sections,
-          }
+    case 'SELECT_USER_INDEX':
+      return {
+        ...state,
+        selectedUserIndex: action.userIndex,
+      }
 
-        case 'SELECT_USER_INDEX':
-          return {
-            ...state,
-            selectedUserIndex: action.userIndex,
-          }
+    case 'SELECT_CV_INDEX':
+      return {
+        ...state,
+        selectedCVIndex: action.cvIndex,
+      }
 
-        case 'SELECT_CV_INDEX':
-          return {
-            ...state,
-            selectedCVIndex: action.cvIndex,
-          }
-
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
 
 export default CVreducer

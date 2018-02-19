@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button } from 'reactstrap'
 import { changeView } from '../../actions'
 import { saveCV } from '../Api'
+import { downloadPDF } from '../../utils'
 
 
 class EditorButtonGroup extends Component {
@@ -26,7 +27,7 @@ class EditorButtonGroup extends Component {
   // The content gets saved automatically when it's downloaded.
   saveAndExport = async () => {
     await this.saveCV()
-    this.props.fetchPDF()
+    downloadPDF(this.props.username, this.props.cvID, this.props.sections)
   }
 
   goBack = () => {
@@ -62,6 +63,7 @@ const mapStateToProps = (state) => {
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
+    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
   }
 }
 

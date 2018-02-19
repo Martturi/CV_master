@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
 import { changeView, selectUserIndex, updateCVList } from '../../actions'
+import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
   constructor(props) {
@@ -43,7 +44,12 @@ class SearchAndExport extends Component {
               Export
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={this.props.fetchPDF}>Download as PDF</DropdownItem>
+              <DropdownItem
+                onClick={() => downloadPDF(this.props.username,
+                  this.props.cvID, this.props.sections)}
+              >
+                Download as PDF
+              </DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>
@@ -56,6 +62,8 @@ const mapStateToProps = (state) => {
   return {
     view: state.view,
     username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
+    cvID: state.cvList.lenght ? state.cvList[state.selectedCVIndex].cv_id : 0,
+    sections: state.sections,
   }
 }
 

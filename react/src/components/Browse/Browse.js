@@ -63,12 +63,7 @@ class Browse extends Component {
   render() {
     return (
       <div>
-        <SearchAndExport
-          fetchPDF={() => this.props.fetchPDF(
-            this.props.userList[this.props.selectedUserIndex].username,
-            this.props.cvList[this.props.selectedCVIndex].cv_id,
-            this.props.sections)}
-        />
+        <SearchAndExport />
         <div id="namelist" className="browse-section">
           <NameList
             userList={this.props.userList}

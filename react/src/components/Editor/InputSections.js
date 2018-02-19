@@ -19,7 +19,7 @@ class InputSections extends React.Component {
             key={section.section_id}
             index={index}
             section={section}
-            updateSection={text => this.props.updateSection(index, text)}
+            updateSection={text => this.updateSection(index, text)}
           />),
         )}
       </Container>

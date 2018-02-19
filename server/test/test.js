@@ -104,10 +104,10 @@ describe('Save and load tests', () => {
     })
 
     it('it should load the recently saved CV', () => {
-      const firstSection = testSections.find(s1 => testSections.every(s2 => s2.order >= s1.order))
+      const savedSections = [{ section_id: testSections[0].section_id, text: testText }]
       return chai.request(server)
         .post(`/api/cvs/${testCVID}`)
-        .send({ sections: [{ section_id: firstSection.section_id, text: testText }] })
+        .send({ sections: savedSections })
         .then(() => {
           return chai.request(server)
             .get(`/api/cvs/${testCVID}`)
@@ -116,14 +116,27 @@ describe('Save and load tests', () => {
               const sections = res.body
               sections.should.be.a('array')
               sections.length.should.be.eql(testSections.length)
-              sections[0].section_id.should.be.eql(firstSection.section_id)
-              sections[0].text.should.be.eql(testText)
-              for (let i = 1; i < testSections.length; i += 1) sections[i].text.should.be.eql('')
+              for (let i = 0; i < sections.length; i += 1) {
+                // finding the index of sections[i] in savedSections:
+                const savedSectionsIndex = savedSections
+                  .findIndex(a => a.section_id === sections[i].section_id)
+                if (savedSectionsIndex !== -1) {
+                  // if we found the index in savedSections,
+                  // compare sections[i].text to savedSections[savedSectionsIndex].text:
+                  sections[i].text.should.be.eql(savedSections[savedSectionsIndex].text)
+                } else {
+                  // else find index of sections[i] in testSections:
+                  const testSectionsIndex = testSections
+                    .findIndex(a => a.section_id === sections[i].section_id)
+                  // compare sections[i].text to testSections[testSectionsIndex].eng_template:
+                  sections[i].text.should.be.eql(testSections[testSectionsIndex].eng_template)
+                }
+              }
             })
         })
     })
 
-    it('it should return an array of sections with empty contents for a non-existing CV', () => {
+    it('it should return an array of template sections for a non-existing CV', () => {
       const nonExistingCVID = 428319
       return chai.request(server)
         .get(`/api/cvs/${nonExistingCVID}`)
@@ -132,7 +145,13 @@ describe('Save and load tests', () => {
           const sections = res.body
           sections.should.be.a('array')
           sections.length.should.be.eql(testSections.length)
-          for (let i = 0; i < testSections.length; i += 1) sections[i].text.should.be.eql('')
+          for (let i = 0; i < testSections.length; i += 1) {
+            // find index of sections[i] in testSections:
+            const testSectionsIndex = testSections
+              .findIndex(a => a.section_id === sections[i].section_id)
+            // compare sections[i].text to testSections[testSectionsIndex].eng_template:
+            sections[i].text.should.be.eql(testSections[testSectionsIndex].eng_template)
+          }
         })
     })
 

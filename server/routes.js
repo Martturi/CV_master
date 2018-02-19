@@ -86,8 +86,9 @@ route.get('/api/loggedInUser', (request, response) => {
     username = email.split('@')[0]
     fullname = request.user.displayName
   }
-  db.configureUser({ username, fullname })
-  response.send(username)
+  return db.configureUser({ username, fullname })
+    .then(() => response.send(username))
+    .catch(() => response.status(500).send('Database error'))
 })
 
 route.get('/api/users', (request, response) => {

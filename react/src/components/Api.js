@@ -33,6 +33,13 @@ export const loadPreview = async (sections, username) => {
   return body
 }
 
+export const getLoggedInUser = async () => {
+  const response = await fetch('api/currentUser', { credentials: 'include' })
+  const loggedInUser = await response.text()
+  if (response.status !== 200) throw Error(loggedInUser.message)
+  return loggedInUser
+}
+
 export const loadUserList = async () => {
   const response1 = await fetch('api/loggedInUser', { credentials: 'include' })
   const loggedInUser = await response1.text()

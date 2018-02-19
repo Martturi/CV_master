@@ -1,7 +1,7 @@
 /*Searchfield in browse-view*/
 .searchfield {
 	float: left;
-	width: calc(100% - 40.86px);
+	width: calc(100% - 41px);
 	box-shadow: none;
 	color: #242730;
 	border-color: #868e95;
@@ -12,7 +12,7 @@ searchicon*/
 .searchfield-and-button {
 	float:left;
 	display: inline;
-	width: 25%;
+	width: 24.75%;
 	min-width: 180px;
 }
 
@@ -23,8 +23,10 @@ searchicon*/
 	min-width: 40.86px;
 	box-shadow: none;
 }
+
 /*MyCVs-button next to searchfield*/
 #myCVsButton {
+    margin-left: 0.4%;
 	float: left;
 	box-shadow: none;
 }

@@ -4,7 +4,9 @@ import InputSections from './InputSections'
 import Preview from '../Preview'
 import './Editor.css'
 import { saveCV, loadCV } from '../Api'
-
+/*import { connect } from 'react-redux'
+import {selectCV, selectUser} from "../actions";
+*/
 
 class Editor extends Component {
   state = {

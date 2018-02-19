@@ -12,8 +12,6 @@ class App extends Component {
   state = {
     view: 'browse',
     lastView: 'browse',
-    selectedUser: '',
-    selectedCV: '',
   }
 
   /* componentDidMount() {
@@ -24,8 +22,7 @@ class App extends Component {
     this.setState({ uid: newUid })
   } */
 
-  // goEdit function changes the view from Browse to Edit. It gets the selectedUser and selectedCV
-  // from Browse view.
+  // goEdit function changes the view from Browse to Edit.
   goEdit(username, cvID) {
     this.props.selectUser(username)
     this.props.selectCV(cvID)
@@ -33,7 +30,6 @@ class App extends Component {
   }
 
   fetchPDF(username = this.props.selectedUser, cvID = this.props.selectedCV, sections) {
-    this.setState({ selectedUser: username, selectedCV: cvID })
     fetchPDF(username, sections)
       .then(res => res.blob())
       .then((blob) => {

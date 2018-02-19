@@ -28,223 +28,223 @@ CREATE TABLE section_data (
 
 CREATE INDEX cv_id_idx ON section_data (cv_id);
 
-INSERT INTO users VALUES('korkkii', 'Henri Korhonen');
-INSERT INTO users VALUES('timovi', 'Timo Virtanen');
-INSERT INTO users VALUES('mattivi', 'Matti Virtanen');
-INSERT INTO users VALUES('mattija', 'Matti Järvinen');
-INSERT INTO users VALUES('karivi', 'Kari Virtanen');
-INSERT INTO users VALUES('timoko', 'Timo Korhonen');
-INSERT INTO users VALUES('timoma', 'Timo Mäkinen');
-INSERT INTO users VALUES('juhako', 'Juha Korhonen');
-INSERT INTO users VALUES('mattiko', 'Matti Korhonen');
-INSERT INTO users VALUES('mattima', 'Matti Mäkelä');
-INSERT INTO users VALUES('kariko', 'Kari Korhonen');
-INSERT INTO users VALUES('mikkovi', 'Mikko Virtanen');
-INSERT INTO users VALUES('mattimak', 'Matti Mäkinen');
-INSERT INTO users VALUES('karini', 'Kari Nieminen');
-INSERT INTO users VALUES('mattini', 'Matti Nieminen');
-INSERT INTO users VALUES('jarivi', 'Jari Virtanen');
-INSERT INTO users VALUES('makelmi', 'Mikko Mäkelä');
-INSERT INTO users VALUES('markkuvi', 'Markku Virtanen');
-INSERT INTO users VALUES('jukkavi', 'Jukka Virtanen');
-INSERT INTO users VALUES('karikos', 'Kari Koskinen');
-INSERT INTO users VALUES('juhani', 'Juha Nieminen');
-INSERT INTO users VALUES('mattiha', 'Matti Hämäläinen');
-INSERT INTO users VALUES('hannuko', 'Hannu Korhonen');
-INSERT INTO users VALUES('timoni', 'Timo Nieminen');
-INSERT INTO users VALUES('markkuma', 'Markku Mäkinen');
-INSERT INTO users VALUES('kariha', 'Kari Hämäläinen');
-INSERT INTO users VALUES('timomak', 'Timo Mäkelä');
-INSERT INTO users VALUES('juhama', 'Juha Mäkelä'); 
-INSERT INTO users VALUES('karila', 'Kari Laine');
-INSERT INTO users VALUES('timola', 'Timo Laine');
-INSERT INTO users VALUES('mattile', 'Matti Lehtinen');
-INSERT INTO users VALUES('mikkoma', 'Mikko Mäkinen');
-INSERT INTO users VALUES('mattihe', 'Matti Heikkinen');
-INSERT INTO users VALUES('pekkako', 'Pekka Korhonen');
-INSERT INTO users VALUES('juhavi', 'Juha Virtanen');
-INSERT INTO users VALUES('juhaha', 'Juha Hämäläinen');
-INSERT INTO users VALUES('markkumake', 'Markku Mäkelä');
-INSERT INTO users VALUES('timole', 'Timo Lehtonen');
-INSERT INTO users VALUES('mikkoni', 'Mikko Nieminen');
-INSERT INTO users VALUES('markkuni', 'Markku Nieminen');
-INSERT INTO users VALUES('seppoko', 'Seppo Korhonen');
-INSERT INTO users VALUES('jariko', 'Jari Korhonen');
-INSERT INTO users VALUES('jarini', 'Jari Nieminen');
-INSERT INTO users VALUES('sepponi', 'Seppo Nieminen');
-INSERT INTO users VALUES('jarima', 'Jari Mäkinen');
-INSERT INTO users VALUES('seppovi', 'Seppo Virtanen');
-INSERT INTO users VALUES('jukkama', 'Jukka Mäkelä');
-INSERT INTO users VALUES('anttima', 'Antti Mäkinen');
-INSERT INTO users VALUES('pekkavi', 'Pekka Virtanen');
-INSERT INTO users VALUES('jukkako', 'Jukka Korhonen');
-INSERT INTO users VALUES('karima', 'Kari Mäkinen');
-INSERT INTO users VALUES('mattinie', 'Matti Niemi');
-INSERT INTO users VALUES('mikkoko', 'Mikko Korhonen');
-INSERT INTO users VALUES('anttimak', 'Antti Mäkelä');
-INSERT INTO users VALUES('timokos', 'Timo Koskinen');
-INSERT INTO users VALUES('jariha', 'Jari Hämäläinen');
-INSERT INTO users VALUES('mikani', 'Mika Nieminen');
-INSERT INTO users VALUES('jukkani', 'Jukka Nieminen');
-INSERT INTO users VALUES('timoja', 'Timo Järvinen');
-INSERT INTO users VALUES('timoha', 'Timo HämäläineV');
-INSERT INTO users VALUES('anttiko', 'Antti Korhonen');
-INSERT INTO users VALUES('markkuko', 'Markku Korhonen');
-INSERT INTO users VALUES('mikkokos', 'Mikko Koskinen');
-INSERT INTO users VALUES('juhaja', 'Juha Järvinen');
-INSERT INTO users VALUES('anttivi', 'Antti Virtanen');
-INSERT INTO users VALUES('juhahe', 'Juha Heikkinen');
-INSERT INTO users VALUES('timohe', 'Timo Heikkinen');
-INSERT INTO users VALUES('timosa', 'Timo Salminen');
-INSERT INTO users VALUES('karile', 'Kari Lehtonen');
-INSERT INTO users VALUES('mattikos', 'Matti Koskinen');
-INSERT INTO users VALUES('ritvavi', 'Ritva Virtanen');
-INSERT INTO users VALUES('villevi', 'Ville Virtanen');
-INSERT INTO users VALUES('jarimak', 'Jari Mäkelä');
-INSERT INTO users VALUES('juhakos', 'Juha Koskinen');
-INSERT INTO users VALUES('mattihei', 'Matti Heikkilä');
-INSERT INTO users VALUES('juhala', 'Juha Laine');
-INSERT INTO users VALUES('timora', 'Timo Rantanen');
-INSERT INTO users VALUES('anttini', 'Antti Nieminen');
-INSERT INTO users VALUES('timotu', 'Timo Tuominen');
-INSERT INTO users VALUES('hannuvi', 'Hannu Virtanen');
-INSERT INTO users VALUES('jarila', 'Jari Laine');
-INSERT INTO users VALUES('pekkama', 'Pekka Mäkelä');
-INSERT INTO users VALUES('timohei', 'Timo Heikkilä');
-INSERT INTO users VALUES('jukkamak', 'Jukka Mäkinen');
-INSERT INTO users VALUES('mattileh', 'Matti Lehtonen');
-INSERT INTO users VALUES('mattitu', 'Matti Turunen');
-INSERT INTO users VALUES('mattisa', 'Matti Salminen');
-INSERT INTO users VALUES('markkukos', 'Markku Koskinen');
-INSERT INTO users VALUES('karileh', 'Kari Lehtinen');
-INSERT INTO users VALUES('pirkkovi', 'Pirkko Virtanen');
-INSERT INTO users VALUES('jarija', 'Jari Järvinen');
-INSERT INTO users VALUES('tuulani', 'Tuula Nieminen');
-INSERT INTO users VALUES('mikavi', 'Mika Virtanen');
-INSERT INTO users VALUES('timosal', 'Timo Salonen');
-INSERT INTO users VALUES('hannuma', 'Hannu Mäkelä');
-INSERT INTO users VALUES('anttiha', 'Antti Hämäläinen');
-INSERT INTO users VALUES('jarileh', 'Jari Lehtonen');
-INSERT INTO users VALUES('anttihe', 'Antti Heikkilä');
-INSERT INTO users VALUES('jukkale', 'Jukka Lehtinen');
-INSERT INTO users VALUES('pekkamak', 'Pekka Mäkinen');
-INSERT INTO users VALUES('jukkakos', 'Jukka Koskinen');
+INSERT INTO users VALUES('korkkii', 'Henri Korhonen'),
+('timovi', 'Timo Virtanen'),
+('mattivi', 'Matti Virtanen'),
+('mattija', 'Matti Järvinen'),
+('karivi', 'Kari Virtanen'),
+('timoko', 'Timo Korhonen'),
+('timoma', 'Timo Mäkinen'),
+('juhako', 'Juha Korhonen'),
+('mattiko', 'Matti Korhonen'),
+('mattima', 'Matti Mäkelä'),
+('kariko', 'Kari Korhonen'),
+('mikkovi', 'Mikko Virtanen'),
+('mattimak', 'Matti Mäkinen'),
+('karini', 'Kari Nieminen'),
+('mattini', 'Matti Nieminen'),
+('jarivi', 'Jari Virtanen'),
+('makelmi', 'Mikko Mäkelä'),
+('markkuvi', 'Markku Virtanen'),
+('jukkavi', 'Jukka Virtanen'),
+('karikos', 'Kari Koskinen'),
+('juhani', 'Juha Nieminen'),
+('mattiha', 'Matti Hämäläinen'),
+('hannuko', 'Hannu Korhonen'),
+('timoni', 'Timo Nieminen'),
+('markkuma', 'Markku Mäkinen'),
+('kariha', 'Kari Hämäläinen'),
+('timomak', 'Timo Mäkelä'),
+('juhama', 'Juha Mäkelä'),
+('karila', 'Kari Laine'),
+('timola', 'Timo Laine'),
+('mattile', 'Matti Lehtinen'),
+('mikkoma', 'Mikko Mäkinen'),
+('mattihe', 'Matti Heikkinen'),
+('pekkako', 'Pekka Korhonen'),
+('juhavi', 'Juha Virtanen'),
+('juhaha', 'Juha Hämäläinen'),
+('markkumake', 'Markku Mäkelä'),
+('timole', 'Timo Lehtonen'),
+('mikkoni', 'Mikko Nieminen'),
+('markkuni', 'Markku Nieminen'),
+('seppoko', 'Seppo Korhonen'),
+('jariko', 'Jari Korhonen'),
+('jarini', 'Jari Nieminen'),
+('sepponi', 'Seppo Nieminen'),
+('jarima', 'Jari Mäkinen'),
+('seppovi', 'Seppo Virtanen'),
+('jukkama', 'Jukka Mäkelä'),
+('anttima', 'Antti Mäkinen'),
+('pekkavi', 'Pekka Virtanen'),
+('jukkako', 'Jukka Korhonen'),
+('karima', 'Kari Mäkinen'),
+('mattinie', 'Matti Niemi'),
+('mikkoko', 'Mikko Korhonen'),
+('anttimak', 'Antti Mäkelä'),
+('timokos', 'Timo Koskinen'),
+('jariha', 'Jari Hämäläinen'),
+('mikani', 'Mika Nieminen'),
+('jukkani', 'Jukka Nieminen'),
+('timoja', 'Timo Järvinen'),
+('timoha', 'Timo HämäläineV'),
+('anttiko', 'Antti Korhonen'),
+('markkuko', 'Markku Korhonen'),
+('mikkokos', 'Mikko Koskinen'),
+('juhaja', 'Juha Järvinen'),
+('anttivi', 'Antti Virtanen'),
+('juhahe', 'Juha Heikkinen'),
+('timohe', 'Timo Heikkinen'),
+('timosa', 'Timo Salminen'),
+('karile', 'Kari Lehtonen'),
+('mattikos', 'Matti Koskinen'),
+('ritvavi', 'Ritva Virtanen'),
+('villevi', 'Ville Virtanen'),
+('jarimak', 'Jari Mäkelä'),
+('juhakos', 'Juha Koskinen'),
+('mattihei', 'Matti Heikkilä'),
+('juhala', 'Juha Laine'),
+('timora', 'Timo Rantanen'),
+('anttini', 'Antti Nieminen'),
+('timotu', 'Timo Tuominen'),
+('hannuvi', 'Hannu Virtanen'),
+('jarila', 'Jari Laine'),
+('pekkama', 'Pekka Mäkelä'),
+('timohei', 'Timo Heikkilä'),
+('jukkamak', 'Jukka Mäkinen'),
+('mattileh', 'Matti Lehtonen'),
+('mattitu', 'Matti Turunen'),
+('mattisa', 'Matti Salminen'),
+('markkukos', 'Markku Koskinen'),
+('karileh', 'Kari Lehtinen'),
+('pirkkovi', 'Pirkko Virtanen'),
+('jarija', 'Jari Järvinen'),
+('tuulani', 'Tuula Nieminen'),
+('mikavi', 'Mika Virtanen'),
+('timosal', 'Timo Salonen'),
+('hannuma', 'Hannu Mäkelä'),
+('anttiha', 'Antti Hämäläinen'),
+('jarileh', 'Jari Lehtonen'),
+('anttihe', 'Antti Heikkilä'),
+('jukkale', 'Jukka Lehtinen'),
+('pekkamak', 'Pekka Mäkinen'),
+('jukkakos', 'Jukka Koskinen');
 
 
-INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattivi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattija', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'karivi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timoko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timoma', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhako', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattiko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattima', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'kariko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mikkovi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattimak', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'karini', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattini', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jarivi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'makelmi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'markkuvi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jukkavi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'karikos', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhani', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattiha', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'hannuko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timoni', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'markkuma', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'kariha', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timomak', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhama', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'karila', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timola', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattile', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mikkoma', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattihe', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'pekkako', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhavi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhaha', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'markkumake', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timole', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mikkoni', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'markkuni', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'seppoko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jariko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jarini', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'sepponi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jarima', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'seppovi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jukkama', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'anttima', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'pekkavi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jukkako', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'karima', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattinie', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mikkoko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'anttimak', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timokos', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jariha', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mikani', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jukkani', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timoja', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timoha', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'anttiko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'markkuko', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mikkokos', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhaja', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'anttivi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhahe', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timohe', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timosa', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'karile', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattikos', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'ritvavi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'villevi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jarimak', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhakos', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattihei', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'juhala', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timora', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'anttini', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timotu', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'hannuvi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jarila', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'pekkama', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timohei', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jukkamak', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattileh', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattitu', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mattisa', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'markkukos','cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'karileh', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'pirkkovi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jarija', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'tuulani', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'mikavi', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'timosal', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'hannuma', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'anttiha', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jarileh', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'anttihe', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jukkale', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'pekkamak', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'jukkakos', 'cv', '2018-01-01 15:15:16+0');
-INSERT INTO cvs VALUES (DEFAULT, 'korkkii', 'cv', '2018-01-01 15:15:16+0');
+INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattivi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattija', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karivi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoma', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhako', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattiko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattima', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'kariko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkovi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattimak', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karini', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattini', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarivi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'makelmi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuvi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkavi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karikos', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhani', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattiha', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'hannuko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoni', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuma', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'kariha', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timomak', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhama', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karila', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timola', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattile', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkoma', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattihe', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkako', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhavi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhaha', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkumake', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timole', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkoni', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuni', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'seppoko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jariko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarini', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'sepponi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarima', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'seppovi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkama', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttima', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkavi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkako', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karima', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattinie', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkoko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttimak', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timokos', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jariha', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikani', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkani', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoja', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoha', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttiko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuko', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkokos', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhaja', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttivi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhahe', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timohe', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timosa', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karile', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattikos', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'ritvavi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'villevi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarimak', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhakos', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattihei', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhala', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timora', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttini', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timotu', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'hannuvi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarila', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkama', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timohei', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkamak', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattileh', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattitu', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattisa', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkukos','cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karileh', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pirkkovi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarija', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'tuulani', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikavi', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timosal', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'hannuma', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttiha', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarileh', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttihe', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkale', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkamak', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkakos', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'korkkii', 'cv', '2018-01-01 15:15:16+0');
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, '', '', 0);
-INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', 100);
-INSERT INTO cv_sections VALUES (DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', 200);
-INSERT INTO cv_sections VALUES (DEFAULT, 'KOULUTUS', 'EDUCATION', 300);
-INSERT INTO cv_sections VALUES (DEFAULT, 'SERTIFIKAATIT', 'CERTIFICATES', 400);
-INSERT INTO cv_sections VALUES (DEFAULT, 'KIELITAITO', 'LANGUAGE SKILLS', 500);
-INSERT INTO cv_sections VALUES (DEFAULT, 'PALKINNOT', 'AWARDS', 600);
-INSERT INTO cv_sections VALUES (DEFAULT, 'JULKAISUT', 'PUBLICATIONS', 700);
-INSERT INTO cv_sections VALUES (DEFAULT, 'KONFERENSSIT', 'CONFERENCES', 800);
-INSERT INTO cv_sections VALUES (DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', 900);
-INSERT INTO cv_sections VALUES (DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', 1000);
+INSERT INTO cv_sections VALUES (DEFAULT, '', '', 0),
+(DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', 100),
+(DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', 200),
+(DEFAULT, 'KOULUTUS', 'EDUCATION', 300),
+(DEFAULT, 'SERTIFIKAATIT', 'CERTIFICATES', 400),
+(DEFAULT, 'KIELITAITO', 'LANGUAGE SKILLS', 500),
+(DEFAULT, 'PALKINNOT', 'AWARDS', 600),
+(DEFAULT, 'JULKAISUT', 'PUBLICATIONS', 700),
+(DEFAULT, 'KONFERENSSIT', 'CONFERENCES', 800),
+(DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', 900),
+(DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', 1000);
 
 INSERT INTO section_data VALUES (2, 1,
 '###Master of Science

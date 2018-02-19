@@ -9,8 +9,10 @@ class Preview extends Component {
   }
 
   componentWillReceiveProps(props) {
-    // TODO: Preview only updates when user or content is changed
-    this.updatePreview(props.sections, props.username)
+    if (props.sections.length !== 0) {
+      // TODO: Preview only updates when user or content is changed
+      this.updatePreview(props.sections, props.username)
+    }
   }
 
   // loadPreview requires username to find the correct photo from CDN for the preview
@@ -29,6 +31,7 @@ class Preview extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    view: state.view,
     sections: state.sections,
     username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
   }

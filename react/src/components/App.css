@@ -1,13 +1,1 @@
-/* @import url("/pdf/style.css"); */
 
-.preview {
-    width: 583px;
-    border: 1px solid black;
-    margin: auto;
-    margin-bottom: 200px;
-    padding-bottom: 40px;
-}
-
-.editor {
-    float: left;
-}

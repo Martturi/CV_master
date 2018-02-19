@@ -18,16 +18,22 @@
   src: url('/fonts/Jungka-Bold.otf');
 }
 
+/*Changes the font of all the placeholders.
+In example the font in the search field.*/
 ::placeholder {
   font-family: 'JungkaLight';
 }
 
+/*Changes the color, font and deletes the box
+shadow of all buttons. Doesn't take the box shadow
+away for search-icon button or myCVs-button.*/
 .button {
   color: #242730;
   font-family: 'JungkaRegular';
   box-shadow: none;
 }
 
+/*Changes the hover color of each button*/
 .button:hover {
   background-color: #242730;
   border-color: #242730;
@@ -42,10 +48,12 @@
   box-shadow: none;
 }
 
+/*Changes the outline color of the Export-dropdown*/
 .dropdown-menu {
   border: 0.1vh solid #6c757d;
 }
-
+/*Affects the "search-header" in browse-view and
+the "back,save and export-header" in editor-view*/
 .buttonheader {
   float: right;
   padding-top: 2.5vh;
@@ -58,16 +66,33 @@
   box-shadow: none;
 }
 
+/*Export button in browse-view and
+Save and Export buttons in editor-view*/
 .exportgroup {
   float: right;
   font-family: 'JungkaRegular';
   box-shadow: none;
 }
 
+/*Container for the pdf preview*/
 .CVpreview {
   float: right;
   width: 50%;
   height: 80vh;
   max-height: auto;
   overflow: auto;
+}
+
+/*PDF preview of the CV*/
+.preview {
+    width: 583px;
+    border: 1px solid black;
+    margin: auto;
+    margin-bottom: 200px;
+    padding-bottom: 40px;
+}
+
+/*Keeps editor left in Editor-view*/
+.editor {
+    float: left;
 }

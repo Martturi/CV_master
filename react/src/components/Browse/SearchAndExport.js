@@ -22,16 +22,14 @@ class SearchAndExport extends Component {
 
   render() {
     return (
-      <div className="buttonheader searchheader">
-        <div className="searchAndMyCVs">
-          <div className="searchfield-and-button">
-            <Input className="search" placeholder="Search..." />
-            <Button outline className="button" id="searchbutton">
-              <span className="fa fa-search" aria-hidden="true" />
-            </Button>
-          </div>
-          <Button outline active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.onClick}>My CVs</Button>
+      <div className="buttonheader">
+        <div className="searchfield-and-button">
+          <Input className="searchfield" placeholder="Search..." />
+          <Button outline className="button" id="searchbutton">
+            <span className="fa fa-search" aria-hidden="true" />
+          </Button>
         </div>
+        <Button outline className="button" active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.onClick}>My CVs</Button>
         <ButtonGroup className="exportgroup">
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">

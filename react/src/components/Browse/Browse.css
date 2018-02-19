@@ -6,7 +6,6 @@
 	box-shadow: none;
 	color: #242730;
 	border-color: #868e95;
-	margin-right: 40.86px;
 }
 
 /*Sets the width for searchfield and
@@ -17,7 +16,6 @@ searchicon*/
 
 /*Searchicon-button after searchfield*/
 #searchbutton {
-	float: right;
 	margin-right: 1vw;
 	box-shadow: none;
 }

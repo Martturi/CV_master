@@ -5,108 +5,59 @@ import NameList from './NameList'
 import CVList from './CVList'
 import './Browse.css'
 import '../Header.css'
-import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from '../Api'
+import { loadUserList, copyCV, deleteCV, renameCV } from '../Api'
 import Preview from '../Preview'
-import { changeView, updateUserList, updateCVList, updateSections, selectUserIndex, selectCVIndex } from '../../actions'
+import { changeView, updateUserList, updateCVList, updateCV, selectUserIndex, selectCVIndex } from '../../actions'
 
 class Browse extends Component {
-  /* constructor(props) {
-    super(props)
-    this.state = {
-      sections: [],
-    }
-  } */
-
   componentDidMount() {
     this.updateUserList()
   }
 
-  myCVsToggle = () => {
-    if (this.props.view === 'browse') {
-      this.props.changeView('myCVs')
-      this.userClicked([this.props.userList[this.props.loggedInUserIndex]], 0)
-    } else {
-      this.props.changeView('browse')
-    }
+  updateUserList = async () => {
+    const { users, loggedInUser } = await loadUserList()
+    const userIDs = users.map(user => user.username)
+    const loggedInUserIndexIfExists = userIDs.indexOf(loggedInUser)
+    const loggedInUserIndex = loggedInUserIndexIfExists !== -1 ? loggedInUserIndexIfExists : 0
+    await this.props.updateUserList(users, loggedInUserIndex)
+    this.userClicked(loggedInUserIndex)
   }
 
-  updateUserList = () => {
-    loadUserList()
-      .then(({ users, loggedInUser }) => {
-        const userIDs = users.map(user => user.username)
-        const loggedInUserIndexIfExists = userIDs.indexOf(loggedInUser)
-        const loggedInUserIndex = loggedInUserIndexIfExists !== -1 ? loggedInUserIndexIfExists : 0
-        this.props.updateUserList(users, loggedInUserIndex)
-        this.userClicked(users, loggedInUserIndex)
-      })
-      .catch(err => console.log(err))
-  }
-
-  userClicked(userList = this.props.userList, userIndex) {
+  async userClicked(userIndex) {
     const defaultCVIndex = 0
-    this.props.selectUserIndex(userIndex)
-    const username = userList[userIndex].username
-    loadCVList(username)
-      .then((cvs) => {
-        this.props.updateCVList(cvs)
-        this.cvClicked(cvs, defaultCVIndex)
-      })
-      .catch(err => console.log(err))
+    await this.props.selectUserIndex(userIndex)
+    const username = this.props.username
+    await this.props.updateCVList(username)
+    this.cvClicked(this.props.cvList, defaultCVIndex)
   }
 
   cvClicked(cvList = this.props.cvList, cvIndex) {
     const cvID = cvList[cvIndex].cv_id
     this.props.selectCVIndex(cvIndex)
-    loadCV(cvID)
-      .then((sections) => {
-        this.props.updateSections(sections)
-      })
-      .catch(err => console.log(err))
+    this.props.updateCV(cvID)
   }
 
-  renameConfirmed(cvID, newCVName) {
-    const username = this.props.userList[this.props.selectedUserIndex].username
-    console.log(`new cv name: ${newCVName}`)
-    renameCV(cvID, newCVName)
-      .then(() => {
-        loadCVList(username)
-          .then((cvs) => {
-            this.props.updateCVList(cvs)
-            const indexOfRenamedCV = cvs.map(row => row.cv_id).indexOf(cvID)
-            this.cvClicked(cvs, indexOfRenamedCV)
-          })
-          .catch(err => console.log(err))
-      })
-      .catch(err => console.log(err))
+  async renameConfirmed(cvID, newCVName) {
+    const username = this.props.username
+    await renameCV(cvID, newCVName)
+    await this.props.updateCVList(username)
+    const indexOfRenamedCV = this.props.cvList.map(row => row.cv_id).indexOf(cvID)
+    this.cvClicked(this.props.cvList, indexOfRenamedCV)
   }
 
-  copyClicked(cvID) {
-    const username = this.props.userList[this.props.selectedUserIndex].username
-    copyCV(cvID)
-      .then((idOfCopiedCV) => {
-        loadCVList(username)
-          .then((cvs) => {
-            this.props.updateCVList(cvs)
-            const indexOfCopiedCV = cvs.map(row => row.cv_id).indexOf(Number(idOfCopiedCV))
-            this.cvClicked(cvs, indexOfCopiedCV)
-          })
-          .catch(err => console.log(err))
-      })
-      .catch(err => console.log(err))
+  async copyClicked(cvID) {
+    const username = this.props.username
+    const idOfCopiedCV = await copyCV(cvID)
+    await this.props.updateCVList(username)
+    const indexOfCopiedCV = this.props.cvList.map(row => row.cv_id).indexOf(Number(idOfCopiedCV))
+    this.cvClicked(this.props.cvList, indexOfCopiedCV)
   }
 
-  deleteConfirmed(cvID) {
-    const username = this.props.userList[this.props.selectedUserIndex].username
-    deleteCV(cvID)
-      .then(() => {
-        loadCVList(username)
-          .then((cvs) => {
-            this.props.updateCVList(cvs)
-            this.cvClicked(cvs, this.props.selectedCVIndex)
-          })
-          .catch(err => console.log(err))
-      })
-      .catch(err => console.log(err))
+  async deleteConfirmed(cvID) {
+    const username = this.props.username
+    await deleteCV(cvID)
+    await this.props.updateCVList(username)
+    this.cvClicked(this.props.cvList, this.props.selectedCVIndex)
   }
 
   render() {
@@ -117,13 +68,12 @@ class Browse extends Component {
             this.props.userList[this.props.selectedUserIndex].username,
             this.props.cvList[this.props.selectedCVIndex].cv_id,
             this.props.sections)}
-          myCVsToggle={this.myCVsToggle}
         />
         <div id="namelist" className="browse-section">
           <NameList
             userList={this.props.userList}
             selectedUserIndex={this.props.selectedUserIndex}
-            userClicked={userIndex => this.userClicked(undefined, userIndex)}
+            userClicked={userIndex => this.userClicked(userIndex)}
           />
         </div>
         <div id="cvlist" className="browse-section">
@@ -150,6 +100,7 @@ const mapStateToProps = (state) => {
   return {
     ...state,
     userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
+    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
   }
 }
 
@@ -158,7 +109,7 @@ const mapDispatchToProps = {
   changeView,
   updateUserList,
   updateCVList,
-  updateSections,
+  updateCV,
   selectUserIndex,
   selectCVIndex,
 }

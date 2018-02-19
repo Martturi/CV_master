@@ -4,8 +4,8 @@ import EditorButtonGroup from './EditorButtonGroup'
 import InputSections from './InputSections'
 import Preview from '../Preview'
 import './Editor.css'
-import { saveCV, loadCV } from '../Api'
-import { updateSections } from '../../actions'
+import { saveCV } from '../Api'
+import { updateCV, updateSections } from '../../actions'
 
 class Editor extends Component {
   state = {
@@ -23,11 +23,7 @@ class Editor extends Component {
   }
 
   openCV() {
-    loadCV(this.props.cvID)
-      .then((sections) => {
-        this.props.updateSections(sections)
-      })
-      .catch(err => console.log(err))
+    this.props.updateCV(this.props.cvID)
   }
 
   async saveCV() {
@@ -76,6 +72,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   updateSections,
+  updateCV,
 }
 
 export default connect(

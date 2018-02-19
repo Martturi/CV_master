@@ -1,6 +1,9 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import ReduxThunk from 'redux-thunk'
 import CVreducer from './reducers'
 
-let store = createStore(CVreducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(CVreducer, composeEnhancers(applyMiddleware(...[ReduxThunk])))
 
 export default store

@@ -1,3 +1,5 @@
+import { loadCVList, loadCV } from './components/Api'
+
 export const changeView = (view) => {
   return {
   	type: 'CHANGE_VIEW',
@@ -13,11 +15,21 @@ export const updateUserList = (userList, loggedInUserIndex) => {
   }
 }
 
-export const updateCVList = (cvList) => {
-  return {
-  	type: 'UPDATE_CVLIST',
-  	cvList,
-  }
+export const updateCVList = (username) => async (dispatch) => {
+	const cvList = await loadCVList(username)
+	dispatch({ 
+		type: 'UPDATE_CVLIST',
+		cvList,
+	})
+}
+
+
+export const updateCV = (cvID) => async (dispatch) => {
+  const sections = await loadCV(cvID)
+  dispatch({
+  	type: 'UPDATE_SECTIONS',
+  	sections,
+  })
 }
 
 export const updateSections = (sections) => {

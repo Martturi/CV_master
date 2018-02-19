@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
-import { changeView } from '../../actions'
+import { changeView, selectUserIndex, updateCVList } from '../../actions'
 
 class SearchAndExport extends Component {
   constructor(props) {
@@ -17,8 +17,14 @@ class SearchAndExport extends Component {
     })
   }
 
-  onClick = () => {
-    this.props.myCVsToggle()
+  myCVsToggle = async () => {
+    if (this.props.view === 'browse') {
+      this.props.changeView('myCVs')
+      await this.props.selectUserIndex(0)
+      this.props.updateCVList(this.props.username)
+    } else {
+      this.props.changeView('browse')
+    }
   }
 
   render() {
@@ -30,7 +36,7 @@ class SearchAndExport extends Component {
             <span className="fa fa-search" aria-hidden="true" />
           </Button>
         </div>
-        <Button outline className="button" active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.onClick}>My CVs</Button>
+        <Button outline className="button" active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.myCVsToggle}>My CVs</Button>
         <ButtonGroup className="exportgroup">
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
@@ -49,11 +55,14 @@ class SearchAndExport extends Component {
 const mapStateToProps = (state) => {
   return {
     view: state.view,
+    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
   }
 }
 
 const mapDispatchToProps = {
   changeView,
+  selectUserIndex,
+  updateCVList,
 }
 
 export default connect(

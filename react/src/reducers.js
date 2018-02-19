@@ -1,6 +1,8 @@
 const initialState = {
-    selectedUser: '',
-    selectedCV: '',
+  selectedUser: '',
+  selectedCV: '',
+  view: 'browse',
+  lastView: 'browse',
 }
 
 const CVreducer = (state = initialState, action) => {
@@ -9,15 +11,22 @@ const CVreducer = (state = initialState, action) => {
         case 'SELECT_USER':
             return {
                 ...state,
-                selectedUser: action.username
+                selectedUser: action.username,
 
             }
 
         case 'SELECT_CV':
             return {
                 ...state,
-                selectedCV: action.CV
+                selectedCV: action.CV,
             }
+
+        case 'CHANGE_VIEW':
+          return {
+            ...state,
+            lastView: state.view,
+            view: action.view,
+          }
 
         default:
             return state

@@ -19,6 +19,8 @@ class CVToolbar extends Component {
     this.setState({ deleteSelected: false })
   }
 
+  
+
   render() {
     const DeletePopoverHeaderContents = () => {
       if (this.props.cvCount >= 2) {

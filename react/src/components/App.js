@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './App.css'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import { fetchPDF } from './Api'
 import Header from './Header'
-import { connect } from 'react-redux'
-import {selectCV, selectUser} from "../actions";
+import { selectCV, selectUser, changeView } from '../actions'
 
 
 class App extends Component {
-  state = {
-    view: 'browse',
-    lastView: 'browse',
-  }
 
   /* componentDidMount() {
     this.openCV()
@@ -44,21 +40,18 @@ class App extends Component {
       .catch(err => console.log(err))
   }
 
-  changeView = (page) => {
-    this.setState({
-      view: page,
-      lastView: this.state.view,
-    })
+  changeView = (view) => {
+    this.props.changeView(view)
   }
 
   render() {
-    if (this.state.view === 'browse' || this.state.view === 'myCVs') {
+    if (this.props.view === 'browse' || this.props.view === 'myCVs') {
       return (
         <div>
           <Header />
           <Browse
             changeViewName={this.changeView}
-            view={this.state.view}
+            view={this.props.view}
             goEdit={(username, cvID) => this.goEdit(username, cvID)}
             fetchPDF={(username, cvID, sections) => this.fetchPDF(username, cvID, sections)}
           />
@@ -69,11 +62,11 @@ class App extends Component {
       <div>
         <Header />
         <Editor
-          view={this.state.view}
+          view={this.props.view}
           username={this.props.selectedUser}
           cvID={this.props.selectedCV}
           goBack={() => {
-            const nextView = this.state.lastView === 'browse' ? 'browse' : 'myCVs'
+            const nextView = this.props.lastView === 'browse' ? 'browse' : 'myCVs'
             this.changeView(nextView)
           }}
           fetchPDF={sections => this.fetchPDF(undefined, undefined, sections)}
@@ -83,18 +76,19 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-    return state
+const mapStateToProps = (state) => {
+  return state
 }
 
 
 const mapDispatchToProps = {
-    selectUser,
-    selectCV
+  selectUser,
+  selectCV,
+  changeView,
 }
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(App)
 

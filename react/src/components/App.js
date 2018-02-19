@@ -5,27 +5,12 @@ import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import { fetchPDF } from './Api'
 import Header from './Header'
-import { selectCV, selectUser, changeView } from '../actions'
+import { changeView } from '../actions'
 
 
 class App extends Component {
 
-  /* componentDidMount() {
-    this.openCV()
-  }
-
-  updateUID(newUid) {
-    this.setState({ uid: newUid })
-  } */
-
-  // goEdit function changes the view from Browse to Edit.
-  goEdit(username, cvID) {
-    this.props.selectUser(username)
-    this.props.selectCV(cvID)
-    this.changeView('edit')
-  }
-
-  fetchPDF(username = this.props.selectedUser, cvID = this.props.selectedCV, sections) {
+  fetchPDF(username = this.props.username, cvID = this.props.cvID, sections) {
     fetchPDF(username, sections)
       .then(res => res.blob())
       .then((blob) => {
@@ -50,7 +35,6 @@ class App extends Component {
         <div>
           <Header />
           <Browse
-            goEdit={(username, cvID) => this.goEdit(username, cvID)}
             fetchPDF={(username, cvID, sections) => this.fetchPDF(username, cvID, sections)}
           />
         </div>
@@ -60,12 +44,6 @@ class App extends Component {
       <div>
         <Header />
         <Editor
-          username={this.props.selectedUser}
-          cvID={this.props.selectedCV}
-          goBack={() => {
-            const nextView = this.props.lastView === 'browse' ? 'browse' : 'myCVs'
-            this.changeView(nextView)
-          }}
           fetchPDF={sections => this.fetchPDF(undefined, undefined, sections)}
         />
       </div>
@@ -74,13 +52,15 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return state
+  return {
+    ...state,
+    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
+    cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
+  }
 }
 
 
 const mapDispatchToProps = {
-  selectUser,
-  selectCV,
   changeView,
 }
 

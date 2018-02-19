@@ -7,18 +7,18 @@ import './Browse.css'
 import '../Header.css'
 import { loadCV, loadUserList, loadCVList, copyCV, deleteCV, renameCV } from '../Api'
 import Preview from '../Preview'
-import { changeView } from '../../actions'
+import { changeView, updateUserList, updateCVList, selectUserIndex, selectCVIndex, selectMyCVs } from '../../actions'
 
 class Browse extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentUserIndex: 0,
+      /*currentUserIndex: 0,
       userList: [],
       userIDList: [],
       selectedUserIndex: 0,
       cvList: [],
-      selectedCVIndex: 0,
+      selectedCVIndex: 0,*/
       sections: [],
     }
   }
@@ -30,13 +30,8 @@ class Browse extends Component {
   myCVsToggle = () => {
     if (this.props.view === 'browse') {
       this.props.changeView('myCVs')
-      this.setState({
-        userList: [this.state.userList[this.state.currentUserIndex]],
-        userIDList: [this.state.userIDList[this.state.currentUserIndex]],
-        selectedUserIndex: 0,
-        selectedCVIndex: 0,
-      })
-      this.userClicked([this.state.userList[this.state.currentUserIndex]], 0)
+      this.props.selectMyCVs()
+      this.userClicked([this.props.userList[this.props.loggedInUserIndex]], 0)
     } else {
       this.props.changeView('browse')
       this.updateUserList()
@@ -45,36 +40,33 @@ class Browse extends Component {
 
   updateUserList = () => {
     loadUserList()
-      .then(({ users, currentUser }) => {
+      .then(({ users, loggedInUser }) => {
         const userIDs = users.map(user => user.username)
-        const currentUserIndexIfExists = userIDs.indexOf(currentUser)
-        const currentUserIndex = currentUserIndexIfExists !== -1 ? currentUserIndexIfExists : 0
-        this.setState({
-          currentUserIndex,
-          userList: users,
-          userIDList: userIDs,
-        })
-        console.log('current user', currentUser)
-        this.userClicked(users, currentUserIndex)
+        const loggedInUserIndexIfExists = userIDs.indexOf(loggedInUser)
+        const loggedInUserIndex = loggedInUserIndexIfExists !== -1 ? loggedInUserIndexIfExists : 0
+        this.props.updateUserList(users, loggedInUserIndex)
+        console.log('logged in user', loggedInUser)
+        this.userClicked(users, loggedInUserIndex)
       })
       .catch(err => console.log(err))
   }
 
-  userClicked(userList = this.state.userList, userIndex) {
+  userClicked(userList = this.props.userList, userIndex) {
+    console.log('clicked user ', userList[userIndex])
     const defaultCVIndex = 0
-    this.setState({ selectedUserIndex: userIndex })
+    this.props.selectUserIndex(userIndex)
     const username = userList[userIndex].username
     loadCVList(username)
       .then((cvs) => {
-        this.setState({ cvList: cvs })
+        this.props.updateCVList(cvs)
         this.cvClicked(cvs, defaultCVIndex)
       })
       .catch(err => console.log(err))
   }
 
-  cvClicked(cvList = this.state.cvList, cvIndex) {
+  cvClicked(cvList = this.props.cvList, cvIndex) {
     const cvID = cvList[cvIndex].cv_id
-    this.setState({ selectedCVIndex: cvIndex })
+    this.props.selectCVIndex(cvIndex)
     loadCV(cvID)
       .then((sections) => {
         this.setState({ sections })
@@ -83,13 +75,13 @@ class Browse extends Component {
   }
 
   renameConfirmed(cvID, newCVName) {
-    const username = this.state.userIDList[this.state.selectedUserIndex]
+    const username = this.props.userList[this.props.selectedUserIndex].username
     console.log(`new cv name: ${newCVName}`)
     renameCV(cvID, newCVName)
       .then(() => {
         loadCVList(username)
           .then((cvs) => {
-            this.setState({ cvList: cvs })
+            this.props.updateCVList(cvs)
             const indexOfRenamedCV = cvs.map(row => row.cv_id).indexOf(cvID)
             this.cvClicked(cvs, indexOfRenamedCV)
           })
@@ -99,12 +91,12 @@ class Browse extends Component {
   }
 
   copyClicked(cvID) {
-    const username = this.state.userIDList[this.state.selectedUserIndex]
+    const username = this.props.userList[this.props.selectedUserIndex].username
     copyCV(cvID)
       .then((idOfCopiedCV) => {
         loadCVList(username)
           .then((cvs) => {
-            this.setState({ cvList: cvs })
+            this.props.updateCVList(cvs)
             const indexOfCopiedCV = cvs.map(row => row.cv_id).indexOf(Number(idOfCopiedCV))
             this.cvClicked(cvs, indexOfCopiedCV)
           })
@@ -114,15 +106,15 @@ class Browse extends Component {
   }
 
   deleteConfirmed(cvID) {
-    const username = this.state.userIDList[this.state.selectedUserIndex]
+    const username = this.props.userList[this.props.selectedUserIndex].username
     deleteCV(cvID)
       .then(() => {
         loadCVList(username)
           .then((cvs) => {
-            this.setState({ cvList: cvs })
-            const indexOutOfBounds = this.state.selectedCVIndex >= cvs.length
+            this.props.updateCVList(cvs)
+            const indexOutOfBounds = this.props.selectedCVIndex >= cvs.length
             const newSelectedCVIndex = (
-              indexOutOfBounds ? (cvs.length - 1) : this.state.selectedCVIndex
+              indexOutOfBounds ? (cvs.length - 1) : this.props.selectedCVIndex
             )
             this.cvClicked(cvs, newSelectedCVIndex)
           })
@@ -136,38 +128,34 @@ class Browse extends Component {
       <div>
         <SearchAndExport
           fetchPDF={() => this.props.fetchPDF(
-            this.state.userIDList[this.state.selectedUserIndex],
-            this.state.cvList[this.state.selectedCVIndex].cv_id,
+            this.props.userList[this.props.selectedUserIndex].username,
+            this.props.cvList[this.props.selectedCVIndex].cv_id,
             this.state.sections)}
           myCVsToggle={this.myCVsToggle}
           updateUserList={() => this.updateUserList()}
         />
         <div id="namelist" className="browse-section">
           <NameList
-            userList={this.state.userList}
-            selectedUserIndex={this.state.selectedUserIndex}
+            userList={this.props.userList}
+            selectedUserIndex={this.props.selectedUserIndex}
             userClicked={userIndex => this.userClicked(undefined, userIndex)}
           />
         </div>
         <div id="cvlist" className="browse-section">
           <CVList
-            userList={this.state.userIDList}
-            selectedUserIndex={this.state.selectedUserIndex}
-            cvList={this.state.cvList}
-            selectedCVIndex={this.state.selectedCVIndex}
+            cvList={this.props.cvList}
+            selectedCVIndex={this.props.selectedCVIndex}
             cvClicked={cvIndex => this.cvClicked(undefined, cvIndex)}
-            goEdit={cvID => this.props.goEdit(
-              this.state.userIDList[this.state.selectedUserIndex],
-              cvID)}
             renameConfirmed={(cvID, newCVName) => this.renameConfirmed(cvID, newCVName)}
             copyClicked={cvID => this.copyClicked(cvID)}
             deleteConfirmed={cvID => this.deleteConfirmed(cvID)}
-            cvCount={this.state.cvList.length}
+            cvCount={this.props.cvList.length}
           />
         </div>
         <div className="CVpreview">
           <Preview
-            username={this.state.userIDList[this.state.selectedUserIndex]}
+            /* Use 'defaultUser' until userlist is populated */
+            username={this.props.userList.length ? this.props.userList[this.props.selectedUserIndex].username : 'defaultUser'}
             sections={this.state.sections}
           />
         </div>
@@ -178,14 +166,17 @@ class Browse extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    view: state.view,
-  }
+  return state
 }
 
 
 const mapDispatchToProps = {
   changeView,
+  updateUserList,
+  updateCVList,
+  selectUserIndex,
+  selectCVIndex,
+  selectMyCVs,
 }
 
 export default connect(

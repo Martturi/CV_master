@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import EditorButtonGroup from './EditorButtonGroup'
 import InputSections from './InputSections'
 import Preview from '../Preview'
 import './Editor.css'
 import { saveCV, loadCV } from '../Api'
-/*import { connect } from 'react-redux'
-import {selectCV, selectUser} from "../actions";
-*/
 
 class Editor extends Component {
   state = {
@@ -25,7 +23,7 @@ class Editor extends Component {
   }
 
   openCV() {
-    loadCV(this.props.cvID)
+    loadCV(this.props.cvList[this.props.selectedCVIndex].cv_id)
       .then((sections) => {
         this.setState({ sections })
       })
@@ -33,7 +31,7 @@ class Editor extends Component {
   }
 
   async saveCV() {
-    await saveCV(this.props.cvID, this.state.sections)
+    await saveCV(this.props.cvList[this.props.selectedCVIndex].cv_id, this.state.sections)
       .then((res) => {
         this.setState({ saveStatus: res })
       })
@@ -52,7 +50,6 @@ class Editor extends Component {
             saveCV={() => this.saveCV()}
             fetchPDF={() => this.props.fetchPDF(this.state.sections)}
             saveStatus={this.state.saveStatus}
-            goBack={this.props.goBack}
           />
         </div>
         <div className="sections">
@@ -63,7 +60,7 @@ class Editor extends Component {
         </div>
         <div className="CVpreview">
           <Preview
-            username={this.props.username}
+            username={this.props.userList[this.props.selectedUserIndex].username}
             sections={this.state.sections}
           />
         </div>
@@ -73,5 +70,10 @@ class Editor extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return state
+}
 
-export default Editor
+export default connect(
+  mapStateToProps,
+)(Editor)

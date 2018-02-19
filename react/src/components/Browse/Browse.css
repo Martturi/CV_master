@@ -1,24 +1,26 @@
 /*Searchfield in browse-view*/
 .searchfield {
 	float: left;
-	width: 20.75vw;
-	min-width: 5vw;
+	width: calc(100% - 40.86px);
 	box-shadow: none;
 	color: #242730;
 	border-color: #868e95;
-	margin-right: 40.86px;
 }
 
 /*Sets the width for searchfield and
 searchicon*/
 .searchfield-and-button {
 	float:left;
+	display: inline;
+	width: 25%;
+	min-width: 180px;
 }
 
 /*Searchicon-button after searchfield*/
 #searchbutton {
 	float: right;
-	margin-right: 1vw;
+	width: 40.86px;
+	min-width: 40.86px;
 	box-shadow: none;
 }
 /*MyCVs-button next to searchfield*/
@@ -47,7 +49,7 @@ CVs are listed*/
 	float: left;
 	display: inline;
 	width: 25%;
-	padding-right: 0.5vw;
+	min-width: 180px;
 	padding-left: 0.5vw;
 	font-family: 'JungkaRegular';
 	overflow: auto;

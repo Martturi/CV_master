@@ -27,7 +27,10 @@ class EditorButtonGroup extends Component {
   // The content gets saved automatically when it's downloaded.
   saveAndExport = async () => {
     await this.saveCV()
-    downloadPDF(this.props.username, this.props.cvID, this.props.sections)
+    downloadPDF(
+      this.props.userList[this.props.selectedUserIndex].username,
+      this.props.cvID,
+      this.props.sections)
   }
 
   goBack = () => {
@@ -60,10 +63,11 @@ const mapStateToProps = (state) => {
   return {
     lastView: state.lastView,
     sections: state.sections,
+    userList: state.userList,
+    selectedUserIndex: state.selectedUserIndex,
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
-    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
   }
 }
 

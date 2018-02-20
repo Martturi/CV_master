@@ -26,38 +26,38 @@ class Browse extends Component {
   async userClicked(userIndex) {
     const defaultCVIndex = 0
     await this.props.selectUserIndex(userIndex)
-    const username = this.props.username
+    const username = this.props.userList[this.props.selectedUserIndex].username
     await this.props.updateCVList(username)
-    this.cvClicked(this.props.cvList, defaultCVIndex)
+    this.cvClicked(defaultCVIndex)
   }
 
-  cvClicked(cvList = this.props.cvList, cvIndex) {
-    const cvID = cvList[cvIndex].cv_id
+  cvClicked(cvIndex) {
+    const cvID = this.props.cvList[cvIndex].cv_id
     this.props.selectCVIndex(cvIndex)
     this.props.updateCV(cvID)
   }
 
   async renameConfirmed(cvID, newCVName) {
-    const username = this.props.username
+    const username = this.props.userList[this.props.selectedUserIndex].username
     await renameCV(cvID, newCVName)
     await this.props.updateCVList(username)
     const indexOfRenamedCV = this.props.cvList.map(row => row.cv_id).indexOf(cvID)
-    this.cvClicked(this.props.cvList, indexOfRenamedCV)
+    this.cvClicked(indexOfRenamedCV)
   }
 
   async copyClicked(cvID) {
-    const username = this.props.username
+    const username = this.props.userList[this.props.selectedUserIndex].username
     const idOfCopiedCV = await copyCV(cvID)
     await this.props.updateCVList(username)
     const indexOfCopiedCV = this.props.cvList.map(row => row.cv_id).indexOf(Number(idOfCopiedCV))
-    this.cvClicked(this.props.cvList, indexOfCopiedCV)
+    this.cvClicked(indexOfCopiedCV)
   }
 
   async deleteConfirmed(cvID) {
-    const username = this.props.username
+    const username = this.props.userList[this.props.selectedUserIndex].username
     await deleteCV(cvID)
     await this.props.updateCVList(username)
-    this.cvClicked(this.props.cvList, this.props.selectedCVIndex)
+    this.cvClicked(this.props.selectedCVIndex)
   }
 
   render() {
@@ -75,7 +75,7 @@ class Browse extends Component {
           <CVList
             cvList={this.props.cvList}
             selectedCVIndex={this.props.selectedCVIndex}
-            cvClicked={cvIndex => this.cvClicked(undefined, cvIndex)}
+            cvClicked={cvIndex => this.cvClicked(cvIndex)}
             renameConfirmed={(cvID, newCVName) => this.renameConfirmed(cvID, newCVName)}
             copyClicked={cvID => this.copyClicked(cvID)}
             deleteConfirmed={cvID => this.deleteConfirmed(cvID)}
@@ -95,7 +95,7 @@ const mapStateToProps = (state) => {
   return {
     ...state,
     userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
-    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
+    selectedUserIndex: state.selectedUserIndex,
   }
 }
 

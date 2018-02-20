@@ -12,9 +12,9 @@ const route = express.Router()
 console.log('starting server')
 
 /* Force https-redirect */
-if(config.env == 'production') {
+if (config.env === 'production') {
   route.use((req, res, next) => {
-    if (req.header ('x-forwarded-proto') !== 'https') {
+    if (req.header('x-forwarded-proto') !== 'https') {
       res.redirect(`https://${req.header('host')}${req.url}`)
     } else {
       next()
@@ -107,7 +107,6 @@ route.delete('/api/cvs/:cvID', (request, response) => {
 // Sends a preview based on the text from the request.
 route.post('/actions/preview', (request, response) => {
   const params = request.body
-  console.log('parameters', params)
   console.log('Loading preview for cv')
   const preview = pdf.getHTML(params)
   preview.then((result) => {

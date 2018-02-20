@@ -22,9 +22,11 @@ class SearchAndExport extends Component {
     if (this.props.view === 'browse') {
       this.props.changeView('myCVs')
       await this.props.selectUserIndex(0)
-      this.props.updateCVList(this.props.username)
+      this.props.updateCVList(this.props.userList[this.props.selectedUserIndex].username)
     } else {
       this.props.changeView('browse')
+      await this.props.selectUserIndex(this.props.loggedInUserIndex)
+      this.props.updateCVList(this.props.userList[this.props.selectedUserIndex].username)
     }
   }
 
@@ -45,7 +47,8 @@ class SearchAndExport extends Component {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem
-                onClick={() => downloadPDF(this.props.username,
+                onClick={() => downloadPDF(
+                  this.props.userList[this.props.selectedUserIndex].username,
                   this.props.cvID, this.props.sections)}
               >
                 Download as PDF
@@ -61,8 +64,10 @@ class SearchAndExport extends Component {
 const mapStateToProps = (state) => {
   return {
     view: state.view,
-    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
-    cvID: state.cvList.lenght ? state.cvList[state.selectedCVIndex].cv_id : 0,
+    userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
+    selectedUserIndex: state.selectedUserIndex,
+    cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
+    loggedInUserIndex: state.loggedInUserIndex,
     sections: state.sections,
   }
 }

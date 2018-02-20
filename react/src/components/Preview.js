@@ -11,7 +11,7 @@ class Preview extends Component {
   componentWillReceiveProps(props) {
     if (props.sections.length !== 0) {
       // TODO: Preview only updates when user or content is changed
-      this.updatePreview(props.sections, props.username)
+      this.updatePreview(props.sections, props.userList[props.selectedUserIndex].username)
     }
   }
 
@@ -33,7 +33,8 @@ const mapStateToProps = (state) => {
   return {
     view: state.view,
     sections: state.sections,
-    username: state.userList.length ? state.userList[state.selectedUserIndex].username : 'defaultUser',
+    userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
+    selectedUserIndex: state.selectedUserIndex,
   }
 }
 

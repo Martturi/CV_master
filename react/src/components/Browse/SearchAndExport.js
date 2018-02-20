@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
-import { changeView, selectUserIndex, updateCVList } from '../../actions'
+import { changeView, selectUserIndex, updateCVList, updateCV } from '../../actions'
 import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
@@ -26,7 +26,6 @@ class SearchAndExport extends Component {
     } else {
       this.props.changeView('browse')
       await this.props.selectUserIndex(this.props.loggedInUserIndex)
-      this.props.updateCVList(this.props.userList[this.props.selectedUserIndex].username)
     }
   }
 
@@ -76,6 +75,7 @@ const mapDispatchToProps = {
   changeView,
   selectUserIndex,
   updateCVList,
+  updateCV,
 }
 
 export default connect(

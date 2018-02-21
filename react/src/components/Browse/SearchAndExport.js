@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
-import { changeView, selectUserIndex, updateCVList, updateCV } from '../../actions'
+import { changeView, selectUserIndex, selectCVIndex, updateCVList, updateCV } from '../../actions'
 import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
@@ -22,11 +22,13 @@ class SearchAndExport extends Component {
     if (this.props.view === 'browse') {
       this.props.changeView('myCVs')
       await this.props.selectUserIndex(0)
-      this.props.updateCVList(this.props.userList[this.props.selectedUserIndex].username)
+      await this.props.updateCVList(this.props.userList[this.props.selectedUserIndex].username)
     } else {
       this.props.changeView('browse')
       await this.props.selectUserIndex(this.props.loggedInUserIndex)
     }
+    await this.props.selectCVIndex(0)
+    this.props.updateCV(this.props.cvList[this.props.selectedCVIndex].cv_id)
   }
 
   render() {
@@ -65,6 +67,8 @@ const mapStateToProps = (state) => {
     view: state.view,
     userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
     selectedUserIndex: state.selectedUserIndex,
+    cvList: state.cvList,
+    selectedCVIndex: state.selectedCVIndex,
     cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
     loggedInUserIndex: state.loggedInUserIndex,
     sections: state.sections,
@@ -74,6 +78,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   changeView,
   selectUserIndex,
+  selectCVIndex,
   updateCVList,
   updateCV,
 }

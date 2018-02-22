@@ -7,6 +7,7 @@ const initialState = {
   selectedCVIndex: 0,
   loggedInUserIndex: 0,
   sections: [],
+  previewHTML: '',
 }
 
 const getCVIndex = (state, action) => {
@@ -26,24 +27,31 @@ const CVreducer = (state = initialState, action) => {
         view: action.view,
       }
 
-    case 'UPDATE_USERLIST':
+    case 'UPDATE_USER_LIST':
       return {
         ...state,
         userList: action.userList,
         loggedInUserIndex: action.loggedInUserIndex,
+        selectedUserIndex: action.selectedUserIndex,
       }
 
-    case 'UPDATE_CVLIST':
+    case 'UPDATE_CV_LIST':
       return {
         ...state,
-        selectedCVIndex: getCVIndex(state, action),
         cvList: action.cvList,
+        selectedCVIndex: getCVIndex(state, action),
       }
 
     case 'UPDATE_SECTIONS':
       return {
         ...state,
         sections: action.sections,
+      }
+
+    case 'UPDATE_PREVIEW':
+      return {
+        ...state,
+        previewHTML: action.previewHTML,
       }
 
     case 'SELECT_USER_INDEX':

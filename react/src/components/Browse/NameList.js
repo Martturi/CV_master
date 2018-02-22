@@ -1,13 +1,31 @@
 import React from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap'
+import { connect } from 'react-redux'
+import {
+  userClickedCascade,
+} from '../../actions'
 
 class NameList extends React.Component {
   render() {
-    const fullNames = this.props.userList.map(user => user.full_name)
-    const listGroupItems = fullNames.map((fullName, index) => {
+    const listGroupItems = this.props.userList.map((object, index) => {
+      const username = object.username
       const isActive = this.props.selectedUserIndex === index
-      return <ListGroupItem key={this.props.userList[index].username} active={isActive} tag="a" href="#" action onClick={() => this.props.userClicked(index)}>{fullName}</ListGroupItem>
-    })
+      if (this.props.view === 'myCVs' && index !== this.props.loggedInUserIndex) return undefined
+      return (
+        <ListGroupItem
+          tag="a"
+          href="#"
+          action
+          key={username}
+          active={isActive}
+          onClick={() => {
+            this.props.userClickedCascade(this.props.userList, index)
+          }}
+        >
+          {object.full_name}
+        </ListGroupItem>
+      )
+    }).filter(item => item !== undefined)
     return (
       <div>
         <ListGroup>
@@ -18,4 +36,21 @@ class NameList extends React.Component {
   }
 }
 
-export default NameList
+const mapStateToProps = (state) => {
+  return {
+    userList: state.userList,
+    selectedUserIndex: state.selectedUserIndex,
+    view: state.view,
+    loggedInUserIndex: state.loggedInUserIndex,
+  }
+}
+
+const mapDispatchToProps = {
+  userClickedCascade,
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NameList)

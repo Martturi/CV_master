@@ -34,7 +34,7 @@ const createCV = ({ username, cvName }) => {
     })
 }
 
-const save = ({ cvID, sections }) => {
+const save = ({ cvID, username, sections }) => {
   const insertOrDelete = (index) => {
     if (index < sections.length) {
       const section = sections[index]
@@ -56,8 +56,10 @@ const save = ({ cvID, sections }) => {
   }
   const date = new Date().toUTCString() // for example: 'Fri, 09 Feb 2018 13:55:00 GMT'.
   // Postgres automatically translates this string into a correct date object.
-  const query = `UPDATE cvs SET last_updated = '${date}' WHERE cv_id = $1;`
-  return client.query(query, [cvID])
+  const query = `
+    INSERT INTO cvs VALUES ($1, $2, 'Unknown CV', '${date}') ON CONFLICT (cv_id) DO UPDATE SET last_updated = '${date}';
+  `
+  return client.query(query, [cvID, username])
     .then(() => insertOrDelete(0))
 }
 
@@ -132,7 +134,7 @@ const copy = ({ cvID }) => {
         .then((newCVID) => {
           return load({ cvID })
             .then((sections) => {
-              return save({ cvID: newCVID, sections })
+              return save({ cvID: newCVID, username, sections })
                 .then(() => newCVID.toString())
             })
         })

@@ -1,4 +1,4 @@
-import { loadCVList, loadCV } from './components/Api'
+import { loadUserList, loadCVList, loadCV, loadPreview } from './components/Api'
 
 export const changeView = (view) => {
   return {
@@ -7,29 +7,21 @@ export const changeView = (view) => {
   }
 }
 
-export const updateUserList = (userList, loggedInUserIndex) => {
-  return {
-    type: 'UPDATE_USERLIST',
-    userList,
-    loggedInUserIndex,
-  }
-}
-
-export const updateCVList = username => async (dispatch) => {
-  const cvList = await loadCVList(username)
+export const updatePreview = (sections, username) => async (dispatch) => {
+  const previewHTML = await loadPreview(sections, username)
   dispatch({
-    type: 'UPDATE_CVLIST',
-    cvList,
+    type: 'UPDATE_PREVIEW',
+    previewHTML,
   })
 }
 
-
-export const updateCV = cvID => async (dispatch) => {
+export const loadSections = cvID => async (dispatch) => {
   const sections = await loadCV(cvID)
   dispatch({
     type: 'UPDATE_SECTIONS',
     sections,
   })
+  return sections
 }
 
 export const updateSections = (sections) => {
@@ -38,6 +30,30 @@ export const updateSections = (sections) => {
     sections,
   }
 }
+
+export const updateCVList = username => async (dispatch) => {
+  const cvList = await loadCVList(username)
+  dispatch({
+    type: 'UPDATE_CV_LIST',
+    cvList,
+  })
+  return cvList
+}
+
+export const updateUserList = () => async (dispatch) => {
+  const { users, loggedInUser } = await loadUserList()
+  const loggedInUserIndexIfExists = users.findIndex(object => object.username === loggedInUser)
+  const loggedInUserIndex = loggedInUserIndexIfExists !== -1 ? loggedInUserIndexIfExists : 0
+  const selectedUserIndex = loggedInUserIndex
+  dispatch({
+    type: 'UPDATE_USER_LIST',
+    userList: users,
+    selectedUserIndex,
+    loggedInUserIndex,
+  })
+  return { users, selectedUserIndex }
+}
+
 
 export const selectUserIndex = (userIndex) => {
   return {
@@ -51,4 +67,24 @@ export const selectCVIndex = (cvIndex) => {
     type: 'SELECT_CV_INDEX',
     cvIndex,
   }
+}
+
+export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) => {
+  dispatch(selectCVIndex(cvIndex))
+  const cvID = cvList[cvIndex].cv_id
+  const sections = await loadSections(cvID)(dispatch)
+  updatePreview(sections, username)(dispatch)
+}
+
+export const userClickedCascade = (userList, userIndex) => async (dispatch) => {
+  dispatch(selectUserIndex(userIndex))
+  const username = userList[userIndex].username
+  const cvList = await updateCVList(username)(dispatch)
+  const defaultCVIndex = 0
+  cvClickedCascade(username, cvList, defaultCVIndex)(dispatch)
+}
+
+export const userLoggedInCascade = () => async (dispatch) => {
+  const { users, selectedUserIndex } = await updateUserList()(dispatch)
+  userClickedCascade(users, selectedUserIndex)(dispatch)
 }

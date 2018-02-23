@@ -7,6 +7,7 @@ const initialState = {
   selectedCVIndex: 0,
   loggedInUserIndex: 0,
   sections: [],
+  searchFieldContents: '',
   previewHTML: '',
 }
 
@@ -64,6 +65,12 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         selectedCVIndex: action.cvIndex,
+      }
+
+    case 'UPDATE_SEARCH_FIELD_CONTENTS':
+      return {
+        ...state,
+        searchFieldContents: action.searchFieldContents,
       }
 
     default:

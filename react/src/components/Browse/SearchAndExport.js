@@ -4,6 +4,7 @@ import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup
 import {
   changeView,
   userClickedCascade,
+  updateSearchFieldContents,
 } from '../../actions'
 import { downloadPDF } from '../../utils'
 
@@ -38,7 +39,12 @@ class SearchAndExport extends Component {
     return (
       <div className="buttonheader">
         <div className="searchfield-and-button">
-          <Input className="searchfield" placeholder="Search..." />
+          <Input
+            className="searchfield"
+            placeholder="Search..."
+            value={this.props.searchFieldContents}
+            onChange={e => this.props.updateSearchFieldContents(e.target.value)}
+          />
           <Button outline className="button" id="searchbutton">
             <span className="fa fa-search" aria-hidden="true" />
           </Button>
@@ -78,12 +84,14 @@ const mapStateToProps = (state) => {
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     sections: state.sections,
+    searchFieldContents: state.searchFieldContents,
   }
 }
 
 const mapDispatchToProps = {
   changeView,
   userClickedCascade,
+  updateSearchFieldContents,
 }
 
 export default connect(

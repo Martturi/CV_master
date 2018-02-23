@@ -69,6 +69,13 @@ export const selectCVIndex = (cvIndex) => {
   }
 }
 
+export const updateSearchFieldContents = (newContents) => {
+  return {
+    type: 'UPDATE_SEARCH_FIELD_CONTENTS',
+    searchFieldContents: newContents,
+  }
+}
+
 export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) => {
   dispatch(selectCVIndex(cvIndex))
   const cvID = cvList[cvIndex].cv_id

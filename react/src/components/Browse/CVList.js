@@ -24,7 +24,6 @@ class CVList extends React.Component {
             </ListGroupItemText>
           </div>
           <CVToolbar
-            goEdit={() => this.props.goEdit(cvID)}
             renameConfirmed={newCVName => this.props.renameConfirmed(cvID, newCVName)}
             copyClicked={() => this.props.copyClicked(cvID)}
             deleteConfirmed={() => this.props.deleteConfirmed(cvID)}

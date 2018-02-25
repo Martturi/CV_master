@@ -1,23 +1,34 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
+import { changeView, selectUserIndex, selectCVIndex, updateCVList, updateCV } from '../../actions'
+import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
   constructor(props) {
     super(props)
-    this.toggle = this.toggle.bind(this)
     this.state = {
       dropdownOpen: false,
     }
   }
 
-  onClick = () => {
-    this.props.myCVsToggle()
-  }
-
-  toggle() {
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     })
+  }
+
+  myCVsToggle = async () => {
+    if (this.props.view === 'browse') {
+      this.props.changeView('myCVs')
+      await this.props.selectUserIndex(0)
+      await this.props.updateCVList(this.props.userList[this.props.selectedUserIndex].username)
+    } else {
+      this.props.changeView('browse')
+      await this.props.selectUserIndex(this.props.loggedInUserIndex)
+    }
+    await this.props.selectCVIndex(0)
+    this.props.updateCV(this.props.cvList[this.props.selectedCVIndex].cv_id)
   }
 
   render() {
@@ -29,14 +40,20 @@ class SearchAndExport extends Component {
             <span className="fa fa-search" aria-hidden="true" />
           </Button>
         </div>
-        <Button outline className="button" active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.onClick}>My CVs</Button>
+        <Button outline className="button" active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.myCVsToggle}>My CVs</Button>
         <ButtonGroup className="exportgroup">
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={this.props.fetchPDF}>Download as PDF</DropdownItem>
+              <DropdownItem
+                onClick={() => downloadPDF(
+                  this.props.userList[this.props.selectedUserIndex].username,
+                  this.props.cvID, this.props.sections)}
+              >
+                Download as PDF
+              </DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>
@@ -45,5 +62,29 @@ class SearchAndExport extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    view: state.view,
+    userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
+    selectedUserIndex: state.selectedUserIndex,
+    cvList: state.cvList,
+    selectedCVIndex: state.selectedCVIndex,
+    cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
+    loggedInUserIndex: state.loggedInUserIndex,
+    sections: state.sections,
+  }
+}
 
-export default SearchAndExport
+const mapDispatchToProps = {
+  changeView,
+  selectUserIndex,
+  selectCVIndex,
+  updateCVList,
+  updateCV,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchAndExport)
+

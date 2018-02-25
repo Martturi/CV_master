@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, Popover, PopoverBody, PopoverHeader } from 'reactstrap'
+import { changeView } from '../../actions'
 
 class CVToolbar extends Component {
   state = {
@@ -71,5 +73,16 @@ class CVToolbar extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    goEdit: () => {
+      dispatch(changeView('edit'))
+    },
+  }
+}
 
-export default CVToolbar
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CVToolbar)

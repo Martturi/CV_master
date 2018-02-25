@@ -1,36 +1,49 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button } from 'reactstrap'
+import { changeView } from '../../actions'
+import { saveCV } from '../Api'
+import { downloadPDF } from '../../utils'
 
 
 class EditorButtonGroup extends Component {
   constructor(props) {
     super(props)
-    this.toggle = this.toggle.bind(this)
-    this.saveAndExport = this.saveAndExport.bind(this)
     this.state = {
       dropdownOpen: false,
+      saveStatus: '',
     }
   }
 
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    })
+  toggle = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen })
+  }
+
+  saveCV = async () => {
+    const saveMessage = await saveCV(this.props.cvID, this.props.sections)
+    this.setState({ saveStatus: saveMessage })
   }
 
   // The content gets saved automatically when it's downloaded.
-  async saveAndExport() {
-    await this.props.saveCV()
-    this.props.fetchPDF()
+  saveAndExport = async () => {
+    await this.saveCV()
+    downloadPDF(
+      this.props.userList[this.props.selectedUserIndex].username,
+      this.props.cvID,
+      this.props.sections)
+  }
+
+  goBack = () => {
+    this.props.changeView(this.props.lastView)
   }
 
 
   render() {
     return (
       <div className="buttonheader editor-buttonheader">
-        <Button outline className="button" onClick={this.props.goBack}>Back</Button>
+        <Button outline className="button" onClick={this.goBack}>Back</Button>
         <ButtonGroup outline="true" className="exportgroup">
-          <Button outline className="button" onClick={this.props.saveCV}>Save</Button>
+          <Button outline className="button" onClick={this.saveCV}>Save</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export
@@ -40,11 +53,30 @@ class EditorButtonGroup extends Component {
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>
-        <div id="savestatus" className="statusMessage">{this.props.saveStatus.toString()}</div>
+        <div id="savestatus" className="statusMessage">{this.state.saveStatus.toString()}</div>
       </div>
     )
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    lastView: state.lastView,
+    sections: state.sections,
+    userList: state.userList,
+    selectedUserIndex: state.selectedUserIndex,
+    cvList: state.cvList,
+    selectedCVIndex: state.selectedCVIndex,
+    cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
+  }
+}
 
-export default EditorButtonGroup
+const mapDispatchToProps = {
+  changeView,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditorButtonGroup)
+

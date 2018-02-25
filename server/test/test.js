@@ -39,7 +39,7 @@ describe('Save and load tests', () => {
   describe('Get current user with no auth', () => {
     it('it should answer with 200', () => {
       return chai.request(server)
-        .get('/api/currentUser')
+        .get('/api/loggedInUser')
         .then((res) => {
           res.should.have.status(200)
           res.text.should.equal('defaultUser')

@@ -87,7 +87,7 @@ INSERT INTO users VALUES('korkkii', 'Henri Korhonen'),
 ('mikani', 'Mika Nieminen'),
 ('jukkani', 'Jukka Nieminen'),
 ('timoja', 'Timo Järvinen'),
-('timoha', 'Timo HämäläineV'),
+('timoha', 'Timo Hämäläinen'),
 ('anttiko', 'Antti Korhonen'),
 ('markkuko', 'Markku Korhonen'),
 ('mikkokos', 'Mikko Koskinen'),
@@ -128,7 +128,8 @@ INSERT INTO users VALUES('korkkii', 'Henri Korhonen'),
 ('anttihe', 'Antti Heikkilä'),
 ('jukkale', 'Jukka Lehtinen'),
 ('pekkamak', 'Pekka Mäkinen'),
-('jukkakos', 'Jukka Koskinen');
+('jukkakos', 'Jukka Koskinen'),
+('defaultUser', 'Default User');
 
 
 INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0'),
@@ -231,7 +232,8 @@ INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0'),
 (DEFAULT, 'jukkale', 'cv', '2018-01-01 15:15:16+0'),
 (DEFAULT, 'pekkamak', 'cv', '2018-01-01 15:15:16+0'),
 (DEFAULT, 'jukkakos', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'korkkii', 'cv', '2018-01-01 15:15:16+0');
+(DEFAULT, 'korkkii', 'cv', '2018-01-01 15:15:16+0'),
+(DEFAULT, 'defaultUser', 'cv', '2018-01-01 15:15:16+0');
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, '', '', 0),

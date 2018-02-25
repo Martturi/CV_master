@@ -12,9 +12,9 @@ const route = express.Router()
 console.log('starting server')
 
 /* Force https-redirect */
-if(config.env == 'production') {
+if (config.env === 'production') {
   route.use((req, res, next) => {
-    if (req.header ('x-forwarded-proto') !== 'https') {
+    if (req.header('x-forwarded-proto') !== 'https') {
       res.redirect(`https://${req.header('host')}${req.url}`)
     } else {
       next()
@@ -78,7 +78,7 @@ route.put('/api/cvs/:cvID', (request, response) => {
   handleDBRequest(db.rename, request, response)
 })
 
-route.get('/api/currentUser', (request, response) => {
+route.get('/api/loggedInUser', (request, response) => {
   if (config.auth_id) {
     const email = request.user.emails[0].value
     const uid = email.split('@')[0]

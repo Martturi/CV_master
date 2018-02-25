@@ -34,13 +34,13 @@ export const loadPreview = async (sections, username) => {
 }
 
 export const loadUserList = async () => {
-  const response1 = await fetch('api/currentUser', { credentials: 'include' })
-  const currentUser = await response1.text()
-  if (response1.status !== 200) throw Error(currentUser.message)
+  const response1 = await fetch('api/loggedInUser', { credentials: 'include' })
+  const loggedInUser = await response1.text()
+  if (response1.status !== 200) throw Error(loggedInUser.message)
   const response2 = await fetch('api/users', { credentials: 'include' })
   const users = await response2.json()
   if (response2.status !== 200) throw Error(users.message)
-  return { users, currentUser }
+  return { users, loggedInUser }
 }
 
 export const loadCVList = async (username) => {

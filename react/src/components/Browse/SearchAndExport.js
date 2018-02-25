@@ -31,8 +31,6 @@ class SearchAndExport extends Component {
     } else {
       this.props.changeView('browse')
     }
-    await this.props.selectCVIndex(0)
-    // this.props.updateCV(this.props.cvList[this.props.selectedCVIndex].cv_id)
   }
 
   render() {

@@ -79,13 +79,16 @@ route.put('/api/cvs/:cvID', (request, response) => {
 })
 
 route.get('/api/loggedInUser', (request, response) => {
+  let username = 'defaultUser'
+  let fullname = 'Default User'
   if (config.auth_id) {
     const email = request.user.emails[0].value
-    const uid = email.split('@')[0]
-    response.send(uid)
-  } else {
-    response.send('defaultUser')
+    username = email.split('@')[0]
+    fullname = request.user.displayName
   }
+  return db.configureUser({ username, fullname })
+    .then(() => response.send(username))
+    .catch(() => response.status(500).send('Database error'))
 })
 
 route.get('/api/users', (request, response) => {

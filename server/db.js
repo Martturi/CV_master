@@ -9,15 +9,22 @@ client.connect().catch(e => console.error('connection error', e.stack))
 
 const load = ({ cvID }) => {
   const query = `
-    SELECT a.section_id AS section_id, eng_title, text FROM cv_sections AS a LEFT OUTER JOIN
-    section_data AS b ON a.section_id = b.section_id AND cv_id = $1 ORDER BY section_order;
+    SELECT a.section_id AS section_id, eng_title, text, eng_template FROM cv_sections AS a
+    LEFT OUTER JOIN section_data AS b ON a.section_id = b.section_id AND cv_id = $1 ORDER
+    BY section_order;
   `
   return client.query(query, [cvID])
     .then((result) => {
       const rows = result.rows
-      // after left outer join result.rows[i].text can be NULL so we have to be careful:
+      // After left outer join result.rows[i].text can be NULL if section_data doesn't have a row
+      // with an id of result.rows[i].section_id. In this case, we wan't to show user a template
+      // section.
       for (let i = 0; i < rows.length; i += 1) {
-        if (!rows[i].text) rows[i].text = ''
+        const row = rows[i]
+        if (row.text === null) row.text = row.eng_template
+        // ui doesn't care about templates so we set them to 'hidden' to reduce network usage.
+        // we could also delete the template property but it's dramatically slower.
+        row.eng_template = 'hidden'
       }
       return rows
     })
@@ -35,22 +42,16 @@ const createCV = ({ username, cvName }) => {
 }
 
 const save = ({ cvID, username, sections }) => {
-  const insertOrDelete = (index) => {
+  const upsertSection = (index) => {
     if (index < sections.length) {
       const section = sections[index]
-      // if section.text is non-empty do upsert
-      if (section.text) {
-        const query = `
-          INSERT INTO section_data VALUES ($1, $2, $3) ON CONFLICT (cv_id, section_id) DO UPDATE SET
-          text = $3;
-        `
-        return client.query(query, [cvID, section.section_id, section.text])
-          .then(() => insertOrDelete(index + 1))
-      }
-      // otherwise, delete an empty section from db:
-      const query = 'DELETE FROM section_data WHERE cv_id = $1 AND section_id = $2;'
-      return client.query(query, [cvID, section.section_id])
-        .then(() => insertOrDelete(index + 1))
+      // do upsert
+      const query = `
+        INSERT INTO section_data VALUES ($1, $2, $3) ON CONFLICT (cv_id, section_id) DO UPDATE SET
+        text = $3;
+      `
+      return client.query(query, [cvID, section.section_id, section.text])
+        .then(() => upsertSection(index + 1))
     }
     return Promise.resolve('Save succeeded.')
   }
@@ -60,15 +61,15 @@ const save = ({ cvID, username, sections }) => {
     INSERT INTO cvs VALUES ($1, $2, 'Unknown CV', '${date}') ON CONFLICT (cv_id) DO UPDATE SET last_updated = '${date}';
   `
   return client.query(query, [cvID, username])
-    .then(() => insertOrDelete(0))
+    .then(() => upsertSection(0))
 }
 
 const initializeTestDB = (testUsername, testCVName, testSections) => {
   if (config.env !== 'production') {
     const date = new Date().toUTCString()
     const sectionInserts = testSections.map(section => (
-      `INSERT INTO cv_sections VALUES (${section.section_id}, '', '${section.eng_title}', ` +
-      `${section.order})`
+      `INSERT INTO cv_sections VALUES (${section.section_id}, '',
+      '${section.eng_title}', '', '${section.eng_template}', ${section.order})`
     )).join('; ')
     const query = `
       DELETE FROM users;
@@ -80,6 +81,7 @@ const initializeTestDB = (testUsername, testCVName, testSections) => {
     `
     return client.query(query)
       .then(() => 'Initialize succeeded.')
+      .catch(() => 'Initialize failed.')
   }
   return 'Not allowed!'
 }
@@ -123,8 +125,20 @@ const loadFullName = (uid) => {
     .then(result => result.rows[0].full_name)
 }
 
+const renameUser = ({ username, fullname }) => {
+  const query = 'UPDATE users SET full_name = $2 WHERE username = $1;'
+  return client.query(query, [username, fullname])
+    .then(result => result.rowCount)
+}
+
+const addUser = ({ username, fullname }) => {
+  const query = 'INSERT INTO users VALUES ($1, $2) ON CONFLICT DO NOTHING;'
+  return client.query(query, [username, fullname])
+    .then(res => res.rowCount) // res.rowCount: 0 on conflict, 1 otherwise
+}
+
 const copy = ({ cvID }) => {
-  const query = 'SELECT username, cv_name FROM cvs WHERE cv_id = $1'
+  const query = 'SELECT username, cv_name FROM cvs WHERE cv_id = $1;'
   return client.query(query, [cvID])
     .then(result => (result.rows[0] || Promise.reject('Copy failed')))
     .then((row) => {
@@ -142,7 +156,7 @@ const copy = ({ cvID }) => {
 }
 
 const deleteCV = ({ cvID }) => {
-  const selectQuery = 'SELECT username FROM cvs WHERE cv_id = $1'
+  const selectQuery = 'SELECT username FROM cvs WHERE cv_id = $1;'
   return client.query(selectQuery, [cvID])
     .then(result => (result.rows[0] ? result.rows[0].username : Promise.reject('Deleting failed')))
     .then((username) => {
@@ -158,6 +172,21 @@ const deleteCV = ({ cvID }) => {
     })
 }
 
+const configureUser = ({ username, fullname }) => {
+  console.log('configuring user', username, fullname)
+  return addUser({ username, fullname })
+    .then((insertRowCount) => {
+      if (!insertRowCount) {
+        // user existed beforehand and nothing was done. updating user's full name:
+        return renameUser({ username, fullname })
+          .then(() => 'user exists in database')
+      }
+      // user didn't exist beforehand and it was created. creating a cv for the newly created user:
+      return createCV({ username, cvName: 'New CV' })
+        .then(() => 'new user and cv were created')
+    })
+}
+
 module.exports = {
   load,
   save,
@@ -169,4 +198,6 @@ module.exports = {
   rename,
   loadFullName,
   initializeTestDB,
+  configureUser,
+  addUser,
 }

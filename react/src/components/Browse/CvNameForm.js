@@ -5,7 +5,7 @@ import {
   updateCVList,
   cvClickedCascade,
 } from '../../actions'
-import { renameCV } from '../Api'
+import Api from '../../Api'
 
 class CvNameForm extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class CvNameForm extends React.Component {
 
   saveAndExit = async () => {
     const newCVName = this.state.value === '' ? this.props.cvName : this.state.value
-    await renameCV(this.props.cvID, newCVName)
+    await Api.renameCV(this.props.cvID, newCVName)
     const username = this.props.userList[this.props.selectedUserIndex].username
     const cvList = await this.props.updateCVList(username)
     const newIndex = cvList.findIndex(object => object.cv_id === this.props.cvID)

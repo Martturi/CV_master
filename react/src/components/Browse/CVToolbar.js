@@ -6,7 +6,7 @@ import {
   updateCVList,
   cvClickedCascade,
 } from '../../actions'
-import { copyCV, deleteCV } from '../Api'
+import Api from '../../Api'
 
 class CVToolbar extends Component {
   state = {
@@ -14,7 +14,7 @@ class CVToolbar extends Component {
   }
 
   copyClicked = async () => {
-    const newCVID = await copyCV(this.props.cvID)
+    const newCVID = await Api.copyCV(this.props.cvID)
     const username = this.props.userList[this.props.selectedUserIndex].username
     const newCVList = await this.props.updateCVList(username)
     const newIndex = newCVList.findIndex(object => object.cv_id === newCVID)
@@ -23,7 +23,7 @@ class CVToolbar extends Component {
 
   deleteConfirmed = async () => {
     this.setState({ deleteSelected: false })
-    await deleteCV(this.props.cvID)
+    await Api.deleteCV(this.props.cvID)
     const username = this.props.userList[this.props.selectedUserIndex].username
     const cvList = await this.props.updateCVList(username)
     const indexOutOfBounds = this.props.index >= cvList.length
@@ -93,7 +93,9 @@ class CVToolbar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ...state,
+    userList: state.userList,
+    cvList: state.cvList,
+    selectedUserIndex: state.selectedUserIndex,
   }
 }
 

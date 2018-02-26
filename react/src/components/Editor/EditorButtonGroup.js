@@ -6,7 +6,7 @@ import {
   updateCVList,
   selectCVIndex,
 } from '../../actions'
-import { saveCV } from '../Api'
+import Api from '../../Api'
 import { downloadPDF } from '../../utils'
 
 
@@ -26,7 +26,7 @@ class EditorButtonGroup extends Component {
   saveCV = async () => {
     const cvID = this.props.cvID
     const username = this.props.username
-    const saveMessage = await saveCV(cvID, username, this.props.sections)
+    const saveMessage = await Api.saveCV(cvID, username, this.props.sections)
     this.setState({ saveStatus: saveMessage })
     const newCVList = await this.props.updateCVList(username)
     const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
@@ -59,7 +59,7 @@ class EditorButtonGroup extends Component {
               Export
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem onClick={this.saveAndExport}>Download as PDF</DropdownItem>
+              <DropdownItem onClick={this.saveAndExport}>Save and export as PDF</DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </ButtonGroup>

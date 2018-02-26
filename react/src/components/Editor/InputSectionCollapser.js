@@ -1,5 +1,10 @@
 import React from 'react'
 import { ListGroupItem, Collapse, Button, Input } from 'reactstrap'
+import { connect } from 'react-redux'
+import {
+  updateSections,
+  updatePreview,
+} from '../../actions'
 
 class InputSectionCollapser extends React.Component {
   constructor(props) {
@@ -7,8 +12,12 @@ class InputSectionCollapser extends React.Component {
     this.state = { collapse: !props.index }
   }
 
-  handleChange(event) {
-    this.props.updateSection(event.target.value)
+  handleChange = (event) => {
+    const newText = event.target.value
+    const newSections = this.props.sections.map(obj => Object.assign({}, obj)) // deep copy
+    newSections[this.props.index].text = newText
+    this.props.updateSections(newSections)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
   toggle = () => {
@@ -23,7 +32,7 @@ class InputSectionCollapser extends React.Component {
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />
-              <Input type="textarea" rows="15" cols="73" id="textfield" value={this.props.section.text} onChange={e => this.handleChange(e)} />
+              <Input type="textarea" rows="15" cols="73" id="textfield" value={this.props.section.text} onChange={this.handleChange} />
             </div>
           </Collapse>
         </div>
@@ -32,4 +41,19 @@ class InputSectionCollapser extends React.Component {
   }
 }
 
-export default InputSectionCollapser
+const mapStateToProps = (state) => {
+  return {
+    sections: state.sections,
+    username: state.userList[state.selectedUserIndex].username,
+  }
+}
+
+const mapDispatchToProps = {
+  updateSections,
+  updatePreview,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(InputSectionCollapser)

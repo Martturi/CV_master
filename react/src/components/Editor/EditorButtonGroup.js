@@ -20,7 +20,7 @@ class EditorButtonGroup extends Component {
   }
 
   saveCV = async () => {
-    const saveMessage = await saveCV(this.props.cvID, this.props.sections)
+    const saveMessage = await saveCV(this.props.cvID, this.props.username, this.props.sections)
     this.setState({ saveStatus: saveMessage })
   }
 
@@ -28,9 +28,10 @@ class EditorButtonGroup extends Component {
   saveAndExport = async () => {
     await this.saveCV()
     downloadPDF(
-      this.props.userList[this.props.selectedUserIndex].username,
+      this.props.username,
       this.props.cvID,
-      this.props.sections)
+      this.props.sections,
+    )
   }
 
   goBack = () => {
@@ -63,11 +64,8 @@ const mapStateToProps = (state) => {
   return {
     lastView: state.lastView,
     sections: state.sections,
-    userList: state.userList,
-    selectedUserIndex: state.selectedUserIndex,
-    cvList: state.cvList,
-    selectedCVIndex: state.selectedCVIndex,
-    cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
+    username: state.userList[state.selectedUserIndex].username,
+    cvID: state.cvList[state.selectedCVIndex].cv_id,
   }
 }
 
@@ -79,4 +77,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(EditorButtonGroup)
-

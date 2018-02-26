@@ -1,5 +1,11 @@
 import React from 'react'
 import { Button } from 'reactstrap'
+import { connect } from 'react-redux'
+import {
+  updateCVList,
+  cvClickedCascade,
+} from '../../actions'
+import { renameCV } from '../Api'
 
 class CvNameForm extends React.Component {
   constructor(props) {
@@ -18,15 +24,19 @@ class CvNameForm extends React.Component {
     this.setState({ value: event.target.value })
   }
 
-  enterPressed = (event) => {
+  keyPressed = (event) => {
     if (event.key === 'Enter') {
       this.saveAndExit()
     }
   }
 
-  saveAndExit = () => {
+  saveAndExit = async () => {
     const newCVName = this.state.value === '' ? this.props.cvName : this.state.value
-    this.props.renameConfirmed(newCVName)
+    await renameCV(this.props.cvID, newCVName)
+    const username = this.props.userList[this.props.selectedUserIndex].username
+    const cvList = await this.props.updateCVList(username)
+    const newIndex = cvList.findIndex(object => object.cv_id === this.props.cvID)
+    this.props.cvClickedCascade(username, cvList, newIndex === -1 ? 0 : newIndex)
     this.setState({
       editing: false,
       value: newCVName,
@@ -42,7 +52,7 @@ class CvNameForm extends React.Component {
           onChange={this.handleChange}
           onBlur={this.saveAndExit}
           onClick={this.onClick}
-          onKeyUp={this.enterPressed}
+          onKeyUp={this.keyPressed}
         />
       )
     }
@@ -57,4 +67,21 @@ class CvNameForm extends React.Component {
   }
 }
 
-export default CvNameForm
+
+const mapStateToProps = (state) => {
+  return {
+    userList: state.userList,
+    selectedUserIndex: state.selectedUserIndex,
+  }
+}
+
+const mapDispatchToProps = {
+  updateCVList,
+  cvClickedCascade,
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CvNameForm)

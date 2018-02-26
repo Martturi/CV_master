@@ -4,22 +4,26 @@ import './App.css'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'
-
+import { userLoggedInCascade } from '../actions'
+import Preview from './Preview'
 
 class App extends Component {
+  componentDidMount() {
+    this.props.userLoggedInCascade()
+  }
+
   render() {
-    if (this.props.view === 'browse' || this.props.view === 'myCVs') {
-      return (
-        <div>
-          <Header />
-          <Browse />
-        </div>
-      )
+    const InnerComponent = () => {
+      if (this.props.view === 'edit') return <Editor />
+      return <Browse />
     }
     return (
       <div>
         <Header />
-        <Editor />
+        <InnerComponent />
+        <div className="CVpreview">
+          <Preview />
+        </div>
       </div>
     )
   }
@@ -31,7 +35,11 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = {
+  userLoggedInCascade,
+}
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(App)
-

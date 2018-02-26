@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
-import { changeView, selectUserIndex, selectCVIndex, updateCVList, updateCV } from '../../actions'
+import {
+  changeView,
+  userClickedCascade,
+} from '../../actions'
 import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
@@ -20,15 +23,15 @@ class SearchAndExport extends Component {
 
   myCVsToggle = async () => {
     if (this.props.view === 'browse') {
+      if (this.props.selectedUserIndex !== this.props.loggedInUserIndex) {
+        this.props.userClickedCascade(this.props.userList, this.props.loggedInUserIndex)
+      }
       this.props.changeView('myCVs')
-      await this.props.selectUserIndex(0)
-      await this.props.updateCVList(this.props.userList[this.props.selectedUserIndex].username)
     } else {
       this.props.changeView('browse')
-      await this.props.selectUserIndex(this.props.loggedInUserIndex)
     }
     await this.props.selectCVIndex(0)
-    this.props.updateCV(this.props.cvList[this.props.selectedCVIndex].cv_id)
+    // this.props.updateCV(this.props.cvList[this.props.selectedCVIndex].cv_id)
   }
 
   render() {
@@ -48,9 +51,13 @@ class SearchAndExport extends Component {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem
-                onClick={() => downloadPDF(
-                  this.props.userList[this.props.selectedUserIndex].username,
-                  this.props.cvID, this.props.sections)}
+                onClick={() => {
+                  downloadPDF(
+                    this.props.userList[this.props.selectedUserIndex].username,
+                    this.props.cvList[this.props.selectedCVIndex].cv_id,
+                    this.props.sections,
+                  )
+                }}
               >
                 Download as PDF
               </DropdownItem>
@@ -65,26 +72,21 @@ class SearchAndExport extends Component {
 const mapStateToProps = (state) => {
   return {
     view: state.view,
-    userList: state.view === 'myCVs' ? [state.userList[state.loggedInUserIndex]] : state.userList,
     selectedUserIndex: state.selectedUserIndex,
+    loggedInUserIndex: state.loggedInUserIndex,
+    userList: state.userList,
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
-    cvID: state.cvList.length ? state.cvList[state.selectedCVIndex].cv_id : 0,
-    loggedInUserIndex: state.loggedInUserIndex,
     sections: state.sections,
   }
 }
 
 const mapDispatchToProps = {
   changeView,
-  selectUserIndex,
-  selectCVIndex,
-  updateCVList,
-  updateCV,
+  userClickedCascade,
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(SearchAndExport)
-

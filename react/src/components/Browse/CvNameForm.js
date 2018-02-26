@@ -28,6 +28,9 @@ class CvNameForm extends React.Component {
     if (event.key === 'Enter') {
       this.saveAndExit()
     }
+    if (event.key === 'Escape') {
+      this.Exit()
+    }
   }
 
   saveAndExit = async () => {
@@ -40,6 +43,13 @@ class CvNameForm extends React.Component {
     this.setState({
       editing: false,
       value: newCVName,
+    })
+  }
+
+  Exit = async () => {
+    this.setState({
+      editing: false,
+      value: this.props.cvName,
     })
   }
 

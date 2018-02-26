@@ -5,6 +5,8 @@ import {
   changeView,
   updateCVList,
   selectCVIndex,
+  loadSections,
+  updatePreview,
 } from '../../actions'
 import Api from '../../Api'
 import { downloadPDF } from '../../utils'
@@ -43,10 +45,11 @@ class EditorButtonGroup extends Component {
     )
   }
 
-  goBack = () => {
+  goBack = async () => {
     this.props.changeView(this.props.lastView)
+    const sections = await this.props.loadSections(this.props.cvID)
+    this.props.updatePreview(sections, this.props.username)
   }
-
 
   render() {
     return (
@@ -82,6 +85,8 @@ const mapDispatchToProps = {
   changeView,
   updateCVList,
   selectCVIndex,
+  loadSections,
+  updatePreview,
 }
 
 export default connect(

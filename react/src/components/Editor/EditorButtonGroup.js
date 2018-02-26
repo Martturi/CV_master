@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button } from 'reactstrap'
-import { changeView } from '../../actions'
+import {
+  changeView,
+  updateCVList,
+  selectCVIndex,
+} from '../../actions'
 import { saveCV } from '../Api'
 import { downloadPDF } from '../../utils'
 
@@ -20,8 +24,13 @@ class EditorButtonGroup extends Component {
   }
 
   saveCV = async () => {
-    const saveMessage = await saveCV(this.props.cvID, this.props.username, this.props.sections)
+    const cvID = this.props.cvID
+    const username = this.props.username
+    const saveMessage = await saveCV(cvID, username, this.props.sections)
     this.setState({ saveStatus: saveMessage })
+    const newCVList = await this.props.updateCVList(username)
+    const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
+    this.props.selectCVIndex(newSelectedCVIndex)
   }
 
   // The content gets saved automatically when it's downloaded.
@@ -71,6 +80,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   changeView,
+  updateCVList,
+  selectCVIndex,
 }
 
 export default connect(

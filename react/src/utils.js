@@ -1,7 +1,7 @@
-import { fetchPDF } from './components/Api'
+import Api from './Api'
 
 async function downloadPDF(username, cvID, sections) {
-  const res = await fetchPDF(username, sections)
+  const res = await Api.fetchPDF(username, sections)
   const blob = await res.blob()
   const file = new File([blob], `${username}_${cvID}.pdf`, { type: 'application/pdf' })
   const a = document.createElement('a')

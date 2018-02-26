@@ -5,7 +5,7 @@ import {
   updateCVList,
   cvClickedCascade,
 } from '../../actions'
-import { renameCV } from '../Api'
+import Api from '../../Api'
 
 class CvNameForm extends React.Component {
   constructor(props) {
@@ -28,11 +28,14 @@ class CvNameForm extends React.Component {
     if (event.key === 'Enter') {
       this.saveAndExit()
     }
+    if (event.key === 'Escape') {
+      this.Exit()
+    }
   }
 
   saveAndExit = async () => {
     const newCVName = this.state.value === '' ? this.props.cvName : this.state.value
-    await renameCV(this.props.cvID, newCVName)
+    await Api.renameCV(this.props.cvID, newCVName)
     const username = this.props.userList[this.props.selectedUserIndex].username
     const cvList = await this.props.updateCVList(username)
     const newIndex = cvList.findIndex(object => object.cv_id === this.props.cvID)
@@ -40,6 +43,13 @@ class CvNameForm extends React.Component {
     this.setState({
       editing: false,
       value: newCVName,
+    })
+  }
+
+  Exit = async () => {
+    this.setState({
+      editing: false,
+      value: this.props.cvName,
     })
   }
 

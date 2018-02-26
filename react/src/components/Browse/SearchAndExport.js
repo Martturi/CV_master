@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input } from 'reactstrap'
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input,
+  InputGroupAddon, InputGroup } from 'reactstrap'
 import {
   changeView,
   userClickedCascade,
@@ -22,32 +23,42 @@ class SearchAndExport extends Component {
     })
   }
 
-  myCVsToggle = async () => {
-    if (this.props.view === 'browse') {
-      if (this.props.selectedUserIndex !== this.props.loggedInUserIndex) {
-        this.props.userClickedCascade(this.props.userList, this.props.loggedInUserIndex)
-      }
-      this.props.changeView('myCVs')
-    } else {
-      this.props.changeView('browse')
+  goToHome = () => {
+    const currentUserName = this.props.userList[this.props.loggedInUserIndex].full_name
+    this.props.updateSearchFieldContents(currentUserName)
+    if (this.props.selectedUserIndex !== this.props.loggedInUserIndex) {
+      this.props.userClickedCascade(this.props.userList, this.props.loggedInUserIndex)
     }
+  }
+
+  clearSearchFieldContents = () => {
+    this.props.updateSearchFieldContents('')
   }
 
   render() {
     return (
       <div className="buttonheader">
         <div className="searchfield-and-button">
-          <Input
-            className="searchfield"
-            placeholder="Search..."
-            value={this.props.searchFieldContents}
-            onChange={e => this.props.updateSearchFieldContents(e.target.value)}
-          />
-          <Button outline className="button" id="searchbutton">
-            <span className="fa fa-search" aria-hidden="true" />
+          <Button outline className="button" id="homebutton" onClick={this.goToHome}>
+            <i className="fa fa-home" />
           </Button>
+          <InputGroup className="searchfield pl-1">
+            <Input
+              placeholder="Search..."
+              value={this.props.searchFieldContents}
+              onChange={e => this.props.updateSearchFieldContents(e.target.value)}
+            />
+            <InputGroupAddon addonType="append">
+              <Button
+                onClick={this.clearSearchFieldContents}
+                className="button"
+                id="clearbutton"
+              >
+                <i className="fa fa-times-circle" />
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
         </div>
-        <Button outline className="button" active={this.props.view === 'myCVs'} id="myCVsButton" onClick={this.myCVsToggle}>My CVs</Button>
         <ButtonGroup className="exportgroup">
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">

@@ -1,4 +1,4 @@
-export const saveCV = async (cvID, username, sections) => {
+const saveCV = async (cvID, username, sections) => {
   const response = await
     fetch(`api/cvs/${cvID}`, {
       method: 'POST',
@@ -12,14 +12,14 @@ export const saveCV = async (cvID, username, sections) => {
   return 'Save succeeded.'
 }
 
-export const loadCV = async (cvID) => {
+const loadCV = async (cvID) => {
   const response = await fetch(`api/cvs/${cvID}`, { credentials: 'include' })
   const body = await response.json()
   if (response.status !== 200) throw Error(body.message)
   return body
 }
 
-export const loadPreview = async (sections, username) => {
+const loadPreview = async (sections, username) => {
   const response = await fetch('actions/preview', {
     credentials: 'include',
     method: 'POST',
@@ -33,14 +33,7 @@ export const loadPreview = async (sections, username) => {
   return body
 }
 
-export const getLoggedInUser = async () => {
-  const response = await fetch('api/currentUser', { credentials: 'include' })
-  const loggedInUser = await response.text()
-  if (response.status !== 200) throw Error(loggedInUser.message)
-  return loggedInUser
-}
-
-export const loadUserList = async () => {
+const loadUserList = async () => {
   const response1 = await fetch('api/loggedInUser', { credentials: 'include' })
   const loggedInUser = await response1.text()
   if (response1.status !== 200) throw Error(loggedInUser.message)
@@ -50,14 +43,14 @@ export const loadUserList = async () => {
   return { users, loggedInUser }
 }
 
-export const loadCVList = async (username) => {
+const loadCVList = async (username) => {
   const response = await fetch(`api/users/${username}/cvs`, { credentials: 'include' })
   const cvs = await response.json()
   if (response.status !== 200) throw Error(cvs.message)
   return cvs
 }
 
-export const copyCV = async (cvID) => {
+const copyCV = async (cvID) => {
   const response = await fetch(`api/cvs/${cvID}/copy`, {
     method: 'POST',
     credentials: 'include',
@@ -67,7 +60,7 @@ export const copyCV = async (cvID) => {
   return nameOfCopiedCV
 }
 
-export const deleteCV = async (cvID) => {
+const deleteCV = async (cvID) => {
   const response = await fetch(`api/cvs/${cvID}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -77,7 +70,7 @@ export const deleteCV = async (cvID) => {
   return body
 }
 
-export const renameCV = async (cvID, newCVName) => {
+const renameCV = async (cvID, newCVName) => {
   const response = await fetch(`api/cvs/${cvID}`, {
     method: 'PUT',
     credentials: 'include',
@@ -91,7 +84,7 @@ export const renameCV = async (cvID, newCVName) => {
   return body
 }
 
-export const fetchPDF = async (username, sections) => {
+const fetchPDF = async (username, sections) => {
   const response = await fetch('api/pdf', {
     credentials: 'include',
     method: 'POST',
@@ -102,4 +95,16 @@ export const fetchPDF = async (username, sections) => {
   })
   if (response.status !== 200) throw Error(`error ${response}`)
   return response
+}
+
+export default {
+  saveCV,
+  loadCV,
+  loadPreview,
+  loadUserList,
+  loadCVList,
+  copyCV,
+  deleteCV,
+  renameCV,
+  fetchPDF,
 }

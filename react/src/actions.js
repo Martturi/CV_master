@@ -1,4 +1,4 @@
-import { loadUserList, loadCVList, loadCV, loadPreview } from './components/Api'
+import Api from './Api'
 
 export const changeView = (view) => {
   return {
@@ -8,7 +8,7 @@ export const changeView = (view) => {
 }
 
 export const updatePreview = (sections, username) => async (dispatch) => {
-  const previewHTML = await loadPreview(sections, username)
+  const previewHTML = await Api.loadPreview(sections, username)
   dispatch({
     type: 'UPDATE_PREVIEW',
     previewHTML,
@@ -16,7 +16,7 @@ export const updatePreview = (sections, username) => async (dispatch) => {
 }
 
 export const loadSections = cvID => async (dispatch) => {
-  const sections = await loadCV(cvID)
+  const sections = await Api.loadCV(cvID)
   dispatch({
     type: 'UPDATE_SECTIONS',
     sections,
@@ -32,7 +32,7 @@ export const updateSections = (sections) => {
 }
 
 export const updateCVList = username => async (dispatch) => {
-  const cvList = await loadCVList(username)
+  const cvList = await Api.loadCVList(username)
   dispatch({
     type: 'UPDATE_CV_LIST',
     cvList,
@@ -41,7 +41,7 @@ export const updateCVList = username => async (dispatch) => {
 }
 
 export const updateUserList = () => async (dispatch) => {
-  const { users, loggedInUser } = await loadUserList()
+  const { users, loggedInUser } = await Api.loadUserList()
   const loggedInUserIndexIfExists = users.findIndex(object => object.username === loggedInUser)
   const loggedInUserIndex = loggedInUserIndexIfExists !== -1 ? loggedInUserIndexIfExists : 0
   const selectedUserIndex = loggedInUserIndex

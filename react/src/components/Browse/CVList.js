@@ -30,7 +30,7 @@ const getListGroupItem = (props, cvObject, index) => {
           />
         </ListGroupItemHeading>
         <ListGroupItemText className="list-item">
-          {`Last updated: ${new Date(cvObject.last_updated).toLocaleString()}`}
+          {new Date(cvObject.last_updated).toLocaleString()}
         </ListGroupItemText>
       </div>
       <CVToolbar

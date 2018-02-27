@@ -30,6 +30,9 @@ class EditorButtonGroup extends Component {
     const username = this.props.username
     const saveMessage = await Api.saveCV(cvID, username, this.props.sections)
     this.setState({ saveStatus: saveMessage })
+    window.setTimeout(() => {
+      this.setState({ saveStatus: '' })
+    }, 3000)
     const newCVList = await this.props.updateCVList(username)
     const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
     this.props.selectCVIndex(newSelectedCVIndex)

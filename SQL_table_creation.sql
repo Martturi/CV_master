@@ -24,8 +24,9 @@ CREATE TABLE cv_sections (
 CREATE TABLE section_data (
   cv_id INTEGER REFERENCES cvs(cv_id) ON DELETE CASCADE,
   section_id INTEGER REFERENCES cv_sections(section_id) ON DELETE CASCADE,
-  text TEXT NOT NULL,
-PRIMARY KEY (cv_id, section_id)
+  fin_text TEXT,
+  eng_text TEXT,
+	PRIMARY KEY (cv_id, section_id)
 );
 
 CREATE INDEX cv_id_idx ON section_data (cv_id);

@@ -9,21 +9,23 @@ client.connect().catch(e => console.error('connection error', e.stack))
 
 const load = ({ cvID }) => {
   const query = `
-    SELECT a.section_id AS section_id, eng_title, text, eng_template FROM cv_sections AS a
-    LEFT OUTER JOIN section_data AS b ON a.section_id = b.section_id AND cv_id = $1 ORDER
-    BY section_order;
+    SELECT a.section_id AS section_id, fin_title, eng_title, fin_text, eng_text, fin_template,
+    eng_template FROM cv_sections AS a LEFT OUTER JOIN section_data AS b ON
+    a.section_id = b.section_id AND cv_id = $1 ORDER BY section_order;
   `
   return client.query(query, [cvID])
     .then((result) => {
       const rows = result.rows
       // After left outer join result.rows[i].text can be NULL if section_data doesn't have a row
-      // with an id of result.rows[i].section_id. In this case, we wan't to show user a template
+      // with an id of result.rows[i].section_id. In this case, we want to show user a template
       // section.
       for (let i = 0; i < rows.length; i += 1) {
         const row = rows[i]
-        if (row.text === null) row.text = row.eng_template
+        if (row.fin_text === null) row.fin_text = row.fin_template
+        if (row.eng_text === null) row.eng_text = row.eng_template
         // ui doesn't care about templates so we set them to 'hidden' to reduce network usage.
         // we could also delete the template property but it's dramatically slower.
+        row.fin_template = 'hidden'
         row.eng_template = 'hidden'
       }
       return rows

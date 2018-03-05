@@ -28,7 +28,7 @@ class InputSectionCollapser extends React.Component {
     return (
       <ListGroupItem>
         <div>
-          <Button outline className="button" size="sm" onClick={this.toggle}> {this.props.section.eng_title || 'No Title'} </Button>
+          <Button outline className="button" size="sm" onClick={this.toggle}> {this.props.section.eng_title || 'INTRODUCTION'} </Button>
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />

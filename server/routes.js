@@ -24,12 +24,11 @@ if (config.env === 'production') {
 
 if (config.auth_id) {
   console.log('Using authentication')
-  const allowedLoginFromDomains = ['reaktor.com', 'reaktor.fi', 'gmail.com']
   const myGauth = gauth({
     clientID: config.auth_id,
     clientSecret: config.auth_secret,
     clientDomain: config.clientURL,
-    allowedDomains: allowedLoginFromDomains,
+    allowedDomains: config.login_domains,
   })
 
   route.use(session({

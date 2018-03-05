@@ -241,7 +241,7 @@ INSERT INTO cv_sections VALUES (DEFAULT, '', '', '',
 
 
 ######Job title
-This bio is a summary, where the reader gets a good grip of you and your talents only by reading this (some might not read further). You can write e.g. about: relevant industries with special experience, certificates, systems/languages/tools/etc. with special experience.'
+This bio is a summary that gives the reader a general understanding of you and your talents. Some might not read further, so make sure to include enough information about yourself. You can write e.g. about: relevant industries with special experience, certificates, systems/languages/tools/etc. with special experience.'
 , 0);
 
 
@@ -258,7 +258,7 @@ Projects include:
 
 
 ##**Company X, Name of the project, XX/20XX-XX/20XX**
-###Job title in project
+###Job title
 What was done? What is the big picture? What did you do or be responsible for? Something else important?
 > Keywords: xxx, xxx, xxx'
 , 100);
@@ -267,7 +267,7 @@ What was done? What is the big picture? What did you do or be responsible for? S
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', '',
 '#**Company A, XX/20XX-XX/20XX**
-###Job title at company
+###Job title
 Summary of position, responsibilities, projects etc.
 > Keywords: xxx, xxx, xxx
 
@@ -329,11 +329,11 @@ Award, Month 20XX'
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'JULKAISUT', 'PUBLICATIONS', '',
-'Article: Writer(s), 20XX, Name of the Article, Name of the Journal, page numbers
+'Article: Writer(s), 20XX, Article name, Journal name, Page numbers
 
-Book: Writer(s), 20XX, Name of the Book, Publisher, ISBN
+Book: Writer(s), 20XX, Book name, Publisher, ISBN
 
-Patent: Inventor(s), 20XX, Name of the Patent, patent number in Europe, patent number in the US'
+Patent: Creator(s), 20XX, Patent name, EU patent number, US patent number'
 , 700);
 
 

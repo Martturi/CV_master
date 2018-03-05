@@ -6,7 +6,7 @@ const development = {
   env: 'local',
   auth_id: process.env.AUTH_ID,
   auth_secret: process.env.AUTH_SECRET,
-  login_domains: process.env.ALLOWED_LOGIN_DOMAINS,
+  login_domains: process.env.ALLOWED_LOGIN_DOMAINS.split(','),
 }
 const production = {
   databaseURL: process.env.DATABASE_URL,
@@ -14,7 +14,7 @@ const production = {
   env: 'production',
   auth_id: process.env.AUTH_ID,
   auth_secret: process.env.AUTH_SECRET,
-  login_domains: process.env.ALLOWED_LOGIN_DOMAINS,
+  login_domains: process.env.ALLOWED_LOGIN_DOMAINS.split(','),
 }
 
 const test = {

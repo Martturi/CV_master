@@ -99,6 +99,10 @@ route.get('/api/users/:username/cvs', (request, response) => {
   handleDBRequest(db.loadCVList, request, response)
 })
 
+route.get('/api/cvs/', (request, response) => {
+  handleDBRequest(db.loadAllCVs, request, response)
+})
+
 route.post('/api/cvs/:cvID/copy', (request, response) => {
   handleDBRequest(db.copy, request, response)
 })

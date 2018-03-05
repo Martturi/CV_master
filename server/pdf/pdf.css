@@ -1,15 +1,33 @@
 @font-face {
+<<<<<<< HEAD
 font-family: 'Jungka-Light';
 src: url('/assets/font1.otf') format('opentype');
 }
 @font-face {
 font-family: 'Jungka-Regular';
 src: url('/assets/font2.otf') format('opentype');
+=======
+font-family: 'Jungka';
+src: url('/fonts/Jungka-Regular.otf') format('opentype');
+}
+@font-face {
+font-family: 'Jungka-Bold';
+src: url('/fonts/Jungka-Bold.otf') format('opentype');
+ }
+@font-face {
+font-family: 'Jungka-Medium';
+src: url('/fonts/Jungka-Medium.otf') format('opentype');
+>>>>>>> 3f3d8f3... Refactor code to use username instead of userlist index.
 }
 
 @font-face {
+<<<<<<< HEAD
 font-family: 'Jungka-Medium';
 src: url('/assets/font3.otf') format('opentype');
+=======
+font-family: 'Jungka-Light';
+src: url('/fonts/Jungka-Light.otf') format('opentype');
+>>>>>>> 3f3d8f3... Refactor code to use username instead of userlist index.
 }
 
 .cv_header {

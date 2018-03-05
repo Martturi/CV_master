@@ -40,7 +40,7 @@ class CvNameForm extends React.Component {
     const username = userObject.username
     const cvList = await this.props.updateCVList(username)
     const newIndex = cvList.findIndex(object => object.cv_id === this.props.cvID)
-    this.props.cvClickedCascade(userObject, cvList, newIndex === -1 ? 0 : newIndex)
+    this.props.cvClickedCascade(username, cvList, newIndex === -1 ? 0 : newIndex)
     this.setState({
       editing: false,
       value: newCVName,

@@ -8,13 +8,16 @@ import Preview from './Preview'
 
 class App extends Component {
   componentDidMount() {
-    this.props.userLoggedInCascade()
+    if (this.props.uid === undefined) {
+      this.props.userLoggedInCascade()
+    }
+    console.log(this.props)
   }
 
   render() {
     const InnerComponent = () => {
       if (this.props.view === 'edit') return <Editor />
-      return <Browse />
+      return <Browse uid={this.props.uid} cvid={this.props.cvid} />
     }
     return (
       <div>
@@ -28,8 +31,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    uid: ownProps.match.params.uid,
+    cvid: ownProps.match.params.cvid,
     view: state.view,
   }
 }

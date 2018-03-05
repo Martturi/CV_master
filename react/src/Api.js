@@ -33,13 +33,17 @@ const loadPreview = async (sections, username) => {
 }
 
 const loadUserList = async () => {
-  const response1 = await fetch('/api/loggedInUser', { credentials: 'include' })
-  const loggedInUser = await response1.text()
-  if (response1.status !== 200) throw Error(loggedInUser.message)
-  const response2 = await fetch('/api/users', { credentials: 'include' })
-  const users = await response2.json()
-  if (response2.status !== 200) throw Error(users.message)
-  return { users, loggedInUser }
+  const response = await fetch('/api/users', { credentials: 'include' })
+  const users = await response.json()
+  if (response.status !== 200) throw Error(users.message)
+  return users
+}
+
+const loadCurrentUser = async () => {
+  const response = await fetch('/api/loggedInUser', { credentials: 'include' })
+  const loggedInUser = await response.text()
+  if (response.status !== 200) throw Error(loggedInUser.message)
+  return loggedInUser
 }
 
 const loadCVList = async (username) => {
@@ -108,6 +112,7 @@ export default {
   loadCV,
   loadPreview,
   loadUserList,
+  loadCurrentUser,
   loadCVList,
   copyCV,
   deleteCV,

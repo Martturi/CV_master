@@ -109,6 +109,14 @@ const loadCVList = ({ username }) => {
     .then(result => result.rows)
 }
 
+const loadAllCVs = () => {
+  const query = `
+    SELECT cv_id, cv_name, last_updated FROM cvs ORDER BY last_updated DESC;
+  `
+  return client.query(query)
+    .then(result => result.rows)
+}
+
 const rename = ({ cvID, newCVName }) => {
   const query = 'UPDATE cvs SET cv_name = $2 WHERE cv_id = $1;'
   return client.query(query, [cvID, newCVName])
@@ -193,6 +201,7 @@ module.exports = {
   clear,
   loadUserList,
   loadCVList,
+  loadAllCVs,
   copy,
   deleteCV,
   rename,

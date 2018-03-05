@@ -1,18 +1,18 @@
 @font-face {
 font-family: 'Jungka';
-src: url('fonts/Jungka-Regular.otf') format('opentype');
+src: url('/fonts/Jungka-Regular.otf') format('opentype');
 }
 @font-face {
 font-family: 'Jungka-Bold';
-src: url('fonts/Jungka-Bold.otf') format('opentype');
+src: url('/fonts/Jungka-Bold.otf') format('opentype');
  }
 @font-face {
 font-family: 'Jungka-Medium';
-src: url('fonts/Jungka-Medium.otf') format('opentype');
+src: url('/fonts/Jungka-Medium.otf') format('opentype');
 }
 @font-face {
 font-family: 'Jungka-Light';
-src: url('fonts/Jungka-Light.otf') format('opentype');
+src: url('/fonts/Jungka-Light.otf') format('opentype');
 }
 
 .cv_header {

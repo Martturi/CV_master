@@ -10,7 +10,7 @@ class NameList extends React.Component {
     const listGroupItems = this.props.userList.map((object, index) => {
       const username = object.username
       const fullName = object.full_name
-      const isActive = this.props.selectedUserIndex === index
+      const isActive = this.props.uid === username
       if (this.props.view === 'myCVs' && index !== this.props.loggedInUserIndex) return undefined
       const searchingFor = this.props.searchFieldContents
       const searchAsRegExp = new RegExp(searchingFor, 'gi')
@@ -24,7 +24,7 @@ class NameList extends React.Component {
           key={username}
           active={isActive}
           onClick={() => {
-            this.props.userClickedCascade(this.props.userList, index)
+            this.props.userClickedCascade(this.props.userList, username)
           }}
         >
           {fullName.substr(0, searchMatchesFromIndex)}

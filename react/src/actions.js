@@ -42,23 +42,20 @@ export const updateCVList = username => async (dispatch) => {
 
 export const updateUserList = () => async (dispatch) => {
   const { users, loggedInUser } = await Api.loadUserList()
-  const loggedInUserIndexIfExists = users.findIndex(object => object.username === loggedInUser)
-  const loggedInUserIndex = loggedInUserIndexIfExists !== -1 ? loggedInUserIndexIfExists : 0
-  const selectedUserIndex = loggedInUserIndex
   dispatch({
     type: 'UPDATE_USER_LIST',
     userList: users,
-    selectedUserIndex,
-    loggedInUserIndex,
+    selectedUserID: loggedInUser,
+    loggedInUser,
   })
-  return { users, selectedUserIndex }
+  return { users, selectedUserID: loggedInUser }
 }
 
 
-export const selectUserIndex = (userIndex) => {
+export const selectUser = (userID) => {
   return {
-    type: 'SELECT_USER_INDEX',
-    userIndex,
+    type: 'SELECT_USER',
+    userID,
   }
 }
 
@@ -83,15 +80,15 @@ export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) 
   updatePreview(sections, username)(dispatch)
 }
 
-export const userClickedCascade = (userList, userIndex) => async (dispatch) => {
-  dispatch(selectUserIndex(userIndex))
-  const username = userList[userIndex].username
+export const userClickedCascade = (userList, userID) => async (dispatch) => {
+  dispatch(selectUser(userID))
+  const username = userList.find(user => user.username === userID).username
   const cvList = await updateCVList(username)(dispatch)
   const defaultCVIndex = 0
   cvClickedCascade(username, cvList, defaultCVIndex)(dispatch)
 }
 
 export const userLoggedInCascade = () => async (dispatch) => {
-  const { users, selectedUserIndex } = await updateUserList()(dispatch)
-  userClickedCascade(users, selectedUserIndex)(dispatch)
+  const { users, selectedUserID } = await updateUserList()(dispatch)
+  userClickedCascade(users, selectedUserID)(dispatch)
 }

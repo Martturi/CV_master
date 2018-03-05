@@ -1,6 +1,6 @@
 const saveCV = async (cvID, username, sections) => {
   const response = await
-    fetch(`api/cvs/${cvID}`, {
+    fetch(`/api/cvs/${cvID}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -13,14 +13,14 @@ const saveCV = async (cvID, username, sections) => {
 }
 
 const loadCV = async (cvID) => {
-  const response = await fetch(`api/cvs/${cvID}`, { credentials: 'include' })
+  const response = await fetch(`/api/cvs/${cvID}`, { credentials: 'include' })
   const body = await response.json()
   if (response.status !== 200) throw Error(body.message)
   return body
 }
 
 const loadPreview = async (sections, username) => {
-  const response = await fetch('actions/preview', {
+  const response = await fetch('/actions/preview', {
     credentials: 'include',
     method: 'POST',
     headers: {
@@ -34,24 +34,24 @@ const loadPreview = async (sections, username) => {
 }
 
 const loadUserList = async () => {
-  const response1 = await fetch('api/loggedInUser', { credentials: 'include' })
+  const response1 = await fetch('/api/loggedInUser', { credentials: 'include' })
   const loggedInUser = await response1.text()
   if (response1.status !== 200) throw Error(loggedInUser.message)
-  const response2 = await fetch('api/users', { credentials: 'include' })
+  const response2 = await fetch('/api/users', { credentials: 'include' })
   const users = await response2.json()
   if (response2.status !== 200) throw Error(users.message)
   return { users, loggedInUser }
 }
 
 const loadCVList = async (username) => {
-  const response = await fetch(`api/users/${username}/cvs`, { credentials: 'include' })
+  const response = await fetch(`/api/users/${username}/cvs`, { credentials: 'include' })
   const cvs = await response.json()
   if (response.status !== 200) throw Error(cvs.message)
   return cvs
 }
 
 const copyCV = async (cvID) => {
-  const response = await fetch(`api/cvs/${cvID}/copy`, {
+  const response = await fetch(`/api/cvs/${cvID}/copy`, {
     method: 'POST',
     credentials: 'include',
   })
@@ -61,7 +61,7 @@ const copyCV = async (cvID) => {
 }
 
 const deleteCV = async (cvID) => {
-  const response = await fetch(`api/cvs/${cvID}`, {
+  const response = await fetch(`/api/cvs/${cvID}`, {
     method: 'DELETE',
     credentials: 'include',
   })
@@ -71,7 +71,7 @@ const deleteCV = async (cvID) => {
 }
 
 const renameCV = async (cvID, newCVName) => {
-  const response = await fetch(`api/cvs/${cvID}`, {
+  const response = await fetch(`/api/cvs/${cvID}`, {
     method: 'PUT',
     credentials: 'include',
     headers: {
@@ -85,7 +85,7 @@ const renameCV = async (cvID, newCVName) => {
 }
 
 const fetchPDF = async (username, sections) => {
-  const response = await fetch('api/pdf', {
+  const response = await fetch('/api/pdf', {
     credentials: 'include',
     method: 'POST',
     headers: {

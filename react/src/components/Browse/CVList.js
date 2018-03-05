@@ -10,7 +10,7 @@ import {
 const getListGroupItem = (props, cvObject, index) => {
   const cvName = cvObject.cv_name
   const cvID = cvObject.cv_id
-  const isActive = props.selectedCVIndex === index
+  const isActive = props.cvid === cvID
   return (
     <ListGroupItem
       key={cvID}
@@ -18,7 +18,8 @@ const getListGroupItem = (props, cvObject, index) => {
       action
       active={isActive}
       onClick={() => {
-        const username = props.userList[props.selectedUserIndex].username
+        console.log(props.selectedUserID)
+        const username = props.userList.find(user => user.username === props.selectedUserID).username
         props.cvClickedCascade(username, props.cvList, index)
       }}
     >
@@ -59,7 +60,7 @@ const mapStateToProps = (state) => {
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     userList: state.userList,
-    selectedUserIndex: state.selectedUserIndex,
+    selectedUserID: state.selectedUserID,
   }
 }
 

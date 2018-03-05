@@ -4,15 +4,17 @@ import './App.css'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'
-import { userLoggedInCascade } from '../actions'
+import { updateUserList, userLoggedInCascade, userClickedCascade } from '../actions'
 import Preview from './Preview'
 
 class App extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.uid === undefined) {
       this.props.userLoggedInCascade()
+    } else {
+      const users = await this.props.updateUserList()
+      this.props.userClickedCascade(users, this.props.uid)
     }
-    console.log(this.props)
   }
 
   render() {
@@ -41,7 +43,9 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = {
+  updateUserList,
   userLoggedInCascade,
+  userClickedCascade,
 }
 
 export default connect(

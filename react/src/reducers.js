@@ -2,10 +2,10 @@ const initialState = {
   view: 'browse',
   lastView: 'browse',
   userList: [],
-  selectedUserID: 0,
+  selectedUserID: '',
   cvList: [],
   selectedCVIndex: 0,
-  loggedInUser: 0,
+  loggedInUser: '',
   sections: [],
   searchFieldContents: '',
   previewHTML: '',
@@ -32,8 +32,13 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         userList: action.userList,
-        loggedInUser: action.loggedInUser,
         selectedUserID: action.selectedUserID,
+      }
+
+    case 'GET_CURRENT_USER':
+      return {
+        ...state,
+        loggedInUser: action.loggedInUser,
       }
 
     case 'UPDATE_CV_LIST':

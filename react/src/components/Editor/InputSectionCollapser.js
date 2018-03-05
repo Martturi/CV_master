@@ -32,7 +32,14 @@ class InputSectionCollapser extends React.Component {
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />
-              <Input type="textarea" rows="15" cols="73" id="textfield" value={this.props.section.text} onChange={this.handleChange} />
+              <Input
+                type="textarea"
+                rows="15"
+                cols="73"
+                id="textfield"
+                value={this.props.language === 'eng' ? this.props.section.eng_text : this.props.section.fin_text}
+                onChange={this.handleChange}
+              />
             </div>
           </Collapse>
         </div>
@@ -45,6 +52,7 @@ const mapStateToProps = (state) => {
   return {
     sections: state.sections,
     username: state.userList[state.selectedUserIndex].username,
+    language: state.language,
   }
 }
 

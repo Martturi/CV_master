@@ -28,7 +28,7 @@ if (config.auth_id) {
     clientID: config.auth_id,
     clientSecret: config.auth_secret,
     clientDomain: config.clientURL,
-    allowedDomains: config.login_domains,
+    allowedDomains: config.login_domains.split(','),
   })
 
   route.use(session({

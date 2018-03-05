@@ -41,17 +41,43 @@ describe('Save and load tests', () => {
   * Test the /GET route
   */
   describe('Get first CV', () => {
-    const testText = 'Testing rest-api'
-
     const initSuccessMessage = 'Initialize succeeded.'
     const testCVID = 1
     const testUsername = 'a'
     const testCVName = 'b'
     const testSections = [ // ids hardcoded on purpose
-      { section_id: 1, eng_title: 'c', eng_template: 't1', order: 50 },
-      { section_id: 2, eng_title: 'd', eng_template: 't2', order: 100 },
-      { section_id: 3, eng_title: 'e', eng_template: 't3', order: 0 },
-      { section_id: 4, eng_title: 'f', eng_template: 't4', order: 150 },
+      {
+        section_id: 1,
+        fin_title: 'ftitle1',
+        eng_title: 'etitle1',
+        fin_template: 'ftemplate1',
+        eng_template: 'etemplate1',
+        order: 50,
+      },
+      {
+        section_id: 2,
+        fin_title: 'ftitle2',
+        eng_title: 'etitle2',
+        fin_template: 'ftemplate2',
+        eng_template: 'etemplate2',
+        order: 100,
+      },
+      {
+        section_id: 3,
+        fin_title: 'ftitle3',
+        eng_title: 'etitle3',
+        fin_template: 'ftemplate3',
+        eng_template: 'etemplate3',
+        order: 0,
+      },
+      {
+        section_id: 4,
+        fin_title: 'ftitle4',
+        eng_title: 'etitle4',
+        fin_template: 'ftemplate4',
+        eng_template: 'etemplate4',
+        order: 150,
+      },
     ]
 
     it('it should load an array containing one specific cv after initializing test db', () => {
@@ -104,7 +130,13 @@ describe('Save and load tests', () => {
     })
 
     it('it should load the recently saved CV', () => {
-      const savedSections = [{ section_id: testSections[0].section_id, text: testText }]
+      const savedSections = [
+        {
+          section_id: testSections[0].section_id,
+          fin_text: 'feuahfgquei234',
+          eng_text: 'hfsghuiefg547',
+        },
+      ]
       return chai.request(server)
         .post(`/api/cvs/${testCVID}`)
         .send({ sections: savedSections })
@@ -122,14 +154,16 @@ describe('Save and load tests', () => {
                   .findIndex(a => a.section_id === sections[i].section_id)
                 if (savedSectionsIndex !== -1) {
                   // if we found the index in savedSections,
-                  // compare sections[i].text to savedSections[savedSectionsIndex].text:
-                  sections[i].text.should.be.eql(savedSections[savedSectionsIndex].text)
+                  // compare sections[i].lang_text to savedSections[savedSectionsIndex].lang_text:
+                  sections[i].fin_text.should.be.eql(savedSections[savedSectionsIndex].fin_text)
+                  sections[i].eng_text.should.be.eql(savedSections[savedSectionsIndex].eng_text)
                 } else {
                   // else find index of sections[i] in testSections:
                   const testSectionsIndex = testSections
                     .findIndex(a => a.section_id === sections[i].section_id)
-                  // compare sections[i].text to testSections[testSectionsIndex].eng_template:
-                  sections[i].text.should.be.eql(testSections[testSectionsIndex].eng_template)
+                  // compare texts to templates:
+                  sections[i].fin_text.should.be.eql(testSections[testSectionsIndex].fin_template)
+                  sections[i].eng_text.should.be.eql(testSections[testSectionsIndex].eng_template)
                 }
               }
             })
@@ -149,8 +183,9 @@ describe('Save and load tests', () => {
             // find index of sections[i] in testSections:
             const testSectionsIndex = testSections
               .findIndex(a => a.section_id === sections[i].section_id)
-            // compare sections[i].text to testSections[testSectionsIndex].eng_template:
-            sections[i].text.should.be.eql(testSections[testSectionsIndex].eng_template)
+            // compare texts to templates:
+            sections[i].fin_text.should.be.eql(testSections[testSectionsIndex].fin_template)
+            sections[i].eng_text.should.be.eql(testSections[testSectionsIndex].eng_template)
           }
         })
     })

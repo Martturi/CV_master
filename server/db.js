@@ -49,10 +49,10 @@ const save = ({ cvID, username, sections }) => {
       const section = sections[index]
       // do upsert
       const query = `
-        INSERT INTO section_data VALUES ($1, $2, $3) ON CONFLICT (cv_id, section_id) DO UPDATE SET
-        text = $3;
+        INSERT INTO section_data VALUES ($1, $2, $3, $4) ON CONFLICT (cv_id, section_id) DO UPDATE
+        SET fin_text = $3, eng_text = $4;
       `
-      return client.query(query, [cvID, section.section_id, section.text])
+      return client.query(query, [cvID, section.section_id, section.fin_text, section.eng_text])
         .then(() => upsertSection(index + 1))
     }
     return Promise.resolve('Save succeeded.')
@@ -70,8 +70,9 @@ const initializeTestDB = (testUsername, testCVName, testSections) => {
   if (config.env !== 'production') {
     const date = new Date().toUTCString()
     const sectionInserts = testSections.map(section => (
-      `INSERT INTO cv_sections VALUES (${section.section_id}, '',
-      '${section.eng_title}', '', '${section.eng_template}', ${section.order})`
+      `INSERT INTO cv_sections VALUES (${section.section_id}, '${section.fin_title}',
+      '${section.eng_title}', '${section.fin_template}', '${section.eng_template}',
+      ${section.order})`
     )).join('; ')
     const query = `
       DELETE FROM users;

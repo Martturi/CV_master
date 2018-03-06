@@ -7,6 +7,7 @@ import './index.css'
 import App from './components/App'
 import Api from './Api'
 import store from './store'
+import NotFound from './components/NotFound'
 
 class Child extends React.Component {
   state = { uid: '', cvid: '' }
@@ -24,12 +25,14 @@ class Child extends React.Component {
   }
 }
 
+// 404 page not yet working for invalid uid or cvid
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
         <Route exact path="/users/:uid/cvs/:cvid" component={App} />
         <Route exact path="/" component={Child} />
+        <Route path="*" component={NotFound} />
       </Switch>
     </Router>
   </Provider>,

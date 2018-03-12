@@ -29,6 +29,7 @@ if (config.auth_id) {
     clientSecret: config.auth_secret,
     clientDomain: config.clientURL,
     allowedDomains: config.login_domains.split(','),
+    publicEndPoints: ['/assets/font1.otf', '/assets/font2.otf', '/assets/font3.otf', '/assets/font4.otf'],
   })
 
   route.use(session({
@@ -112,6 +113,23 @@ route.post('/actions/preview', (request, response) => {
   console.log('Loading preview for cv')
   const previews = pdf.getHTML(params)
   response.send(previews)
+})
+
+route.get('/assets/:filename', (request, response) => {
+  console.log(`getting static file ${request.params.filename}`)
+  db.getAsset(request.params)
+    .then((data) => {
+      const file = new Buffer(data.contents, 'base64')
+      response.writeHead(200, {
+        'Content-Type': data.filetype,
+        'Content-Length': file.length,
+      })
+      response.end(file)
+    })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send('Database error')
+    })
 })
 
 module.exports = route

@@ -1,18 +1,10 @@
 @font-face {
 font-family: 'Jungka';
-src: url('fonts/Jungka-Regular.otf') format('opentype');
-}
-@font-face {
-font-family: 'Jungka-Bold';
-src: url('fonts/Jungka-Bold.otf') format('opentype');
- }
-@font-face {
-font-family: 'Jungka-Medium';
-src: url('fonts/Jungka-Medium.otf') format('opentype');
+src: url('/fonts/Jungka-Regular.otf') format('opentype');
 }
 @font-face {
 font-family: 'Jungka-Light';
-src: url('fonts/Jungka-Light.otf') format('opentype');
+src: url('/fonts/Jungka-Light.otf') format('opentype');
 }
 
 .cv_header {
@@ -90,7 +82,7 @@ header > .confidential{
 .cv > h6,
 .cv > p,
 .cv > blockquote  {
-    margin-left: 200px;
+    margin-left: 180px;
     font-family: "Jungka-Light";
     margin-top: 0px;
     margin-bottom: 0px;
@@ -100,19 +92,23 @@ header > .confidential{
 
 .cv > h1 {
   font-size: 11px;
+  font-family: "Jungka";
   color: #FC6054;
   letter-spacing: 0.5px;
 }
 .cv > h2 {
   font-size: 11px;
+  font-family: "Jungka";
   color: #666666;
 }
 .cv > h3 {
   font-size: 10px;
+  font-family: "Jungka";
 }
 .cv > h4 {
   float: left;
   width: 180px;
+  font-family: "Jungka";
   font-size: 15px;
   font-weight: 400;
   margin-left: 0;

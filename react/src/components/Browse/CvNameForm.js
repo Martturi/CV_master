@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'reactstrap'
+import { Button, UncontrolledTooltip } from 'reactstrap'
 import { connect } from 'react-redux'
 import {
   updateCVList,
@@ -69,9 +69,17 @@ class CvNameForm extends React.Component {
     return (
       <div>
         {this.props.cvName}
-        <Button outline className="button rename-button" id={`rename${this.props.index}`} onClick={() => this.setState({ editing: true })}>
+        <Button
+          outline
+          className="button rename-button"
+          id={`rename${this.props.cvID}`}
+          onClick={() => this.setState({ editing: true })}
+        >
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>
+        <UncontrolledTooltip className="tooltip-right" delay={{ show: 600, hide: 0 }} placement="right" target={`rename${this.props.cvID}`}>
+          Rename
+        </UncontrolledTooltip>
       </div>
     )
   }

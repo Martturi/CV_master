@@ -80,6 +80,19 @@ CVs are listed*/
 	color: #000000;
 }
 
+.tooltip > .tooltip-inner {
+  background-color: #616982;
+  color: #fff;
+}
+
+.tooltip-top > .arrow::before {
+	border-top-color: #616982;
+}
+
+.tooltip-right > .arrow::before {
+	border-right-color: #616982;
+}
+
 /*Stops the scrolling for the whole page*/
 html, body {
   overflow: hidden;

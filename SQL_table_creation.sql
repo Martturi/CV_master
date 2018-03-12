@@ -2178,18 +2178,18 @@ INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0'),
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, '', '', '',
-'###Degree
+'######Degree
 
 
-######Job title
+##Job title
 This bio is a summary that gives the reader a general understanding of you and your talents. Some might not read further, so make sure to include enough information about yourself. You can write e.g. about: relevant industries with special experience, certificates, systems/languages/tools/etc. with special experience.'
 , 0);
 
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', '',
-'#**Current company, XX/20XX-**
-###Job title
+'####Current company, XX/20XX-
+######Job title
 
 
 This space is reserved for some general information about your work experience at your current company.
@@ -2198,8 +2198,8 @@ This space is reserved for some general information about your work experience a
 Projects include:
 
 
-##**Company X, Name of the project, XX/20XX-XX/20XX**
-###Job title
+#####Company X, Name of the project, XX/20XX-XX/20XX
+######Job title
 What was done? What is the big picture? What did you do or be responsible for? Something else important?
 > Keywords: xxx, xxx, xxx'
 , 100);
@@ -2207,8 +2207,8 @@ What was done? What is the big picture? What did you do or be responsible for? S
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', '',
-'#**Company A, XX/20XX-XX/20XX**
-###Job title
+'####Company A, XX/20XX-XX/20XX
+######Job title
 Summary of position, responsibilities, projects etc.
 > Keywords: xxx, xxx, xxx
 
@@ -2216,14 +2216,14 @@ Summary of position, responsibilities, projects etc.
 Projects include:
 
 
-##**Company Y, Role in project, XX/20XX-XX/20XX**
+#####Company Y, Role in project, XX/20XX-XX/20XX
 
 • Description of role, project, etc.
 
 • Keywords: xxx, xxx, xxx
 
 
-##**Company Z, Role in project, XX/20XX-XX/20XX**
+#####Company Z, Role in project, XX/20XX-XX/20XX
 
 • Description of role, project, etc.
 
@@ -2233,7 +2233,7 @@ Projects include:
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'KOULUTUS', 'EDUCATION', '',
-'#**Degree, University, 20XX-20XX**
+'####Degree, University, 20XX-20XX
 Degree Programme
 
 Major: xxx
@@ -2301,7 +2301,7 @@ INSERT INTO cv_sections VALUES (DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', '',
 • Long experience in xxx
 
 
-#**Knowledge and experience of:**
+####Knowledge and experience of:
 
 • Specific technologies are listed here under various categories, no sentences
 

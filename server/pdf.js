@@ -28,7 +28,7 @@ const sectionToText = (section) => {
   }
   // joining the modified array:
   const text = rows.join('\n')
-  const titleAsMarkdown = (title ? `####${title}\n` : '')
+  const titleAsMarkdown = (title ? `###${title}\n` : '')
   return `${titleAsMarkdown}${text}`
 }
 

@@ -75,12 +75,12 @@ class EditorButtonGroup extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     lastView: state.lastView,
     sections: state.sections,
-    username: state.userList[state.selectedUserIndex].username,
-    cvID: state.cvList[state.selectedCVIndex].cv_id,
+    username: ownProps.uid,
+    cvID: ownProps.cvid,
   }
 }
 

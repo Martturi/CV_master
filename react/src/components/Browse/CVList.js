@@ -55,12 +55,12 @@ const CVList = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     userList: state.userList,
-    selectedUserID: state.selectedUserID,
+    selectedUserID: ownProps.uid,
   }
 }
 

@@ -41,10 +41,10 @@ class InputSectionCollapser extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     sections: state.sections,
-    username: state.userList[state.selectedUserIndex].username,
+    username: ownProps.uid,
   }
 }
 

@@ -383,14 +383,20 @@ INSERT INTO cv_sections VALUES (11, 1, 'ESSENTIAL SKILLS',
 
 
 INSERT INTO cv_sections VALUES
-  (1, 2, 'ESITTELY', '', 0),
-  (2, 2, 'TYÖKOKEMUS', '', 100),
-  (3, 2, 'AIKAISEMPI TYÖKOKEMUS', '', 200),
-  (4, 2, 'KOULUTUS', '', 300),
-  (5, 2, 'SERTIFIKAATIT', '', 400),
-  (6, 2, 'KIELITAITO', '', 500),
-  (7, 2, 'PALKINNOT', '', 600),
-  (8, 2, 'JULKAISUT', '', 700),
-  (9, 2, 'KONFERENSSIT', '', 800),
-  (10, 2, 'HARRASTUNEISUUS', '', 900),
-  (11, 2, 'OSAAMINEN', '', 1000);
+(1, 2, 'ESITTELY',
+'###Tutkinto
+
+
+######Tehtävänimike
+Tarkoituksena on, että lukija saa jo pelkästään bion lukemalla hyvän käsityksen huippiksesta ja hänen osaamisestaan (kaikki eivät edes lue pidemmälle). Tähän voi kirjoittaa esimerkiksi seuraavista aiheista: toimialat, joista erityistä kokemusta, sertifikaatit, käyttöjärjestelmät/kielet/työkalut/ ym., joista erityistä kokemusta.'
+, 0),
+(2, 2, 'TYÖKOKEMUS', '', 100),
+(3, 2, 'AIKAISEMPI TYÖKOKEMUS', '', 200),
+(4, 2, 'KOULUTUS', '', 300),
+(5, 2, 'SERTIFIKAATIT', '', 400),
+(6, 2, 'KIELITAITO', '', 500),
+(7, 2, 'PALKINNOT', '', 600),
+(8, 2, 'JULKAISUT', '', 700),
+(9, 2, 'KONFERENSSIT', '', 800),
+(10, 2, 'HARRASTUNEISUUS', '', 900),
+(11, 2, 'OSAAMINEN', '', 1000);

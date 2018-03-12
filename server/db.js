@@ -190,6 +190,12 @@ const configureUser = ({ username, fullname }) => {
     })
 }
 
+const getAsset = ({ filename }) => {
+  const query = 'SELECT filetype, contents FROM assets WHERE filename = $1;'
+  return client.query(query, [filename])
+    .then(result => result.rows[0])
+}
+
 module.exports = {
   load,
   save,
@@ -203,4 +209,5 @@ module.exports = {
   initializeTestDB,
   configureUser,
   addUser,
+  getAsset,
 }

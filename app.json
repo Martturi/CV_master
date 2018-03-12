@@ -1,9 +1,15 @@
 {
   "name": "cv_master",
   "scripts": {
-     "postdeploy": "psql $DATABASE_URL -f SQL_table_creation.sql"
+     "postdeploy": "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate"
   },
   "env": {
+    "STAGING_DATABASE_URL": {
+      "required": true
+    },
+    "CLIENT_URL": {
+      "required": true
+    }
   },
   "formation": {
   },

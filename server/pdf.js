@@ -6,17 +6,7 @@ const ejs = require('ejs')
 
 const header = fs.readFileSync(path.resolve(__dirname, './pdf/header.html'), 'utf-8')
 const footer = fs.readFileSync(path.resolve(__dirname, './pdf/footer.html'), 'utf-8')
-const options = {
-  base: `file://${__dirname}/../react/public/`,
-  header: {
-    height: '20mm',
-    contents: header,
-  },
-  footer: {
-    height: '12mm',
-    contents: footer,
-  },
-}
+const config = require('./config')
 
 const sectionToText = (section) => {
   if (!section.text) {
@@ -78,6 +68,18 @@ const getHTML = ({ sections, userObject }) => {
 }
 
 const servePDF = (response, { sections, userObject, language }) => {
+  const options = {
+    base: `${config.clientURL}`,
+    header: {
+      height: '20mm',
+      contents: header,
+    },
+    footer: {
+      height: '12mm',
+      contents: footer,
+    },
+  }
+
   const parsedHTML = getHTML({ sections, userObject })[language]
   pdf.create(parsedHTML, options).toStream((err, stream) => {
     response.setHeader('Content-Type', 'application/pdf')
@@ -88,7 +90,3 @@ const servePDF = (response, { sections, userObject, language }) => {
 }
 
 module.exports = { getHTML, servePDF }
-
-/*
-FIXME page breaks on PDF
- */

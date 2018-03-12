@@ -7,8 +7,8 @@ export const changeView = (view) => {
   }
 }
 
-export const updatePreview = (sections, username) => async (dispatch) => {
-  const previewHTML = await Api.loadPreview(sections, username)
+export const updatePreview = (sections, userObject) => async (dispatch) => {
+  const previewHTML = await Api.loadPreview(sections, userObject)
   dispatch({
     type: 'UPDATE_PREVIEW',
     previewHTML,
@@ -76,19 +76,26 @@ export const updateSearchFieldContents = (newContents) => {
   }
 }
 
-export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) => {
+export const updateLanguage = (newLanguage) => {
+  return {
+    type: 'UPDATE_LANGUAGE',
+    language: newLanguage,
+  }
+}
+
+export const cvClickedCascade = (userObject, cvList, cvIndex) => async (dispatch) => {
   dispatch(selectCVIndex(cvIndex))
   const cvID = cvList[cvIndex].cv_id
   const sections = await loadSections(cvID)(dispatch)
-  updatePreview(sections, username)(dispatch)
+  updatePreview(sections, userObject)(dispatch)
 }
 
 export const userClickedCascade = (userList, userIndex) => async (dispatch) => {
   dispatch(selectUserIndex(userIndex))
-  const username = userList[userIndex].username
-  const cvList = await updateCVList(username)(dispatch)
+  const userObject = userList[userIndex]
+  const cvList = await updateCVList(userObject.username)(dispatch)
   const defaultCVIndex = 0
-  cvClickedCascade(username, cvList, defaultCVIndex)(dispatch)
+  cvClickedCascade(userObject, cvList, defaultCVIndex)(dispatch)
 }
 
 export const userLoggedInCascade = () => async (dispatch) => {

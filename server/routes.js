@@ -110,10 +110,8 @@ route.delete('/api/cvs/:cvID', (request, response) => {
 route.post('/actions/preview', (request, response) => {
   const params = request.body
   console.log('Loading preview for cv')
-  const preview = pdf.getHTML(params)
-  preview.then((result) => {
-    response.send(result)
-  })
+  const previews = pdf.getHTML(params)
+  response.send(previews)
 })
 
 module.exports = route

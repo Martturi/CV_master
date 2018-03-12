@@ -9,7 +9,7 @@ import Preview from './Preview'
 
 class App extends Component {
   componentDidMount() {
-    this.props.userLoggedInCascade()
+    this.props.userLoggedInCascade(this.props.language)
   }
 
   render() {
@@ -32,6 +32,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     view: state.view,
+    language: state.language,
   }
 }
 

@@ -68,9 +68,10 @@ class SearchAndExport extends Component {
               <DropdownItem
                 onClick={() => {
                   downloadPDF(
-                    this.props.userList[this.props.selectedUserIndex].username,
+                    this.props.userList[this.props.selectedUserIndex],
                     this.props.cvList[this.props.selectedCVIndex].cv_id,
                     this.props.sections,
+                    this.props.language,
                   )
                 }}
               >
@@ -94,6 +95,7 @@ const mapStateToProps = (state) => {
     selectedCVIndex: state.selectedCVIndex,
     sections: state.sections,
     searchFieldContents: state.searchFieldContents,
+    language: state.language,
   }
 }
 

@@ -18,7 +18,7 @@ class InputSectionCollapser extends React.Component {
     const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
     newSections[this.props.index].text = newText
     this.props.updateSections(newSections)
-    this.props.updatePreview(newSections, this.props.userObject)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
   toggleCollapse = () => {
@@ -75,11 +75,7 @@ class InputSectionCollapser extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     sections: state.sections,
-<<<<<<< HEAD
-    userObject: state.userList[state.selectedUserIndex],
-=======
     username: ownProps.uid,
->>>>>>> 6b180fb... Refactor code to pass uid from url.
   }
 }
 

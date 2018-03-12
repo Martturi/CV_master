@@ -20,6 +20,11 @@ class CvNameForm extends React.Component {
     event.stopPropagation()
   }
 
+  buttonOnClick = (event) => {
+    event.stopPropagation()
+    this.setState({ editing: true })
+  }
+
   handleChange = (event) => {
     this.setState({ value: event.target.value })
   }
@@ -36,8 +41,13 @@ class CvNameForm extends React.Component {
   saveAndExit = async () => {
     const newCVName = this.state.value === '' ? this.props.cvName : this.state.value
     await Api.renameCV(this.props.cvID, newCVName)
+<<<<<<< HEAD
     const userObject = this.props.userList[this.props.selectedUserIndex]
     const username = userObject.username
+=======
+    const username = this.props.userList.find(user =>
+      user.username === this.props.uid).username
+>>>>>>> 21e1f5b... Fix bugs and refactor more.
     const cvList = await this.props.updateCVList(username)
     const newIndex = cvList.findIndex(object => object.cv_id === this.props.cvID)
     this.props.cvClickedCascade(username, cvList, newIndex === -1 ? 0 : newIndex)
@@ -71,12 +81,16 @@ class CvNameForm extends React.Component {
     return (
       <div>
         {this.props.cvName}
+<<<<<<< HEAD
         <Button
           outline
           className="button rename-button"
           id={`rename${this.props.cvID}`}
           onClick={() => this.setState({ editing: true })}
         >
+=======
+        <Button outline className="button rename-button" id={`rename${this.props.index}`} onClick={this.buttonOnClick}>
+>>>>>>> 21e1f5b... Fix bugs and refactor more.
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>
         <UncontrolledTooltip className="tooltip-right" delay={{ show: 600, hide: 0 }} placement="right" target={`rename${this.props.cvID}`}>
@@ -88,10 +102,10 @@ class CvNameForm extends React.Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    cvName: ownProps.cvName,
     userList: state.userList,
-    selectedUserIndex: state.selectedUserIndex,
   }
 }
 

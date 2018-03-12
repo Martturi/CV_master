@@ -14,7 +14,6 @@ const getListGroupItem = (props, cvObject, index) => {
   return (
     <ListGroupItem
       key={cvID}
-      tag="a"
       action
       active={isActive}
       onClick={() => {
@@ -28,7 +27,9 @@ const getListGroupItem = (props, cvObject, index) => {
           <CvNameForm
             cvName={cvName}
             cvID={cvID}
-            languageName={cvObject.language_name}
+            uid={props.selectedUserID}
+            languageName={props.userList.find(user =>
+              user.username === uid).language_name}
           />
         </ListGroupItemHeading>
       </div>
@@ -67,6 +68,7 @@ const mapStateToProps = (state, ownProps) => {
     selectedCVIndex: state.selectedCVIndex,
     userList: state.userList,
     selectedUserID: ownProps.uid,
+    cvid: ownProps.cvid,
   }
 }
 

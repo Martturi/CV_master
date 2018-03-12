@@ -98,7 +98,7 @@ class EditorButtonGroup extends Component {
   closeWithoutSaving = async () => {
     this.props.changeView(this.props.lastView)
     const sections = await this.props.loadSections(this.props.cvID)
-    this.props.updatePreview(sections, this.props.userObject)
+    this.props.updatePreview(sections, this.props.username)
   }
 
   closeWithSaving = async () => {
@@ -162,15 +162,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     lastView: state.lastView,
     sections: state.sections,
-<<<<<<< HEAD
-    userObject: state.userList[state.selectedUserIndex],
-    cvID: state.cvList[state.selectedCVIndex].cv_id,
-    cvLanguageName: state.cvList[state.selectedCVIndex].language_name,
-    cvLanguageID: state.cvList[state.selectedCVIndex].language_id,
-=======
     username: ownProps.uid,
     cvID: ownProps.cvid,
->>>>>>> 6b180fb... Refactor code to pass uid from url.
+    cvLanguageName: state.cvList[state.selectedCVIndex].language_name,
+    cvLanguageID: state.cvList[state.selectedCVIndex].language_id,
   }
 }
 

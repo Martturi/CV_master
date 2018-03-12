@@ -8,7 +8,7 @@ import '../Header.css'
 const Browse = (props) => {
   return (
     <div>
-      <SearchAndExport />
+      <SearchAndExport uid={props.uid} cvid={props.cvid} />
       <div id="namelist" className="browse-section">
         <NameList uid={props.uid} />
       </div>

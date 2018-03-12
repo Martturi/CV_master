@@ -1,9 +1,8 @@
 import Api from './Api'
 
-async function downloadPDF(userObject, cvID, sections) {
-  const res = await Api.fetchPDF(userObject, sections)
+async function downloadPDF(username, cvID, sections) {
+  const res = await Api.fetchPDF(username, sections)
   const blob = await res.blob()
-  const username = userObject.username
   const file = new File([blob], `${username}_${cvID}.pdf`, { type: 'application/pdf' })
   const a = document.createElement('a')
   a.href = URL.createObjectURL(file)

@@ -15,23 +15,26 @@ class CVToolbar extends Component {
 
   copyClicked = async () => {
     const newCVID = await Api.copyCV(this.props.cvID)
-    const userObject = this.props.userList[this.props.selectedUserIndex]
-    const newCVList = await this.props.updateCVList(userObject.username)
+    const username = this.props.userList.find(user =>
+      user.username === this.props.uid).username
+    const newCVList = await this.props.updateCVList(username)
     const newIndex = newCVList.findIndex(object => object.cv_id === newCVID)
-    this.props.cvClickedCascade(userObject, newCVList, newIndex === -1 ? 0 : newIndex)
+    this.props.cvClickedCascade(username, newCVList, newIndex === -1 ? 0 : newIndex)
   }
 
   deleteConfirmed = async () => {
     this.setState({ deleteSelected: false })
     await Api.deleteCV(this.props.cvID)
-    const userObject = this.props.userList[this.props.selectedUserIndex]
-    const cvList = await this.props.updateCVList(userObject.username)
+    const username = this.props.userList.find(user =>
+      user.username === this.props.uid).username
+    const cvList = await this.props.updateCVList(username)
     const indexOutOfBounds = this.props.index >= cvList.length
     const newIndex = indexOutOfBounds ? cvList.length - 1 : this.props.index
-    this.props.cvClickedCascade(userObject, cvList, newIndex)
+    this.props.cvClickedCascade(username, cvList, newIndex)
   }
 
-  deleteClicked = () => {
+  deleteClicked = (event) => {
+    event.stopPropagation()
     this.setState({ deleteSelected: true })
   }
 
@@ -100,7 +103,6 @@ const mapStateToProps = (state) => {
   return {
     userList: state.userList,
     cvList: state.cvList,
-    selectedUserIndex: state.selectedUserIndex,
   }
 }
 

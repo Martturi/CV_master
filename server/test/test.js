@@ -43,7 +43,8 @@ describe('Save and load tests', () => {
   describe('Get first CV', () => {
     const initSuccessMessage = 'Initialize succeeded.'
     const testCVID = 1
-    const testUsername = 'a'
+    const testUserObject = { username: 'a', full_name: 'Default Tester' }
+    const testUsername = testUserObject.username
     const testCVName = 'b'
     const testSections = [ // ids hardcoded on purpose
       {
@@ -246,11 +247,11 @@ describe('Save and load tests', () => {
     it('it should return HTML page with contents for preview route', () => {
       return chai.request(server)
         .post('/actions/preview')
-        .send({ sections: [{ section_id: 1, text: 'test' }], username: testUsername })
+        .send({ sections: [{ section_id: 1, fin_text: 'test' }], userObject: testUserObject })
         .then((result) => {
           result.should.have.status(200)
           const returnedText = result.text
-          returnedText.should.match(/^<!DOCTYPE html/)
+          returnedText.should.match(/.<!DOCTYPE html/)
           returnedText.should.match(/.cv/)
         })
     })

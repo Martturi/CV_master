@@ -27,7 +27,7 @@ class EditorButtonGroup extends Component {
 
   saveCV = async () => {
     const cvID = this.props.cvID
-    const username = this.props.username
+    const username = this.props.userObject.username
     const saveMessage = await Api.saveCV(cvID, username, this.props.sections)
     this.setState({ saveStatus: saveMessage })
     window.setTimeout(() => {
@@ -42,7 +42,7 @@ class EditorButtonGroup extends Component {
   saveAndExport = async () => {
     await this.saveCV()
     downloadPDF(
-      this.props.username,
+      this.props.userObject.username,
       this.props.cvID,
       this.props.sections,
     )

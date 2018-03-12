@@ -237,7 +237,13 @@ INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0'),
 (DEFAULT, 'defaultUser', 'cv', '2018-01-01 15:15:16+0');
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, '', '', '',
+INSERT INTO cv_sections VALUES (DEFAULT, '', '',
+'###Tutkinto
+
+
+######Tehtävänimike
+Tarkoituksena on, että lukija saa jo pelkästään bion lukemalla hyvän käsityksen huippiksesta ja hänen osaamisestaan (kaikki eivät edes lue pidemmälle). Tähän voi kirjoittaa esimerkiksi seuraavista aiheista: toimialat, joista erityistä kokemusta, sertifikaatit, käyttöjärjestelmät/kielet/työkalut/ ym., joista erityistä kokemusta.'
+,
 '###Degree
 
 
@@ -247,7 +253,10 @@ This bio is a summary that gives the reader a general understanding of you and y
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE',
+'#**Nykyinen työpaikka, XX/20XX-**
+###Tehtävänimike'
+,
 '#**Current company, XX/20XX-**
 ###Job title
 

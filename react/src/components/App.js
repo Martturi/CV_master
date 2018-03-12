@@ -9,12 +9,8 @@ import Preview from './Preview'
 
 class App extends Component {
   async componentDidMount() {
-    if (this.props.uid === undefined) {
-      this.props.userLoggedInCascade()
-    } else {
-      const users = await this.props.updateUserList()
-      this.props.userClickedCascade(users, this.props.uid)
-    }
+    const users = await this.props.updateUserList()
+    this.props.userClickedCascade(users, this.props.uid)
   }
 
   render() {
@@ -36,10 +32,10 @@ class App extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    users: state.userList,
     uid: ownProps.match.params.uid,
-    cvid: ownProps.match.params.cvid,
+    cvid: Number(ownProps.match.params.cvid),
     view: state.view,
-    history: ownProps.match.params.history,
   }
 }
 

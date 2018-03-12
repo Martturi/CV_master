@@ -93,8 +93,6 @@ export const userClickedCascade = (userList, userID) => async (dispatch) => {
   dispatch(selectUser(userID))
   const username = userList.find(user => user.username === userID).username
   const cvList = await updateCVList(username)(dispatch)
-  const cvID = cvList[0].cv_id
-  history.push(`/users/${username}/cvs/${cvID}`)
   const defaultCVIndex = 0
   cvClickedCascade(username, cvList, defaultCVIndex)(dispatch)
 }

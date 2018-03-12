@@ -14,7 +14,6 @@ const getListGroupItem = (props, cvObject, index) => {
   return (
     <ListGroupItem
       key={cvID}
-      tag="a"
       action
       active={isActive}
       onClick={() => {
@@ -28,6 +27,7 @@ const getListGroupItem = (props, cvObject, index) => {
           <CvNameForm
             cvName={cvName}
             cvID={cvID}
+            uid={props.selectedUserID}
           />
         </ListGroupItemHeading>
         <ListGroupItemText className="list-item">
@@ -36,6 +36,7 @@ const getListGroupItem = (props, cvObject, index) => {
       </div>
       <CVToolbar
         cvID={cvID}
+        uid={props.selectedUserID}
         index={index}
       />
     </ListGroupItem>
@@ -61,6 +62,7 @@ const mapStateToProps = (state, ownProps) => {
     selectedCVIndex: state.selectedCVIndex,
     userList: state.userList,
     selectedUserID: ownProps.uid,
+    cvid: ownProps.cvid,
   }
 }
 

@@ -88,11 +88,9 @@ class SearchAndExport extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
-    selectedUserIndex: state.selectedUserIndex,
     loggedInUser: state.loggedInUser,
     userList: state.userList,
     cvList: state.cvList,
-    selectedCVIndex: state.selectedCVIndex,
     sections: state.sections,
     searchFieldContents: state.searchFieldContents,
     cvid: ownProps.cvid,

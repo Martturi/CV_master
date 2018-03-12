@@ -9,7 +9,7 @@ const initialState = {
   sections: [],
   searchFieldContents: '',
   previewHTML: '',
-  language: 'fin',
+  language: 'eng',
 }
 
 const getCVIndex = (state, action) => {

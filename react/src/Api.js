@@ -19,16 +19,16 @@ const loadCV = async (cvID) => {
   return body
 }
 
-const loadPreview = async (sections, username) => {
+const loadPreview = async (sections, userObject) => {
   const response = await fetch('actions/preview', {
     credentials: 'include',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sections, username }),
+    body: JSON.stringify({ sections, userObject }),
   })
-  const body = await response.text()
+  const body = await response.json()
   if (response.status !== 200) throw Error(body.message)
   return body
 }

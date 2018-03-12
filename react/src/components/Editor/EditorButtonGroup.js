@@ -51,7 +51,7 @@ class EditorButtonGroup extends Component {
   goBack = async () => {
     this.props.changeView(this.props.lastView)
     const sections = await this.props.loadSections(this.props.cvID)
-    this.props.updatePreview(sections, this.props.username)
+    this.props.updatePreview(sections, this.props.userObject)
   }
 
   render() {
@@ -79,7 +79,7 @@ const mapStateToProps = (state) => {
   return {
     lastView: state.lastView,
     sections: state.sections,
-    username: state.userList[state.selectedUserIndex].username,
+    userObject: state.userList[state.selectedUserIndex],
     cvID: state.cvList[state.selectedCVIndex].cv_id,
   }
 }

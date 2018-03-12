@@ -18,8 +18,8 @@ const getListGroupItem = (props, cvObject, index) => {
       action
       active={isActive}
       onClick={() => {
-        const username = props.userList[props.selectedUserIndex].username
-        props.cvClickedCascade(username, props.cvList, index)
+        const userObject = props.userList[props.selectedUserIndex]
+        props.cvClickedCascade(userObject, props.cvList, index)
       }}
     >
       <div className="cvinfo">

@@ -14,10 +14,11 @@ class InputSectionCollapser extends React.Component {
 
   handleChange = (event) => {
     const newText = event.target.value
-    const newSections = this.props.sections.map(obj => Object.assign({}, obj)) // deep copy
-    newSections[this.props.index].text = newText
+    const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
+    console.log(newSections[this.props.index][`${this.props.language}_text`])
+    newSections[this.props.index][`${this.props.language}_text`] = newText
     this.props.updateSections(newSections)
-    this.props.updatePreview(newSections, this.props.username)
+    this.props.updatePreview(newSections, this.props.userObject)
   }
 
   toggle = () => {
@@ -57,7 +58,7 @@ class InputSectionCollapser extends React.Component {
 const mapStateToProps = (state) => {
   return {
     sections: state.sections,
-    username: state.userList[state.selectedUserIndex].username,
+    userObject: state.userList[state.selectedUserIndex],
     language: state.language,
   }
 }

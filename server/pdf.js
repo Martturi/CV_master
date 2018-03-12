@@ -3,7 +3,6 @@ const pdf = require('html-pdf')
 const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
-const db = require('./db')
 
 const header = fs.readFileSync(path.resolve(__dirname, './pdf/header.html'), 'utf-8')
 const footer = fs.readFileSync(path.resolve(__dirname, './pdf/footer.html'), 'utf-8')
@@ -23,7 +22,7 @@ const sectionToText = (section) => {
   if (!section.text) {
     return ''
   }
-  const title = section.eng_title
+  const title = section.title
   // markdown: one \n = one space
   // markdown: two \n's in a row = one line break
   // markdown: three, four, five... \n's in a row = still only one line break
@@ -44,31 +43,42 @@ const sectionToText = (section) => {
 }
 
 // getHTML requires uid to find the correct picture from CDN. The uid is given to it via servePDF.
-const getHTML = ({ sections, username }) => {
+const getHTML = ({ sections, userObject }) => {
+  const languages = Object.keys(sections[0])
+    .filter(key => key.endsWith('_text'))
+    .map(lang => lang.slice(0, -5)) // remove five characters from the end (length of '_text')
   const style = fs.readFileSync(path.resolve(__dirname, 'pdf/pdf.css'), 'utf-8')
   const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
-  // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
-  // let's undo it for better user control:
-  const firstSection = markdown.toHTML(sectionToText(sections[0]))
-    .replace(/&lt;br&gt;/g, '<br>')
-  const otherSections = sections.slice(1)
-    .filter(section => section.text !== '')
-    .map(section => markdown.toHTML(sectionToText(section)))
-    .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
-  const fullName = db.loadFullName(username)
-  return fullName.then((name) => {
-    return ejs.render(template, {
+  const previews = {}
+  languages.forEach((lang) => {
+    const currentSections = []
+    sections.forEach((section, index) => {
+      const currentSection = {}
+      currentSection.text = sections[index][`${lang}_text`]
+      currentSection.title = sections[index][`${lang}_title`]
+      currentSections.push(currentSection)
+    })
+    // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
+    // let's undo it for better user control:
+    const firstSection = markdown.toHTML(sectionToText(currentSections[0]))
+      .replace(/&lt;br&gt;/g, '<br>')
+    const otherSections = currentSections.slice(1) // drop the first one
+      .filter(section => section.text !== '')
+      .map(section => markdown.toHTML(sectionToText(section)))
+      .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
+    previews[lang] = ejs.render(template, {
       styles: style,
       firstSection,
       otherSections,
-      userID: username,
-      name,
+      userID: userObject.username,
+      name: userObject.full_name,
     })
   })
+  return previews
 }
 
 const servePDF = (response, { sections, username }) => {
-  const parsedHTML = getHTML({ sections, username })
+  const parsedHTML = getHTML({ sections, username }).eng
   parsedHTML.then((result) => {
     pdf.create(result, options).toStream((err, stream) => {
       response.setHeader('Content-Type', 'application/pdf')

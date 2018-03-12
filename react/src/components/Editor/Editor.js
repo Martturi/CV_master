@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import EditorButtonGroup from './EditorButtonGroup'
 import InputSections from './InputSections'
-import Preview from '../Preview'
 import './Editor.css'
 import { loadSections } from '../../actions'
 
@@ -14,9 +13,6 @@ const Editor = () => {
       </div>
       <div className="sections">
         <InputSections />
-      </div>
-      <div className="CVpreview">
-        <Preview />
       </div>
     </div>
   )

@@ -1,10 +1,15 @@
 @font-face {
-font-family: 'Jungka';
-src: url('/assets/font2.otf') format('opentype');
-}
-@font-face {
 font-family: 'Jungka-Light';
 src: url('/assets/font1.otf') format('opentype');
+}
+@font-face {
+font-family: 'Jungka-Regular';
+src: url('/assets/font2.otf') format('opentype');
+}
+
+@font-face {
+font-family: 'Jungka-Medium';
+src: url('/assets/font3.otf') format('opentype');
 }
 
 .cv_header {
@@ -31,7 +36,6 @@ header > .confidential{
 }
 
 .cv {
-  font-family: "Jungka";
   min-height: 29px;
   border-top: 1px solid #DDD;
   margin-bottom: 20px;
@@ -39,7 +43,7 @@ header > .confidential{
 }
 
 #first-section {
-  min-height: 200px;
+  min-height: 160px;
   border-top: none;
   padding-top: 0;
 }
@@ -50,13 +54,13 @@ header > .confidential{
 
 .face {
   float: left;
-  width: 160px;
+  width: 3.5cm;
 }
 
 .cv > p {
+  font-family: "Jungka-Light";
   letter-spacing: 0.1px;
   font-size: 9px;
-  color: rgb(109, 52, 52);
 }
 
 .cv > p > img {
@@ -64,15 +68,6 @@ header > .confidential{
   width: 100px;
   padding-left: 0px;
 }
-
-.cv > img[alt="face"] {
-  width: 100px;
-  float: left;
-  position: relative;
-  top: 00px;
-  left: -150px;
-}
-
 
 .cv > h1,
 .cv > h2,
@@ -82,8 +77,7 @@ header > .confidential{
 .cv > h6,
 .cv > p,
 .cv > blockquote  {
-    margin-left: 180px;
-    font-family: "Jungka-Light";
+    margin-left: 4cm;
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 0px;
@@ -92,17 +86,20 @@ header > .confidential{
 
 .cv > h1 {
   font-size: 20px;
+  font-family: "Jungka-Regular";
 }
 
 .cv > h2 {
-  font-size: 18px;
+  font-size: 15px;
+  padding-bottom: 3px;
+  font-family: "Jungka-Regular";
 }
 
 .cv > h3 {
   float: left;
-  width: 180px;
-  font-family: "Jungka";
-  font-size: 15px;
+  width: 5rem;
+  font-family: "Jungka-Regular";
+  font-size: 12px;
   font-weight: 400;
   margin-left: 0;
   color: #FC6054;
@@ -112,23 +109,25 @@ header > .confidential{
 .cv > h4 {
   font-size: 11px;
   color: #FC6054;
-  letter-spacing: 0.5px;
-  font-weight: bold;
+  font-family: "Jungka-Medium";
+  letter-spacing: -0.2px;
 }
 .cv > h5 {
   font-size: 11px;
-  color: #666666;
-  font-weight: bold;
+  font-family: "Jungka-Medium";
+  letter-spacing: -0.2px;
+  color: #393929;
 }
 .cv > h6 {
   font-size: 10px;
+  font-family: "Jungka-Light";
 }
 
 .cv > p > code {
   letter-spacing: 0.1px;
   font-size: 11px;
   width: 390px;
-  color: #666666;
+  color: #393929;
   font-family: "Jungka-Light";
 }
 
@@ -139,15 +138,13 @@ header > .confidential{
 .cv > blockquote > p {
   letter-spacing: 0.1px;
   font-size: 9px;
-  color: #666666;
+  color: #6C6C6C;
   margin-bottom: 10px;
-  font-family: "Jungka";
+  font-family: "Jungka-Regular";
 }
 
 footer {
   margin: 0px auto;
-
-  /*FIXME*/
   padding-left: 90px
 }
 

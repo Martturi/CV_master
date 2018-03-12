@@ -84,14 +84,14 @@ const renameCV = async (cvID, newCVName) => {
   return body
 }
 
-const fetchPDF = async (username, sections) => {
+const fetchPDF = async (userObject, sections, language) => {
   const response = await fetch('api/pdf', {
     credentials: 'include',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sections, username }),
+    body: JSON.stringify({ sections, userObject, language }),
   })
   if (response.status !== 200) throw Error(`error ${response}`)
   return response

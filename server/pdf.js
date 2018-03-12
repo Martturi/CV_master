@@ -77,15 +77,13 @@ const getHTML = ({ sections, userObject }) => {
   return previews
 }
 
-const servePDF = (response, { sections, username }) => {
-  const parsedHTML = getHTML({ sections, username }).eng
-  parsedHTML.then((result) => {
-    pdf.create(result, options).toStream((err, stream) => {
-      response.setHeader('Content-Type', 'application/pdf')
-      response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')
-      stream.on('end', () => response.end())
-      stream.pipe(response)
-    })
+const servePDF = (response, { sections, userObject, language }) => {
+  const parsedHTML = getHTML({ sections, userObject })[language]
+  pdf.create(parsedHTML, options).toStream((err, stream) => {
+    response.setHeader('Content-Type', 'application/pdf')
+    response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')
+    stream.on('end', () => response.end())
+    stream.pipe(response)
   })
 }
 

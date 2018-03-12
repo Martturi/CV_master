@@ -1,4 +1,5 @@
 import Api from './Api'
+import history from './history'
 
 export const changeView = (view) => {
   return {
@@ -84,6 +85,7 @@ export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) 
   dispatch(selectCVIndex(cvIndex))
   const cvID = cvList[cvIndex].cv_id
   const sections = await loadSections(cvID)(dispatch)
+  history.push(`/users/${username}/cvs/${cvID}`)
   updatePreview(sections, username)(dispatch)
 }
 
@@ -91,6 +93,8 @@ export const userClickedCascade = (userList, userID) => async (dispatch) => {
   dispatch(selectUser(userID))
   const username = userList.find(user => user.username === userID).username
   const cvList = await updateCVList(username)(dispatch)
+  const cvID = cvList[0].cv_id
+  history.push(`/users/${username}/cvs/${cvID}`)
   const defaultCVIndex = 0
   cvClickedCascade(username, cvList, defaultCVIndex)(dispatch)
 }

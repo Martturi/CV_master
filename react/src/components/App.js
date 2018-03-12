@@ -39,6 +39,7 @@ const mapStateToProps = (state, ownProps) => {
     uid: ownProps.match.params.uid,
     cvid: ownProps.match.params.cvid,
     view: state.view,
+    history: ownProps.match.params.history,
   }
 }
 

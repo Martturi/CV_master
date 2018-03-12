@@ -24,10 +24,11 @@ class SearchAndExport extends Component {
   }
 
   goToHome = () => {
-    const currentUserName = this.props.userList[this.props.loggedInUserIndex].full_name
+    const currentUserName = this.props.userList.find(user =>
+      user.username === this.props.uid).username
     this.props.updateSearchFieldContents(currentUserName)
-    if (this.props.selectedUserIndex !== this.props.loggedInUserIndex) {
-      this.props.userClickedCascade(this.props.userList, this.props.loggedInUserIndex)
+    if (this.props.uid !== this.props.loggedInUser) {
+      this.props.userClickedCascade(this.props.userList, this.props.loggedInUser)
     }
   }
 
@@ -68,8 +69,8 @@ class SearchAndExport extends Component {
               <DropdownItem
                 onClick={() => {
                   downloadPDF(
-                    this.props.userList[this.props.selectedUserIndex].username,
-                    this.props.cvList[this.props.selectedCVIndex].cv_id,
+                    this.props.username,
+                    this.props.cvid,
                     this.props.sections,
                   )
                 }}
@@ -84,16 +85,18 @@ class SearchAndExport extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
     selectedUserIndex: state.selectedUserIndex,
-    loggedInUserIndex: state.loggedInUserIndex,
+    loggedInUser: state.loggedInUser,
     userList: state.userList,
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     sections: state.sections,
     searchFieldContents: state.searchFieldContents,
+    cvid: ownProps.cvid,
+    username: ownProps.uid,
   }
 }
 

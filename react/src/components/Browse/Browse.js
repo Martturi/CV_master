@@ -13,7 +13,7 @@ const Browse = (props) => {
         <NameList uid={props.uid} />
       </div>
       <div id="cvlist" className="browse-section">
-        <CVList cvid={props.cvid} />
+        <CVList uid={props.uid} cvid={props.cvid} />
       </div>
     </div>
   )

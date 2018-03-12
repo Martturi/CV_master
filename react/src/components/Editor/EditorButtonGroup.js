@@ -158,14 +158,19 @@ class EditorButtonGroup extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     lastView: state.lastView,
     sections: state.sections,
+<<<<<<< HEAD
     userObject: state.userList[state.selectedUserIndex],
     cvID: state.cvList[state.selectedCVIndex].cv_id,
     cvLanguageName: state.cvList[state.selectedCVIndex].language_name,
     cvLanguageID: state.cvList[state.selectedCVIndex].language_id,
+=======
+    username: ownProps.uid,
+    cvID: ownProps.cvid,
+>>>>>>> 6b180fb... Refactor code to pass uid from url.
   }
 }
 

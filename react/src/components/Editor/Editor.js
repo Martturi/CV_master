@@ -4,22 +4,23 @@ import EditorButtonGroup from './EditorButtonGroup'
 import InputSections from './InputSections'
 import './Editor.css'
 
-const Editor = () => {
+const Editor = (props) => {
   return (
     <div>
       <div id="buttons">
-        <EditorButtonGroup />
+        <EditorButtonGroup uid={props.uid} cvid={props.cvid} />
       </div>
       <div className="sections">
-        <InputSections />
+        <InputSections uid={props.uid} />
       </div>
     </div>
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    cvID: state.cvList[state.selectedCVIndex].cv_id,
+    uid: ownProps.uid,
+    cvid: ownProps.cvid,
   }
 }
 

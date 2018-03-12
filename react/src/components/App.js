@@ -18,7 +18,7 @@ class App extends Component {
 
   render() {
     const InnerComponent = () => {
-      if (this.props.view === 'edit') return <Editor />
+      if (this.props.view === 'edit') return <Editor uid={this.props.uid} cvid={this.props.cvid} />
       return <Browse uid={this.props.uid} cvid={this.props.cvid} />
     }
     return (

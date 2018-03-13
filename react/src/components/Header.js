@@ -11,13 +11,14 @@ const Header = (props) => {
     <header className="header">
       {'CV Master '}
       <Button
+        className="language_button"
         color="red"
         onClick={() => {
           const newLang = props.language === 'eng' ? 'fin' : 'eng'
           props.updateLanguage(newLang)
         }}
       >
-        {`Switch to ${(props.language === 'eng') ? 'Finnish' : 'English'}`}
+        {(props.language === 'eng') ? 'FIN' : 'ENG'}
       </Button>
     </header>
   )

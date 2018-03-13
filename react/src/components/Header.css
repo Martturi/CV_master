@@ -13,3 +13,16 @@
 	font-size: 3vh;
 	height: 10vh;
 }
+
+.language_button {
+	float:right;
+	margin-right: 1em;
+	font-family: 'JungkaBold';
+	color: #FC6054;
+	background-color: white;
+}
+
+.language_button:hover {
+	color: white;
+	background-color: #FC6054;
+}

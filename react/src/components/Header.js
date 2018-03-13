@@ -18,7 +18,7 @@ const Header = (props) => {
           props.updateLanguage(newLang)
         }}
       >
-        {(props.language === 'eng') ? 'FIN' : 'ENG'}
+        {`Switch to ${(props.language === 'eng') ? 'FIN' : 'ENG'}`}
       </Button>
     </header>
   )

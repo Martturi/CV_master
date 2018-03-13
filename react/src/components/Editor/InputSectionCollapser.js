@@ -41,7 +41,6 @@ class InputSectionCollapser extends React.Component {
             <div>
               <br />
               <Textarea
-                cols="73"
                 id="textfield"
                 value={this.props.language === 'eng' ? this.props.section.eng_text : this.props.section.fin_text}
                 onChange={this.handleChange}

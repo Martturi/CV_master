@@ -57,7 +57,7 @@ header > .confidential{
   width: 3.5cm;
 }
 
-.cv > p {
+.cv > p, ul > li {
   font-family: "Jungka-Light";
   letter-spacing: 0.1px;
   font-size: 9px;
@@ -76,6 +76,7 @@ header > .confidential{
 .cv > h5,
 .cv > h6,
 .cv > p,
+ul > li,
 .cv > blockquote  {
     margin-left: 4cm;
     margin-top: 0px;
@@ -129,6 +130,23 @@ header > .confidential{
   width: 390px;
   color: #393929;
   font-family: "Jungka-Light";
+}
+
+ul {
+  padding-left: 0.55em;
+}
+
+ul > li {
+  list-style-type: none;
+  position: relative;
+}
+
+ul > li::before {
+  content: '\2022';
+  position: absolute;
+  font-size: x-small;
+  left: -0.8em;
+  padding-right: 1.2em;
 }
 
 .cv > blockquote {

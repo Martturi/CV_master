@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import './App.css'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'

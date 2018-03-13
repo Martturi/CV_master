@@ -1,7 +1,7 @@
 import React from 'react'
-import { ListGroupItem, Collapse, Button, Input } from 'reactstrap'
+import { ListGroupItem, Collapse, Button } from 'reactstrap'
 import { connect } from 'react-redux'
-import Textarea from "react-textarea-autosize";
+import Textarea from 'react-textarea-autosize'
 import {
   updateSections,
   updatePreview,

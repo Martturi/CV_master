@@ -1,6 +1,7 @@
 import React from 'react'
 import { ListGroupItem, Collapse, Button, Input } from 'reactstrap'
 import { connect } from 'react-redux'
+import Textarea from "react-textarea-autosize";
 import {
   updateSections,
   updatePreview,
@@ -39,9 +40,7 @@ class InputSectionCollapser extends React.Component {
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />
-              <Input
-                type="textarea"
-                rows="15"
+              <Textarea
                 cols="73"
                 id="textfield"
                 value={this.props.language === 'eng' ? this.props.section.eng_text : this.props.section.fin_text}

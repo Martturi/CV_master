@@ -24,6 +24,7 @@ src: url('/assets/font3.otf') format('opentype');
 
 header > .confidential{
   float:right;
+  text-align: right;
   font-family: "Jungka-Light";
   font-size: 9px;
   right: 0;
@@ -133,6 +134,7 @@ header > .confidential{
 }
 
 .cv > ul {
+  margin-top: 0;
   padding-left: 1.12em;
 }
 
@@ -154,6 +156,7 @@ header > .confidential{
 
 .cv > blockquote > p {
   letter-spacing: 0.1px;
+  margin-top: 0;
   font-size: 9px;
   color: #6C6C6C;
   margin-bottom: 10px;

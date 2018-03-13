@@ -133,7 +133,7 @@ ul > li,
 }
 
 ul {
-  padding-left: 0.55em;
+  padding-left: 1.12em;
 }
 
 ul > li {
@@ -145,8 +145,7 @@ ul > li::before {
   content: '\2022';
   position: absolute;
   font-size: x-small;
-  left: -0.8em;
-  padding-right: 1.2em;
+  left: -1.8em;
 }
 
 .cv > blockquote {

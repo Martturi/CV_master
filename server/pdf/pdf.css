@@ -76,7 +76,7 @@ header > .confidential{
 .cv > h5,
 .cv > h6,
 .cv > p,
-ul > li,
+.cv > ul > li,
 .cv > blockquote  {
     margin-left: 4cm;
     margin-top: 0px;
@@ -132,16 +132,16 @@ ul > li,
   font-family: "Jungka-Light";
 }
 
-ul {
+.cv > ul {
   padding-left: 1.12em;
 }
 
-ul > li {
+.cv > ul > li {
   list-style-type: none;
   position: relative;
 }
 
-ul > li::before {
+.cv > ul > li::before {
   content: '\2022';
   position: absolute;
   font-size: x-small;
@@ -169,9 +169,17 @@ ul#footer_list {
   font-family: "Jungka-Light";
   font-size: 9px;
   list-style: none;
+  width: 90%;
+  margin: auto;
+  padding-left: 0;
 }
 
 ul#footer_list li {
   display: inline;
   padding-left: 8px;
+}
+
+[href]:link {
+  color: black;
+  text-decoration: none;
 }

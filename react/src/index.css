@@ -68,7 +68,7 @@ the "back,save and export-header" in editor-view*/
 
 /*Export button in browse-view and
 Save and Export buttons in editor-view*/
-.exportgroup {
+.exportbutton {
   float: right;
   font-family: 'JungkaRegular';
   box-shadow: none;

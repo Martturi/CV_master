@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button } from 'reactstrap'
+import { Button, ButtonGroup, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
 import {
   changeView,
   updateCVList,
@@ -17,7 +17,6 @@ class EditorButtonGroup extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dropdownOpen: false, // this will be removed later
       saveStatus: '',
       languageDropdownOpen: false,
       cvLanguageObjects: [],
@@ -31,10 +30,6 @@ class EditorButtonGroup extends Component {
   loadCVLanguages = async () => {
     const languages = await Api.loadLanguages()
     this.setState({ cvLanguageObjects: languages })
-  }
-
-  toggle = () => {
-    this.setState({ dropdownOpen: !this.state.dropdownOpen })
   }
 
   toggleLanguage = () => {
@@ -100,7 +95,10 @@ class EditorButtonGroup extends Component {
     })
     return (
       <div className="buttonheader editor-buttonheader">
-        <Button outline className="button" onClick={this.goBack}>Back</Button>
+        <ButtonGroup>
+          <Button outline className="button" onClick={this.goBack}>Close</Button>
+          <Button outline className="button" onClick={this.saveCV}>Save</Button>
+        </ButtonGroup>
         <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
           <DropdownToggle caret outline className="button">
             {this.props.cvLanguageName ? this.props.cvLanguageName[0].toUpperCase() + this.props.cvLanguageName.slice(1) : ''}
@@ -109,18 +107,8 @@ class EditorButtonGroup extends Component {
             {languageDropdownItems}
           </DropdownMenu>
         </ButtonDropdown>
-        <ButtonGroup outline="true" className="exportgroup">
-          <Button outline className="button" onClick={() => this.saveCV()}>Save</Button>
-          <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-            <DropdownToggle caret outline className="button">
-              Export
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem onClick={this.saveAndExport}>Save and export as PDF</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </ButtonGroup>
         <div id="savestatus" className="statusMessage">{this.state.saveStatus.toString()}</div>
+        <Button outline className="button exportbutton" onClick={this.saveAndExport}>Download as PDF</Button>
       </div>
     )
   }

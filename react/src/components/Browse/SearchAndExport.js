@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input,
-  InputGroupAddon, InputGroup } from 'reactstrap'
+import { Button, Input, InputGroupAddon, InputGroup } from 'reactstrap'
 import {
   changeView,
   userClickedCascade,
@@ -10,19 +9,6 @@ import {
 import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      dropdownOpen: false,
-    }
-  }
-
-  toggle = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    })
-  }
-
   goToHome = () => {
     const currentUserName = this.props.userList[this.props.loggedInUserIndex].full_name
     this.props.updateSearchFieldContents(currentUserName)
@@ -59,26 +45,20 @@ class SearchAndExport extends Component {
             </InputGroupAddon>
           </InputGroup>
         </div>
-        <ButtonGroup className="exportgroup">
-          <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-            <DropdownToggle caret outline className="button">
-              Export
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem
-                onClick={() => {
-                  downloadPDF(
-                    this.props.userList[this.props.selectedUserIndex],
-                    this.props.cvList[this.props.selectedCVIndex].cv_id,
-                    this.props.sections,
-                  )
-                }}
-              >
-                Download as PDF
-              </DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </ButtonGroup>
+        <Button
+          outline
+          className="button exportbutton"
+          onClick={() => {
+            downloadPDF(
+              this.props.userList[this.props.selectedUserIndex],
+              this.props.cvList[this.props.selectedCVIndex].cv_id,
+              this.props.sections,
+              this.props.language,
+            )
+          }}
+        >
+          Download as PDF
+        </Button>
       </div>
     )
   }

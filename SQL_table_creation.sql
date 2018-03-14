@@ -250,7 +250,7 @@ INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', 1, '2018-01-01 15:15:16+0'),
 (DEFAULT, 'defaultUser', 'cv', 1, '2018-01-01 15:15:16+0');
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'INTRODUCTION',
 '######Degree
 
 
@@ -382,7 +382,7 @@ INSERT INTO cv_sections VALUES (DEFAULT, 1, 'ESSENTIAL SKILLS',
 
 
 INSERT INTO cv_sections VALUES
-  (DEFAULT, 2, '', '', 0),
+  (DEFAULT, 2, 'ESITTELY', '', 0),
   (DEFAULT, 2, 'TYÖKOKEMUS', '', 100),
   (DEFAULT, 2, 'AIKAISEMPI TYÖKOKEMUS', '', 200),
   (DEFAULT, 2, 'KOULUTUS', '', 300),

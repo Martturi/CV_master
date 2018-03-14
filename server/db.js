@@ -9,33 +9,35 @@ client.connect().catch(e => console.error('connection error', e.stack))
 
 const load = ({ cvID }) => {
   const query = `
-    SELECT a.section_id AS section_id, fin_title, eng_title, fin_text, eng_text, fin_template,
-    eng_template FROM cv_sections AS a LEFT OUTER JOIN section_data AS b ON
-    a.section_id = b.section_id AND cv_id = $1 ORDER BY section_order;
+    SELECT a.section_id AS section_id, title, text, template
+    FROM cv_sections AS a LEFT OUTER JOIN section_data AS b
+      ON a.section_id = b.section_id AND cv_id = $1
+    WHERE language_id IN (
+      SELECT language_id
+      FROM cvs
+      WHERE cv_id = $1
+    )
+    ORDER BY section_order;
   `
   return client.query(query, [cvID])
     .then((result) => {
       const rows = result.rows
       // After left outer join result.rows[i].text can be NULL if section_data doesn't have a row
-      // with an id of result.rows[i].section_id. In this case, we want to show user a template
-      // section.
+      // with an id of result.rows[i].section_id. In this case, we want to show user an empty
+      // section:
       for (let i = 0; i < rows.length; i += 1) {
         const row = rows[i]
-        if (row.fin_text === null) row.fin_text = row.fin_template
-        if (row.eng_text === null) row.eng_text = row.eng_template
-        // ui doesn't care about templates so we set them to 'hidden' to reduce network usage.
-        // we could also delete the template property but it's dramatically slower.
-        row.fin_template = 'hidden'
-        row.eng_template = 'hidden'
+        if (row.fin_text === null) row.text = ''
       }
+      console.log(rows)
       return rows
     })
 }
 
-const createCV = ({ username, cvName }) => {
+const createCV = ({ username, cvName, languageID }) => {
   const date = new Date().toUTCString()
-  const query = `INSERT INTO cvs VALUES (DEFAULT, $1, $2, '${date}') RETURNING cv_id;`
-  return client.query(query, [username, cvName])
+  const query = `INSERT INTO cvs VALUES (DEFAULT, $1, $2, $3,'${date}') RETURNING cv_id;`
+  return client.query(query, [username, cvName, languageID])
     .then((res) => {
       // default query never causes a conflict so we don't have to check whether res.rows[0] is
       // defined:
@@ -141,13 +143,14 @@ const addUser = ({ username, fullname }) => {
 }
 
 const copy = ({ cvID }) => {
-  const query = 'SELECT username, cv_name FROM cvs WHERE cv_id = $1;'
+  const query = 'SELECT username, cv_name, language_id FROM cvs WHERE cv_id = $1;'
   return client.query(query, [cvID])
     .then(result => (result.rows[0] || Promise.reject('Copy failed')))
     .then((row) => {
       const username = row.username
       const newCVName = `${row.cv_name} (copy)`
-      return createCV({ username, cvName: newCVName })
+      const languageID = row.language_id
+      return createCV({ username, cvName: newCVName, languageID })
         .then((newCVID) => {
           return load({ cvID })
             .then((sections) => {

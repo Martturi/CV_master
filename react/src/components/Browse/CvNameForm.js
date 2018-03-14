@@ -81,6 +81,9 @@ class CvNameForm extends React.Component {
         <UncontrolledTooltip className="tooltip-right" delay={{ show: 600, hide: 0 }} placement="right" target={`rename${this.props.cvID}`}>
           Rename
         </UncontrolledTooltip>
+        <div className="language-flag">
+          {this.props.languageName}
+        </div>
       </div>
     )
   }

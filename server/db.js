@@ -61,11 +61,12 @@ const save = ({ cvID, username, sections, languageID }) => {
   }
   const date = new Date().toUTCString() // for example: 'Fri, 09 Feb 2018 13:55:00 GMT'.
   // Postgres automatically translates this string into a correct date object.
+  const defaultLanguageID = 1
   const query = `
     INSERT INTO cvs VALUES ($1, $2, 'Unknown CV', $3, '${date}')
       ON CONFLICT (cv_id) DO UPDATE SET last_updated = '${date}';
   `
-  return client.query(query, [cvID, username, languageID])
+  return client.query(query, [cvID, username, languageID || defaultLanguageID])
     .then(() => upsertSection(0))
 }
 
@@ -98,7 +99,7 @@ const initializeTestDB = (testUser, testLanguages, testCV, testSections) => {
 
 const clear = () => {
   if (config.env !== 'production') {
-    const query = 'TRUNCATE TABLE users CASCADE; TRUNCATE TABLE cv_sections CASCADE;'
+    const query = 'TRUNCATE TABLE users CASCADE; TRUNCATE TABLE languages CASCADE;'
     return client.query(query)
       .then(() => 'Clear succeeded.')
   }
@@ -113,7 +114,10 @@ const loadUserList = () => {
 
 const loadCVList = ({ username }) => {
   const query = `
-    SELECT cv_id, cv_name, last_updated FROM cvs WHERE username = $1 ORDER BY last_updated DESC;
+    SELECT cv_id, cv_name, last_updated, a.language_id AS language_id, language_name
+    FROM cvs AS a, languages AS b
+    WHERE username = $1 AND a.language_id = b.language_id
+    ORDER BY last_updated DESC;
   `
   return client.query(query, [username])
     .then(result => result.rows)

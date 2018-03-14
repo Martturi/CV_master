@@ -76,13 +76,6 @@ export const updateSearchFieldContents = (newContents) => {
   }
 }
 
-export const updateLanguage = (newLanguage) => {
-  return {
-    type: 'UPDATE_LANGUAGE',
-    language: newLanguage,
-  }
-}
-
 export const cvClickedCascade = (userObject, cvList, cvIndex) => async (dispatch) => {
   dispatch(selectCVIndex(cvIndex))
   const cvID = cvList[cvIndex].cv_id

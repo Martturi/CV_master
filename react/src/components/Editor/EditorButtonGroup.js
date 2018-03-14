@@ -45,7 +45,6 @@ class EditorButtonGroup extends Component {
       this.props.userObject,
       this.props.cvID,
       this.props.sections,
-      this.props.language,
     )
   }
 
@@ -82,7 +81,6 @@ const mapStateToProps = (state) => {
     sections: state.sections,
     userObject: state.userList[state.selectedUserIndex],
     cvID: state.cvList[state.selectedCVIndex].cv_id,
-    language: state.language,
   }
 }
 

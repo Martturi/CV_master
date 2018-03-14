@@ -113,7 +113,8 @@ describe('Save and load tests', () => {
 
     it('it should load an array containing one specific user after initializing test db', () => {
       return db.initializeTestDB(testUser, testLanguages, testCV, testSections)
-        .then(() => {
+        .then((resText) => {
+          resText.should.be.eql(initSuccessMessage)
           return chai.request(server)
             .get('/api/users')
             .then((res) => {
@@ -189,45 +190,70 @@ describe('Save and load tests', () => {
         })
     })
 
-    const existingCVs = []
-    it('it should return a reasonable CV id after copying', () => {
-      existingCVs.push(testCVID)
-      return chai.request(server)
-        .post(`/api/cvs/${testCVID}/copy`)
-        .then((result) => {
-          result.should.have.status(200)
-          const cvID = Number(result.text)
-          if (result.status === 200) existingCVs.push(cvID)
-          cvID.should.be.gt(testCVID)
+    it('it should return a reasonable CV id after initializing test db and copying a CV', () => {
+      const testCVID = 1
+      return db.initializeTestDB(testUser, testLanguages, testCV, testSections)
+        .then((resText) => {
+          resText.should.be.eql(initSuccessMessage)
+          return chai.request(server)
+            .post(`/api/cvs/${testCVID}/copy`)
+            .then((result) => {
+              result.should.have.status(200)
+              const cvID = Number(result.text)
+              cvID.should.be.gt(testCVID)
+            })
         })
     })
 
-    it('it should delete one row when a user has at least two CVs, otherwise it should delete none', () => {
-      const deleteCV = () => {
+    it('it should delete one row when a user has at least two CVs (otherwise it should delete none) after initializing test db and copying a CV', () => {
+      const deleteCV = (username) => {
         return chai.request(server)
-          .delete(`/api/cvs/${existingCVs[existingCVs.length - 1]}`)
-          .then((result) => {
-            result.should.have.status(200)
-            if (existingCVs.length >= 2) {
-              if (result.text === '1') existingCVs.pop()
-              result.text.should.be.eql('1')
-              deleteCV()
-            } else {
-              result.text.should.be.eql('0')
-            }
+          .get(`/api/users/${username}/cvs`)
+          .then((res) => {
+            res.should.have.status(200)
+            const cvArray = res.body
+            cvArray.should.be.a('array')
+            return chai.request(server)
+              .delete(`/api/cvs/${cvArray[0].cv_id || 1}`)
+              .then((result) => {
+                result.should.have.status(200)
+                if (cvArray.length >= 2) {
+                  result.text.should.be.eql('1')
+                  deleteCV(username)
+                } else {
+                  result.text.should.be.eql('0')
+                }
+              })
           })
       }
-      deleteCV()
+      const testCVID = 1
+      return db.initializeTestDB(testUser, testLanguages, testCV, testSections)
+        .then((resText) => {
+          resText.should.be.eql(initSuccessMessage)
+          return chai.request(server)
+            .post(`/api/cvs/${testCVID}/copy`)
+            .then((result) => {
+              result.should.have.status(200)
+              const cvID = Number(result.text)
+              cvID.should.be.gt(testCVID)
+              return deleteCV(testUsername)
+            })
+        })
     })
 
     const newName = 'New name'
-    it('it should update one row when renaming an existing CV', () => {
-      return chai.request(server)
-        .put(`/api/cvs/${existingCVs[0]}`)
-        .send({ newCVName: newName })
-        .then((result) => {
-          result.should.have.status(200)
-          result.text.should.be.eql('1')
+    it('it should update one row when renaming an existing CV after initializing test db', () => {
+      const testCVID = 1
+      return db.initializeTestDB(testUser, testLanguages, testCV, testSections)
+        .then((resText) => {
+          resText.should.be.eql(initSuccessMessage)
+          return chai.request(server)
+            .put(`/api/cvs/${testCVID}`)
+            .send({ newCVName: newName })
+            .then((result) => {
+              result.should.have.status(200)
+              result.text.should.be.eql('1')
+            })
         })
     })
 
@@ -245,7 +271,7 @@ describe('Save and load tests', () => {
     it('it should return HTML page with contents for preview route', () => {
       return chai.request(server)
         .post('/actions/preview')
-        .send({ sections: [{ section_id: 1, fin_text: 'test' }], userObject: testUserObject })
+        .send({ sections: [{ section_id: 1, fin_text: 'test' }], userObject: testUser })
         .then((result) => {
           result.should.have.status(200)
           const returnedText = result.text

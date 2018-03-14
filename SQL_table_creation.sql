@@ -287,16 +287,14 @@ Projects include:
 
 #####Company Y, Role in project, XX/20XX-XX/20XX
 
-• Description of role, project, etc.
-
-• Keywords: xxx, xxx, xxx
+- Description of role, project, etc.
+- Keywords: xxx, xxx, xxx
 
 
 #####Company Z, Role in project, XX/20XX-XX/20XX
 
-• Description of role, project, etc.
-
-• Keywords: xxx, xxx, xxx'
+- Description of role, project, etc.
+- Keywords: xxx, xxx, xxx'
 , 200);
 
 
@@ -357,24 +355,21 @@ INSERT INTO cv_sections VALUES (DEFAULT, 'KONFERENSSIT', 'CONFERENCES', '',
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', '',
-'• GitHub/Bitbucket: www.xxxx.fi
-
-• Portfolio: www.xxxx.fi',
+'- GitHub/Bitbucket: www.xxxx.fi
+- Portfolio: www.xxxx.fi',
 900);
 
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', '',
-'• Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
-
-• Long experience in xxx
+'- Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
+- Long experience in xxx
 
 
 ####Knowledge and experience of:
 
-• Specific technologies are listed here under various categories, no sentences
-
-• ** Programming languages **: xxx, xxx, xxx'
+- Specific technologies are listed here under various categories, no sentences
+- ** Programming languages **: xxx, xxx, xxx'
 , 1000);
 
 

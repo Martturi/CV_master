@@ -27,9 +27,8 @@ const load = ({ cvID }) => {
       // section:
       for (let i = 0; i < rows.length; i += 1) {
         const row = rows[i]
-        if (row.fin_text === null) row.text = ''
+        if (row.text === null) row.text = ''
       }
-      console.log(rows)
       return rows
     })
 }

@@ -105,14 +105,14 @@ describe('Save and load tests', () => {
 
     it('it should answer with 200', () => {
       return chai.request(server)
-        .get(`/api/cvs/${testCV.cv_id}`)
+        .get('/api/cvs/1')
         .then((res) => {
           res.should.have.status(200)
         })
     })
 
     it('it should load an array containing one specific user after initializing test db', () => {
-      return db.initializeTestDB(testUsername, testCVName, testSections)
+      return db.initializeTestDB(testUser, testLanguages, testCV, testSections)
         .then(() => {
           return chai.request(server)
             .get('/api/users')
@@ -128,7 +128,7 @@ describe('Save and load tests', () => {
 
     it('it should save a sample CV', () => {
       return chai.request(server)
-        .post(`/api/cvs/${testCVID}`)
+        .post('/api/cvs/1')
         .send({ sections: [] })
         .then((res) => {
           res.should.have.status(200)
@@ -137,47 +137,47 @@ describe('Save and load tests', () => {
     })
 
     it('it should load the recently saved CV', () => {
+      const cvID = 1
+      const languageID = testCV.language_id
       const savedSections = [
         {
           section_id: testSections[0].section_id,
-          fin_text: 'feuahfgquei234',
-          eng_text: 'hfsghuiefg547',
+          text: 'feuahfgquei234',
         },
       ]
+        .sort(section => section.order)
       return chai.request(server)
-        .post(`/api/cvs/${testCVID}`)
+        .post(`/api/cvs/${cvID}`)
         .send({ sections: savedSections })
         .then(() => {
           return chai.request(server)
-            .get(`/api/cvs/${testCVID}`)
+            .get(`/api/cvs/${cvID}`)
             .then((res) => {
               res.should.have.status(200)
               const sections = res.body
               sections.should.be.a('array')
-              sections.length.should.be.eql(testSections.length)
+              const sectionCountInSpecifiedLanguage = testSections
+                .filter(section => section.language_id === languageID)
+                .length
+              sections.length.should.be.eql(sectionCountInSpecifiedLanguage)
               for (let i = 0; i < sections.length; i += 1) {
                 // finding the index of sections[i] in savedSections:
                 const savedSectionsIndex = savedSections
                   .findIndex(a => a.section_id === sections[i].section_id)
                 if (savedSectionsIndex !== -1) {
                   // if we found the index in savedSections,
-                  // compare sections[i].lang_text to savedSections[savedSectionsIndex].lang_text:
-                  sections[i].fin_text.should.be.eql(savedSections[savedSectionsIndex].fin_text)
-                  sections[i].eng_text.should.be.eql(savedSections[savedSectionsIndex].eng_text)
+                  // compare sections[i].text to savedSections[savedSectionsIndex].text:
+                  sections[i].text.should.be.eql(savedSections[savedSectionsIndex].text)
                 } else {
-                  // else find index of sections[i] in testSections:
-                  const testSectionsIndex = testSections
-                    .findIndex(a => a.section_id === sections[i].section_id)
-                  // compare texts to templates:
-                  sections[i].fin_text.should.be.eql(testSections[testSectionsIndex].fin_template)
-                  sections[i].eng_text.should.be.eql(testSections[testSectionsIndex].eng_template)
+                  // else compare text to empty string:
+                  sections[i].text.should.be.eql('')
                 }
               }
             })
         })
     })
 
-    it('it should return an array of template sections for a non-existing CV', () => {
+    it('it should return an empty array for a non-existing CV', () => {
       const nonExistingCVID = 428319
       return chai.request(server)
         .get(`/api/cvs/${nonExistingCVID}`)
@@ -185,15 +185,7 @@ describe('Save and load tests', () => {
           res.should.have.status(200)
           const sections = res.body
           sections.should.be.a('array')
-          sections.length.should.be.eql(testSections.length)
-          for (let i = 0; i < testSections.length; i += 1) {
-            // find index of sections[i] in testSections:
-            const testSectionsIndex = testSections
-              .findIndex(a => a.section_id === sections[i].section_id)
-            // compare texts to templates:
-            sections[i].fin_text.should.be.eql(testSections[testSectionsIndex].fin_template)
-            sections[i].eng_text.should.be.eql(testSections[testSectionsIndex].eng_template)
-          }
+          sections.length.should.be.eql(0)
         })
     })
 

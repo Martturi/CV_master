@@ -197,7 +197,8 @@ const configureUser = ({ username, fullname }) => {
           .then(() => 'user exists in database')
       }
       // user didn't exist beforehand and it was created. creating a cv for the newly created user:
-      return createCV({ username, cvName: 'New CV' })
+      const defaultLanguageID = 1
+      return createCV({ username, cvName: 'New CV', language_id: defaultLanguageID })
         .then(() => 'new user and cv were created')
     })
 }

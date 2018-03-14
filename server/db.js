@@ -80,8 +80,9 @@ const initializeTestDB = (testUser, testLanguages, testCV, testSections) => {
     )).join('; ')
     const query = `
       DELETE FROM users;
-      DELETE FROM languages;
+      DELETE FROM cvs;
       DELETE FROM cv_sections;
+      DELETE FROM languages;
       INSERT INTO users VALUES ('${testUser.username}', '${testUser.full_name}');
       ${languageInserts};
       ALTER SEQUENCE cvs_cv_id_seq RESTART WITH 1;

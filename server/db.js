@@ -45,16 +45,16 @@ const createCV = ({ username, cvName, languageID }) => {
     })
 }
 
-const save = ({ cvID, username, sections }) => {
+const save = ({ cvID, username, sections, languageID }) => {
   const upsertSection = (index) => {
     if (index < sections.length) {
       const section = sections[index]
       // do upsert
       const query = `
-        INSERT INTO section_data VALUES ($1, $2, $3, $4) ON CONFLICT (cv_id, section_id) DO UPDATE
-        SET fin_text = $3, eng_text = $4;
+        INSERT INTO section_data VALUES ($1, $2, $3) ON CONFLICT (cv_id, section_id) DO UPDATE
+        SET text = $3;
       `
-      return client.query(query, [cvID, section.section_id, section.fin_text, section.eng_text])
+      return client.query(query, [cvID, section.section_id, section.text])
         .then(() => upsertSection(index + 1))
     }
     return Promise.resolve('Save succeeded.')
@@ -62,9 +62,10 @@ const save = ({ cvID, username, sections }) => {
   const date = new Date().toUTCString() // for example: 'Fri, 09 Feb 2018 13:55:00 GMT'.
   // Postgres automatically translates this string into a correct date object.
   const query = `
-    INSERT INTO cvs VALUES ($1, $2, 'Unknown CV', '${date}') ON CONFLICT (cv_id) DO UPDATE SET last_updated = '${date}';
+    INSERT INTO cvs VALUES ($1, $2, 'Unknown CV', $3, '${date}')
+      ON CONFLICT (cv_id) DO UPDATE SET last_updated = '${date}';
   `
-  return client.query(query, [cvID, username])
+  return client.query(query, [cvID, username, languageID])
     .then(() => upsertSection(0))
 }
 

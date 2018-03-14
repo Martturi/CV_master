@@ -88,7 +88,7 @@ describe('Save and load tests', () => {
     const testCVName = testCV.cv_name
 
     it('it should load an array containing one specific cv after initializing test db', () => {
-      return db.initializeTestDB(testUsername, testCVName, testSections)
+      return db.initializeTestDB(testUser, testLanguages, testCV, testSections)
         .then((resText) => {
           resText.should.be.eql(initSuccessMessage)
           return chai.request(server)

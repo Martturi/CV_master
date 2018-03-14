@@ -42,44 +42,50 @@ describe('Save and load tests', () => {
   */
   describe('Get first CV', () => {
     const initSuccessMessage = 'Initialize succeeded.'
-    const testCVID = 1
-    const testUserObject = { username: 'a', full_name: 'Default Tester' }
-    const testUsername = testUserObject.username
-    const testCVName = 'b'
+    const testUser = { username: 'a', full_name: 'Default Tester' }
+    const testLanguages = [ // ids hardcoded on purpose
+      { language_id: 1, language_name: 'en' },
+      { language_id: 2, language_name: 'fi' },
+    ]
+    const testCV = {
+      cv_id: 1,
+      username: testUser.username,
+      cv_name: 'b',
+      language_id: testLanguages[0].language_id,
+      last_updated: '2018-01-01 15:15:16+0',
+    }
     const testSections = [ // ids hardcoded on purpose
       {
         section_id: 1,
-        fin_title: 'ftitle1',
-        eng_title: 'etitle1',
-        fin_template: 'ftemplate1',
-        eng_template: 'etemplate1',
+        language_id: 1,
+        title: 'en_title_1',
+        template: 'en_template_1',
         order: 50,
       },
       {
         section_id: 2,
-        fin_title: 'ftitle2',
-        eng_title: 'etitle2',
-        fin_template: 'ftemplate2',
-        eng_template: 'etemplate2',
+        language_id: 1,
+        title: 'en_title_2',
+        template: 'en_template_2',
         order: 100,
       },
       {
         section_id: 3,
-        fin_title: 'ftitle3',
-        eng_title: 'etitle3',
-        fin_template: 'ftemplate3',
-        eng_template: 'etemplate3',
+        language_id: 1,
+        title: 'en_title_3',
+        template: 'en_template_3',
         order: 0,
       },
       {
         section_id: 4,
-        fin_title: 'ftitle4',
-        eng_title: 'etitle4',
-        fin_template: 'ftemplate4',
-        eng_template: 'etemplate4',
-        order: 150,
+        language_id: 2,
+        title: 'fi_title_1',
+        template: 'fi_template_1',
+        order: 0,
       },
     ]
+    const testUsername = testUser.username
+    const testCVName = testCV.cv_name
 
     it('it should load an array containing one specific cv after initializing test db', () => {
       return db.initializeTestDB(testUsername, testCVName, testSections)

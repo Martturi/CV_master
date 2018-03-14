@@ -54,7 +54,7 @@ const getHTML = ({ sections, userObject }) => {
   return html
 }
 
-const servePDF = (response, { sections, userObject, language }) => {
+const servePDF = (response, { sections, userObject }) => {
   const options = {
     base: `${config.clientURL}`,
     header: {
@@ -67,7 +67,7 @@ const servePDF = (response, { sections, userObject, language }) => {
     },
   }
 
-  const parsedHTML = getHTML({ sections, userObject })[language]
+  const parsedHTML = getHTML({ sections, userObject })
   pdf.create(parsedHTML, options).toStream((err, stream) => {
     response.setHeader('Content-Type', 'application/pdf')
     response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')

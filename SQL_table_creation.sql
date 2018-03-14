@@ -1,12 +1,18 @@
 CREATE TABLE users (
- username TEXT PRIMARY KEY,
- full_name TEXT
+  username TEXT PRIMARY KEY,
+  full_name TEXT
+);
+
+CREATE TABLE languages (
+  language_id SERIAL PRIMARY KEY,
+  language_name TEXT
 );
 
 CREATE TABLE cvs (
   cv_id SERIAL PRIMARY KEY,
   username TEXT REFERENCES users(username) ON DELETE CASCADE,
   cv_name TEXT,
+  language_id INTEGER REFERENCES languages(language_id),
   last_updated TIMESTAMP WITH TIME ZONE
 );
 
@@ -14,18 +20,16 @@ CREATE INDEX username_idx ON cvs (username);
 
 CREATE TABLE cv_sections (
   section_id SERIAL PRIMARY KEY,
-  fin_title TEXT,
-  eng_title TEXT,
-  fin_template TEXT,
-  eng_template TEXT,
+  language_id INTEGER REFERENCES languages(language_id),
+  title TEXT,
+  template TEXT,
   section_order INTEGER
 );
 
 CREATE TABLE section_data (
   cv_id INTEGER REFERENCES cvs(cv_id) ON DELETE CASCADE,
   section_id INTEGER REFERENCES cv_sections(section_id) ON DELETE CASCADE,
-  fin_text TEXT,
-  eng_text TEXT,
+  text TEXT,
 	PRIMARY KEY (cv_id, section_id)
 );
 
@@ -139,111 +143,114 @@ INSERT INTO users VALUES('korkkii', 'Henri Korhonen'),
 ('jukkakos', 'Jukka Koskinen'),
 ('defaultUser', 'Default User');
 
+INSERT INTO languages VALUES
+  (DEFAULT, 'en'),
+  (DEFAULT, 'fin');
 
-INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattivi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattija', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'karivi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timoko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timoma', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhako', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattiko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattima', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'kariko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mikkovi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattimak', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'karini', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattini', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jarivi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'makelmi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'markkuvi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jukkavi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'karikos', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhani', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattiha', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'hannuko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timoni', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'markkuma', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'kariha', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timomak', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhama', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'karila', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timola', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattile', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mikkoma', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattihe', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'pekkako', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhavi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhaha', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'markkumake', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timole', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mikkoni', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'markkuni', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'seppoko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jariko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jarini', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'sepponi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jarima', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'seppovi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jukkama', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'anttima', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'pekkavi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jukkako', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'karima', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattinie', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mikkoko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'anttimak', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timokos', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jariha', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mikani', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jukkani', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timoja', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timoha', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'anttiko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'markkuko', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mikkokos', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhaja', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'anttivi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timohe', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timosa', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'karile', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattikos', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'ritvavi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'villevi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jarimak', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhakos', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattihei', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'juhala', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timora', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'anttini', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timotu', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'hannuvi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jarila', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'pekkama', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timohei', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jukkamak', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattileh', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattitu', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mattisa', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'markkukos','cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'karileh', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'pirkkovi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jarija', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'tuulani', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'mikavi', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'timosal', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'hannuma', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'anttiha', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jarileh', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'anttihe', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jukkale', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'pekkamak', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'jukkakos', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'korkkii', 'cv', '2018-01-01 15:15:16+0'),
-(DEFAULT, 'defaultUser', 'cv', '2018-01-01 15:15:16+0');
+INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattivi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattija', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karivi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoma', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhako', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattiko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattima', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'kariko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkovi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattimak', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karini', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattini', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarivi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'makelmi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuvi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkavi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karikos', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhani', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattiha', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'hannuko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoni', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuma', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'kariha', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timomak', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhama', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karila', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timola', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattile', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkoma', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattihe', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkako', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhavi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhaha', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkumake', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timole', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkoni', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuni', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'seppoko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jariko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarini', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'sepponi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarima', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'seppovi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkama', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttima', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkavi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkako', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karima', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattinie', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkoko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttimak', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timokos', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jariha', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikani', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkani', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoja', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timoha', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttiko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkuko', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikkokos', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhaja', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttivi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timohe', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timosa', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karile', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattikos', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'ritvavi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'villevi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarimak', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhakos', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattihei', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'juhala', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timora', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttini', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timotu', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'hannuvi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarila', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkama', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timohei', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkamak', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattileh', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattitu', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mattisa', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'markkukos','cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'karileh', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pirkkovi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarija', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'tuulani', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'mikavi', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'timosal', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'hannuma', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttiha', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jarileh', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'anttihe', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkale', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'pekkamak', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'jukkakos', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'korkkii', 'cv', 1, '2018-01-01 15:15:16+0'),
+(DEFAULT, 'defaultUser', 'cv', 1, '2018-01-01 15:15:16+0');
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, '', '', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, '',
 '######Degree
 
 
@@ -256,7 +263,7 @@ This bio is a summary that gives the reader a general understanding of you and y
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'WORK EXPERIENCE',
 '####Current company, XX/20XX-
 ######Job title
 
@@ -275,7 +282,7 @@ What was done? What is the big picture? What did you do or be responsible for? S
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'PREVIOUS EMPLOYMENT',
 '####Company A, XX/20XX-XX/20XX
 ######Job title
 Summary of position, responsibilities, projects etc.
@@ -301,7 +308,7 @@ Projects include:
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'KOULUTUS', 'EDUCATION', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'EDUCATION',
 '####Degree, University, 20XX-20XX
 Degree Programme
 
@@ -314,7 +321,7 @@ Master’s thesis: xxx'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'SERTIFIKAATIT', 'CERTIFICATES', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'CERTIFICATES',
 'Certificate, Month 20XX
 
 Certificate, Month 20XX'
@@ -322,7 +329,7 @@ Certificate, Month 20XX'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'KIELITAITO', 'LANGUAGE SKILLS', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'LANGUAGE SKILLS',
 'Language 1 - skill level
 
 Language 2 - skill level'
@@ -330,7 +337,7 @@ Language 2 - skill level'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'PALKINNOT', 'AWARDS', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'AWARDS',
 'Award, Month 20XX
 
 Award, Month 20XX'
@@ -338,7 +345,7 @@ Award, Month 20XX'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'JULKAISUT', 'PUBLICATIONS', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'PUBLICATIONS',
 'Article: Writer(s), 20XX, Article name, Journal name, Page numbers
 
 Book: Writer(s), 20XX, Book name, Publisher, ISBN
@@ -348,7 +355,7 @@ Patent: Creator(s), 20XX, Patent name, EU patent number, US patent number'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'KONFERENSSIT', 'CONFERENCES', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'CONFERENCES',
 '20XX Name of the Conference, City, Country, speaker/participant
 
 20XX Name of the Conference, City, Country, speaker/participant'
@@ -356,7 +363,7 @@ INSERT INTO cv_sections VALUES (DEFAULT, 'KONFERENSSIT', 'CONFERENCES', '',
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'OTHER ACTIVITIES',
 '• GitHub/Bitbucket: www.xxxx.fi
 
 • Portfolio: www.xxxx.fi',
@@ -364,7 +371,7 @@ INSERT INTO cv_sections VALUES (DEFAULT, 'HARRASTUNEISUUS', 'OTHER ACTIVITIES', 
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', '',
+INSERT INTO cv_sections VALUES (DEFAULT, 1, 'ESSENTIAL SKILLS',
 '• Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
 
 • Long experience in xxx
@@ -376,6 +383,22 @@ INSERT INTO cv_sections VALUES (DEFAULT, 'OSAAMINEN', 'ESSENTIAL SKILLS', '',
 
 • ** Programming languages **: xxx, xxx, xxx'
 , 1000);
+
+
+
+INSERT INTO cv_sections VALUES
+  (DEFAULT, 2, '', '', 0),
+  (DEFAULT, 2, 'TYÖKOKEMUS', '', 100),
+  (DEFAULT, 2, 'AIKAISEMPI TYÖKOKEMUS', '', 200),
+  (DEFAULT, 2, 'KOULUTUS', '', 300),
+  (DEFAULT, 2, 'SERTIFIKAATIT', '', 400),
+  (DEFAULT, 2, 'KIELITAITO', '', 500),
+  (DEFAULT, 2, 'PALKINNOT', '', 600),
+  (DEFAULT, 2, 'JULKAISUT', '', 700),
+  (DEFAULT, 2, 'KONFERENSSIT', '', 800),
+  (DEFAULT, 2, 'HARRASTUNEISUUS', '', 900),
+  (DEFAULT, 2, 'OSAAMINEN', '', 1000);
+
 
 
 INSERT INTO "public"."assets"("filename", "filetype", "contents") VALUES('font1.otf', 'font/opentype', 'T1RUTwALAIAAAwAwQ0ZGINbTLSgAABKQAABPgEdQT1OL9ysyAABiEAAALmhHU1VCAAEAAAAAkHgA

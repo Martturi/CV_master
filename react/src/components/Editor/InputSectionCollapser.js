@@ -16,7 +16,7 @@ class InputSectionCollapser extends React.Component {
   handleChange = (event) => {
     const newText = event.target.value
     const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
-    newSections[this.props.index] = newText
+    newSections[this.props.index].text = newText
     this.props.updateSections(newSections)
     this.props.updatePreview(newSections, this.props.userObject)
   }
@@ -30,7 +30,7 @@ class InputSectionCollapser extends React.Component {
       <ListGroupItem>
         <div>
           <Button outline className="button" size="sm" onClick={this.toggle}>
-            {this.props.section.title}
+            {this.props.section.title || 'INTRODUCTION'}
           </Button>
           <Collapse isOpen={this.state.collapse}>
             <div>

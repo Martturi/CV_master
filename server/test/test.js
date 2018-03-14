@@ -48,7 +48,7 @@ describe('Save and load tests', () => {
       { language_id: 2, language_name: 'fi' },
     ]
     const testCV = {
-      cv_id: 1,
+      cv_id: 'DEFAULT',
       username: testUser.username,
       cv_name: 'b',
       language_id: testLanguages[0].language_id,

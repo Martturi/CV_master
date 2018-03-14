@@ -69,20 +69,24 @@ const save = ({ cvID, username, sections, languageID }) => {
     .then(() => upsertSection(0))
 }
 
-const initializeTestDB = (testUsername, testCVName, testSections) => {
+const initializeTestDB = (testUser, testLanguages, testCV, testSections) => {
   if (config.env !== 'production') {
-    const date = new Date().toUTCString()
+    const languageInserts = testLanguages.map(language => (
+      `INSERT INTO cv_sections VALUES (${language.language_id}, '${language.language_name}')`
+    )).join('; ')
     const sectionInserts = testSections.map(section => (
-      `INSERT INTO cv_sections VALUES (${section.section_id}, '${section.fin_title}',
-      '${section.eng_title}', '${section.fin_template}', '${section.eng_template}',
-      ${section.order})`
+      `INSERT INTO cv_sections VALUES (${section.section_id}, '${section.language_id}',
+        '${section.title}', '${section.template}', '${section.order})`
     )).join('; ')
     const query = `
       DELETE FROM users;
+      DELETE FROM languages;
       DELETE FROM cv_sections;
-      INSERT INTO users VALUES ('${testUsername}', '');
+      INSERT INTO users VALUES ('${testUser.username}', '${testUser.full_name}');
+      ${languageInserts};
       ALTER SEQUENCE cvs_cv_id_seq RESTART WITH 1;
-      INSERT INTO cvs VALUES (DEFAULT, '${testUsername}', '${testCVName}', '${date}');
+      INSERT INTO cvs VALUES (${testCV.cv_id}, '${testCV.username}', '${testCV.cv_name}}',
+        ${testCV.language_id}, '${testCV.last_updated}');
       ${sectionInserts};
     `
     return client.query(query)

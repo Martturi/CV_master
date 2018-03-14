@@ -105,7 +105,7 @@ describe('Save and load tests', () => {
 
     it('it should answer with 200', () => {
       return chai.request(server)
-        .get(`/api/cvs/${testCVID}`)
+        .get(`/api/cvs/${testCV.cv_id}`)
         .then((res) => {
           res.should.have.status(200)
         })

@@ -38,16 +38,12 @@ const getHTML = ({ sections, userObject }) => {
   const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
   // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
   // let's undo it for better user control:
-  const firstSection = markdown.toHTML(sectionToText(sections[0]))
-    .replace(/&lt;br&gt;/g, '<br>')
-  const otherSections = sections.slice(1) // drop the first one
-    .filter(section => section.text !== '')
+  const sectionsInMarkdown = sections
     .map(section => markdown.toHTML(sectionToText(section)))
     .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
   const html = ejs.render(template, {
     styles: style,
-    firstSection,
-    otherSections,
+    sectionsInMarkdown,
     userID: userObject.username,
     name: userObject.full_name,
   })

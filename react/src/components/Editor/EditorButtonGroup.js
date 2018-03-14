@@ -71,10 +71,26 @@ class EditorButtonGroup extends Component {
     )
   }
 
-  goBack = async () => {
-    this.props.changeView(this.props.lastView)
-    const sections = await this.props.loadSections(this.props.cvID)
-    this.props.updatePreview(sections, this.props.userObject)
+  equalSections = (a, b) => {
+    if (a.length !== b.length) return false
+    for (let i = 0; i < a.length; i += 1) {
+      if (a[i].eng_text !== b[i].eng_text) {
+        return false
+      }
+    }
+    return true
+  }
+
+  close = async () => {
+    const oldSections = await Api.loadCV(this.props.cvID)
+    if (this.equalSections(this.props.sections, oldSections)) {
+      console.log('sama sisalto')
+      this.props.changeView(this.props.lastView)
+      const sections = await this.props.loadSections(this.props.cvID)
+      this.props.updatePreview(sections, this.props.userObject)
+    } else {
+      console.log('eri sisalto')
+    }
   }
 
   render() {
@@ -96,7 +112,7 @@ class EditorButtonGroup extends Component {
     return (
       <div className="buttonheader editor-buttonheader">
         <ButtonGroup>
-          <Button outline className="button" onClick={this.goBack}>Close</Button>
+          <Button outline className="button" onClick={this.close}>Close</Button>
           <Button outline className="button" onClick={this.saveCV}>Save</Button>
         </ButtonGroup>
         <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>

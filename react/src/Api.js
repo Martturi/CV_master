@@ -28,7 +28,7 @@ const loadPreview = async (sections, userObject) => {
     },
     body: JSON.stringify({ sections, userObject }),
   })
-  const body = await response.json()
+  const body = await response.text()
   if (response.status !== 200) throw Error(body.message)
   return body
 }
@@ -84,14 +84,14 @@ const renameCV = async (cvID, newCVName) => {
   return body
 }
 
-const fetchPDF = async (userObject, sections, language) => {
+const fetchPDF = async (userObject, sections) => {
   const response = await fetch('api/pdf', {
     credentials: 'include',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sections, userObject, language }),
+    body: JSON.stringify({ sections, userObject }),
   })
   if (response.status !== 200) throw Error(`error ${response}`)
   return response

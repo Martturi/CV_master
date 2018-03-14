@@ -27,6 +27,7 @@ const getListGroupItem = (props, cvObject, index) => {
           <CvNameForm
             cvName={cvName}
             cvID={cvID}
+            languageName={cvObject.language_name}
           />
         </ListGroupItemHeading>
         <ListGroupItemText className="list-item">

@@ -34,40 +34,23 @@ const sectionToText = (section) => {
 
 // getHTML requires uid to find the correct picture from CDN. The uid is given to it via servePDF.
 const getHTML = ({ sections, userObject }) => {
-  const languages = Object.keys(sections[0])
-    .filter(key => key.endsWith('_text'))
-    .map(lang => lang.slice(0, -5)) // remove five characters from the end (length of '_text')
   const style = fs.readFileSync(path.resolve(__dirname, 'pdf/pdf.css'), 'utf-8')
   const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
-  const previews = {}
-  languages.forEach((lang) => {
-    const currentSections = []
-    sections.forEach((section, index) => {
-      const currentSection = {}
-      currentSection.text = sections[index][`${lang}_text`]
-      currentSection.title = sections[index][`${lang}_title`]
-      currentSections.push(currentSection)
-    })
-    // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
-    // let's undo it for better user control:
-    const firstSection = markdown.toHTML(sectionToText(currentSections[0]))
-      .replace(/&lt;br&gt;/g, '<br>')
-    const otherSections = currentSections.slice(1) // drop the first one
-      .filter(section => section.text !== '')
-      .map(section => markdown.toHTML(sectionToText(section)))
-      .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
-    previews[lang] = ejs.render(template, {
-      styles: style,
-      firstSection,
-      otherSections,
-      userID: userObject.username,
-      name: userObject.full_name,
-    })
+  // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
+  // let's undo it for better user control:
+  const sectionsInMarkdown = sections
+    .map(section => markdown.toHTML(sectionToText(section)))
+    .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
+  const html = ejs.render(template, {
+    styles: style,
+    sectionsInMarkdown,
+    userID: userObject.username,
+    name: userObject.full_name,
   })
-  return previews
+  return html
 }
 
-const servePDF = (response, { sections, userObject, language }) => {
+const servePDF = (response, { sections, userObject }) => {
   const options = {
     base: `${config.clientURL}`,
     header: {
@@ -80,7 +63,7 @@ const servePDF = (response, { sections, userObject, language }) => {
     },
   }
 
-  const parsedHTML = getHTML({ sections, userObject })[language]
+  const parsedHTML = getHTML({ sections, userObject })
   pdf.create(parsedHTML, options).toStream((err, stream) => {
     response.setHeader('Content-Type', 'application/pdf')
     response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')

@@ -16,8 +16,7 @@ class InputSectionCollapser extends React.Component {
   handleChange = (event) => {
     const newText = event.target.value
     const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
-    console.log(newSections[this.props.index][`${this.props.language}_text`])
-    newSections[this.props.index][`${this.props.language}_text`] = newText
+    newSections[this.props.index].text = newText
     this.props.updateSections(newSections)
     this.props.updatePreview(newSections, this.props.userObject)
   }
@@ -31,18 +30,14 @@ class InputSectionCollapser extends React.Component {
       <ListGroupItem>
         <div>
           <Button outline className="button" size="sm" onClick={this.toggle}>
-            {(this.props.language === 'eng') ? (
-              this.props.section.eng_title || 'INTRODUCTION'
-            ) : (
-              this.props.section.fin_title || 'ESITTELY'
-            )}
+            {this.props.section.title}
           </Button>
           <Collapse isOpen={this.state.collapse}>
             <div>
               <br />
               <Textarea
                 id="textfield"
-                value={this.props.language === 'eng' ? this.props.section.eng_text : this.props.section.fin_text}
+                value={this.props.section.text}
                 onChange={this.handleChange}
               />
             </div>
@@ -57,7 +52,6 @@ const mapStateToProps = (state) => {
   return {
     sections: state.sections,
     userObject: state.userList[state.selectedUserIndex],
-    language: state.language,
   }
 }
 

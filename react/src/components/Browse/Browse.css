@@ -54,6 +54,12 @@
 	font-size: x-small;
 }
 
+.language-flag {
+  padding-top: 0.5em;
+  font-size: medium;
+  color: #FC6054;
+}
+
 /*Sections where people and their
 CVs are listed*/
 .browse-section {

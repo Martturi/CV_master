@@ -36,10 +36,11 @@ class CvNameForm extends React.Component {
   saveAndExit = async () => {
     const newCVName = this.state.value === '' ? this.props.cvName : this.state.value
     await Api.renameCV(this.props.cvID, newCVName)
-    const username = this.props.userList[this.props.selectedUserIndex].username
+    const userObject = this.props.userList[this.props.selectedUserIndex]
+    const username = userObject.username
     const cvList = await this.props.updateCVList(username)
     const newIndex = cvList.findIndex(object => object.cv_id === this.props.cvID)
-    this.props.cvClickedCascade(username, cvList, newIndex === -1 ? 0 : newIndex)
+    this.props.cvClickedCascade(userObject, cvList, newIndex === -1 ? 0 : newIndex)
     this.setState({
       editing: false,
       value: newCVName,

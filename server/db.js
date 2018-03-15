@@ -209,6 +209,12 @@ const getAsset = ({ filename }) => {
     .then(result => result.rows[0])
 }
 
+const loadLanguages = () => {
+  const query = 'SELECT * FROM languages;'
+  return client.query(query)
+    .then(result => result.rows)
+}
+
 module.exports = {
   load,
   save,
@@ -223,4 +229,5 @@ module.exports = {
   configureUser,
   addUser,
   getAsset,
+  loadLanguages,
 }

@@ -97,6 +97,13 @@ const fetchPDF = async (userObject, sections) => {
   return response
 }
 
+const loadLanguages = async () => {
+  const response = await fetch('api/languages', { credentials: 'include' })
+  const languages = await response.json()
+  if (response.status !== 200) throw Error(languages.message)
+  return languages
+}
+
 export default {
   saveCV,
   loadCV,
@@ -107,4 +114,5 @@ export default {
   deleteCV,
   renameCV,
   fetchPDF,
+  loadLanguages,
 }

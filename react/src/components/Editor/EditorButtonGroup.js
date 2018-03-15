@@ -19,7 +19,7 @@ class EditorButtonGroup extends Component {
       dropdownOpen: false, // this will be removed later
       saveStatus: '',
       languageDropdownOpen: false,
-      cvLanguages: [],
+      cvLanguageObjects: [],
     }
   }
 
@@ -27,8 +27,10 @@ class EditorButtonGroup extends Component {
     this.loadCVLanguages()
   }
 
-  loadCVLanguages = () => {
-    this.setState({ cvLanguages: ['joo', 'English'] })
+  loadCVLanguages = async () => {
+    const languages = await Api.loadLanguages()
+    console.log(languages)
+    this.setState({ cvLanguageObjects: languages })
   }
 
   toggle = () => {
@@ -39,8 +41,9 @@ class EditorButtonGroup extends Component {
     this.setState({ languageDropdownOpen: !this.state.languageDropdownOpen })
   }
 
-  languageClicked = (languageName) => {
-    console.log('Clicked', languageName)
+  languageClicked = async (languageID) => {
+    await this.saveCV()
+
   }
 
   saveCV = async () => {
@@ -73,18 +76,19 @@ class EditorButtonGroup extends Component {
   }
 
   render() {
-    const languageDropdownItems = this.state.cvLanguages.map((lang) => {
+    const languageDropdownItems = this.state.cvLanguageObjects.map((languageObject) => {
+      const languageName = languageObject.language_name
+      const languageID = languageObject.language_id
       return (
         <DropdownItem
-          key={lang}
-          onClick={() => this.languageClicked(lang)}
-          active={lang === this.props.cvLanguage}
+          key={languageID}
+          onClick={() => this.languageClicked(languageID)}
+          active={languageID === this.props.cvLanguageID}
         >
-          {lang}
+          {languageName}
         </DropdownItem>
       )
     })
-    console.log(languageDropdownItems)
     return (
       <div className="buttonheader editor-buttonheader">
         <Button outline className="button" onClick={this.goBack}>Back</Button>
@@ -92,7 +96,7 @@ class EditorButtonGroup extends Component {
           <Button outline className="button" onClick={this.saveCV}>Save</Button>
           <ButtonDropdown isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
             <DropdownToggle caret outline className="button">
-              {this.props.cvLanguage}
+              Set language (current: {this.props.cvLanguageName})
             </DropdownToggle>
             <DropdownMenu right>
               {languageDropdownItems}
@@ -119,7 +123,8 @@ const mapStateToProps = (state) => {
     sections: state.sections,
     userObject: state.userList[state.selectedUserIndex],
     cvID: state.cvList[state.selectedCVIndex].cv_id,
-    cvLanguage: state.cvList[state.selectedCVIndex].language_name,
+    cvLanguageName: state.cvList[state.selectedCVIndex].language_name,
+    cvLanguageID: state.cvList[state.selectedCVIndex].language_id,
   }
 }
 

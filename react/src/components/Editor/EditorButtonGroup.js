@@ -100,17 +100,15 @@ class EditorButtonGroup extends Component {
     })
     return (
       <div className="buttonheader editor-buttonheader">
-        <ButtonGroup outline="true">
-          <Button outline className="button" onClick={this.goBack}>Back</Button>
-          <ButtonDropdown isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
-            <DropdownToggle caret outline className="button">
-              {this.props.cvLanguageName ? this.props.cvLanguageName[0].toUpperCase() + this.props.cvLanguageName.slice(1) : ''}
-            </DropdownToggle>
-            <DropdownMenu>
-              {languageDropdownItems}
-            </DropdownMenu>
-          </ButtonDropdown>
-        </ButtonGroup>
+        <Button outline className="button" onClick={this.goBack}>Back</Button>
+        <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
+          <DropdownToggle caret outline className="button">
+            {this.props.cvLanguageName ? this.props.cvLanguageName[0].toUpperCase() + this.props.cvLanguageName.slice(1) : ''}
+          </DropdownToggle>
+          <DropdownMenu>
+            {languageDropdownItems}
+          </DropdownMenu>
+        </ButtonDropdown>
         <ButtonGroup outline="true" className="exportgroup">
           <Button outline className="button" onClick={() => this.saveCV()}>Save</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>

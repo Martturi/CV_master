@@ -16,13 +16,31 @@ class EditorButtonGroup extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dropdownOpen: false,
+      dropdownOpen: false, // this will be removed later
       saveStatus: '',
+      languageDropdownOpen: false,
+      cvLanguages: [],
     }
+  }
+
+  componentDidMount() {
+    this.loadCVLanguages()
+  }
+
+  loadCVLanguages = () => {
+    this.setState({ cvLanguages: ['joo', 'English'] })
   }
 
   toggle = () => {
     this.setState({ dropdownOpen: !this.state.dropdownOpen })
+  }
+
+  toggleLanguage = () => {
+    this.setState({ languageDropdownOpen: !this.state.languageDropdownOpen })
+  }
+
+  languageClicked = (languageName) => {
+    console.log('Clicked', languageName)
   }
 
   saveCV = async () => {
@@ -55,11 +73,31 @@ class EditorButtonGroup extends Component {
   }
 
   render() {
+    const languageDropdownItems = this.state.cvLanguages.map((lang) => {
+      return (
+        <DropdownItem
+          key={lang}
+          onClick={() => this.languageClicked(lang)}
+          active={lang === this.props.cvLanguage}
+        >
+          {lang}
+        </DropdownItem>
+      )
+    })
+    console.log(languageDropdownItems)
     return (
       <div className="buttonheader editor-buttonheader">
         <Button outline className="button" onClick={this.goBack}>Back</Button>
         <ButtonGroup outline="true" className="exportgroup">
           <Button outline className="button" onClick={this.saveCV}>Save</Button>
+          <ButtonDropdown isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
+            <DropdownToggle caret outline className="button">
+              {this.props.cvLanguage}
+            </DropdownToggle>
+            <DropdownMenu right>
+              {languageDropdownItems}
+            </DropdownMenu>
+          </ButtonDropdown>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export
@@ -81,6 +119,7 @@ const mapStateToProps = (state) => {
     sections: state.sections,
     userObject: state.userList[state.selectedUserIndex],
     cvID: state.cvList[state.selectedCVIndex].cv_id,
+    cvLanguage: state.cvList[state.selectedCVIndex].language_name,
   }
 }
 

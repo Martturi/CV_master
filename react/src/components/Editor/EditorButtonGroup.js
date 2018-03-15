@@ -30,7 +30,6 @@ class EditorButtonGroup extends Component {
 
   loadCVLanguages = async () => {
     const languages = await Api.loadLanguages()
-    console.log(languages)
     this.setState({ cvLanguageObjects: languages })
   }
 
@@ -87,6 +86,8 @@ class EditorButtonGroup extends Component {
     const languageDropdownItems = this.state.cvLanguageObjects.map((languageObject) => {
       const languageName = languageObject.language_name
       const languageID = languageObject.language_id
+      const isCVLanguage = languageID === this.props.cvLanguageID
+      if (isCVLanguage) return false
       return (
         <DropdownItem
           key={languageID}
@@ -100,16 +101,16 @@ class EditorButtonGroup extends Component {
     return (
       <div className="buttonheader editor-buttonheader">
         <Button outline className="button" onClick={this.goBack}>Back</Button>
+        <ButtonDropdown isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
+          <DropdownToggle caret outline className="button">
+            {this.props.cvLanguageName}
+          </DropdownToggle>
+          <DropdownMenu>
+            {languageDropdownItems}
+          </DropdownMenu>
+        </ButtonDropdown>
         <ButtonGroup outline="true" className="exportgroup">
           <Button outline className="button" onClick={() => this.saveCV()}>Save</Button>
-          <ButtonDropdown isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
-            <DropdownToggle caret outline className="button">
-              Set language (current: {this.props.cvLanguageName})
-            </DropdownToggle>
-            <DropdownMenu right>
-              {languageDropdownItems}
-            </DropdownMenu>
-          </ButtonDropdown>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export

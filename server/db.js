@@ -60,10 +60,10 @@ const save = ({ cvID, username, sections, languageID }) => {
   }
   const date = new Date().toUTCString() // for example: 'Fri, 09 Feb 2018 13:55:00 GMT'.
   // Postgres automatically translates this string into a correct date object.
-  const defaultLanguageID = 1
+  const defaultLanguageID = 1 // in case something very weird happens
   const query = `
     INSERT INTO cvs VALUES ($1, $2, 'Unknown CV', $3, '${date}')
-      ON CONFLICT (cv_id) DO UPDATE SET last_updated = '${date}';
+      ON CONFLICT (cv_id) DO UPDATE SET language_id = $3, last_updated = '${date}';
   `
   return client.query(query, [cvID, username, languageID || defaultLanguageID])
     .then(() => upsertSection(0))

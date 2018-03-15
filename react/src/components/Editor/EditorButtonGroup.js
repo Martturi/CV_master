@@ -7,6 +7,7 @@ import {
   selectCVIndex,
   loadSections,
   updatePreview,
+  cvClickedCascade,
 } from '../../actions'
 import Api from '../../Api'
 import { downloadPDF } from '../../utils'
@@ -42,14 +43,20 @@ class EditorButtonGroup extends Component {
   }
 
   languageClicked = async (languageID) => {
-    await this.saveCV()
-
+    const { saveMessage, newCVList, newSelectedCVIndex } = await this.saveCV(languageID)
+    if (saveMessage === 'Save succeeded.') {
+      this.props.cvClickedCascade(
+        this.props.userObject,
+        newCVList,
+        newSelectedCVIndex,
+      )
+    }
   }
 
-  saveCV = async () => {
+  saveCV = async (languageID = this.props.cvLanguageID) => {
     const cvID = this.props.cvID
     const username = this.props.userObject.username
-    const saveMessage = await Api.saveCV(cvID, username, this.props.sections)
+    const saveMessage = await Api.saveCV(cvID, username, this.props.sections, languageID)
     this.setState({ saveStatus: saveMessage })
     window.setTimeout(() => {
       this.setState({ saveStatus: '' })
@@ -57,6 +64,7 @@ class EditorButtonGroup extends Component {
     const newCVList = await this.props.updateCVList(username)
     const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
     this.props.selectCVIndex(newSelectedCVIndex)
+    return { saveMessage, newCVList, newSelectedCVIndex }
   }
 
   // The content gets saved automatically when it's downloaded.
@@ -93,7 +101,7 @@ class EditorButtonGroup extends Component {
       <div className="buttonheader editor-buttonheader">
         <Button outline className="button" onClick={this.goBack}>Back</Button>
         <ButtonGroup outline="true" className="exportgroup">
-          <Button outline className="button" onClick={this.saveCV}>Save</Button>
+          <Button outline className="button" onClick={() => this.saveCV()}>Save</Button>
           <ButtonDropdown isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
             <DropdownToggle caret outline className="button">
               Set language (current: {this.props.cvLanguageName})
@@ -129,6 +137,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+  cvClickedCascade,
   changeView,
   updateCVList,
   selectCVIndex,

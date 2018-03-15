@@ -22,7 +22,7 @@ class Child extends React.Component {
     if (this.state.uid === '' || this.state.cvid === '') {
       return null
     }
-    return <Redirect to={`users/${this.state.uid}/cvs/${this.state.cvid}`} />
+    return <Redirect to={`users/${this.state.uid}/${this.state.cvid}`} />
   }
 }
 
@@ -31,7 +31,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Route exact path="/users/:uid/cvs/:cvid" component={App} />
+        <Route exact path="/users/:uid/:cvid" component={App} />
         <Route exact path="/" component={Child} />
         <Route path="*" component={NotFound} />
       </Switch>

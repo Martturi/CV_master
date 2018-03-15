@@ -85,7 +85,7 @@ export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) 
   dispatch(selectCVIndex(cvIndex))
   const cvID = cvList[cvIndex].cv_id
   const sections = await loadSections(cvID)(dispatch)
-  history.push(`/users/${username}/cvs/${cvID}`)
+  history.push(`/users/${username}/${cvID}`)
   updatePreview(sections, username)(dispatch)
 }
 

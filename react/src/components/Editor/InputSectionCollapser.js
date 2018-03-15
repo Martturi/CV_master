@@ -18,7 +18,6 @@ class InputSectionCollapser extends React.Component {
     newSections[this.props.index].text = newText
     this.props.updateSections(newSections)
     this.props.updatePreview(newSections, this.props.username)
-    console.log(this.props.username)
   }
 
   toggle = () => {

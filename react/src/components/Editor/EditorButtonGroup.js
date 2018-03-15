@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, ButtonGroup, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap'
+import { Button, ButtonGroup, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Popover, PopoverBody } from 'reactstrap'
 import {
   changeView,
   updateCVList,
@@ -20,6 +20,7 @@ class EditorButtonGroup extends Component {
       saveStatus: '',
       languageDropdownOpen: false,
       cvLanguageObjects: [],
+      closeSelected: false,
     }
   }
 
@@ -84,13 +85,21 @@ class EditorButtonGroup extends Component {
   close = async () => {
     const oldSections = await Api.loadCV(this.props.cvID)
     if (this.equalSections(this.props.sections, oldSections)) {
-      console.log('sama sisalto')
-      this.props.changeView(this.props.lastView)
-      const sections = await this.props.loadSections(this.props.cvID)
-      this.props.updatePreview(sections, this.props.userObject)
+      this.closeWithoutSaving()
     } else {
-      console.log('eri sisalto')
+      this.setState({ closeSelected: true })
     }
+  }
+
+  closeWithoutSaving = async () => {
+    this.props.changeView(this.props.lastView)
+    const sections = await this.props.loadSections(this.props.cvID)
+    this.props.updatePreview(sections, this.props.userObject)
+  }
+
+  closeWithSaving = async () => {
+    await this.saveCV()
+    this.closeWithoutSaving()
   }
 
   render() {
@@ -109,10 +118,24 @@ class EditorButtonGroup extends Component {
         </DropdownItem>
       )
     })
+    const ClosePopover = () => {
+      return (
+        <Popover placement="bottom" target="closebutton" isOpen={this.state.closeSelected}>
+          <PopoverBody>
+            You have unsaved changes. Save before closing? <br />
+            <ButtonGroup className="popover-buttongroup">
+              <Button outline className="button" onClick={this.closeWithSaving}>Yes</Button>
+              <Button outline className="button" onClick={this.closeWithoutSaving}>No</Button>
+            </ButtonGroup>
+          </PopoverBody>
+        </Popover>
+      )
+    }
+
     return (
       <div className="buttonheader editor-buttonheader">
         <ButtonGroup>
-          <Button outline className="button" onClick={this.close}>Close</Button>
+          <Button outline className="button" id="closebutton" onClick={this.close}>Close</Button>
           <Button outline className="button" onClick={this.saveCV}>Save</Button>
         </ButtonGroup>
         <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
@@ -125,6 +148,7 @@ class EditorButtonGroup extends Component {
         </ButtonDropdown>
         <div id="savestatus" className="statusMessage">{this.state.saveStatus.toString()}</div>
         <Button outline className="button exportbutton" onClick={this.saveAndExport}>Download as PDF</Button>
+        <ClosePopover />
       </div>
     )
   }

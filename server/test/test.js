@@ -275,8 +275,8 @@ describe('Save and load tests', () => {
         .then((result) => {
           result.should.have.status(200)
           const returnedText = result.text
-          returnedText.should.match(/.<!DOCTYPE html/)
-          returnedText.should.match(/.cv/)
+          returnedText.should.match(/.*<!DOCTYPE html/)
+          returnedText.should.match(/.*cv/)
         })
     })
   })

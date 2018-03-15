@@ -73,31 +73,27 @@ class CVToolbar extends Component {
     }
 
     return (
-      <div className="my-cvs-buttongroup">
-        <ButtonGroup>
-          <Button outline id={`edit${this.props.cvID}`} className="button" onClick={() => this.props.changeView('edit')}>
-            <span className="fa fa-pencil" aria-hidden="true" />
-          </Button>
-          <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target={`edit${this.props.cvID}`}>
+      <ButtonGroup>
+        <Button outline id={`edit${this.props.cvID}`} className="button" onClick={() => this.props.changeView('edit')}>
+          <span className="fa fa-pencil" aria-hidden="true" />
+        </Button>
+        <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target={`edit${this.props.cvID}`}>
             Edit
-          </UncontrolledTooltip>
-          <Button outline id={`copy${this.props.cvID}`} className="button" onClick={this.copyClicked}>
-            <span className="fa fa-files-o" aria-hidden="true" />
-          </Button>
-          <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target={`copy${this.props.cvID}`}>
+        </UncontrolledTooltip>
+        <Button outline id={`copy${this.props.cvID}`} className="button" onClick={this.copyClicked}>
+          <span className="fa fa-files-o" aria-hidden="true" />
+        </Button>
+        <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target={`copy${this.props.cvID}`}>
             Copy
-          </UncontrolledTooltip>
-          <Button id={`delete${this.props.cvID}`} outline className="button" onClick={this.deleteClicked}>
-            <span className="fa fa-trash-o" aria-hidden="true" />
-          </Button>
-          <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target={`delete${this.props.cvID}`}>
+        </UncontrolledTooltip>
+        <Button id={`delete${this.props.cvID}`} outline className="button" onClick={this.deleteClicked}>
+          <span className="fa fa-trash-o" aria-hidden="true" />
+        </Button>
+        <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target={`delete${this.props.cvID}`}>
             Delete
-          </UncontrolledTooltip>
-          <DeletePopover />
-        </ButtonGroup>
-      </div>
-
-
+        </UncontrolledTooltip>
+        <DeletePopover />
+      </ButtonGroup>
     )
   }
 }

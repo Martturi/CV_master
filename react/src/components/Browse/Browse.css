@@ -54,10 +54,16 @@
 	font-size: x-small;
 }
 
+.cv-name {
+  margin-bottom: 1em;
+}
+
+.last-modified-datetime {
+  margin-left: 0.8em;
+}
+
 .language-flag {
-  padding-top: 0.5em;
-  font-size: medium;
-  color: #FC6054;
+  margin-left: 1em;
 }
 
 /*Sections where people and their

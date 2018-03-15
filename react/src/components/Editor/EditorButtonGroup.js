@@ -94,7 +94,7 @@ class EditorButtonGroup extends Component {
           onClick={() => this.languageClicked(languageID)}
           active={languageID === this.props.cvLanguageID}
         >
-          {languageName}
+          {languageName ? languageName[0].toUpperCase() + languageName.slice(1) : ''}
         </DropdownItem>
       )
     })
@@ -104,7 +104,7 @@ class EditorButtonGroup extends Component {
           <Button outline className="button" onClick={this.goBack}>Back</Button>
           <ButtonDropdown isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
             <DropdownToggle caret outline className="button">
-              {this.props.cvLanguageName}
+              {this.props.cvLanguageName ? this.props.cvLanguageName[0].toUpperCase() + this.props.cvLanguageName.slice(1) : ''}
             </DropdownToggle>
             <DropdownMenu>
               {languageDropdownItems}

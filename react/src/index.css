@@ -74,6 +74,11 @@ Save and Export buttons in editor-view*/
   box-shadow: none;
 }
 
+/* Delete popover in Browse view and close popover in Editor view */
+.popover-buttongroup {
+  margin-top: 1vh;
+}
+
 /*Container for the pdf preview*/
 .CVpreview {
   float: right;

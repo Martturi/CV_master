@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Popover, PopoverBody, PopoverHeader, ButtonGroup, UncontrolledTooltip } from 'reactstrap'
+import { Button, Popover, PopoverBody, ButtonGroup, UncontrolledTooltip } from 'reactstrap'
 import {
   changeView,
   updateCVList,
@@ -50,10 +50,10 @@ class CVToolbar extends Component {
     const DeletePopoverBodyContents = () => {
       if (this.props.cvList.length >= 2) {
         return (
-          <div>
+          <ButtonGroup className="popover-buttongroup">
             <Button outline className="button" onClick={this.deleteConfirmed}>Yes</Button>
             <Button outline className="button" onClick={this.deleteCancelled}>No</Button>
-          </div>
+          </ButtonGroup>
         )
       }
       return 'You cannot delete the only CV of a user.'
@@ -62,10 +62,8 @@ class CVToolbar extends Component {
     const DeletePopover = () => {
       return (
         <Popover placement="bottom" target={`delete${this.props.cvID}`} isOpen={this.state.deleteSelected} toggle={this.deleteCancelled}>
-          <PopoverHeader>
-            <DeletePopoverHeaderContents />
-          </PopoverHeader>
           <PopoverBody>
+            <DeletePopoverHeaderContents /><br />
             <DeletePopoverBodyContents />
           </PopoverBody>
         </Popover>

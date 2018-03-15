@@ -163,7 +163,7 @@ const copy = ({ cvID }) => {
         .then((newCVID) => {
           return load({ cvID })
             .then((sections) => {
-              return save({ cvID: newCVID, username, sections })
+              return save({ cvID: newCVID, username, sections, languageID })
                 .then(() => newCVID.toString())
             })
         })

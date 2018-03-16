@@ -203,10 +203,30 @@ const configureUser = ({ username, fullname }) => {
     })
 }
 
+const clearAssets = () => {
+  const query = 'TRUNCATE TABLE assets;'
+  return client.query(query)
+}
+
+const configAsset = ({ filename, filetype, base64, contents }) => {
+  const date = new Date().toUTCString()
+  const query = `
+    INSERT INTO assets VALUES ($1, $2, $3, $4, $5);
+  `
+  return client.query(query, [filename, filetype, base64, contents, date])
+}
+
 const getAsset = ({ filename }) => {
-  const query = 'SELECT filetype, contents FROM assets WHERE filename = $1;'
+  const query = 'SELECT filetype, contents, base64 FROM assets WHERE filename = $1;'
   return client.query(query, [filename])
-    .then(result => result.rows[0])
+    .then((result) => {
+      const data = result.rows[0]
+      if (data.base64) {
+        const file = new Buffer(data.contents, 'base64')
+        return { filetype: data.filetype, file }
+      }
+      return { filetype: data.filetype, file: data.contents }
+    })
 }
 
 const loadLanguages = () => {
@@ -228,6 +248,8 @@ module.exports = {
   initializeTestDB,
   configureUser,
   addUser,
+  clearAssets,
+  configAsset,
   getAsset,
   loadLanguages,
 }

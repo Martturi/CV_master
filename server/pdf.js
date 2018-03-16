@@ -3,10 +3,27 @@ const pdf = require('html-pdf')
 const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
-
-const header = fs.readFileSync(path.resolve(__dirname, './pdf/header.html'), 'utf-8')
-const footer = fs.readFileSync(path.resolve(__dirname, './pdf/footer.html'), 'utf-8')
+const db = require('./db')
 const config = require('./config')
+
+/*
+ *  Loading static assets for PDF creation from filesystem to database.
+ *  Does not run if there are no assets to load, and reads which files to load from a pdf/files.json
+ */
+fs.readFile(path.resolve(__dirname, './pdf/files.json'), 'utf-8', (err, data) => {
+  if (err) console.log('static file index not found')
+  else {
+    const fileIndex = JSON.parse(data)
+    if (fileIndex && fileIndex.files && fileIndex.files.length > 0) {
+      if (fileIndex.clearAssets) db.clearAssets()
+      fileIndex.files.forEach(({ filename, filetype, base64, location }) => {
+        const contents = fs.readFileSync(path.resolve(__dirname, './pdf/', location), 'utf-8')
+        db.configAsset({ filename, filetype, base64, contents })
+      })
+    }
+    console.log(`adding ${fileIndex.files.length} static files\n`)
+  }
+})
 
 const sectionToText = (section) => {
   if (!section.text) {
@@ -33,9 +50,9 @@ const sectionToText = (section) => {
 }
 
 // getHTML requires uid to find the correct picture from CDN. The uid is given to it via servePDF.
-const getHTML = ({ sections, userObject }) => {
-  const style = fs.readFileSync(path.resolve(__dirname, 'pdf/pdf.css'), 'utf-8')
-  const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
+const getHTML = async ({ sections, userObject }) => {
+  const style = await db.getAsset({ filename: 'pdf.css' }).then(data => data.file)
+  const template = await db.getAsset({ filename: 'preview.ejs' }).then(data => data.file)
   // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
   // let's undo it for better user control:
   const sectionsInMarkdown = sections
@@ -50,7 +67,9 @@ const getHTML = ({ sections, userObject }) => {
   return html
 }
 
-const servePDF = (response, { sections, userObject }) => {
+const servePDF = async (response, { sections, userObject }) => {
+  const header = await db.getAsset({ filename: 'header.html' }).then(data => data.file)
+  const footer = await db.getAsset({ filename: 'footer.html' }).then(data => data.file)
   const options = {
     base: `${config.clientURL}`,
     header: {
@@ -62,13 +81,13 @@ const servePDF = (response, { sections, userObject }) => {
       contents: footer,
     },
   }
-
-  const parsedHTML = getHTML({ sections, userObject })
-  pdf.create(parsedHTML, options).toStream((err, stream) => {
-    response.setHeader('Content-Type', 'application/pdf')
-    response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')
-    stream.on('end', () => response.end())
-    stream.pipe(response)
+  getHTML({ sections, userObject }).then((parsedHTML) => {
+    pdf.create(parsedHTML, options).toStream((err, stream) => {
+      response.setHeader('Content-Type', 'application/pdf')
+      response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')
+      stream.on('end', () => response.end())
+      stream.pipe(response)
+    })
   })
 }
 

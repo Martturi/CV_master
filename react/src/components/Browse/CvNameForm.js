@@ -80,7 +80,7 @@ class CvNameForm extends React.Component {
           outline
           className="button rename-button"
           id={`rename${this.props.cvID}`}
-          onClick={() => this.setState({ editing: true })}
+          onClick={this.buttonOnClick}
         >
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>

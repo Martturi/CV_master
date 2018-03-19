@@ -68,10 +68,15 @@ the "back,save and export-header" in editor-view*/
 
 /*Export button in browse-view and
 Save and Export buttons in editor-view*/
-.exportgroup {
+.exportbutton {
   float: right;
   font-family: 'JungkaRegular';
   box-shadow: none;
+}
+
+/* Delete popover in Browse view and close popover in Editor view */
+.popover-buttongroup {
+  margin-top: 1vh;
 }
 
 /*Container for the pdf preview*/

@@ -10,8 +10,8 @@
 }
 
 .statusMessage {
-	float: right;
-	padding-right: 1vw;
+  display: inline;
+	padding-left: 1vw;
 	padding-top: 1vh;
 }
 

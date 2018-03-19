@@ -9,7 +9,6 @@ const initialState = {
   sections: [],
   searchFieldContents: '',
   previewHTML: '',
-  language: 'eng',
 }
 
 const getCVIndex = (state, action) => {
@@ -72,12 +71,6 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         searchFieldContents: action.searchFieldContents,
-      }
-
-    case 'UPDATE_LANGUAGE':
-      return {
-        ...state,
-        language: action.language,
       }
 
     default:

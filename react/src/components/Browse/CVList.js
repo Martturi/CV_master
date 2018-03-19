@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading } from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap'
 import { connect } from 'react-redux'
 import CVToolbar from './CVToolbar'
 import CvNameForm from './CvNameForm'
@@ -22,21 +22,27 @@ const getListGroupItem = (props, cvObject, index) => {
         props.cvClickedCascade(userObject, props.cvList, index)
       }}
     >
-      <div className="cvinfo">
+      <div className="cv-name">
         <ListGroupItemHeading>
           <CvNameForm
             cvName={cvName}
             cvID={cvID}
+            languageName={cvObject.language_name}
           />
         </ListGroupItemHeading>
-        <ListGroupItemText className="list-item">
-          {new Date(cvObject.last_updated).toLocaleString()}
-        </ListGroupItemText>
       </div>
-      <CVToolbar
-        cvID={cvID}
-        index={index}
-      />
+      <div>
+        <CVToolbar
+          cvID={cvID}
+          index={index}
+        />
+        <span className="language-flag badge badge-pill badge-info">
+          {cvObject.language_name}
+        </span>
+        <span className="last-modified-datetime">
+          {new Date(cvObject.last_updated).toLocaleString()}
+        </span>
+      </div>
     </ListGroupItem>
   )
 }

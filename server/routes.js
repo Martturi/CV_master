@@ -132,4 +132,8 @@ route.get('/assets/:filename', (request, response) => {
     })
 })
 
+route.get('/api/languages', (request, response) => {
+  handleDBRequest(db.loadLanguages, request, response)
+})
+
 module.exports = route

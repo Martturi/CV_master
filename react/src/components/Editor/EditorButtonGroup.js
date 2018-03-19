@@ -7,6 +7,7 @@ import {
   selectCVIndex,
   loadSections,
   updatePreview,
+  cvClickedCascade,
 } from '../../actions'
 import Api from '../../Api'
 import { downloadPDF } from '../../utils'
@@ -16,19 +17,45 @@ class EditorButtonGroup extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dropdownOpen: false,
+      dropdownOpen: false, // this will be removed later
       saveStatus: '',
+      languageDropdownOpen: false,
+      cvLanguageObjects: [],
     }
+  }
+
+  componentDidMount() {
+    this.loadCVLanguages()
+  }
+
+  loadCVLanguages = async () => {
+    const languages = await Api.loadLanguages()
+    this.setState({ cvLanguageObjects: languages })
   }
 
   toggle = () => {
     this.setState({ dropdownOpen: !this.state.dropdownOpen })
   }
 
-  saveCV = async () => {
+  toggleLanguage = () => {
+    this.setState({ languageDropdownOpen: !this.state.languageDropdownOpen })
+  }
+
+  languageClicked = async (languageID) => {
+    const { saveMessage, newCVList, newSelectedCVIndex } = await this.saveCV(languageID)
+    if (saveMessage === 'Save succeeded.') {
+      this.props.cvClickedCascade(
+        this.props.userObject,
+        newCVList,
+        newSelectedCVIndex,
+      )
+    }
+  }
+
+  saveCV = async (languageID = this.props.cvLanguageID) => {
     const cvID = this.props.cvID
     const username = this.props.userObject.username
-    const saveMessage = await Api.saveCV(cvID, username, this.props.sections)
+    const saveMessage = await Api.saveCV(cvID, username, this.props.sections, languageID)
     this.setState({ saveStatus: saveMessage })
     window.setTimeout(() => {
       this.setState({ saveStatus: '' })
@@ -36,6 +63,7 @@ class EditorButtonGroup extends Component {
     const newCVList = await this.props.updateCVList(username)
     const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
     this.props.selectCVIndex(newSelectedCVIndex)
+    return { saveMessage, newCVList, newSelectedCVIndex }
   }
 
   // The content gets saved automatically when it's downloaded.
@@ -45,7 +73,6 @@ class EditorButtonGroup extends Component {
       this.props.userObject,
       this.props.cvID,
       this.props.sections,
-      this.props.language,
     )
   }
 
@@ -56,11 +83,34 @@ class EditorButtonGroup extends Component {
   }
 
   render() {
+    const languageDropdownItems = this.state.cvLanguageObjects.map((languageObject) => {
+      const languageName = languageObject.language_name
+      const languageID = languageObject.language_id
+      const isCVLanguage = languageID === this.props.cvLanguageID
+      if (isCVLanguage) return false
+      return (
+        <DropdownItem
+          key={languageID}
+          onClick={() => this.languageClicked(languageID)}
+          active={languageID === this.props.cvLanguageID}
+        >
+          {languageName ? languageName[0].toUpperCase() + languageName.slice(1) : ''}
+        </DropdownItem>
+      )
+    })
     return (
       <div className="buttonheader editor-buttonheader">
         <Button outline className="button" onClick={this.goBack}>Back</Button>
+        <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
+          <DropdownToggle caret outline className="button">
+            {this.props.cvLanguageName ? this.props.cvLanguageName[0].toUpperCase() + this.props.cvLanguageName.slice(1) : ''}
+          </DropdownToggle>
+          <DropdownMenu>
+            {languageDropdownItems}
+          </DropdownMenu>
+        </ButtonDropdown>
         <ButtonGroup outline="true" className="exportgroup">
-          <Button outline className="button" onClick={this.saveCV}>Save</Button>
+          <Button outline className="button" onClick={() => this.saveCV()}>Save</Button>
           <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
             <DropdownToggle caret outline className="button">
               Export
@@ -82,11 +132,13 @@ const mapStateToProps = (state) => {
     sections: state.sections,
     userObject: state.userList[state.selectedUserIndex],
     cvID: state.cvList[state.selectedCVIndex].cv_id,
-    language: state.language,
+    cvLanguageName: state.cvList[state.selectedCVIndex].language_name,
+    cvLanguageID: state.cvList[state.selectedCVIndex].language_id,
   }
 }
 
 const mapDispatchToProps = {
+  cvClickedCascade,
   changeView,
   updateCVList,
   selectCVIndex,

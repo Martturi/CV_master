@@ -54,6 +54,21 @@
 	font-size: x-small;
 }
 
+.cv-name {
+  margin-bottom: 1em;
+}
+
+.last-modified-datetime {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.language-flag {
+  margin-left: 0.8em;
+  margin-right: 0.8em;
+  background-color: #616982;
+}
+
 /*Sections where people and their
 CVs are listed*/
 .browse-section {

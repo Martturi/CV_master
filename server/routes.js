@@ -111,17 +111,16 @@ route.delete('/api/cvs/:cvID', (request, response) => {
 route.post('/actions/preview', (request, response) => {
   const params = request.body
   console.log('Loading preview for cv')
-  const previews = pdf.getHTML(params)
-  response.send(previews)
+  pdf.getHTML(params)
+    .then(previews => response.send(previews))
 })
 
 route.get('/assets/:filename', (request, response) => {
   console.log(`getting static file ${request.params.filename}`)
   db.getAsset(request.params)
-    .then((data) => {
-      const file = new Buffer(data.contents, 'base64')
+    .then(({ filetype, file }) => {
       response.writeHead(200, {
-        'Content-Type': data.filetype,
+        'Content-Type': filetype,
         'Content-Length': file.length,
       })
       response.end(file)

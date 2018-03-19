@@ -1,13 +1,12 @@
 const saveCV = async (cvID, username, sections, languageID) => {
-  const response = await
-    fetch(`api/cvs/${cvID}`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, sections, languageID }),
-    })
+  const response = await fetch(`api/cvs/${cvID}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, sections, languageID }),
+  })
   if (response.status !== 200) throw Error(`error ${response}`)
   return 'Save succeeded.'
 }

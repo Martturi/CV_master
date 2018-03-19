@@ -25,8 +25,57 @@ describe('Save and load tests', () => {
     db.clear()
   })
 
+  const initSuccessMessage = 'Initialize succeeded.'
+  const testUser = { username: 'a', full_name: 'Default Tester' }
+  const testLanguages = [ // ids hardcoded on purpose
+    { language_id: 1, language_name: 'en' },
+    { language_id: 2, language_name: 'fi' },
+  ]
+  const testCV = {
+    cv_id: 'DEFAULT',
+    username: testUser.username,
+    cv_name: 'b',
+    language_id: testLanguages[0].language_id,
+    last_updated: '2018-01-01 15:15:16+0',
+  }
+  const testSections = [ // ids hardcoded on purpose
+    {
+      section_id: 1,
+      language_id: 1,
+      title: 'en_title_1',
+      template: 'en_template_1',
+      order: 50,
+    },
+    {
+      section_id: 2,
+      language_id: 1,
+      title: 'en_title_2',
+      template: 'en_template_2',
+      order: 100,
+    },
+    {
+      section_id: 3,
+      language_id: 1,
+      title: 'en_title_3',
+      template: 'en_template_3',
+      order: 0,
+    },
+    {
+      section_id: 4,
+      language_id: 2,
+      title: 'fi_title_1',
+      template: 'fi_template_1',
+      order: 0,
+    },
+  ]
+  const testUsername = testUser.username
+  const testCVName = testCV.cv_name
+
   // Test the returning of current user
   describe('Get current user with no auth', () => {
+    before(() => { // Before each test we initialize the database
+      db.initializeTestDB(testUser, testLanguages, testCV, testSections)
+    })
     it('it should answer with 200', () => {
       return chai.request(server)
         .get('/api/loggedInUser')
@@ -41,52 +90,6 @@ describe('Save and load tests', () => {
   * Test the /GET route
   */
   describe('Get first CV', () => {
-    const initSuccessMessage = 'Initialize succeeded.'
-    const testUser = { username: 'a', full_name: 'Default Tester' }
-    const testLanguages = [ // ids hardcoded on purpose
-      { language_id: 1, language_name: 'en' },
-      { language_id: 2, language_name: 'fi' },
-    ]
-    const testCV = {
-      cv_id: 'DEFAULT',
-      username: testUser.username,
-      cv_name: 'b',
-      language_id: testLanguages[0].language_id,
-      last_updated: '2018-01-01 15:15:16+0',
-    }
-    const testSections = [ // ids hardcoded on purpose
-      {
-        section_id: 1,
-        language_id: 1,
-        title: 'en_title_1',
-        template: 'en_template_1',
-        order: 50,
-      },
-      {
-        section_id: 2,
-        language_id: 1,
-        title: 'en_title_2',
-        template: 'en_template_2',
-        order: 100,
-      },
-      {
-        section_id: 3,
-        language_id: 1,
-        title: 'en_title_3',
-        template: 'en_template_3',
-        order: 0,
-      },
-      {
-        section_id: 4,
-        language_id: 2,
-        title: 'fi_title_1',
-        template: 'fi_template_1',
-        order: 0,
-      },
-    ]
-    const testUsername = testUser.username
-    const testCVName = testCV.cv_name
-
     it('it should load an array containing one specific cv after initializing test db', () => {
       return db.initializeTestDB(testUser, testLanguages, testCV, testSections)
         .then((resText) => {

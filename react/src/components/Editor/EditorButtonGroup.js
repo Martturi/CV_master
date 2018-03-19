@@ -91,6 +91,10 @@ class EditorButtonGroup extends Component {
     }
   }
 
+  closeCancelled = () => {
+    this.setState({ closeSelected: false })
+  }
+
   closeWithoutSaving = async () => {
     this.props.changeView(this.props.lastView)
     const sections = await this.props.loadSections(this.props.cvID)
@@ -120,7 +124,7 @@ class EditorButtonGroup extends Component {
     })
     const ClosePopover = () => {
       return (
-        <Popover placement="bottom" target="closebutton" isOpen={this.state.closeSelected}>
+        <Popover placement="bottom" target="closebutton" isOpen={this.state.closeSelected} toggle={this.closeCancelled}>
           <PopoverBody>
             You have unsaved changes. Save before closing? <br />
             <ButtonGroup className="popover-buttongroup">

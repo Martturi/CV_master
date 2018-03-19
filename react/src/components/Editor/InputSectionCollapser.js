@@ -33,21 +33,6 @@ class InputSectionCollapser extends React.Component {
   }
 
   render() {
-    const TextField = () => {
-      if (this.props.section.showTemplate) {
-        return (<pre id="textfield">
-          {this.props.section.template}
-        </pre>)
-      }
-      return (
-        <Textarea
-          id="textfield"
-          value={this.props.section.text}
-          onChange={this.handleChange}
-        />
-      )
-    }
-
     return (
       <ListGroupItem>
         <div>
@@ -68,7 +53,17 @@ class InputSectionCollapser extends React.Component {
             </div>
             <div>
               <br />
-              <TextField />
+              {
+                this.props.section.showTemplate
+                  ? <pre id="textfield">
+                    {this.props.section.template}
+                  </pre>
+                  : <Textarea
+                    id="textfield"
+                    value={this.props.section.text}
+                    onChange={this.handleChange}
+                  />
+              }
             </div>
           </Collapse>
         </div>

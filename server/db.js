@@ -107,9 +107,22 @@ const clear = () => {
 }
 
 const loadUserList = () => {
-  const query = 'SELECT username, full_name FROM users ORDER BY full_name;'
+  const query = 'SELECT username, full_name FROM users;'
   return client.query(query)
     .then(result => result.rows)
+    .then((rows) => {
+      // Postgres ORDER BY doesn't handle ä's and ö's properly, so let's sort rows manually:
+      rows.sort((a, b) => {
+        if (a.full_name < b.full_name) {
+          return -1
+        }
+        if (a.full_name > b.full_name) {
+          return 1
+        }
+        return 0
+      })
+      return rows
+    })
 }
 
 const loadCVList = ({ username }) => {

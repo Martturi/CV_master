@@ -75,7 +75,7 @@ class EditorButtonGroup extends Component {
   equalSections = (a, b) => {
     if (a.length !== b.length) return false
     for (let i = 0; i < a.length; i += 1) {
-      if (a[i].eng_text !== b[i].eng_text) {
+      if (a[i].text !== b[i].text) {
         return false
       }
     }
@@ -140,7 +140,7 @@ class EditorButtonGroup extends Component {
       <div className="buttonheader editor-buttonheader">
         <ButtonGroup>
           <Button outline className="button" id="closebutton" onClick={this.close}>Close</Button>
-          <Button outline className="button" onClick={this.saveCV}>Save</Button>
+          <Button outline className="button" onClick={() => this.saveCV()}>Save</Button>
         </ButtonGroup>
         <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
           <DropdownToggle caret outline className="button">

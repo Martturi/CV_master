@@ -19,16 +19,17 @@ CREATE TABLE cvs (
 CREATE INDEX username_idx ON cvs (username);
 
 CREATE TABLE cv_sections (
-  section_id SERIAL PRIMARY KEY,
+  section_id INTEGER,
   language_id INTEGER REFERENCES languages(language_id),
   title TEXT,
   template TEXT,
-  section_order INTEGER
+  section_order INTEGER,
+  PRIMARY KEY (section_id, language_id)
 );
 
 CREATE TABLE section_data (
   cv_id INTEGER REFERENCES cvs(cv_id) ON DELETE CASCADE,
-  section_id INTEGER REFERENCES cv_sections(section_id) ON DELETE CASCADE,
+  section_id INTEGER,
   text TEXT,
 	PRIMARY KEY (cv_id, section_id)
 );
@@ -251,7 +252,7 @@ INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', 1, '2018-01-01 15:15:16+0'),
 (DEFAULT, 'defaultUser', 'cv', 2, '2018-01-01 15:15:16+0');
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'INTRODUCTION',
+INSERT INTO cv_sections VALUES (1, 1, 'INTRODUCTION',
 '######Degree
 
 
@@ -264,7 +265,7 @@ This bio is a summary that gives the reader a general understanding of you and y
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'WORK EXPERIENCE',
+INSERT INTO cv_sections VALUES (2, 1, 'WORK EXPERIENCE',
 '####Current company, XX/20XX-
 ######Job title
 
@@ -283,7 +284,7 @@ What was done? What is the big picture? What did you do or be responsible for? S
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'PREVIOUS EMPLOYMENT',
+INSERT INTO cv_sections VALUES (3, 1, 'PREVIOUS EMPLOYMENT',
 '####Company A, XX/20XX-XX/20XX
 ######Job title
 Summary of position, responsibilities, projects etc.
@@ -307,7 +308,7 @@ Projects include:
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'EDUCATION',
+INSERT INTO cv_sections VALUES (4, 1, 'EDUCATION',
 '####Degree, University, 20XX-20XX
 Degree Programme
 
@@ -320,7 +321,7 @@ Master’s thesis: xxx'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'CERTIFICATES',
+INSERT INTO cv_sections VALUES (5, 1, 'CERTIFICATES',
 'Certificate, Month 20XX
 
 Certificate, Month 20XX'
@@ -328,7 +329,7 @@ Certificate, Month 20XX'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'LANGUAGE SKILLS',
+INSERT INTO cv_sections VALUES (6, 1, 'LANGUAGE SKILLS',
 'Language 1 - skill level
 
 Language 2 - skill level'
@@ -336,7 +337,7 @@ Language 2 - skill level'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'AWARDS',
+INSERT INTO cv_sections VALUES (7, 1, 'AWARDS',
 'Award, Month 20XX
 
 Award, Month 20XX'
@@ -344,7 +345,7 @@ Award, Month 20XX'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'PUBLICATIONS',
+INSERT INTO cv_sections VALUES (8, 1, 'PUBLICATIONS',
 'Article: Writer(s), 20XX, Article name, Journal name, Page numbers
 
 Book: Writer(s), 20XX, Book name, Publisher, ISBN
@@ -354,7 +355,7 @@ Patent: Creator(s), 20XX, Patent name, EU patent number, US patent number'
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'CONFERENCES',
+INSERT INTO cv_sections VALUES (9, 1, 'CONFERENCES',
 '20XX Name of the Conference, City, Country, speaker/participant
 
 20XX Name of the Conference, City, Country, speaker/participant'
@@ -362,14 +363,14 @@ INSERT INTO cv_sections VALUES (DEFAULT, 1, 'CONFERENCES',
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'OTHER ACTIVITIES',
+INSERT INTO cv_sections VALUES (10, 1, 'OTHER ACTIVITIES',
 '- GitHub/Bitbucket: www.xxxx.fi
 - Portfolio: www.xxxx.fi',
 900);
 
 
 
-INSERT INTO cv_sections VALUES (DEFAULT, 1, 'ESSENTIAL SKILLS',
+INSERT INTO cv_sections VALUES (11, 1, 'ESSENTIAL SKILLS',
 '- Concrete, higher level skills and areas of knowledge are listed here (cross-check with bio)
 - Long experience in xxx
 
@@ -383,17 +384,17 @@ INSERT INTO cv_sections VALUES (DEFAULT, 1, 'ESSENTIAL SKILLS',
 
 
 INSERT INTO cv_sections VALUES
-  (DEFAULT, 2, 'ESITTELY', '', 0),
-  (DEFAULT, 2, 'TYÖKOKEMUS', '', 100),
-  (DEFAULT, 2, 'AIKAISEMPI TYÖKOKEMUS', '', 200),
-  (DEFAULT, 2, 'KOULUTUS', '', 300),
-  (DEFAULT, 2, 'SERTIFIKAATIT', '', 400),
-  (DEFAULT, 2, 'KIELITAITO', '', 500),
-  (DEFAULT, 2, 'PALKINNOT', '', 600),
-  (DEFAULT, 2, 'JULKAISUT', '', 700),
-  (DEFAULT, 2, 'KONFERENSSIT', '', 800),
-  (DEFAULT, 2, 'HARRASTUNEISUUS', '', 900),
-  (DEFAULT, 2, 'OSAAMINEN', '', 1000);
+  (1, 2, 'ESITTELY', '', 0),
+  (2, 2, 'TYÖKOKEMUS', '', 100),
+  (3, 2, 'AIKAISEMPI TYÖKOKEMUS', '', 200),
+  (4, 2, 'KOULUTUS', '', 300),
+  (5, 2, 'SERTIFIKAATIT', '', 400),
+  (6, 2, 'KIELITAITO', '', 500),
+  (7, 2, 'PALKINNOT', '', 600),
+  (8, 2, 'JULKAISUT', '', 700),
+  (9, 2, 'KONFERENSSIT', '', 800),
+  (10, 2, 'HARRASTUNEISUUS', '', 900),
+  (11, 2, 'OSAAMINEN', '', 1000);
 
 
 

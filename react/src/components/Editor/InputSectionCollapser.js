@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroupItem, Collapse, Button } from 'reactstrap'
+import { ListGroupItem, Collapse, Button, Input, Label } from 'reactstrap'
 import { connect } from 'react-redux'
 import Textarea from 'react-textarea-autosize'
 import {
@@ -21,25 +21,54 @@ class InputSectionCollapser extends React.Component {
     this.props.updatePreview(newSections, this.props.userObject)
   }
 
-  toggle = () => {
+  toggleCollapse = () => {
     this.setState({ collapse: !this.state.collapse })
   }
 
+  toggleTemplate = () => {
+    const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
+    newSections[this.props.index].showTemplate = !this.props.section.showTemplate
+    this.props.updateSections(newSections)
+    this.props.updatePreview(newSections, this.props.userObject)
+  }
+
   render() {
+    const TextField = () => {
+      if (this.props.section.showTemplate) {
+        return (<pre id="textfield">
+          {this.props.section.template}
+        </pre>)
+      }
+      return (
+        <Textarea
+          id="textfield"
+          value={this.props.section.text}
+          onChange={this.handleChange}
+        />
+      )
+    }
+
     return (
       <ListGroupItem>
         <div>
-          <Button outline className="button" size="sm" onClick={this.toggle}>
+          <Button outline className="button" size="sm" onClick={this.toggleCollapse}>
             {this.props.section.title}
           </Button>
           <Collapse isOpen={this.state.collapse}>
+            <div className="template-toggle">
+              <Label>
+                <Input
+                  type="checkbox"
+                  key={this.props.key}
+                  checked={this.props.section.showTemplate}
+                  onChange={this.toggleTemplate}
+                />
+               Show template
+              </Label>
+            </div>
             <div>
               <br />
-              <Textarea
-                id="textfield"
-                value={this.props.section.text}
-                onChange={this.handleChange}
-              />
+              <TextField />
             </div>
           </Collapse>
         </div>

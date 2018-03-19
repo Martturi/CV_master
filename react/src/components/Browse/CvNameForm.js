@@ -58,6 +58,7 @@ class CvNameForm extends React.Component {
     if (this.state.editing) {
       return (
         <input
+          autoFocus //eslint-disable-line
           type="text"
           value={this.state.value}
           onChange={this.handleChange}

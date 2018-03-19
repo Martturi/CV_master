@@ -13,14 +13,12 @@ class App extends Component {
   }
 
   render() {
-    const InnerComponent = () => {
-      if (this.props.view === 'edit') return <Editor uid={this.props.uid} cvid={this.props.cvid} />
-      return <Browse uid={this.props.uid} cvid={this.props.cvid} />
-    }
     return (
       <div>
         <Header />
-        <InnerComponent />
+        {this.props.view === 'edit'
+          ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
+          : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
         <div className="CVpreview">
           <Preview />
         </div>

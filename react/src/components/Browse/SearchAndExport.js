@@ -28,7 +28,7 @@ class SearchAndExport extends Component {
           <Button outline className="button" id="homebutton" onClick={this.goToHome}>
             <i className="fa fa-home" />
           </Button>
-          <InputGroup className="searchfield pl-1">
+          <InputGroup className="searchfield">
             <Input
               placeholder="Search..."
               value={this.props.searchFieldContents}

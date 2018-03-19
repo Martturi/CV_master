@@ -36,11 +36,11 @@ const getListGroupItem = (props, cvObject, index) => {
           cvID={cvID}
           index={index}
         />
-        <span className="last-modified-datetime">
-          {new Date(cvObject.last_updated).toLocaleString()}
-        </span>
         <span className="language-flag badge badge-pill badge-info">
           {cvObject.language_name}
+        </span>
+        <span className="last-modified-datetime">
+          {new Date(cvObject.last_updated).toLocaleString()}
         </span>
       </div>
     </ListGroupItem>

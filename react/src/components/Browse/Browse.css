@@ -59,11 +59,14 @@
 }
 
 .last-modified-datetime {
-  margin-left: 0.8em;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .language-flag {
-  margin-left: 1em;
+  margin-left: 0.8em;
+  margin-right: 0.8em;
+  background-color: #616982;
 }
 
 /*Sections where people and their

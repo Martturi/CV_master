@@ -29,7 +29,7 @@ class InputSectionCollapser extends React.Component {
     const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
     newSections[this.props.index].showTemplate = !this.props.section.showTemplate
     this.props.updateSections(newSections)
-    this.props.updatePreview(newSections, this.props.userObject)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
   render() {

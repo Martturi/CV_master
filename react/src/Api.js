@@ -101,7 +101,7 @@ const fetchPDF = async (username, sections) => {
 }
 
 const loadLanguages = async () => {
-  const response = await fetch('api/languages', { credentials: 'include' })
+  const response = await fetch('/api/languages', { credentials: 'include' })
   const languages = await response.json()
   if (response.status !== 200) throw Error(languages.message)
   return languages

@@ -29,7 +29,7 @@ const getListGroupItem = (props, cvObject, index) => {
             cvID={cvID}
             uid={props.selectedUserID}
             languageName={props.userList.find(user =>
-              user.username === uid).language_name}
+              user.username === props.selectedUserID).language_name}
           />
         </ListGroupItemHeading>
       </div>
@@ -37,6 +37,7 @@ const getListGroupItem = (props, cvObject, index) => {
         <CVToolbar
           cvID={cvID}
           index={index}
+          uid={props.selectedUserID}
         />
         <span className="language-flag badge badge-pill badge-info">
           {cvObject.language_name}

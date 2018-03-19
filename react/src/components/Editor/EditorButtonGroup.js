@@ -41,7 +41,7 @@ class EditorButtonGroup extends Component {
     const { saveMessage, newCVList, newSelectedCVIndex } = await this.saveCV(languageID)
     if (saveMessage === 'Save succeeded.') {
       this.props.cvClickedCascade(
-        this.props.userObject,
+        this.props.username,
         newCVList,
         newSelectedCVIndex,
       )
@@ -50,13 +50,12 @@ class EditorButtonGroup extends Component {
 
   saveCV = async (languageID = this.props.cvLanguageID) => {
     const cvID = this.props.cvID
-    const username = this.props.userObject.username
-    const saveMessage = await Api.saveCV(cvID, username, this.props.sections, languageID)
+    const saveMessage = await Api.saveCV(cvID, this.props.username, this.props.sections, languageID)
     this.setState({ saveStatus: saveMessage })
     window.setTimeout(() => {
       this.setState({ saveStatus: '' })
     }, 3000)
-    const newCVList = await this.props.updateCVList(username)
+    const newCVList = await this.props.updateCVList(this.props.username)
     const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
     this.props.selectCVIndex(newSelectedCVIndex)
     return { saveMessage, newCVList, newSelectedCVIndex }
@@ -66,7 +65,7 @@ class EditorButtonGroup extends Component {
   saveAndExport = async () => {
     await this.saveCV()
     downloadPDF(
-      this.props.userObject,
+      this.props.username,
       this.props.cvID,
       this.props.sections,
     )

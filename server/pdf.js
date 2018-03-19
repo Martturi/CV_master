@@ -50,9 +50,10 @@ const sectionToText = (section) => {
 }
 
 // getHTML requires uid to find the correct picture from CDN. The uid is given to it via servePDF.
-const getHTML = async ({ sections, userObject }) => {
+const getHTML = async ({ sections, username }) => {
   const style = await db.getAsset({ filename: 'pdf.css' }).then(data => data.file)
   const template = await db.getAsset({ filename: 'preview.ejs' }).then(data => data.file)
+  const fullName = await db.loadFullName(username)
   // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
   // let's undo it for better user control:
   const sectionsInMarkdown = sections
@@ -61,13 +62,13 @@ const getHTML = async ({ sections, userObject }) => {
   const html = ejs.render(template, {
     styles: style,
     sectionsInMarkdown,
-    userID: userObject.username,
-    name: userObject.full_name,
+    userID: username,
+    name: fullName,
   })
   return html
 }
 
-const servePDF = async (response, { sections, userObject }) => {
+const servePDF = async (response, { sections, username }) => {
   const header = await db.getAsset({ filename: 'header.html' }).then(data => data.file)
   const footer = await db.getAsset({ filename: 'footer.html' }).then(data => data.file)
   const options = {
@@ -81,7 +82,7 @@ const servePDF = async (response, { sections, userObject }) => {
       contents: footer,
     },
   }
-  getHTML({ sections, userObject }).then((parsedHTML) => {
+  getHTML({ sections, username }).then((parsedHTML) => {
     pdf.create(parsedHTML, options).toStream((err, stream) => {
       response.setHeader('Content-Type', 'application/pdf')
       response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')

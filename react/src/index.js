@@ -16,7 +16,7 @@ class Child extends React.Component {
     const uid = await Api.loadCurrentUser()
     const cvs = await Api.loadCVList(uid)
     const cvid = cvs[0].cv_id
-    this.setState({ uid, cvid })
+    this.setState({ uid, cvid }) // eslint-disable-line
   }
   render() {
     if (this.state.uid === '' || this.state.cvid === '') {

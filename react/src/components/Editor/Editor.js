@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import EditorButtonGroup from './EditorButtonGroup'
 import InputSections from './InputSections'
 import './Editor.css'
-import { loadSections } from '../../actions'
 
 const Editor = () => {
   return (
@@ -24,11 +23,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = {
-  loadSections,
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
 )(Editor)

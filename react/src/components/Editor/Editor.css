@@ -27,3 +27,7 @@ textarea{
 html, body {
   overflow: hidden;
 }
+
+.template-toggle {
+  float: right;
+}

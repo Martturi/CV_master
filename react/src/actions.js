@@ -8,7 +8,11 @@ export const changeView = (view) => {
 }
 
 export const updatePreview = (sections, userObject) => async (dispatch) => {
-  const previewHTML = await Api.loadPreview(sections, userObject)
+  const sectionsWithTemplate = sections.map((section) => {
+    const text = section.showTemplate ? section.template : section.text
+    return { title: section.title, id: section.id, text }
+  })
+  const previewHTML = await Api.loadPreview(sectionsWithTemplate, userObject)
   dispatch({
     type: 'UPDATE_PREVIEW',
     previewHTML,
@@ -17,11 +21,14 @@ export const updatePreview = (sections, userObject) => async (dispatch) => {
 
 export const loadSections = cvID => async (dispatch) => {
   const sections = await Api.loadCV(cvID)
+  const sectionsWithTemplateToggle = sections.map((section) => {
+    return Object.assign({}, section, { showTemplate: false })
+  })
   dispatch({
     type: 'UPDATE_SECTIONS',
-    sections,
+    sections: sectionsWithTemplateToggle,
   })
-  return sections
+  return sectionsWithTemplateToggle
 }
 
 export const updateSections = (sections) => {

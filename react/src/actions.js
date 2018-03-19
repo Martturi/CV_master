@@ -58,7 +58,7 @@ export const updateUserList = () => async (dispatch) => {
 }
 
 export const getCurrentUser = () => async (dispatch) => {
-  const { loggedInUser } = await Api.loadCurrentUser()
+  const loggedInUser = await Api.loadCurrentUser()
   dispatch({
     type: 'GET_CURRENT_USER',
     loggedInUser,
@@ -96,16 +96,10 @@ export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) 
   updatePreview(sections, username)(dispatch)
 }
 
-export const userClickedCascade = (userList, userID) => async (dispatch) => {
+export const userClickedCascade = userID => async (dispatch) => {
   dispatch(selectUser(userID))
-  const username = userList.find(user => user.username === userID).username
+  const username = userID
   const cvList = await updateCVList(username)(dispatch)
   const defaultCVIndex = 0
   cvClickedCascade(username, cvList, defaultCVIndex)(dispatch)
-}
-
-export const userLoggedInCascade = () => async (dispatch) => {
-  const users = await updateUserList()(dispatch)
-  const selectedUserID = await getCurrentUser()(dispatch)
-  userClickedCascade(users, selectedUserID)(dispatch)
 }

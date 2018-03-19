@@ -11,10 +11,10 @@ import { downloadPDF } from '../../utils'
 class SearchAndExport extends Component {
   goToHome = () => {
     const currentUserName = this.props.userList.find(user =>
-      user.username === this.props.uid).username
-    this.props.updateSearchFieldContents(currentUserName)
+      user.username === this.props.loggedInUser)
+    this.props.updateSearchFieldContents(currentUserName.full_name)
     if (this.props.uid !== this.props.loggedInUser) {
-      this.props.userClickedCascade(this.props.userList, this.props.loggedInUser)
+      this.props.userClickedCascade(this.props.loggedInUser)
     }
   }
 

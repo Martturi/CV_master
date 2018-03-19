@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'
-import { updateUserList, userLoggedInCascade, userClickedCascade } from '../actions'
+import { updateUserList, getCurrentUser, userClickedCascade } from '../actions'
 import Preview from './Preview'
 
 class App extends Component {
   async componentDidMount() {
-    const users = await this.props.updateUserList()
-    this.props.userClickedCascade(users, this.props.uid)
+    await this.props.getCurrentUser()
+    await this.props.updateUserList()
+    this.props.userClickedCascade(this.props.uid)
   }
 
   render() {
@@ -29,7 +30,6 @@ class App extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    users: state.userList,
     uid: ownProps.match.params.uid,
     cvid: Number(ownProps.match.params.cvid),
     view: state.view,
@@ -38,7 +38,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   updateUserList,
-  userLoggedInCascade,
+  getCurrentUser,
   userClickedCascade,
 }
 

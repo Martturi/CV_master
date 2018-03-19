@@ -17,8 +17,7 @@ const getListGroupItem = (props, cvObject, index) => {
       action
       active={isActive}
       onClick={() => {
-        const username = props.userList.find(user =>
-          user.username === props.selectedUserID).username
+        const username = props.selectedUserID
         props.cvClickedCascade(username, props.cvList, index)
       }}
     >
@@ -28,8 +27,6 @@ const getListGroupItem = (props, cvObject, index) => {
             cvName={cvName}
             cvID={cvID}
             uid={props.selectedUserID}
-            languageName={props.userList.find(user =>
-              user.username === props.selectedUserID).language_name}
           />
         </ListGroupItemHeading>
       </div>

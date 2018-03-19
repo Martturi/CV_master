@@ -143,8 +143,7 @@ INSERT INTO users VALUES('korkkii', 'Henri Korhonen'),
 ('anttihe', 'Antti Heikkilä'),
 ('jukkale', 'Jukka Lehtinen'),
 ('pekkamak', 'Pekka Mäkinen'),
-('jukkakos', 'Jukka Koskinen'),
-('defaultUser', 'Default User');
+('jukkakos', 'Jukka Koskinen');
 
 INSERT INTO languages VALUES
   (DEFAULT, 'English'),
@@ -249,9 +248,7 @@ INSERT INTO cvs VALUES (DEFAULT, 'timovi', 'cv', 1, '2018-01-01 15:15:16+0'),
 (DEFAULT, 'jukkale', 'cv', 1, '2018-01-01 15:15:16+0'),
 (DEFAULT, 'pekkamak', 'cv', 1, '2018-01-01 15:15:16+0'),
 (DEFAULT, 'jukkakos', 'cv', 1, '2018-01-01 15:15:16+0'),
-(DEFAULT, 'korkkii', 'cv', 1, '2018-01-01 15:15:16+0'),
-(DEFAULT, 'defaultUser', 'cv', 1, '2018-01-01 15:15:16+0'),
-(DEFAULT, 'defaultUser', 'cv', 2, '2018-01-01 15:15:16+0');
+(DEFAULT, 'korkkii', 'cv', 1, '2018-01-01 15:15:16+0');
 
 
 INSERT INTO cv_sections VALUES (1, 1, 'INTRODUCTION',

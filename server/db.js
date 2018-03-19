@@ -198,7 +198,7 @@ const configureUser = ({ username, fullname }) => {
       }
       // user didn't exist beforehand and it was created. creating a cv for the newly created user:
       const defaultLanguageID = 1
-      return createCV({ username, cvName: 'New CV', language_id: defaultLanguageID })
+      return createCV({ username, cvName: 'New CV', languageID: defaultLanguageID })
         .then(() => 'new user and cv were created')
     })
 }

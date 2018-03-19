@@ -163,23 +163,13 @@ header > .confidential{
   font-family: "Jungka-Regular";
 }
 
-footer {
+footer .reaktor_contact {
   margin: 0px auto;
-  padding-left: 90px
-}
-
-ul#footer_list {
   font-family: "Jungka-Light";
-  font-size: 9px;
-  list-style: none;
-  width: 90%;
-  margin: auto;
-  padding-left: 0;
-}
+  font-size: 0.5em;
+  text-align: center;
+  width: 100%;
 
-ul#footer_list li {
-  display: inline;
-  padding-left: 8px;
 }
 
 [href]:link {

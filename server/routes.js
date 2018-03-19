@@ -120,4 +120,10 @@ route.post('/actions/preview', (request, response) => {
   })
 })
 
+if (config.env === 'production') {
+  route.get('/*', (request, response) => {
+    response.sendFile(path.join(__dirname, '../react/build', 'index.html'))
+  })
+}
+
 module.exports = route

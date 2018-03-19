@@ -10,10 +10,11 @@ import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
   goToHome = () => {
-    const currentUserName = this.props.userList[this.props.loggedInUserIndex].full_name
-    this.props.updateSearchFieldContents(currentUserName)
-    if (this.props.selectedUserIndex !== this.props.loggedInUserIndex) {
-      this.props.userClickedCascade(this.props.userList, this.props.loggedInUserIndex)
+    const currentUserName = this.props.userList.find(user =>
+      user.username === this.props.loggedInUser)
+    this.props.updateSearchFieldContents(currentUserName.full_name)
+    if (this.props.uid !== this.props.loggedInUser) {
+      this.props.userClickedCascade(this.props.loggedInUser)
     }
   }
 
@@ -50,8 +51,8 @@ class SearchAndExport extends Component {
           className="button exportbutton"
           onClick={() => {
             downloadPDF(
-              this.props.userList[this.props.selectedUserIndex],
-              this.props.cvList[this.props.selectedCVIndex].cv_id,
+              this.props.username,
+              this.props.cvid,
               this.props.sections,
               this.props.language,
             )
@@ -64,16 +65,16 @@ class SearchAndExport extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
-    selectedUserIndex: state.selectedUserIndex,
-    loggedInUserIndex: state.loggedInUserIndex,
+    loggedInUser: state.loggedInUser,
     userList: state.userList,
     cvList: state.cvList,
-    selectedCVIndex: state.selectedCVIndex,
     sections: state.sections,
     searchFieldContents: state.searchFieldContents,
+    cvid: ownProps.cvid,
+    username: ownProps.uid,
   }
 }
 

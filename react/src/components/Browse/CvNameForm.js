@@ -20,6 +20,11 @@ class CvNameForm extends React.Component {
     event.stopPropagation()
   }
 
+  buttonOnClick = (event) => {
+    event.stopPropagation()
+    this.setState({ editing: true })
+  }
+
   handleChange = (event) => {
     this.setState({ value: event.target.value })
   }
@@ -36,11 +41,10 @@ class CvNameForm extends React.Component {
   saveAndExit = async () => {
     const newCVName = this.state.value === '' ? this.props.cvName : this.state.value
     await Api.renameCV(this.props.cvID, newCVName)
-    const userObject = this.props.userList[this.props.selectedUserIndex]
-    const username = userObject.username
+    const username = this.props.uid
     const cvList = await this.props.updateCVList(username)
     const newIndex = cvList.findIndex(object => object.cv_id === this.props.cvID)
-    this.props.cvClickedCascade(userObject, cvList, newIndex === -1 ? 0 : newIndex)
+    this.props.cvClickedCascade(username, cvList, newIndex === -1 ? 0 : newIndex)
     this.setState({
       editing: false,
       value: newCVName,
@@ -75,7 +79,7 @@ class CvNameForm extends React.Component {
           outline
           className="button rename-button"
           id={`rename${this.props.cvID}`}
-          onClick={() => this.setState({ editing: true })}
+          onClick={this.buttonOnClick}
         >
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>
@@ -88,10 +92,9 @@ class CvNameForm extends React.Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    userList: state.userList,
-    selectedUserIndex: state.selectedUserIndex,
+    cvName: ownProps.cvName,
   }
 }
 

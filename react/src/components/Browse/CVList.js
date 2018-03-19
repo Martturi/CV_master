@@ -10,16 +10,15 @@ import {
 const getListGroupItem = (props, cvObject, index) => {
   const cvName = cvObject.cv_name
   const cvID = cvObject.cv_id
-  const isActive = props.selectedCVIndex === index
+  const isActive = props.cvid === cvID
   return (
     <ListGroupItem
       key={cvID}
-      tag="a"
       action
       active={isActive}
       onClick={() => {
-        const userObject = props.userList[props.selectedUserIndex]
-        props.cvClickedCascade(userObject, props.cvList, index)
+        const username = props.selectedUserID
+        props.cvClickedCascade(username, props.cvList, index)
       }}
     >
       <div className="cv-name">
@@ -27,7 +26,7 @@ const getListGroupItem = (props, cvObject, index) => {
           <CvNameForm
             cvName={cvName}
             cvID={cvID}
-            languageName={cvObject.language_name}
+            uid={props.selectedUserID}
           />
         </ListGroupItemHeading>
       </div>
@@ -35,6 +34,7 @@ const getListGroupItem = (props, cvObject, index) => {
         <CVToolbar
           cvID={cvID}
           index={index}
+          uid={props.selectedUserID}
         />
         <span className="language-flag badge badge-pill badge-info">
           {cvObject.language_name}
@@ -60,12 +60,13 @@ const CVList = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     userList: state.userList,
-    selectedUserIndex: state.selectedUserIndex,
+    selectedUserID: ownProps.uid,
+    cvid: ownProps.cvid,
   }
 }
 

@@ -7,11 +7,10 @@ import {
 
 class NameList extends React.Component {
   render() {
-    const listGroupItems = this.props.userList.map((object, index) => {
+    const listGroupItems = this.props.userList.map((object) => {
       const username = object.username
       const fullName = object.full_name
-      const isActive = this.props.selectedUserIndex === index
-      if (this.props.view === 'myCVs' && index !== this.props.loggedInUserIndex) return undefined
+      const isActive = this.props.uid === username
       const searchingFor = this.props.searchFieldContents
       const searchAsRegExp = new RegExp(searchingFor, 'gi')
       const searchMatchesFromIndex = fullName.search(searchAsRegExp)
@@ -24,7 +23,7 @@ class NameList extends React.Component {
           key={username}
           active={isActive}
           onClick={() => {
-            this.props.userClickedCascade(this.props.userList, index)
+            this.props.userClickedCascade(username)
           }}
         >
           {fullName.substr(0, searchMatchesFromIndex)}
@@ -50,9 +49,8 @@ class NameList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userList: state.userList,
-    selectedUserIndex: state.selectedUserIndex,
     view: state.view,
-    loggedInUserIndex: state.loggedInUserIndex,
+    loggedInUser: state.loggedInUser,
     searchFieldContents: state.searchFieldContents,
   }
 }

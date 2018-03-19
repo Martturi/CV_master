@@ -3,23 +3,23 @@ import { connect } from 'react-redux'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'
-import { userLoggedInCascade } from '../actions'
+import { updateUserList, getCurrentUser, userClickedCascade } from '../actions'
 import Preview from './Preview'
 
 class App extends Component {
-  componentDidMount() {
-    this.props.userLoggedInCascade()
+  async componentDidMount() {
+    await this.props.getCurrentUser()
+    await this.props.updateUserList()
+    this.props.userClickedCascade(this.props.uid)
   }
 
   render() {
-    const InnerComponent = () => {
-      if (this.props.view === 'edit') return <Editor />
-      return <Browse />
-    }
     return (
       <div>
         <Header />
-        <InnerComponent />
+        {this.props.view === 'edit'
+          ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
+          : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
         <div className="CVpreview">
           <Preview />
         </div>
@@ -28,14 +28,18 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    uid: ownProps.match.params.uid,
+    cvid: Number(ownProps.match.params.cvid),
     view: state.view,
   }
 }
 
 const mapDispatchToProps = {
-  userLoggedInCascade,
+  updateUserList,
+  getCurrentUser,
+  userClickedCascade,
 }
 
 export default connect(

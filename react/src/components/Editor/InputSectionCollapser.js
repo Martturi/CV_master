@@ -18,7 +18,7 @@ class InputSectionCollapser extends React.Component {
     const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
     newSections[this.props.index].text = newText
     this.props.updateSections(newSections)
-    this.props.updatePreview(newSections, this.props.userObject)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
   toggleCollapse = () => {
@@ -29,7 +29,7 @@ class InputSectionCollapser extends React.Component {
     const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
     newSections[this.props.index].showTemplate = !this.props.section.showTemplate
     this.props.updateSections(newSections)
-    this.props.updatePreview(newSections, this.props.userObject)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
   render() {
@@ -72,10 +72,10 @@ class InputSectionCollapser extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     sections: state.sections,
-    userObject: state.userList[state.selectedUserIndex],
+    username: ownProps.uid,
   }
 }
 

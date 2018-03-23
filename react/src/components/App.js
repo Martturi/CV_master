@@ -10,7 +10,12 @@ class App extends Component {
   async componentDidMount() {
     await this.props.getCurrentUser()
     await this.props.updateUserList()
-    this.props.userClickedCascade(this.props.uid)
+    if (this.props.userList.map(u => u.username).indexOf(this.props.uid) === -1) {
+      this.props.userClickedCascade(this.props.loggedInUser)
+      alert('404, user not found.') // eslint-disable-line
+    } else {
+      this.props.userClickedCascade(this.props.uid)
+    }
   }
 
   render() {
@@ -33,6 +38,8 @@ const mapStateToProps = (state, ownProps) => {
     uid: ownProps.match.params.uid,
     cvid: Number(ownProps.match.params.cvid),
     view: state.view,
+    userList: state.userList,
+    loggedInUser: state.loggedInUser,
   }
 }
 

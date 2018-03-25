@@ -255,7 +255,19 @@ This bio is a summary that gives the reader a general understanding of you and y
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'TYÖKOKEMUS', 'WORK EXPERIENCE',
 '#**Nykyinen työpaikka, XX/20XX-**
-###Tehtävänimike'
+###Tehtävänimike
+
+
+Tähän voi kirjoittaa jotain yleistä työkokemuksesta tämän hetkisessä työpaikassa.
+
+
+Esimerkkejä projekteista:
+
+
+##**Yritys X, Projektin nimi, XX/20XX-XX/20XX**
+###Tehtävänimike
+Mitä tehtiin? Mihin liittyi/kokonaiskuva? Mitä teit/olit vastuussa? Lopputulokset? Jotain muuta tärkeää?
+> Avainsanat: xxx, xxx, xxx'
 ,
 '#**Current company, XX/20XX-**
 ###Job title
@@ -276,6 +288,29 @@ What was done? What is the big picture? What did you do or be responsible for? S
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'AIKAISEMPI TYÖKOKEMUS', 'PREVIOUS EMPLOYMENT', '',
+'#**Yritys A, XX/20XX-XX/20XX**
+###Tehtävänimike
+Yhteenveto, vastuualueet, projektit jne.
+> Avainsanat: xxx, xxx, xxx
+
+
+Esimerkkejä projekteista:
+
+
+##**Yritys Y, Rooli projektissa, XX/20XX-XX/20XX**
+
+• Kuvaus roolista, projektista, jne.
+
+• Avainsanat: xxx, xxx, xxx
+
+
+##**Yritys Z, Rooli projektissa, XX/20XX-XX/20XX**
+
+• Kuvaus roolista, projektista, jne.
+
+• Avainsanat: xxx, xxx, xxx'
+
+,
 '#**Company A, XX/20XX-XX/20XX**
 ###Job title
 Summary of position, responsibilities, projects etc.
@@ -302,6 +337,15 @@ Projects include:
 
 
 INSERT INTO cv_sections VALUES (DEFAULT, 'KOULUTUS', 'EDUCATION', '',
+'#**Tutkinto, Yliopisto, 20XX-20XX**
+Tutkinto-ohjelma
+
+Pääaine: xxx
+
+Sivuaine: xxx
+
+Diplomityö: xxx'
+,
 '#**Degree, University, 20XX-20XX**
 Degree Programme
 

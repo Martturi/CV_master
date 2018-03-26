@@ -151,14 +151,13 @@ class EditorButtonGroup extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const currentCV = state.cvList.find(cv => cv.cv_id === ownProps.cvid)
   return {
     sections: state.sections,
     username: ownProps.uid,
     cvID: ownProps.cvid,
-    cvLanguageName: state.cvList.find(cv => cv.cv_id === ownProps.cvid) === undefined ? 'English' :
-      state.cvList.find(cv => cv.cv_id === ownProps.cvid).language_name,
-    cvLanguageID: state.cvList.find(cv => cv.cv_id === ownProps.cvid) === undefined ? 0 :
-      state.cvList.find(cv => cv.cv_id === ownProps.cvid).language_id,
+    cvLanguageName: (currentCV && currentCV.language_name) || '',
+    cvLanguageID: (currentCV && currentCV.language_id) || 0,
   }
 }
 

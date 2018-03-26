@@ -83,7 +83,6 @@ export const updateSearchFieldContents = (newContents) => {
 
 export const cvClickedCascade = (username, cvList, cvID) => async (dispatch) => {
   const existingCV = cvList.find(cv => cv.cv_id === cvID) || cvList[0]
-  console.log(existingCV.cv_id)
   const sections = await loadSections(existingCV.cv_id)(dispatch)
   history.push(`/users/${username}/${existingCV.cv_id}`)
   updatePreview(sections, username)(dispatch)

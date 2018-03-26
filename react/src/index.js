@@ -1,40 +1,26 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Redirect, Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import history from './history'
 import './index.css'
 import App from './components/App'
-import Api from './Api'
-import store from './store'
+import Home from './components/Home'
 import NotFound from './components/NotFound'
-
-class Child extends React.Component {
-  state = { uid: '', cvid: '' }
-  async componentDidMount() {
-    const uid = await Api.loadCurrentUser()
-    const cvs = await Api.loadCVList(uid)
-    const cvid = cvs[0].cv_id
-    this.setState({ uid, cvid }) // eslint-disable-line
-  }
-  render() {
-    if (this.state.uid === '' || this.state.cvid === '') {
-      return null
-    }
-    return <Redirect to={`users/${this.state.uid}/${this.state.cvid}`} />
-  }
-}
+import store from './store'
 
 // 404 page not yet working for invalid uid or cvid
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Switch>
+        <Route exact path="/users/:uid" component={Home} />
         <Route exact path="/users/:uid/:cvid" component={App} />
-        <Route exact path="/users/:uid" component={App} />
-        <Route exact path="/" component={Child} />
-        <Route path="*" component={NotFound} />
+        <Route exact path="/users" component={Home} />
+        <Route path="/404/:error/:uid/:cvid" component={NotFound} />
+        <Route exact path="/" component={Home} />
+        <Route path="*" component={App} />
       </Switch>
     </Router>
   </Provider>,

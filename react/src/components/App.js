@@ -5,18 +5,17 @@ import Browse from './Browse/Browse'
 import Header from './Header'
 import { updateUserList, getCurrentUser, userClickedCascade, updateCVList, loadSections, updatePreview } from '../actions'
 import Preview from './Preview'
+import history from '../history'
 
 class App extends Component {
   async componentDidMount() {
-    const loggedInUser = await this.props.getCurrentUser()
+    await this.props.getCurrentUser()
     const userList = await this.props.updateUserList()
     const cvList = await this.props.updateCVList(this.props.uid)
     if (userList.findIndex(u => u.username === this.props.uid) === -1) {
-      this.props.userClickedCascade(loggedInUser)
-      alert('404, user not found.') // eslint-disable-line
-    } else if (cvList.findIndex(cv => cv.cv_id === this.props.cvid) === -1) {
-      this.props.userClickedCascade(this.props.uid)
-      alert('404, CV not found.') // eslint-disable-line
+      history.push(`/404/userNotFound/${this.props.uid}/${this.props.cvid}`)
+    } else if (this.props.cvid && cvList.findIndex(cv => cv.cv_id === this.props.cvid) === -1) {
+      history.push(`/404/cvNotFound/${this.props.uid}/${this.props.cvid}`)
     } else if (this.props.view === '#edit') {
       const sections = await this.props.loadSections(this.props.cvid)
       this.props.updatePreview(sections, this.props.uid)
@@ -42,8 +41,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     uid: ownProps.match.params.uid,
     cvid: Number(ownProps.match.params.cvid),
-    userList: state.userList,
-    loggedInUser: state.loggedInUser,
     view: ownProps.location.hash,
   }
 }

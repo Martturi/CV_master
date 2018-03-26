@@ -31,8 +31,16 @@
 #homebutton {
 	float: left;
 	width: 40.86px;
+	height: 38px;
 	min-width: 40.86px;
 	box-shadow: none;
+	padding: 0.25em;
+	padding-top: 0.4em;
+	padding-right: 0.3em;
+}
+
+.fa.fa-user {
+	font-size: 1.25em;
 }
 
 /*clear-button after searchfield*/

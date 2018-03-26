@@ -5,7 +5,8 @@ import Browse from './Browse/Browse'
 import Header from './Header'
 import NotFound from './NotFound'
 import { updateUserList, getCurrentUser, userClickedCascade, updateCVList, loadSections, updatePreview, update404 } from '../actions'
-import Preview from './Preview'
+import PreviewTabs from './PreviewTabs'
+
 
 class App extends Component {
   async componentDidMount() {
@@ -36,12 +37,13 @@ class App extends Component {
     return (
       <div>
         <Header />
+        <div className="CVpreview">
+          <PreviewTabs />
+        </div>
         {this.props.view === '#edit'
           ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
           : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
-        <div className="CVpreview">
-          <Preview />
-        </div>
+
       </div>
     )
   }

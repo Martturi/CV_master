@@ -1,9 +1,9 @@
 /*Sets the width for searchfield and homebutton*/
 .searchfield-and-button {
-  float:left;
-  display: inline;
-  width: 24.75%;
-  min-width: 180px;
+	float:left;
+	display: inline;
+	width: 50%;
+	min-width: 180px;
 }
 
 /*Searchfield and clear-button in browse-view*/
@@ -83,20 +83,25 @@
 /*Sections where people and their
 CVs are listed*/
 .browse-section {
-  float: left;
-  display: inline;
-  width: 25%;
-  min-width: 180px;
-  padding-left: 0.5vw;
-  font-family: 'JungkaRegular';
-  overflow: auto;
-  height: 80vh;
+	float: left;
+	display: inline;
+	width: 25%;
+	min-width: 180px;
+	padding-left: 0.5vw;
+	font-family: 'JungkaRegular';
+	overflow: auto;
+	height: 82vh;
+}
+
+.list-group {
+  width:24.5%;
 }
 
 /*People and their CVs in the lists*/
 .list-group-item {
   padding-left: 1vw;
   color: #242730;
+  width:99%;
 }
 
 /*People and their CVs in the lists, when active*/

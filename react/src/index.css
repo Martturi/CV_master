@@ -52,25 +52,18 @@ away for search-icon button or myCVs-button.*/
 .dropdown-menu {
   border: 0.1vh solid #6c757d;
 }
-/*Affects the "search-header" in browse-view and
-the "back,save and export-header" in editor-view*/
+/*Affects the "search-header" in browse-view,
+the "back,save and export-header" in editor-view
+and the "exportbutton" holder in editor view*/
 .buttonheader {
-  float: right;
-  padding-top: 2.5vh;
+  float: left;
+  padding-top: 15px;
   padding-right: 0.5vw;
   padding-left: 0.5vw;
-  padding-bottom: 2.5vh;
-  width: 100%;
+  padding-bottom: 15px;
+  width: 50%;
   font-family: 'JungkaRegular';
-  height: 10vh;
-  box-shadow: none;
-}
-
-/*Export button in browse-view and
-Save and Export buttons in editor-view*/
-.exportbutton {
-  float: right;
-  font-family: 'JungkaRegular';
+  height: 65px;
   box-shadow: none;
 }
 
@@ -83,16 +76,44 @@ Save and Export buttons in editor-view*/
 .CVpreview {
   float: right;
   width: 50%;
-  height: 80vh;
-  max-height: auto;
+  height: 92vh;
   overflow: auto;
 }
 
-/*PDF preview of the CV*/
+/*live preview of the CV*/
 .preview {
-    width: 583px;
-    border: 1px solid black;
-    margin: auto;
-    margin-bottom: 200px;
-    padding-bottom: 40px;
+  position: relative;
+  top: 65px;
+  width: 583px;
+  border: 1px solid black;
+  margin: auto;
+  margin-bottom: 200px;
+  padding-bottom: 40px;
+}
+
+#PDFpreview {
+  float: right;
+  width: 100%;
+  height: 80vh;
+}
+
+.nav {
+  float: right;
+  height: 65px;
+  width: 100%;
+}
+
+.nav-item {
+  padding-top: 25px;
+  font-size: 14px;
+}
+
+.nav > .buttonheader {
+  width: auto;
+}
+
+/*Download as PDF button*/
+.exportbutton {
+  position: absolute;
+  right: 5px;
 }

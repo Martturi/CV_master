@@ -55,23 +55,24 @@ away for search-icon button or myCVs-button.*/
 /*Affects the "search-header" in browse-view and
 the "back,save and export-header" in editor-view*/
 .buttonheader {
-  float: right;
-  padding-top: 2.5vh;
+  float: left;
+  padding-top: 15px;
   padding-right: 0.5vw;
   padding-left: 0.5vw;
-  padding-bottom: 2.5vh;
-  width: 100%;
+  padding-bottom: 15px;
+  width: 50%;
   font-family: 'JungkaRegular';
-  height: 10vh;
+  height: 70px;
   box-shadow: none;
 }
 
-/*Export button in browse-view and
-Save and Export buttons in editor-view*/
+/*Download as PDF button
+FIXME with search button group*/
 .exportbutton {
-  float: right;
+  right: 5px;
   font-family: 'JungkaRegular';
   box-shadow: none;
+  top: 2.5vh;
 }
 
 /* Delete popover in Browse view and close popover in Editor view */
@@ -83,20 +84,29 @@ Save and Export buttons in editor-view*/
 .CVpreview {
   float: right;
   width: 50%;
-  height: 80vh;
+  height: 92vh;
   overflow: auto;
 }
 
-/*PDF preview of the CV*/
+/*live preview of the CV*/
 .preview {
-    width: 583px;
-    border: 1px solid black;
-    margin: auto;
-    margin-bottom: 200px;
-    padding-bottom: 40px;
+  position: relative;
+  top: 71px;
+  width: 583px;
+  border: 1px solid black;
+  margin: auto;
+  margin-bottom: 200px;
+  padding-bottom: 40px;
 }
 
 #PDFpreview {
+  float: right;
   width: 100%;
-  height: 400px;
+  height: 80vh;
+}
+
+.nav {
+  /*FIXME with the search button group*/
+  float: right;
+  padding-top: 4vh;
 }

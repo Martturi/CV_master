@@ -4,7 +4,7 @@ import { TabContent, Button, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import classnames from 'classnames'
 import Preview from './Preview'
 import PDFpreview from './PDFpreview'
-import { displayPDF } from '../utils'
+import { displayPDF, downloadPDF } from '../utils'
 
 
 class PreviewTabs extends Component {
@@ -39,19 +39,32 @@ class PreviewTabs extends Component {
           <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === '2' })}
-              onClick={() => { this.toggle('2') }}
+              onClick={() => {
+                this.toggle('2')
+                displayPDF(
+                  this.props.username,
+                  this.props.selectedCV,
+                  this.props.sections,
+                )
+              }}
             >
               PDF Preview
             </NavLink>
           </NavItem>
-          <Button onClick={() => {
-            displayPDF(
-              this.props.username,
-              this.props.cvid,
-              this.props.sections,
-            )
-          }}
-          >click me</Button>
+          <Button
+            outline
+            className="button exportbutton"
+            onClick={() => {
+              console.log(this.props.cvid)
+              downloadPDF(
+                this.props.username,
+                this.props.selectedCV,
+                this.props.sections,
+              )
+            }}
+          >
+            Download as PDF
+          </Button>
         </Nav>
 
         <TabContent activeTab={this.state.activeTab}>
@@ -70,7 +83,7 @@ class PreviewTabs extends Component {
 const mapStateToProps = (state) => {
   return {
     username: state.selectedUser,
-    cvid: state.cvList[state.selectedCVIndex],
+    selectedCV: state.cvList[state.selectedCVIndex],
     sections: state.sections,
   }
 }

@@ -37,12 +37,13 @@ class App extends Component {
     return (
       <div>
         <Header />
-        {this.props.view === '#edit'
-          ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
-          : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
         <div className="CVpreview">
           <PreviewTabs />
         </div>
+        {this.props.view === '#edit'
+          ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
+          : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
+
       </div>
     )
   }

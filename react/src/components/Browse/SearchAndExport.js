@@ -53,7 +53,6 @@ class SearchAndExport extends Component {
               this.props.username,
               this.props.cvid,
               this.props.sections,
-              this.props.language,
             )
           }}
         >

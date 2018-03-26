@@ -12,11 +12,10 @@ async function downloadPDF(username, cvID, sections) {
   document.body.removeChild(a)
 }
 
-async function displayPDF(userObject, cvID, sections, language) {
-  const res = await Api.fetchPDF(userObject, sections, language)
+async function displayPDF(username, cvID, sections) {
+  const res = await Api.fetchPDF(username, sections)
   const blob = await res.blob()
-  const username = userObject.username
-  const file = new File([blob], `${username}_${cvID}_${language}.pdf`, { type: 'application/pdf' })
+  const file = new File([blob], `${username}_${cvID}.pdf`, { type: 'application/pdf' })
   document.getElementById('PDFpreview').src = URL.createObjectURL(file)
 }
 

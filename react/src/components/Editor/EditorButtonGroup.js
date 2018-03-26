@@ -43,7 +43,7 @@ class EditorButtonGroup extends Component {
     }
   }
 
-  saveCV = async (languageID = this.props.currentCV.language_id) => {
+  saveCV = async (languageID = this.props.cvLanguageID) => {
     const cvID = this.props.cvID
     const saveMessage = await Api.saveCV(cvID, this.props.username, this.props.sections, languageID)
     this.setState({ saveStatus: saveMessage })
@@ -102,13 +102,13 @@ class EditorButtonGroup extends Component {
     const languageDropdownItems = this.state.cvLanguageObjects.map((languageObject) => {
       const languageName = languageObject.language_name
       const languageID = languageObject.language_id
-      const isCVLanguage = languageID === this.props.currentCV.language_id
+      const isCVLanguage = languageID === this.props.cvLanguageID
       if (isCVLanguage) return false
       return (
         <DropdownItem
           key={languageID}
           onClick={() => this.languageClicked(languageID)}
-          active={languageID === this.props.currentCV.language_id}
+          active={languageID === this.props.cvLanguageID}
         >
           {languageName ? languageName[0].toUpperCase() + languageName.slice(1) : ''}
         </DropdownItem>
@@ -136,7 +136,7 @@ class EditorButtonGroup extends Component {
         </ButtonGroup>
         <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
           <DropdownToggle caret outline className="button">
-            {this.props.currentCV.language_name ? this.props.currentCV.language_name[0].toUpperCase() + this.props.currentCV.language_name.slice(1) : ''}
+            {this.props.cvLanguageName ? this.props.cvLanguageName[0].toUpperCase() + this.props.cvLanguageName.slice(1) : ''}
           </DropdownToggle>
           <DropdownMenu>
             {languageDropdownItems}
@@ -156,7 +156,10 @@ const mapStateToProps = (state, ownProps) => {
     sections: state.sections,
     username: ownProps.uid,
     cvID: ownProps.cvid,
-    currentCV: state.cvList.find(cv => cv.cv_id === ownProps.cvid),
+    cvLanguageName: state.cvList.length === 0 ? 'English' :
+      state.cvList.find(cv => cv.cv_id === ownProps.cvid).language_name,
+    cvLanguageID: state.cvList.length === 0 ? 0 :
+      state.cvList.find(cv => cv.cv_id === ownProps.cvid).language_id,
   }
 }
 

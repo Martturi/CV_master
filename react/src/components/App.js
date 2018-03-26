@@ -40,6 +40,7 @@ class App extends Component {
           ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
           : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
         <div className="CVpreview">
+          <div>selectors here</div>
           <Preview />
         </div>
       </div>

@@ -11,6 +11,10 @@ async function downloadPDF(username, cvID, sections) {
   a.click()
   document.body.removeChild(a)
 }
+/*
+async function displayPDF(userObject, cvID, sections, language) {
+  const res = await Api.fetchPDF(userObject, sections, language)
+*/
 
 // eslint-disable-next-line import/prefer-default-export
 export { downloadPDF }

@@ -32,6 +32,7 @@ ReactDOM.render(
     <Router history={history}>
       <Switch>
         <Route exact path="/users/:uid/:cvid" component={App} />
+        <Route exact path="/users/:uid" component={App} />
         <Route exact path="/" component={Child} />
         <Route path="*" component={NotFound} />
       </Switch>

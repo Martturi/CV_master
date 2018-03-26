@@ -4,10 +4,8 @@ import { Button, ButtonGroup, ButtonDropdown, DropdownItem, DropdownMenu, Dropdo
 import {
   changeView,
   updateCVList,
-  selectCVIndex,
   loadSections,
   updatePreview,
-  cvClickedCascade,
 } from '../../actions'
 import Api from '../../Api'
 import { downloadPDF } from '../../utils'
@@ -38,27 +36,22 @@ class EditorButtonGroup extends Component {
   }
 
   languageClicked = async (languageID) => {
-    const { saveMessage, newCVList, newSelectedCVIndex } = await this.saveCV(languageID)
+    const { saveMessage } = await this.saveCV(languageID)
     if (saveMessage === 'Save succeeded.') {
-      this.props.cvClickedCascade(
-        this.props.username,
-        newCVList,
-        newSelectedCVIndex,
-      )
+      const sections = await this.props.loadSections(this.props.cvID)
+      this.props.updatePreview(sections, this.props.username)
     }
   }
 
-  saveCV = async (languageID = this.props.cvLanguageID) => {
+  saveCV = async (languageID = this.props.currentCV.language_id) => {
     const cvID = this.props.cvID
     const saveMessage = await Api.saveCV(cvID, this.props.username, this.props.sections, languageID)
     this.setState({ saveStatus: saveMessage })
     window.setTimeout(() => {
       this.setState({ saveStatus: '' })
     }, 3000)
-    const newCVList = await this.props.updateCVList(this.props.username)
-    const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
-    this.props.selectCVIndex(newSelectedCVIndex)
-    return { saveMessage, newCVList, newSelectedCVIndex }
+    await this.props.updateCVList(this.props.username)
+    return { saveMessage }
   }
 
   // The content gets saved automatically when it's downloaded.
@@ -109,13 +102,13 @@ class EditorButtonGroup extends Component {
     const languageDropdownItems = this.state.cvLanguageObjects.map((languageObject) => {
       const languageName = languageObject.language_name
       const languageID = languageObject.language_id
-      const isCVLanguage = languageID === this.props.cvLanguageID
+      const isCVLanguage = languageID === this.props.currentCV.language_id
       if (isCVLanguage) return false
       return (
         <DropdownItem
           key={languageID}
           onClick={() => this.languageClicked(languageID)}
-          active={languageID === this.props.cvLanguageID}
+          active={languageID === this.props.currentCV.language_id}
         >
           {languageName ? languageName[0].toUpperCase() + languageName.slice(1) : ''}
         </DropdownItem>
@@ -143,7 +136,7 @@ class EditorButtonGroup extends Component {
         </ButtonGroup>
         <ButtonDropdown className="language-dropdown" isOpen={this.state.languageDropdownOpen} toggle={this.toggleLanguage}>
           <DropdownToggle caret outline className="button">
-            {this.props.cvLanguageName ? this.props.cvLanguageName[0].toUpperCase() + this.props.cvLanguageName.slice(1) : ''}
+            {this.props.currentCV.language_name ? this.props.currentCV.language_name[0].toUpperCase() + this.props.currentCV.language_name.slice(1) : ''}
           </DropdownToggle>
           <DropdownMenu>
             {languageDropdownItems}
@@ -163,16 +156,13 @@ const mapStateToProps = (state, ownProps) => {
     sections: state.sections,
     username: ownProps.uid,
     cvID: ownProps.cvid,
-    cvLanguageName: state.cvList[state.selectedCVIndex].language_name,
-    cvLanguageID: state.cvList[state.selectedCVIndex].language_id,
+    currentCV: state.cvList.find(cv => cv.cv_id === ownProps.cvid),
   }
 }
 
 const mapDispatchToProps = {
-  cvClickedCascade,
   changeView,
   updateCVList,
-  selectCVIndex,
   loadSections,
   updatePreview,
 }

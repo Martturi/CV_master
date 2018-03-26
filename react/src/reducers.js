@@ -4,19 +4,10 @@ const initialState = {
   userList: [],
   selectedUserID: '',
   cvList: [],
-  selectedCVIndex: 0,
   loggedInUser: '',
   sections: [],
   searchFieldContents: '',
   previewHTML: '',
-}
-
-const getCVIndex = (state, action) => {
-  const indexOutOfBounds = state.selectedCVIndex >= action.cvList.length
-  const newSelectedCVIndex = (
-    indexOutOfBounds ? (action.cvList.length - 1) : state.selectedCVIndex
-  )
-  return newSelectedCVIndex
 }
 
 const CVreducer = (state = initialState, action) => {
@@ -45,7 +36,6 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         cvList: action.cvList,
-        selectedCVIndex: getCVIndex(state, action),
       }
 
     case 'UPDATE_SECTIONS':
@@ -64,12 +54,6 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         selectedUser: action.userID,
-      }
-
-    case 'SELECT_CV_INDEX':
-      return {
-        ...state,
-        selectedCVIndex: action.cvIndex,
       }
 
     case 'UPDATE_SEARCH_FIELD_CONTENTS':

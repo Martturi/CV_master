@@ -10,12 +10,10 @@ class App extends Component {
   async componentDidMount() {
     await this.props.getCurrentUser()
     await this.props.updateUserList()
-    if (this.props.userList.map(u => u.username).indexOf(this.props.uid) === -1) {
+    if (this.props.userList.findIndex(u => u.username === this.props.uid) === -1) {
       this.props.userClickedCascade(this.props.loggedInUser)
       alert('404, user not found.') // eslint-disable-line
-    } else {
-      this.props.userClickedCascade(this.props.uid)
-    }
+    } else { this.props.userClickedCascade(this.props.uid, this.props.cvid) }
   }
 
   render() {

@@ -88,18 +88,16 @@ export const updateSearchFieldContents = (newContents) => {
   }
 }
 
-export const cvClickedCascade = (username, cvList, cvIndex) => async (dispatch) => {
-  dispatch(selectCVIndex(cvIndex))
-  const cvID = cvList[cvIndex].cv_id
-  const sections = await loadSections(cvID)(dispatch)
-  history.push(`/users/${username}/${cvID}`)
+export const cvClickedCascade = (username, cvList, cvID) => async (dispatch) => {
+  const existingCV = cvList.find(cv => cv.cv_id === cvID) || cvList[0]
+  const sections = await loadSections(existingCV.cv_id)(dispatch)
+  history.push(`/users/${username}/${existingCV.cv_id}`)
   updatePreview(sections, username)(dispatch)
 }
 
-export const userClickedCascade = userID => async (dispatch) => {
+export const userClickedCascade = (userID, cvID) => async (dispatch) => {
   dispatch(selectUser(userID))
   const username = userID
   const cvList = await updateCVList(username)(dispatch)
-  const defaultCVIndex = 0
-  cvClickedCascade(username, cvList, defaultCVIndex)(dispatch)
+  cvClickedCascade(username, cvList, cvID || cvList[0].cv_id)(dispatch)
 }

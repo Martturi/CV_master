@@ -1,13 +1,6 @@
 import Api from './Api'
 import history from './history'
 
-/*export const changeView = (view) => {
-  return {
-    type: 'CHANGE_VIEW',
-    view,
-  }
-}*/
-
 export const updatePreview = (sections, username) => async (dispatch) => {
   const sectionsWithTemplate = sections.map((section) => {
     const text = section.showTemplate ? section.template : section.text
@@ -90,6 +83,7 @@ export const updateSearchFieldContents = (newContents) => {
 
 export const cvClickedCascade = (username, cvList, cvID) => async (dispatch) => {
   const existingCV = cvList.find(cv => cv.cv_id === cvID) || cvList[0]
+  console.log(existingCV.cv_id)
   const sections = await loadSections(existingCV.cv_id)(dispatch)
   history.push(`/users/${username}/${existingCV.cv_id}`)
   updatePreview(sections, username)(dispatch)

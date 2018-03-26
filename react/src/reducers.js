@@ -1,6 +1,4 @@
 const initialState = {
-  view: 'browse',
-  lastView: 'browse',
   userList: [],
   selectedUserID: '',
   cvList: [],
@@ -12,13 +10,6 @@ const initialState = {
 
 const CVreducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'CHANGE_VIEW':
-      return {
-        ...state,
-        lastView: state.view,
-        view: action.view,
-      }
-
     case 'UPDATE_USER_LIST':
       return {
         ...state,

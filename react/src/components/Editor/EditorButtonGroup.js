@@ -152,13 +152,12 @@ class EditorButtonGroup extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    lastView: state.lastView,
     sections: state.sections,
     username: ownProps.uid,
     cvID: ownProps.cvid,
-    cvLanguageName: state.cvList.length === 0 ? 'English' :
+    cvLanguageName: state.cvList.find(cv => cv.cv_id === ownProps.cvid) === undefined ? 'English' :
       state.cvList.find(cv => cv.cv_id === ownProps.cvid).language_name,
-    cvLanguageID: state.cvList.length === 0 ? 0 :
+    cvLanguageID: state.cvList.find(cv => cv.cv_id === ownProps.cvid) === undefined ? 0 :
       state.cvList.find(cv => cv.cv_id === ownProps.cvid).language_id,
   }
 }

@@ -11,10 +11,14 @@ async function downloadPDF(username, cvID, sections) {
   a.click()
   document.body.removeChild(a)
 }
-/*
+
 async function displayPDF(userObject, cvID, sections, language) {
   const res = await Api.fetchPDF(userObject, sections, language)
-*/
+  const blob = await res.blob()
+  const username = userObject.username
+  const file = new File([blob], `${username}_${cvID}_${language}.pdf`, { type: 'application/pdf' })
+  document.getElementById('PDFpreview').src = URL.createObjectURL(file)
+}
 
 // eslint-disable-next-line import/prefer-default-export
-export { downloadPDF }
+export { downloadPDF, displayPDF }

@@ -384,15 +384,17 @@ INSERT INTO cv_sections VALUES (11, 1, 'ESSENTIAL SKILLS',
 
 INSERT INTO cv_sections VALUES
 (1, 2, 'ESITTELY',
-'###Tutkinto
+'######Tutkinto
 
 
-######Tehtävänimike
-Tarkoituksena on, että lukija saa jo pelkästään bion lukemalla hyvän käsityksen huippiksesta ja hänen osaamisestaan (kaikki eivät edes lue pidemmälle). Tähän voi kirjoittaa esimerkiksi seuraavista aiheista: toimialat, joista erityistä kokemusta, sertifikaatit, käyttöjärjestelmät/kielet/työkalut/ ym., joista erityistä kokemusta.'
+##Tehtävänimike
+```
+Tarkoituksena on, että lukija saa jo pelkästään bion lukemalla hyvän käsityksen huippiksesta ja hänen osaamisestaan (kaikki eivät edes lue pidemmälle). Tähän voi kirjoittaa esimerkiksi seuraavista aiheista: toimialat, joista erityistä kokemusta, sertifikaatit, käyttöjärjestelmät/kielet/työkalut/ ym., joista erityistä kokemusta.
+```'
 , 0),
 (2, 2, 'TYÖKOKEMUS',
-'#**Nykyinen työpaikka, XX/20XX-**
-###Tehtävänimike
+'####Nykyinen työpaikka, XX/20XX-
+######Tehtävänimike
 
 
 Tähän voi kirjoittaa jotain yleistä työkokemuksesta tämän hetkisessä työpaikassa.
@@ -401,14 +403,14 @@ Tähän voi kirjoittaa jotain yleistä työkokemuksesta tämän hetkisessä työ
 Esimerkkejä projekteista:
 
 
-##**Yritys X, Projektin nimi, XX/20XX-XX/20XX**
-###Tehtävänimike
+#####Yritys X, Projektin nimi, XX/20XX-XX/20XX
+######Tehtävänimike
 Mitä tehtiin? Mihin liittyi/kokonaiskuva? Mitä teit/olit vastuussa? Lopputulokset? Jotain muuta tärkeää?
 > Avainsanat: xxx, xxx, xxx'
 , 100),
 (3, 2, 'AIKAISEMPI TYÖKOKEMUS',
-'#**Yritys A, XX/20XX-XX/20XX**
-###Tehtävänimike
+'####Yritys A, XX/20XX-XX/20XX
+######Tehtävänimike
 Yhteenveto, vastuualueet, projektit jne.
 > Avainsanat: xxx, xxx, xxx
 
@@ -416,21 +418,21 @@ Yhteenveto, vastuualueet, projektit jne.
 Esimerkkejä projekteista:
 
 
-##**Yritys Y, Rooli projektissa, XX/20XX-XX/20XX**
+#####Yritys Y, Rooli projektissa, XX/20XX-XX/20XX
 
 • Kuvaus roolista, projektista, jne.
 
 • Avainsanat: xxx, xxx, xxx
 
 
-##**Yritys Z, Rooli projektissa, XX/20XX-XX/20XX**
+#####Yritys Z, Rooli projektissa, XX/20XX-XX/20XX
 
 • Kuvaus roolista, projektista, jne.
 
 • Avainsanat: xxx, xxx, xxx'
 , 200),
 (4, 2, 'KOULUTUS',
-'#**Tutkinto, Yliopisto, 20XX-20XX**
+'####Tutkinto, Yliopisto, 20XX-20XX
 Tutkinto-ohjelma
 
 Pääaine: xxx

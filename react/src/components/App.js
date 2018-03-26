@@ -6,6 +6,8 @@ import Header from './Header'
 import NotFound from './NotFound'
 import { updateUserList, getCurrentUser, userClickedCascade, updateCVList, loadSections, updatePreview, update404 } from '../actions'
 import Preview from './Preview'
+import PDFpreview from './PDFpreview'
+import { displayPDF } from '../utils'
 
 class App extends Component {
   async componentDidMount() {
@@ -40,7 +42,13 @@ class App extends Component {
           ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
           : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
         <div className="CVpreview">
-          <div>selectors here</div>
+          <div>
+            <button onClick={
+              displayPDF(this.props.username, this.props.cvid, this.props.sections)
+            }
+            >click me</button>
+          </div>
+          <PDFpreview />
           <Preview />
         </div>
       </div>

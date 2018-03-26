@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Input, InputGroupAddon, InputGroup } from 'reactstrap'
 import {
-  changeView,
   userClickedCascade,
   updateSearchFieldContents,
 } from '../../actions'
@@ -79,7 +78,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = {
-  changeView,
   userClickedCascade,
   updateSearchFieldContents,
 }

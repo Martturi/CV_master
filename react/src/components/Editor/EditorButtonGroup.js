@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, ButtonGroup, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Popover, PopoverBody } from 'reactstrap'
 import {
-  changeView,
   updateCVList,
   loadSections,
   updatePreview,
 } from '../../actions'
 import Api from '../../Api'
 import { downloadPDF } from '../../utils'
+import history from '../../history'
 
 
 class EditorButtonGroup extends Component {
@@ -88,7 +88,7 @@ class EditorButtonGroup extends Component {
   }
 
   closeWithoutSaving = async () => {
-    this.props.changeView(this.props.lastView)
+    history.push(`/users/${this.props.username}/${this.props.cvID}`)
     const sections = await this.props.loadSections(this.props.cvID)
     this.props.updatePreview(sections, this.props.username)
   }
@@ -161,7 +161,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = {
-  changeView,
   updateCVList,
   loadSections,
   updatePreview,

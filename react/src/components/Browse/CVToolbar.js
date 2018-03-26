@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Popover, PopoverBody, ButtonGroup, UncontrolledTooltip } from 'reactstrap'
 import {
-  changeView,
   updateCVList,
   cvClickedCascade,
 } from '../../actions'
 import Api from '../../Api'
+import history from '../../history'
 
 class CVToolbar extends Component {
   state = {
@@ -38,6 +38,11 @@ class CVToolbar extends Component {
 
   deleteCancelled = () => {
     this.setState({ deleteSelected: false })
+  }
+
+  editClicked = (event) => {
+    event.stopPropagation()
+    history.push(`/users/${this.props.uid}/${this.props.cvID}#edit`)
   }
 
   render() {
@@ -73,7 +78,7 @@ class CVToolbar extends Component {
 
     return (
       <ButtonGroup>
-        <Button outline id={`edit${this.props.cvID}`} className="button" onClick={() => this.props.changeView('edit')}>
+        <Button outline id={`edit${this.props.cvID}`} className="button" onClick={this.editClicked}>
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>
         <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target={`edit${this.props.cvID}`}>
@@ -107,7 +112,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = {
-  changeView,
   updateCVList,
   cvClickedCascade,
 }

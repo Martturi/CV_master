@@ -1,12 +1,12 @@
 import Api from './Api'
 import history from './history'
 
-export const changeView = (view) => {
+/*export const changeView = (view) => {
   return {
     type: 'CHANGE_VIEW',
     view,
   }
-}
+}*/
 
 export const updatePreview = (sections, username) => async (dispatch) => {
   const sectionsWithTemplate = sections.map((section) => {

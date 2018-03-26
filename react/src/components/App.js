@@ -20,7 +20,7 @@ class App extends Component {
     return (
       <div>
         <Header />
-        {this.props.view === 'edit'
+        {this.props.view === '#edit'
           ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
           : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
         <div className="CVpreview">
@@ -35,9 +35,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     uid: ownProps.match.params.uid,
     cvid: Number(ownProps.match.params.cvid),
-    view: state.view,
     userList: state.userList,
     loggedInUser: state.loggedInUser,
+    view: ownProps.location.hash,
   }
 }
 

@@ -10,18 +10,16 @@ class App extends Component {
   async componentDidMount() {
     const loggedInUser = await this.props.getCurrentUser()
     const userList = await this.props.updateUserList()
+    const cvList = await this.props.updateCVList(this.props.uid)
     if (userList.findIndex(u => u.username === this.props.uid) === -1) {
       this.props.userClickedCascade(loggedInUser)
       alert('404, user not found.') // eslint-disable-line
+    } else if (cvList.findIndex(cv => cv.cv_id === this.props.cvid) === -1) {
+      this.props.userClickedCascade(this.props.uid)
+      alert('404, CV not found.') // eslint-disable-line
     } else if (this.props.view === '#edit') {
-      const cvList = await this.props.updateCVList(this.props.uid)
-      if (cvList.findIndex(cv => cv.cv_id === this.props.cvid) === -1) {
-        this.props.userClickedCascade(this.props.uid)
-        alert('404, CV not found.') // eslint-disable-line
-      } else {
-        const sections = await this.props.loadSections(this.props.cvid)
-        this.props.updatePreview(sections, this.props.uid)
-      }
+      const sections = await this.props.loadSections(this.props.cvid)
+      this.props.updatePreview(sections, this.props.uid)
     } else { this.props.userClickedCascade(this.props.uid, this.props.cvid) }
   }
 

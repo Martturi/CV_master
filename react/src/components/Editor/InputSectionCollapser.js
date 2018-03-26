@@ -1,6 +1,7 @@
 import React from 'react'
-import { ListGroupItem, Collapse, Button, Input } from 'reactstrap'
+import { ListGroupItem, Collapse, Button, Input, Label } from 'reactstrap'
 import { connect } from 'react-redux'
+import Textarea from 'react-textarea-autosize'
 import {
   updateSections,
   updatePreview,
@@ -15,38 +16,54 @@ class InputSectionCollapser extends React.Component {
   handleChange = (event) => {
     const newText = event.target.value
     const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
-    console.log(newSections[this.props.index][`${this.props.language}_text`])
-    newSections[this.props.index][`${this.props.language}_text`] = newText
+    newSections[this.props.index].text = newText
     this.props.updateSections(newSections)
-    this.props.updatePreview(newSections, this.props.userObject)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
-  toggle = () => {
+  toggleCollapse = () => {
     this.setState({ collapse: !this.state.collapse })
+  }
+
+  toggleTemplate = () => {
+    const newSections = JSON.parse(JSON.stringify(this.props.sections)) // deep copy
+    newSections[this.props.index].showTemplate = !this.props.section.showTemplate
+    this.props.updateSections(newSections)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
   render() {
     return (
       <ListGroupItem>
         <div>
-          <Button outline className="button" size="sm" onClick={this.toggle}>
-            {(this.props.language === 'eng') ? (
-              this.props.section.eng_title || 'INTRODUCTION'
-            ) : (
-              this.props.section.fin_title || 'ESITTELY'
-            )}
+          <Button outline className="button" size="sm" onClick={this.toggleCollapse}>
+            {this.props.section.title}
           </Button>
           <Collapse isOpen={this.state.collapse}>
+            <div className="template-toggle">
+              <Label>
+                <Input
+                  type="checkbox"
+                  key={this.props.key}
+                  checked={this.props.section.showTemplate}
+                  onChange={this.toggleTemplate}
+                />
+               Show template
+              </Label>
+            </div>
             <div>
               <br />
-              <Input
-                type="textarea"
-                rows="15"
-                cols="73"
-                id="textfield"
-                value={this.props.language === 'eng' ? this.props.section.eng_text : this.props.section.fin_text}
-                onChange={this.handleChange}
-              />
+              {
+                this.props.section.showTemplate
+                  ? <pre id="textfield">
+                    {this.props.section.template}
+                  </pre>
+                  : <Textarea
+                    id="textfield"
+                    value={this.props.section.text}
+                    onChange={this.handleChange}
+                  />
+              }
             </div>
           </Collapse>
         </div>
@@ -55,11 +72,10 @@ class InputSectionCollapser extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     sections: state.sections,
-    userObject: state.userList[state.selectedUserIndex],
-    language: state.language,
+    username: ownProps.uid,
   }
 }
 

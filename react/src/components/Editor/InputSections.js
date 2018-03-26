@@ -11,15 +11,17 @@ const InputSections = (props) => {
           key={section.section_id}
           index={index}
           section={section}
+          uid={props.uid}
         />),
       )}
     </Container>
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     sections: state.sections,
+    uid: ownProps.uid,
   }
 }
 

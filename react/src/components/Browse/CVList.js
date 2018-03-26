@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading } from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap'
 import { connect } from 'react-redux'
 import CVToolbar from './CVToolbar'
 import CvNameForm from './CvNameForm'
@@ -10,33 +10,39 @@ import {
 const getListGroupItem = (props, cvObject, index) => {
   const cvName = cvObject.cv_name
   const cvID = cvObject.cv_id
-  const isActive = props.selectedCVIndex === index
+  const isActive = props.cvid === cvID
   return (
     <ListGroupItem
       key={cvID}
-      tag="a"
       action
       active={isActive}
       onClick={() => {
-        const userObject = props.userList[props.selectedUserIndex]
-        props.cvClickedCascade(userObject, props.cvList, index)
+        const username = props.selectedUserID
+        props.cvClickedCascade(username, props.cvList, index)
       }}
     >
-      <div className="cvinfo">
+      <div className="cv-name">
         <ListGroupItemHeading>
           <CvNameForm
             cvName={cvName}
             cvID={cvID}
+            uid={props.selectedUserID}
           />
         </ListGroupItemHeading>
-        <ListGroupItemText className="list-item">
-          {new Date(cvObject.last_updated).toLocaleString()}
-        </ListGroupItemText>
       </div>
-      <CVToolbar
-        cvID={cvID}
-        index={index}
-      />
+      <div>
+        <CVToolbar
+          cvID={cvID}
+          index={index}
+          uid={props.selectedUserID}
+        />
+        <span className="language-flag badge badge-pill badge-info">
+          {cvObject.language_name}
+        </span>
+        <span className="last-modified-datetime">
+          {new Date(cvObject.last_updated).toLocaleString()}
+        </span>
+      </div>
     </ListGroupItem>
   )
 }
@@ -54,12 +60,13 @@ const CVList = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     cvList: state.cvList,
     selectedCVIndex: state.selectedCVIndex,
     userList: state.userList,
-    selectedUserIndex: state.selectedUserIndex,
+    selectedUserID: ownProps.uid,
+    cvid: ownProps.cvid,
   }
 }
 

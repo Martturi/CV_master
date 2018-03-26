@@ -2,14 +2,13 @@ const initialState = {
   view: 'browse',
   lastView: 'browse',
   userList: [],
-  selectedUserIndex: 0,
+  selectedUserID: '',
   cvList: [],
   selectedCVIndex: 0,
-  loggedInUserIndex: 0,
+  loggedInUser: '',
   sections: [],
   searchFieldContents: '',
   previewHTML: '',
-  language: 'fin',
 }
 
 const getCVIndex = (state, action) => {
@@ -33,8 +32,13 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         userList: action.userList,
-        loggedInUserIndex: action.loggedInUserIndex,
-        selectedUserIndex: action.selectedUserIndex,
+        selectedUserID: action.selectedUserID,
+      }
+
+    case 'GET_CURRENT_USER':
+      return {
+        ...state,
+        loggedInUser: action.loggedInUser,
       }
 
     case 'UPDATE_CV_LIST':
@@ -56,10 +60,10 @@ const CVreducer = (state = initialState, action) => {
         previewHTML: action.previewHTML,
       }
 
-    case 'SELECT_USER_INDEX':
+    case 'SELECT_USER':
       return {
         ...state,
-        selectedUserIndex: action.userIndex,
+        selectedUser: action.userID,
       }
 
     case 'SELECT_CV_INDEX':
@@ -72,12 +76,6 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         searchFieldContents: action.searchFieldContents,
-      }
-
-    case 'UPDATE_LANGUAGE':
-      return {
-        ...state,
-        language: action.language,
       }
 
     default:

@@ -5,15 +5,15 @@ import CVList from './CVList'
 import './Browse.css'
 import '../Header.css'
 
-const Browse = () => {
+const Browse = (props) => {
   return (
     <div>
-      <SearchAndExport />
+      <SearchAndExport uid={props.uid} cvid={props.cvid} />
       <div id="namelist" className="browse-section">
-        <NameList />
+        <NameList uid={props.uid} />
       </div>
       <div id="cvlist" className="browse-section">
-        <CVList />
+        <CVList uid={props.uid} cvid={props.cvid} />
       </div>
     </div>
   )

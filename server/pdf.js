@@ -3,20 +3,27 @@ const pdf = require('html-pdf')
 const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
+const db = require('./db')
+const config = require('./config')
 
-const header = fs.readFileSync(path.resolve(__dirname, './pdf/header.html'), 'utf-8')
-const footer = fs.readFileSync(path.resolve(__dirname, './pdf/footer.html'), 'utf-8')
-const options = {
-  base: `file://${__dirname}/../react/public/`,
-  header: {
-    height: '20mm',
-    contents: header,
-  },
-  footer: {
-    height: '12mm',
-    contents: footer,
-  },
-}
+/*
+ *  Loading static assets for PDF creation from filesystem to database.
+ *  Does not run if there are no assets to load, and reads which files to load from a pdf/files.json
+ */
+fs.readFile(path.resolve(__dirname, './pdf/files.json'), 'utf-8', (err, data) => {
+  if (err) console.log('static file index not found')
+  else {
+    const fileIndex = JSON.parse(data)
+    if (fileIndex && fileIndex.files && fileIndex.files.length > 0) {
+      if (fileIndex.clearAssets) db.clearAssets()
+      fileIndex.files.forEach(({ filename, filetype, base64, location }) => {
+        const contents = fs.readFileSync(path.resolve(__dirname, './pdf/', location), 'utf-8')
+        db.configAsset({ filename, filetype, base64, contents })
+      })
+    }
+    console.log(`adding ${fileIndex.files.length} static files\n`)
+  }
+})
 
 const sectionToText = (section) => {
   if (!section.text) {
@@ -38,57 +45,51 @@ const sectionToText = (section) => {
   }
   // joining the modified array:
   const text = rows.join('\n')
-  const titleAsMarkdown = (title ? `####${title}\n` : '')
+  const titleAsMarkdown = (title ? `###${title}\n` : '')
   return `${titleAsMarkdown}${text}`
 }
 
 // getHTML requires uid to find the correct picture from CDN. The uid is given to it via servePDF.
-const getHTML = ({ sections, userObject }) => {
-  const languages = Object.keys(sections[0])
-    .filter(key => key.endsWith('_text'))
-    .map(lang => lang.slice(0, -5)) // remove five characters from the end (length of '_text')
-  const style = fs.readFileSync(path.resolve(__dirname, 'pdf/pdf.css'), 'utf-8')
-  const template = fs.readFileSync(path.resolve(__dirname, 'pdf/preview.ejs'), 'utf-8')
-  const previews = {}
-  languages.forEach((lang) => {
-    const currentSections = []
-    sections.forEach((section, index) => {
-      const currentSection = {}
-      currentSection.text = sections[index][`${lang}_text`]
-      currentSection.title = sections[index][`${lang}_title`]
-      currentSections.push(currentSection)
-    })
-    // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
-    // let's undo it for better user control:
-    const firstSection = markdown.toHTML(sectionToText(currentSections[0]))
-      .replace(/&lt;br&gt;/g, '<br>')
-    const otherSections = currentSections.slice(1) // drop the first one
-      .filter(section => section.text !== '')
-      .map(section => markdown.toHTML(sectionToText(section)))
-      .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
-    previews[lang] = ejs.render(template, {
-      styles: style,
-      firstSection,
-      otherSections,
-      userID: userObject.username,
-      name: userObject.full_name,
-    })
+const getHTML = async ({ sections, username }) => {
+  const style = await db.getAsset({ filename: 'pdf.css' }).then(data => data.file)
+  const template = await db.getAsset({ filename: 'preview.ejs' }).then(data => data.file)
+  const fullName = await db.loadFullName(username)
+  // by default, '<br>' is escaped with '&lt;br&gt;' to prevent line break
+  // let's undo it for better user control:
+  const sectionsInMarkdown = sections
+    .map(section => markdown.toHTML(sectionToText(section)))
+    .map(html => html.replace(/&lt;br&gt;/g, '<br>'))
+  const html = ejs.render(template, {
+    styles: style,
+    sectionsInMarkdown,
+    userID: username,
+    name: fullName,
   })
-  return previews
+  return html
 }
 
-const servePDF = (response, { sections, userObject, language }) => {
-  const parsedHTML = getHTML({ sections, userObject })[language]
-  pdf.create(parsedHTML, options).toStream((err, stream) => {
-    response.setHeader('Content-Type', 'application/pdf')
-    response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')
-    stream.on('end', () => response.end())
-    stream.pipe(response)
+const servePDF = async (response, { sections, username }) => {
+  const header = await db.getAsset({ filename: 'header.html' }).then(data => data.file)
+  const footer = await db.getAsset({ filename: 'footer.html' }).then(data => data.file)
+  const options = {
+    base: `${config.clientURL}`,
+    header: {
+      height: '20mm',
+      contents: header,
+    },
+    footer: {
+      height: '12mm',
+      contents: footer,
+    },
+  }
+  getHTML({ sections, username }).then((parsedHTML) => {
+    pdf.create(parsedHTML, options).toStream((err, stream) => {
+      response.setHeader('Content-Type', 'application/pdf')
+      response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf')
+      stream.on('end', () => response.end())
+      stream.pipe(response)
+    })
   })
 }
 
 module.exports = { getHTML, servePDF }
-
-/*
-FIXME page breaks on PDF
- */

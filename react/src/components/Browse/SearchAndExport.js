@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonGroup, Button, Input,
-  InputGroupAddon, InputGroup } from 'reactstrap'
+import { Button, Input, InputGroupAddon, InputGroup } from 'reactstrap'
 import {
   changeView,
   userClickedCascade,
@@ -10,24 +9,12 @@ import {
 import { downloadPDF } from '../../utils'
 
 class SearchAndExport extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      dropdownOpen: false,
-    }
-  }
-
-  toggle = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    })
-  }
-
   goToHome = () => {
-    const currentUserName = this.props.userList[this.props.loggedInUserIndex].full_name
-    this.props.updateSearchFieldContents(currentUserName)
-    if (this.props.selectedUserIndex !== this.props.loggedInUserIndex) {
-      this.props.userClickedCascade(this.props.userList, this.props.loggedInUserIndex)
+    const currentUserName = this.props.userList.find(user =>
+      user.username === this.props.loggedInUser)
+    this.props.updateSearchFieldContents(currentUserName.full_name)
+    if (this.props.uid !== this.props.loggedInUser) {
+      this.props.userClickedCascade(this.props.loggedInUser)
     }
   }
 
@@ -42,7 +29,7 @@ class SearchAndExport extends Component {
           <Button outline className="button" id="homebutton" onClick={this.goToHome}>
             <i className="fa fa-home" />
           </Button>
-          <InputGroup className="searchfield pl-1">
+          <InputGroup className="searchfield">
             <Input
               placeholder="Search..."
               value={this.props.searchFieldContents}
@@ -59,43 +46,35 @@ class SearchAndExport extends Component {
             </InputGroupAddon>
           </InputGroup>
         </div>
-        <ButtonGroup className="exportgroup">
-          <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-            <DropdownToggle caret outline className="button">
-              Export
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem
-                onClick={() => {
-                  downloadPDF(
-                    this.props.userList[this.props.selectedUserIndex],
-                    this.props.cvList[this.props.selectedCVIndex].cv_id,
-                    this.props.sections,
-                    this.props.language,
-                  )
-                }}
-              >
-                Download as PDF
-              </DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </ButtonGroup>
+        <Button
+          outline
+          className="button exportbutton"
+          onClick={() => {
+            downloadPDF(
+              this.props.username,
+              this.props.cvid,
+              this.props.sections,
+              this.props.language,
+            )
+          }}
+        >
+          Download as PDF
+        </Button>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
-    selectedUserIndex: state.selectedUserIndex,
-    loggedInUserIndex: state.loggedInUserIndex,
+    loggedInUser: state.loggedInUser,
     userList: state.userList,
     cvList: state.cvList,
-    selectedCVIndex: state.selectedCVIndex,
     sections: state.sections,
     searchFieldContents: state.searchFieldContents,
-    language: state.language,
+    cvid: ownProps.cvid,
+    username: ownProps.uid,
   }
 }
 

@@ -9,6 +9,7 @@
 /*Searchfield and clear-button in browse-view*/
 .searchfield {
 	float: left;
+	padding-left: 0.2em;
 	width: calc(100% - 41px);
 	box-shadow: none;
 	color: #242730;
@@ -50,8 +51,20 @@
 /*Rename-button next to CVs name*/
 .rename-button {
 	padding: 0.2em 0.5em 0.2em 0.5em;
-	margin-left: 0.5em;
+	margin-left: 0.5rem;
+	margin-bottom: 0.3rem;
 	font-size: x-small;
+}
+
+.last-modified-datetime {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.language-flag {
+  margin-left: 0.8em;
+  margin-right: 0.8em;
+  background-color: #616982;
 }
 
 /*Sections where people and their
@@ -78,6 +91,19 @@ CVs are listed*/
 	background-color: #d5d7de;
 	border-color: #d5d7de;
 	color: #000000;
+}
+
+.tooltip > .tooltip-inner {
+  background-color: #616982;
+  color: #fff;
+}
+
+.tooltip-top > .arrow::before {
+	border-top-color: #616982;
+}
+
+.tooltip-right > .arrow::before {
+	border-right-color: #616982;
 }
 
 /*Stops the scrolling for the whole page*/

@@ -10,12 +10,15 @@
   <div id="whole-cv">
     <div class="cv" id="first-section">
       <img class="face" src='https://cdn.rex.reaktor.cloud/people/400x500/<%= userID %>.jpg' />
-      <h5><%- name %></h5>
-      <%- firstSection %>
+      <h1><%- name %></h1>
+      <% const firstSectionWithoutTitle = sectionsInMarkdown[0].replace(/.*<\/h3>/, '') %>
+      <%- firstSectionWithoutTitle %>
     </div>
-    <% for (let i = 0; i < otherSections.length; i += 1) {%>
-      <div class="cv"<%= i === otherSections.length - 1 ? 'id=last-section' : '' %>>
-        <%- otherSections[i] %>
+    <% const tailSections = sectionsInMarkdown.slice(1) %>
+    <% const nonEmptyTailSections = tailSections.filter(s => s !== '') %>
+    <% for (let i = 0; i < nonEmptyTailSections.length; i += 1) { %>
+      <div class="cv"<%= i === nonEmptyTailSections.length - 1 ? 'id=last-section' : '' %>>
+        <%- nonEmptyTailSections[i] %>
       </div>
     <% } %>
   </div>

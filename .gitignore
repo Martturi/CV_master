@@ -3,6 +3,7 @@ build/
 .idea/
 .DS_Store
 Reaktor CV Template*
+static assets/
 
 #
 # Following copied from a template .gitignore

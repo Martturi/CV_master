@@ -4,6 +4,9 @@
      "postdeploy": "psql $DATABASE_URL -f SQL_table_creation.sql"
   },
   "env": {
+    "CLIENT_URL": {
+      "required": true
+    }
   },
   "formation": {
   },

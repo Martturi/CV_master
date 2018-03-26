@@ -29,6 +29,7 @@ if (config.auth_id) {
     clientSecret: config.auth_secret,
     clientDomain: config.clientURL,
     allowedDomains: config.login_domains.split(','),
+    publicEndPoints: ['/assets/font1.otf', '/assets/font2.otf', '/assets/font3.otf', '/assets/font4.otf'],
   })
 
   route.use(session({
@@ -110,8 +111,34 @@ route.delete('/api/cvs/:cvID', (request, response) => {
 route.post('/actions/preview', (request, response) => {
   const params = request.body
   console.log('Loading preview for cv')
-  const previews = pdf.getHTML(params)
-  response.send(previews)
+  pdf.getHTML(params)
+    .then(previews => response.send(previews))
 })
+
+route.get('/assets/:filename', (request, response) => {
+  console.log(`getting static file ${request.params.filename}`)
+  db.getAsset(request.params)
+    .then(({ filetype, file }) => {
+      response.writeHead(200, {
+        'Content-Type': filetype,
+        'Content-Length': file.length,
+      })
+      response.end(file)
+    })
+    .catch((err) => {
+      console.log(err)
+      response.status(500).send('Database error')
+    })
+})
+
+route.get('/api/languages', (request, response) => {
+  handleDBRequest(db.loadLanguages, request, response)
+})
+
+if (config.env === 'production') {
+  route.get('/*', (request, response) => {
+    response.sendFile(path.join(__dirname, '../react/build', 'index.html'))
+  })
+}
 
 module.exports = route

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Button } from 'reactstrap'
+import { Button, Jumbotron } from 'reactstrap'
 import { connect } from 'react-redux'
 import Header from './Header'
+import './NotFound.css'
 import { getCurrentUser, userClickedCascade, update404 } from '../actions'
 
 class NotFound extends Component {
@@ -19,8 +20,11 @@ class NotFound extends Component {
     return (
       <div>
         <Header />
-        <h1 className="display-3">404 Not Found</h1>
-        <Button outline className="button" onClick={this.goBack}>Home</Button>
+        <Jumbotron>
+          <h1 className="display-1">404</h1>
+          <h4 className="display-5">Not Found</h4>
+          <Button outline className="button" onClick={this.goBack}>Home</Button>
+        </Jumbotron>
       </div>
     )
   }

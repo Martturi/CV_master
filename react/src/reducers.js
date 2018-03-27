@@ -6,6 +6,7 @@ const initialState = {
   sections: [],
   searchFieldContents: '',
   previewHTML: '',
+  urlNotFound: false,
 }
 
 const CVreducer = (state = initialState, action) => {
@@ -51,6 +52,12 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         searchFieldContents: action.searchFieldContents,
+      }
+
+    case 'UPDATE_404':
+      return {
+        ...state,
+        urlNotFound: action.urlNotFound,
       }
 
     default:

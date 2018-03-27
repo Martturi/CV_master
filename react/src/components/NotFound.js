@@ -2,17 +2,16 @@ import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 import { connect } from 'react-redux'
 import Header from './Header'
-import { getCurrentUser, userClickedCascade } from '../actions'
+import { getCurrentUser, userClickedCascade, update404 } from '../actions'
 
 class NotFound extends Component {
   goBack = async () => {
+    this.props.update404(false)
     const loggedInUser = await this.props.getCurrentUser()
-    if (this.props.error === 'userNotFound') {
+    if (this.props.userList.findIndex(u => u.username === this.props.uid) === -1) {
       await this.props.userClickedCascade(loggedInUser)
-    } else if (this.props.error === 'cvNotFound') {
-      this.props.userClickedCascade(this.props.uid)
     } else {
-      this.props.userClickedCascade(this.props.uid, this.props.cvid)
+      this.props.userClickedCascade(this.props.uid)
     }
   }
 
@@ -29,19 +28,18 @@ class NotFound extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    error: ownProps.match.params.error,
-    cvid: Number(ownProps.match.params.cvid),
-    uid: ownProps.match.params.uid,
+    uid: ownProps.uid,
+    userList: state.userList,
   }
 }
 
 const mapDispatchToProps = {
   getCurrentUser,
   userClickedCascade,
+  update404,
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(NotFound)
-

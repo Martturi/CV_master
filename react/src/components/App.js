@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'
-import { updateUserList, getCurrentUser, userClickedCascade, updateCVList, loadSections, updatePreview } from '../actions'
+import NotFound from './NotFound'
+import { updateUserList, getCurrentUser, userClickedCascade, updateCVList, loadSections, updatePreview, update404 } from '../actions'
 import Preview from './Preview'
-import history from '../history'
 
 class App extends Component {
   async componentDidMount() {
@@ -13,16 +13,26 @@ class App extends Component {
     const userList = await this.props.updateUserList()
     const cvList = await this.props.updateCVList(this.props.uid)
     if (userList.findIndex(u => u.username === this.props.uid) === -1) {
-      history.push(`/404/userNotFound/${this.props.uid}/${this.props.cvid}`)
-    } else if (this.props.cvid && cvList.findIndex(cv => cv.cv_id === this.props.cvid) === -1) {
-      history.push(`/404/cvNotFound/${this.props.uid}/${this.props.cvid}`)
-    } else if (this.props.view === '#edit') {
-      const sections = await this.props.loadSections(this.props.cvid)
-      this.props.updatePreview(sections, this.props.uid)
-    } else { this.props.userClickedCascade(this.props.uid, this.props.cvid) }
+      this.props.update404(true)
+    } else if (this.props.cvidRaw) {
+      if (cvList.findIndex(cv => cv.cv_id === this.props.cvid) === -1) {
+        this.props.update404(true)
+      } else if (this.props.view === '#edit') {
+        const sections = await this.props.loadSections(this.props.cvid)
+        this.props.updatePreview(sections, this.props.uid)
+      } else { this.props.userClickedCascade(this.props.uid, this.props.cvid) }
+    } else { this.props.userClickedCascade(this.props.uid) }
   }
 
   render() {
+    if (this.props.urlNotFound) {
+      return (
+        <div>
+          <NotFound uid={this.props.uid} />
+        </div>
+      )
+    }
+
     return (
       <div>
         <Header />
@@ -41,7 +51,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     uid: ownProps.match.params.uid,
     cvid: Number(ownProps.match.params.cvid),
+    cvidRaw: ownProps.match.params.cvid,
     view: ownProps.location.hash,
+    urlNotFound: state.urlNotFound,
   }
 }
 
@@ -52,6 +64,7 @@ const mapDispatchToProps = {
   updateCVList,
   loadSections,
   updatePreview,
+  update404,
 }
 
 export default connect(

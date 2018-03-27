@@ -15,12 +15,11 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Route exact path="/users/:uid" component={Home} />
+        <Route exact path="/users/:uid" component={App} />
         <Route exact path="/users/:uid/:cvid" component={App} />
         <Route exact path="/users" component={Home} />
-        <Route path="/404/:error/:uid/:cvid" component={NotFound} />
         <Route exact path="/" component={Home} />
-        <Route path="*" component={App} />
+        <Route path="*" component={NotFound} />
       </Switch>
     </Router>
   </Provider>,

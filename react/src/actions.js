@@ -81,6 +81,13 @@ export const updateSearchFieldContents = (newContents) => {
   }
 }
 
+export const update404 = (urlNotFound) => {
+  return {
+    type: 'UPDATE_404',
+    urlNotFound,
+  }
+}
+
 export const cvClickedCascade = (username, cvList, cvID) => async (dispatch) => {
   const existingCV = cvList.find(cv => cv.cv_id === cvID) || cvList[0]
   const sections = await loadSections(existingCV.cv_id)(dispatch)

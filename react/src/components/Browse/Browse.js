@@ -3,7 +3,6 @@ import SearchAndExport from './SearchAndExport'
 import NameList from './NameList'
 import CVList from './CVList'
 import './Browse.css'
-import '../Header.css'
 
 const Browse = (props) => {
   return (

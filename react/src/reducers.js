@@ -1,33 +1,16 @@
 const initialState = {
-  view: 'browse',
-  lastView: 'browse',
   userList: [],
   selectedUserID: '',
   cvList: [],
-  selectedCVIndex: 0,
   loggedInUser: '',
   sections: [],
   searchFieldContents: '',
   previewHTML: '',
-}
-
-const getCVIndex = (state, action) => {
-  const indexOutOfBounds = state.selectedCVIndex >= action.cvList.length
-  const newSelectedCVIndex = (
-    indexOutOfBounds ? (action.cvList.length - 1) : state.selectedCVIndex
-  )
-  return newSelectedCVIndex
+  urlNotFound: false,
 }
 
 const CVreducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'CHANGE_VIEW':
-      return {
-        ...state,
-        lastView: state.view,
-        view: action.view,
-      }
-
     case 'UPDATE_USER_LIST':
       return {
         ...state,
@@ -45,7 +28,6 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         cvList: action.cvList,
-        selectedCVIndex: getCVIndex(state, action),
       }
 
     case 'UPDATE_SECTIONS':
@@ -66,16 +48,16 @@ const CVreducer = (state = initialState, action) => {
         selectedUser: action.userID,
       }
 
-    case 'SELECT_CV_INDEX':
-      return {
-        ...state,
-        selectedCVIndex: action.cvIndex,
-      }
-
     case 'UPDATE_SEARCH_FIELD_CONTENTS':
       return {
         ...state,
         searchFieldContents: action.searchFieldContents,
+      }
+
+    case 'UPDATE_404':
+      return {
+        ...state,
+        urlNotFound: action.urlNotFound,
       }
 
     default:

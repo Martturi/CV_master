@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Input, InputGroupAddon, InputGroup } from 'reactstrap'
 import {
-  changeView,
   userClickedCascade,
   updateSearchFieldContents,
 } from '../../actions'
@@ -67,7 +66,6 @@ class SearchAndExport extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    view: state.view,
     loggedInUser: state.loggedInUser,
     userList: state.userList,
     cvList: state.cvList,
@@ -79,7 +77,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = {
-  changeView,
   userClickedCascade,
   updateSearchFieldContents,
 }

@@ -49,7 +49,6 @@ class NameList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userList: state.userList,
-    view: state.view,
     loggedInUser: state.loggedInUser,
     searchFieldContents: state.searchFieldContents,
   }

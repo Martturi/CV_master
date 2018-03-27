@@ -3,21 +3,40 @@ import { connect } from 'react-redux'
 import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'
-import { updateUserList, getCurrentUser, userClickedCascade } from '../actions'
+import NotFound from './NotFound'
+import { updateUserList, getCurrentUser, userClickedCascade, updateCVList, loadSections, updatePreview, update404 } from '../actions'
 import Preview from './Preview'
 
 class App extends Component {
   async componentDidMount() {
     await this.props.getCurrentUser()
-    await this.props.updateUserList()
-    this.props.userClickedCascade(this.props.uid)
+    const userList = await this.props.updateUserList()
+    const cvList = await this.props.updateCVList(this.props.uid)
+    if (userList.findIndex(u => u.username === this.props.uid) === -1) {
+      this.props.update404(true)
+    } else if (this.props.cvidRaw) {
+      if (cvList.findIndex(cv => cv.cv_id === this.props.cvid) === -1) {
+        this.props.update404(true)
+      } else if (this.props.view === '#edit') {
+        const sections = await this.props.loadSections(this.props.cvid)
+        this.props.updatePreview(sections, this.props.uid)
+      } else { this.props.userClickedCascade(this.props.uid, this.props.cvid) }
+    } else { this.props.userClickedCascade(this.props.uid) }
   }
 
   render() {
+    if (this.props.urlNotFound) {
+      return (
+        <div>
+          <NotFound uid={this.props.uid} />
+        </div>
+      )
+    }
+
     return (
       <div>
         <Header />
-        {this.props.view === 'edit'
+        {this.props.view === '#edit'
           ? <Editor uid={this.props.uid} cvid={this.props.cvid} />
           : <Browse uid={this.props.uid} cvid={this.props.cvid} />}
         <div className="CVpreview">
@@ -32,7 +51,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     uid: ownProps.match.params.uid,
     cvid: Number(ownProps.match.params.cvid),
-    view: state.view,
+    cvidRaw: ownProps.match.params.cvid,
+    view: ownProps.location.hash,
+    urlNotFound: state.urlNotFound,
   }
 }
 
@@ -40,6 +61,10 @@ const mapDispatchToProps = {
   updateUserList,
   getCurrentUser,
   userClickedCascade,
+  updateCVList,
+  loadSections,
+  updatePreview,
+  update404,
 }
 
 export default connect(

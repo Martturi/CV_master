@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, ButtonGroup, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Popover, PopoverBody } from 'reactstrap'
 import {
-  changeView,
   updateCVList,
-  selectCVIndex,
   loadSections,
   updatePreview,
-  cvClickedCascade,
 } from '../../actions'
 import Api from '../../Api'
 import { downloadPDF } from '../../utils'
+import history from '../../history'
 
 
 class EditorButtonGroup extends Component {
@@ -38,13 +36,10 @@ class EditorButtonGroup extends Component {
   }
 
   languageClicked = async (languageID) => {
-    const { saveMessage, newCVList, newSelectedCVIndex } = await this.saveCV(languageID)
+    const { saveMessage } = await this.saveCV(languageID)
     if (saveMessage === 'Save succeeded.') {
-      this.props.cvClickedCascade(
-        this.props.username,
-        newCVList,
-        newSelectedCVIndex,
-      )
+      const sections = await this.props.loadSections(this.props.cvID)
+      this.props.updatePreview(sections, this.props.username)
     }
   }
 
@@ -55,10 +50,8 @@ class EditorButtonGroup extends Component {
     window.setTimeout(() => {
       this.setState({ saveStatus: '' })
     }, 3000)
-    const newCVList = await this.props.updateCVList(this.props.username)
-    const newSelectedCVIndex = newCVList.findIndex(cvObj => cvObj.cv_id === cvID)
-    this.props.selectCVIndex(newSelectedCVIndex)
-    return { saveMessage, newCVList, newSelectedCVIndex }
+    await this.props.updateCVList(this.props.username)
+    return { saveMessage }
   }
 
   // The content gets saved automatically when it's downloaded.
@@ -95,7 +88,7 @@ class EditorButtonGroup extends Component {
   }
 
   closeWithoutSaving = async () => {
-    this.props.changeView(this.props.lastView)
+    history.push(`/users/${this.props.username}/${this.props.cvID}`)
     const sections = await this.props.loadSections(this.props.cvID)
     this.props.updatePreview(sections, this.props.username)
   }
@@ -158,21 +151,18 @@ class EditorButtonGroup extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const currentCV = state.cvList.find(cv => cv.cv_id === ownProps.cvid)
   return {
-    lastView: state.lastView,
     sections: state.sections,
     username: ownProps.uid,
     cvID: ownProps.cvid,
-    cvLanguageName: state.cvList[state.selectedCVIndex].language_name,
-    cvLanguageID: state.cvList[state.selectedCVIndex].language_id,
+    cvLanguageName: (currentCV && currentCV.language_name) || '',
+    cvLanguageID: (currentCV && currentCV.language_id) || 0,
   }
 }
 
 const mapDispatchToProps = {
-  cvClickedCascade,
-  changeView,
   updateCVList,
-  selectCVIndex,
   loadSections,
   updatePreview,
 }

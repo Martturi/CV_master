@@ -55,6 +55,7 @@ class EditorButtonGroup extends Component {
       .language_name
     this.props.updateSections(newSections)
     this.props.setCVList(newCVList)
+    this.props.updatePreview(newSections, this.props.username)
   }
 
   saveCV = async (languageID = this.props.cvLanguageID) => {

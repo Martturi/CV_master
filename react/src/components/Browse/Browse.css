@@ -10,7 +10,7 @@
 .searchfield {
 	float: left;
 	padding-left: 0.2em;
-	width: calc(100% - 41px);
+	width: calc(99% - 41px);
 	box-shadow: none;
 	color: #242730;
 }

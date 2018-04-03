@@ -48,23 +48,25 @@ class PreviewTabs extends Component {
                 )
               }}
             >
-              PDF Preview
+              Show PDF
             </NavLink>
           </NavItem>
-          <Button
-            outline
-            className="button exportbutton"
-            onClick={() => {
-              console.log(this.props.cvid)
-              downloadPDF(
-                this.props.username,
-                this.props.selectedCV,
-                this.props.sections,
-              )
-            }}
-          >
-            Download as PDF
-          </Button>
+          <div className="buttonheader">
+            <Button
+              outline
+              className="button exportbutton"
+              onClick={() => {
+                console.log(this.props.cvid)
+                downloadPDF(
+                  this.props.username,
+                  this.props.selectedCV,
+                  this.props.sections,
+                )
+              }}
+            >
+              Download as PDF
+            </Button>
+          </div>
         </Nav>
 
         <TabContent activeTab={this.state.activeTab}>

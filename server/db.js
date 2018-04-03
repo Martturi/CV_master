@@ -33,6 +33,16 @@ const load = ({ cvID }) => {
     })
 }
 
+const loadCVSections = () => {
+  const query = `
+    SELECT section_id, language_id, title, template
+    FROM cv_sections
+    ORDER BY language_id, section_order;
+  `
+  return client.query(query)
+    .then(result => result.rows)
+}
+
 const createCV = ({ username, cvName, languageID }) => {
   const date = new Date().toUTCString()
   const query = `INSERT INTO cvs VALUES (DEFAULT, $1, $2, $3,'${date}') RETURNING cv_id;`
@@ -265,4 +275,5 @@ module.exports = {
   configAsset,
   getAsset,
   loadLanguages,
+  loadCVSections,
 }

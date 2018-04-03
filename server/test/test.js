@@ -282,5 +282,14 @@ describe('Save and load tests', () => {
           returnedText.should.match(/.*cv/)
         })
     })
+
+    it('it should load correct CV sections', () => {
+      return chai.request(server)
+        .get('/api/cvsections')
+        .then((result) => {
+          result.should.have.status(200)
+          console.log(result)
+        })
+    })
   })
 })

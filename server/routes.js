@@ -70,6 +70,10 @@ route.get('/api/cvs/:cvID', (request, response) => {
   handleDBRequest(db.load, request, response)
 })
 
+route.get('/api/cvsections', (request, response) => {
+  handleDBRequest(db.loadCVSections, request, response)
+})
+
 // Post request for loading pdf
 route.post('/api/pdf', (request, response) => {
   pdf.servePDF(response, request.body)

@@ -4,15 +4,24 @@ import Editor from './Editor/Editor'
 import Browse from './Browse/Browse'
 import Header from './Header'
 import NotFound from './NotFound'
-import { updateUserList, getCurrentUser, userClickedCascade, updateCVList, loadSections, updatePreview, update404 } from '../actions'
+import {
+  updateUserList,
+  getCurrentUser,
+  userClickedCascade,
+  updateCVList,
+  updateCVSections,
+  loadSections,
+  updatePreview,
+  update404,
+} from '../actions'
 import PreviewTabs from './PreviewTabs'
-
 
 class App extends Component {
   async componentDidMount() {
     await this.props.getCurrentUser()
     const userList = await this.props.updateUserList()
     const cvList = await this.props.updateCVList(this.props.uid)
+    await this.props.updateCVSections()
     if (userList.findIndex(u => u.username === this.props.uid) === -1) {
       this.props.update404(true)
     } else if (this.props.cvidRaw) {
@@ -64,6 +73,7 @@ const mapDispatchToProps = {
   getCurrentUser,
   userClickedCascade,
   updateCVList,
+  updateCVSections,
   loadSections,
   updatePreview,
   update404,

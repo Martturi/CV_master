@@ -2,6 +2,7 @@ const initialState = {
   userList: [],
   selectedUserID: '',
   cvList: [],
+  cvSections: [],
   loggedInUser: '',
   sections: [],
   searchFieldContents: '',
@@ -28,6 +29,12 @@ const CVreducer = (state = initialState, action) => {
       return {
         ...state,
         cvList: action.cvList,
+      }
+
+    case 'UPDATE_CV_SECTIONS':
+      return {
+        ...state,
+        cvSections: action.cvSections,
       }
 
     case 'UPDATE_SECTIONS':

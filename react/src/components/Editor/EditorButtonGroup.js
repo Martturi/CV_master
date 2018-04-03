@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { Button, ButtonGroup, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle, Popover, PopoverBody } from 'reactstrap'
 import {
   updateCVList,
+  setCVList,
   loadSections,
   updatePreview,
+  updateSections,
 } from '../../actions'
 import Api from '../../Api'
 import history from '../../history'
@@ -36,11 +38,23 @@ class EditorButtonGroup extends Component {
   }
 
   languageClicked = async (languageID) => {
-    const { saveMessage } = await this.saveCV(languageID)
-    if (saveMessage === 'Save succeeded.') {
-      const sections = await this.props.loadSections(this.props.cvID)
-      this.props.updatePreview(sections, this.props.username)
-    }
+    const cvSectionsInNewLanguage = this.props.cvSections
+      .filter(cvSection => cvSection.language_id === languageID)
+    const newSections = this.props.sections.map((section, index) => {
+      const cvSectionObject = cvSectionsInNewLanguage[index]
+      return Object.assign({}, section, {
+        title: cvSectionObject.title,
+        template: cvSectionObject.template,
+      })
+    })
+    const newCVList = this.props.cvList.map(cvObject => Object.assign({}, cvObject))
+    const currentCV = newCVList.find(cv => cv.cv_id === this.props.cvID)
+    currentCV.language_id = languageID
+    currentCV.language_name = this.state.cvLanguageObjects
+      .find(lang => lang.language_id === languageID)
+      .language_name
+    this.props.updateSections(newSections)
+    this.props.setCVList(newCVList)
   }
 
   saveCV = async (languageID = this.props.cvLanguageID) => {
@@ -158,9 +172,11 @@ class EditorButtonGroup extends Component {
 const mapStateToProps = (state, ownProps) => {
   const currentCV = state.cvList.find(cv => cv.cv_id === ownProps.cvid)
   return {
+    cvSections: state.cvSections,
     sections: state.sections,
     username: ownProps.uid,
     cvID: ownProps.cvid,
+    cvList: state.cvList,
     cvLanguageName: (currentCV && currentCV.language_name) || '',
     cvLanguageID: (currentCV && currentCV.language_id) || 0,
   }
@@ -168,8 +184,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   updateCVList,
+  setCVList,
   loadSections,
   updatePreview,
+  updateSections,
 }
 
 export default connect(

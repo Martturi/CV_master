@@ -31,16 +31,16 @@ CREATE TABLE section_data (
   cv_id INTEGER REFERENCES cvs(cv_id) ON DELETE CASCADE,
   section_id INTEGER,
   text TEXT,
-	PRIMARY KEY (cv_id, section_id)
+  PRIMARY KEY (cv_id, section_id)
 );
 
 CREATE INDEX cv_id_idx ON section_data (cv_id);
 
 CREATE TABLE assets (
-	filename TEXT PRIMARY KEY,
-	filetype TEXT,
+  filename TEXT PRIMARY KEY,
+  filetype TEXT,
   base64 BOOLEAN,
-	contents TEXT,
+  contents TEXT,
   last_updated TIMESTAMP WITH TIME ZONE
 );
 

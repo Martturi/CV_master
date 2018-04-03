@@ -56,7 +56,6 @@ class PreviewTabs extends Component {
               outline
               className="button exportbutton"
               onClick={() => {
-                console.log(this.props.cvid)
                 downloadPDF(
                   this.props.username,
                   this.props.selectedCV,

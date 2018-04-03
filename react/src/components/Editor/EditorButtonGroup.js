@@ -95,7 +95,10 @@ class EditorButtonGroup extends Component {
 
   close = async () => {
     const oldSections = await Api.loadCV(this.props.cvID)
-    if (this.equalSections(this.props.sections, oldSections)) {
+    const oldCVList = await Api.loadCVList(this.props.username)
+    const oldLanguage = oldCVList.find(cv => cv.cv_id === this.props.cvID).language_id
+    const newLanguage = this.props.cvList.find(cv => cv.cv_id === this.props.cvID).language_id
+    if (this.equalSections(this.props.sections, oldSections) && oldLanguage === newLanguage) {
       this.closeWithoutSaving()
     } else {
       this.setState({ closeSelected: true })

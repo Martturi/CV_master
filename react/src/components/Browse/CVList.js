@@ -31,10 +31,10 @@ const getListGroupItem = (props, cvObject) => {
         </ListGroupItemHeading>
       </div>
       <div>
-        <CVToolbar
+        {isActive ? <CVToolbar
           cvID={cvID}
           uid={props.selectedUserID}
-        />
+        /> : ''}
         <span className="language-flag badge badge-pill badge-info">
           {cvObject.language_name}
         </span>

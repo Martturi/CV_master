@@ -29,6 +29,7 @@ if (config.auth_id) {
     clientSecret: config.auth_secret,
     clientDomain: config.clientURL,
     allowedDomains: config.login_domains.split(','),
+    returnToOriginalUrl: true,
     publicEndPoints: ['/assets/font1.otf', '/assets/font2.otf', '/assets/font3.otf', '/assets/font4.otf'],
   })
 

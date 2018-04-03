@@ -20,7 +20,7 @@
     "url": "git+https://github.com/Martturi/cv_master.git"
   },
   "dependencies": {
-    "@reaktor/express-gauth": "^2.2.0",
+    "@reaktor/express-gauth": "^2.3.0",
     "body-parser": "^1.18.2",
     "concurrently": "^3.5.1",
     "dotenv": "^4.0.0",

@@ -77,7 +77,7 @@ class CVToolbar extends Component {
     }
 
     return (
-      <ButtonGroup>
+      <ButtonGroup className="cv-toolbar">
         <Button outline id={`edit${this.props.cvID}`} className="button" onClick={this.editClicked}>
           <span className="fa fa-pencil" aria-hidden="true" />
         </Button>

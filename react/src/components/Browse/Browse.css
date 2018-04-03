@@ -97,10 +97,6 @@ CVs are listed*/
   width:100%;
 }
 
-.list-group {
-  width:24.5%;
-}
-
 /*People and their CVs in the lists*/
 .list-group-item {
   padding-left: 1vw;

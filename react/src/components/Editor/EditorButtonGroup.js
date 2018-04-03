@@ -112,6 +112,7 @@ class EditorButtonGroup extends Component {
 
   closeWithoutSaving = async () => {
     history.push(`/users/${this.props.username}/${this.props.cvID}`)
+    await this.props.updateCVList(this.props.username)
     const sections = await this.props.loadSections(this.props.cvID)
     this.props.updatePreview(sections, this.props.username)
   }

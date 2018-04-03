@@ -7,8 +7,8 @@ import {
   updatePreview,
 } from '../../actions'
 import Api from '../../Api'
-import { downloadPDF } from '../../utils'
 import history from '../../history'
+import { downloadPDF, displayPDF } from '../../utils'
 
 
 class EditorButtonGroup extends Component {
@@ -50,6 +50,11 @@ class EditorButtonGroup extends Component {
     window.setTimeout(() => {
       this.setState({ saveStatus: '' })
     }, 3000)
+    displayPDF(
+      this.props.username,
+      this.props.cvid,
+      this.props.sections,
+    )
     await this.props.updateCVList(this.props.username)
     return { saveMessage }
   }

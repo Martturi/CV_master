@@ -5,7 +5,7 @@ import {
   userClickedCascade,
   updateSearchFieldContents,
 } from '../../actions'
-import { downloadPDF } from '../../utils'
+
 
 class SearchAndExport extends Component {
   goToHome = () => {
@@ -48,20 +48,6 @@ class SearchAndExport extends Component {
             </InputGroupAddon>
           </InputGroup>
         </div>
-        <Button
-          outline
-          className="button exportbutton"
-          onClick={() => {
-            downloadPDF(
-              this.props.username,
-              this.props.cvid,
-              this.props.sections,
-              this.props.language,
-            )
-          }}
-        >
-          Download as PDF
-        </Button>
       </div>
     )
   }

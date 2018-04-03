@@ -1,20 +1,20 @@
 @font-face {
 font-family: 'Jungka-Light';
-src: url('/assets/font1.otf') format('opentype');
+src: url('/assets/font1.woff') format('opentype');
 }
 @font-face {
 font-family: 'Jungka-Regular';
-src: url('/assets/font2.otf') format('opentype');
+src: url('/assets/font2.woff') format('opentype');
 }
 @font-face {
 font-family: 'Jungka-Medium';
-src: url('/assets/font3.otf') format('opentype');
+src: url('/assets/font3.woff') format('opentype');
 }
 
 .cv_header {
   margin-left: 9%;
   margin-right: 9%;
-  padding-top: 20px;
+  padding-top: 21px;
 }
 
 .companylogo {

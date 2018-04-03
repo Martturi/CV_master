@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Input, InputGroupAddon, InputGroup } from 'reactstrap'
+import { Button, Input, InputGroupAddon, InputGroup, UncontrolledTooltip } from 'reactstrap'
 import {
   userClickedCascade,
   updateSearchFieldContents,
@@ -28,6 +28,9 @@ class SearchAndExport extends Component {
           <Button outline className="button" id="homebutton" onClick={this.goToHome}>
             <i className="fa fa-user" />
           </Button>
+          <UncontrolledTooltip className="tooltip-top" delay={{ show: 600, hide: 0 }} placement="top" target="homebutton">
+            My CVs
+          </UncontrolledTooltip>
           <InputGroup className="searchfield">
             <Input
               placeholder="Search..."

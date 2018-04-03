@@ -109,7 +109,7 @@ and the "exportbutton" holder in editor view*/
 }
 
 .nav > .buttonheader {
-
+  width: auto;
 }
 
 /*Download as PDF button*/

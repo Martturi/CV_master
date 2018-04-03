@@ -1,9 +1,9 @@
 /*Sets the width for searchfield and homebutton*/
 .searchfield-and-button {
-	float:left;
-	display: inline;
-	width: 50%;
-	min-width: 180px;
+  float:left;
+  display: inline;
+  width: 50%;
+  min-width: 180px;
 }
 
 /*Searchfield and clear-button in browse-view*/
@@ -85,7 +85,7 @@ CVs are listed*/
 .browse-section {
 	float: left;
 	display: inline;
-	width: 25%;
+  width: 25%;
 	min-width: 180px;
 	padding-left: 0.5vw;
 	font-family: 'JungkaRegular';
@@ -95,6 +95,10 @@ CVs are listed*/
 
 .list-group {
   width:100%;
+}
+
+.list-group {
+  width:24.5%;
 }
 
 /*People and their CVs in the lists*/

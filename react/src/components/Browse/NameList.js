@@ -5,41 +5,62 @@ import {
   userClickedCascade,
 } from '../../actions'
 
+const NameListItem = ({ object, uid, searchFieldContents, userItems, userClicked }) => {
+  const username = object.username
+  const fullName = object.full_name
+  const isActive = uid === username
+  const searchingFor = searchFieldContents
+  const searchAsRegExp = new RegExp(searchingFor, 'gi')
+  const searchMatchesFromIndex = fullName.search(searchAsRegExp)
+  if (searchMatchesFromIndex === -1) return undefined
+  return (
+    <div ref={(ref) => { userItems.set(username, ref) }}>
+      <ListGroupItem
+        tag="a"
+        href="#"
+        action
+        active={isActive}
+        onClick={() => {
+          userClicked(username)
+        }}
+      >
+        {fullName.substr(0, searchMatchesFromIndex)}
+        <b>
+          <font color="FC6054">
+            {fullName.substr(searchMatchesFromIndex, searchingFor.length)}
+          </font>
+        </b>
+        {fullName.substr(searchMatchesFromIndex + searchingFor.length)}
+      </ListGroupItem>
+    </div>
+  )
+}
+
 class NameList extends React.Component {
+  componentDidMount = () => {
+    const activeUserItem = this.userItems.get(this.props.uid)
+    console.log(this.userItems)
+    console.log(this.userItems.size)
+    console.log(activeUserItem)
+    if (activeUserItem !== undefined) {
+      activeUserItem.scrollIntoView()
+    }
+  }
+  userItems = new Map()
   render() {
-    const listGroupItems = this.props.userList.map((object) => {
-      const username = object.username
-      const fullName = object.full_name
-      const isActive = this.props.uid === username
-      const searchingFor = this.props.searchFieldContents
-      const searchAsRegExp = new RegExp(searchingFor, 'gi')
-      const searchMatchesFromIndex = fullName.search(searchAsRegExp)
-      if (searchMatchesFromIndex === -1) return undefined
-      return (
-        <ListGroupItem
-          tag="a"
-          href="#"
-          action
-          key={username}
-          active={isActive}
-          onClick={() => {
-            this.props.userClickedCascade(username)
-          }}
-        >
-          {fullName.substr(0, searchMatchesFromIndex)}
-          <b>
-            <font color="FC6054">
-              {fullName.substr(searchMatchesFromIndex, searchingFor.length)}
-            </font>
-          </b>
-          {fullName.substr(searchMatchesFromIndex + searchingFor.length)}
-        </ListGroupItem>
-      )
-    }).filter(item => item !== undefined)
     return (
       <div>
         <ListGroup>
-          {listGroupItems}
+          {this.props.userList.map(object =>
+            (<NameListItem
+              key={object.username}
+              object={object}
+              uid={this.props.uid}
+              searchFieldContents={this.props.searchFieldContents}
+              userItems={this.userItems}
+              userClicked={this.props.userClickedCascade}
+            />),
+          )}
         </ListGroup>
       </div>
     )

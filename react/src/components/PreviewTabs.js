@@ -43,7 +43,7 @@ class PreviewTabs extends Component {
                 this.toggle('2')
                 displayPDF(
                   this.props.username,
-                  this.props.selectedCV,
+                  this.props.cvid,
                   this.props.sections,
                 )
               }}
@@ -58,7 +58,7 @@ class PreviewTabs extends Component {
               onClick={() => {
                 downloadPDF(
                   this.props.username,
-                  this.props.selectedCV,
+                  this.props.cvid,
                   this.props.sections,
                 )
               }}
@@ -84,7 +84,6 @@ class PreviewTabs extends Component {
 const mapStateToProps = (state) => {
   return {
     username: state.selectedUser,
-    selectedCV: state.cvList[state.selectedCVIndex],
     sections: state.sections,
   }
 }

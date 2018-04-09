@@ -79,7 +79,7 @@ class EditorButtonGroup extends Component {
     await this.saveCV()
     downloadPDF(
       this.props.username,
-      this.props.cvID,
+      this.props.cvid,
       this.props.sections,
     )
   }
@@ -167,7 +167,6 @@ class EditorButtonGroup extends Component {
           </DropdownMenu>
         </ButtonDropdown>
         <div id="savestatus" className="statusMessage">{this.state.saveStatus.toString()}</div>
-        <Button outline className="button exportbutton" onClick={this.saveAndExport}>Download as PDF</Button>
         <ClosePopover />
       </div>
     )

@@ -7,6 +7,7 @@ const development = {
   auth_id: process.env.AUTH_ID,
   auth_secret: process.env.AUTH_SECRET,
   login_domains: process.env.ALLOWED_LOGIN_DOMAINS,
+  update_pdf_from_fs: process.env.UPDATE_PDF_FROM_FS || 1,
 }
 const production = {
   databaseURL: process.env.DATABASE_URL,
@@ -15,11 +16,13 @@ const production = {
   auth_id: process.env.AUTH_ID,
   auth_secret: process.env.AUTH_SECRET,
   login_domains: process.env.ALLOWED_LOGIN_DOMAINS,
+  update_pdf_from_fs: process.env.UPDATE_PDF_FROM_FS || 1,
 }
 
 const test = {
   databaseURL: 'postgres:///cv_db_test',
   env: 'test',
+  update_pdf_from_fs: 1,
 }
 
 console.log(`Running, config is: ${process.env.NODE_ENV}`)

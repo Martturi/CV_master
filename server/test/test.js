@@ -283,12 +283,13 @@ describe('Save and load tests', () => {
         })
     })
 
-    it('it should load correct CV sections', () => {
+    it('it should load correct number of CV sections', () => {
       return chai.request(server)
         .get('/api/cvsections')
         .then((result) => {
           result.should.have.status(200)
-          console.log(result)
+          const cvSections = result.body
+          cvSections.length.should.be.eql(testSections.length)
         })
     })
   })

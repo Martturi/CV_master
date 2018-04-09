@@ -27,20 +27,20 @@
       "location":"pdf.css"
     },
     {
-      "filename":"font1.otf",
       "filetype":"font/opentype",
+      "filename":"font1.woff",
       "base64":true,
       "location":"Jungka-Light.txt"
     },
     {
-      "filename":"font2.otf",
       "filetype":"font/opentype",
+      "filename":"font2.woff",
       "base64":true,
       "location":"Jungka-Regular.txt"
     },
     {
-      "filename":"font3.otf",
       "filetype":"font/opentype",
+      "filename":"font3.woff",
       "base64":true,
       "location":"Jungka-Medium.txt"
     }

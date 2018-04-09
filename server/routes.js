@@ -30,7 +30,7 @@ if (config.auth_id) {
     clientDomain: config.clientURL,
     allowedDomains: config.login_domains.split(','),
     returnToOriginalUrl: true,
-    publicEndPoints: ['/assets/font1.otf', '/assets/font2.otf', '/assets/font3.otf', '/assets/font4.otf'],
+    publicEndPoints: ['/assets/font1.woff', '/assets/font2.woff', '/assets/font3.woff', '/assets/font4.woff'],
   })
 
   route.use(session({

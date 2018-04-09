@@ -282,5 +282,15 @@ describe('Save and load tests', () => {
           returnedText.should.match(/.*cv/)
         })
     })
+
+    it('it should load correct number of CV sections', () => {
+      return chai.request(server)
+        .get('/api/cvsections')
+        .then((result) => {
+          result.should.have.status(200)
+          const cvSections = result.body
+          cvSections.length.should.be.eql(testSections.length)
+        })
+    })
   })
 })

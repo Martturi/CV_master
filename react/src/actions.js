@@ -41,6 +41,21 @@ export const updateCVList = username => async (dispatch) => {
   return cvList
 }
 
+export const setCVList = (cvList) => {
+  return {
+    type: 'UPDATE_CV_LIST',
+    cvList,
+  }
+}
+
+export const updateCVSections = () => async (dispatch) => {
+  const cvSections = await Api.loadCVSections()
+  dispatch({
+    type: 'UPDATE_CV_SECTIONS',
+    cvSections,
+  })
+}
+
 export const updateUserList = () => async (dispatch) => {
   const users = await Api.loadUserList()
   dispatch({

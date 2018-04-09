@@ -63,7 +63,7 @@ class PreviewTabs extends Component {
                 )
               }}
             >
-              Download as PDF
+              Download PDF
             </Button>
           </div>
         </Nav>

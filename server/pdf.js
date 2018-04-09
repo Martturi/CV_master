@@ -10,20 +10,22 @@ const config = require('./config')
  *  Loading static assets for PDF creation from filesystem to database.
  *  Does not run if there are no assets to load, and reads which files to load from a pdf/files.json
  */
-fs.readFile(path.resolve(__dirname, './pdf/files.json'), 'utf-8', (err, data) => {
-  if (err) console.log('static file index not found')
-  else {
-    const fileIndex = JSON.parse(data)
-    if (fileIndex && fileIndex.files && fileIndex.files.length > 0) {
-      if (fileIndex.clearAssets) db.clearAssets()
-      fileIndex.files.forEach(({ filename, filetype, base64, location }) => {
-        const contents = fs.readFileSync(path.resolve(__dirname, './pdf/', location), 'utf-8')
-        db.configAsset({ filename, filetype, base64, contents })
-      })
+if (config.update_pdf_from_fs === 1) {
+  fs.readFile(path.resolve(__dirname, './pdf/files.json'), 'utf-8', (err, data) => {
+    if (err) console.log('static file index not found')
+    else {
+      const fileIndex = JSON.parse(data)
+      if (fileIndex && fileIndex.files && fileIndex.files.length > 0) {
+        if (fileIndex.clearAssets) db.clearAssets()
+        fileIndex.files.forEach(({ filename, filetype, base64, location }) => {
+          const contents = fs.readFileSync(path.resolve(__dirname, './pdf/', location), 'utf-8')
+          db.configAsset({ filename, filetype, base64, contents })
+        })
+      }
+      console.log(`adding ${fileIndex.files.length} static files\n`)
     }
-    console.log(`adding ${fileIndex.files.length} static files\n`)
-  }
-})
+  })
+}
 
 const sectionToText = (section) => {
   if (!section.text) {

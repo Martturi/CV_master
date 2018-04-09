@@ -1,45 +1,43 @@
 import React from 'react'
-import { ListGroup, ListGroupItem } from 'reactstrap'
+import { ListGroup } from 'reactstrap'
 import { connect } from 'react-redux'
-import {
-  userClickedCascade,
-} from '../../actions'
+import NameListItem from './NameListItem'
 
 class NameList extends React.Component {
+  userRefLoaded = []
+  userItems = new Map()
+
+  scroll = () => {
+    if (this.userRefLoaded.every(Boolean)) {
+      const activeUserItem = this.userItems.get(this.props.uid)
+      if (activeUserItem) {
+        activeUserItem.scrollIntoView()
+      }
+    }
+  }
+
   render() {
-    const listGroupItems = this.props.userList.map((object) => {
-      const username = object.username
-      const fullName = object.full_name
-      const isActive = this.props.uid === username
-      const searchingFor = this.props.searchFieldContents
-      const searchAsRegExp = new RegExp(searchingFor, 'gi')
-      const searchMatchesFromIndex = fullName.search(searchAsRegExp)
-      if (searchMatchesFromIndex === -1) return undefined
-      return (
-        <ListGroupItem
-          tag="a"
-          href="#"
-          action
-          key={username}
-          active={isActive}
-          onClick={() => {
-            this.props.userClickedCascade(username)
-          }}
-        >
-          {fullName.substr(0, searchMatchesFromIndex)}
-          <b>
-            <font color="FC6054">
-              {fullName.substr(searchMatchesFromIndex, searchingFor.length)}
-            </font>
-          </b>
-          {fullName.substr(searchMatchesFromIndex + searchingFor.length)}
-        </ListGroupItem>
-      )
-    }).filter(item => item !== undefined)
     return (
       <div>
         <ListGroup>
-          {listGroupItems}
+          {this.props.userList.map((object, index) => {
+            this.userRefLoaded.push(false)
+            return (
+              <div
+                key={object.username}
+                ref={(ref) => {
+                  this.userItems.set(object.username, ref)
+                  this.userRefLoaded[index] = true
+                  this.scroll()
+                }}
+              >
+                <NameListItem
+                  object={object}
+                  uid={this.props.uid}
+                />
+              </div>
+            )
+          })}
         </ListGroup>
       </div>
     )
@@ -49,17 +47,10 @@ class NameList extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userList: state.userList,
-    loggedInUser: state.loggedInUser,
-    searchFieldContents: state.searchFieldContents,
   }
-}
-
-const mapDispatchToProps = {
-  userClickedCascade,
 }
 
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
 )(NameList)

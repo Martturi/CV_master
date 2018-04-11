@@ -103,6 +103,12 @@ and the "exportbutton" holder in editor view*/
   width: 100%;
 }
 
+.nav-link {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .nav-item {
   padding-top: 25px;
   font-size: 14px;

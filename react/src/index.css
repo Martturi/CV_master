@@ -110,10 +110,5 @@ and the "exportbutton" holder in editor view*/
 
 .nav > .buttonheader {
   width: auto;
-}
-
-/*Download as PDF button*/
-.exportbutton {
-  position: absolute;
-  right: 5px;
+  margin-left: auto;
 }

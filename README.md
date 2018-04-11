@@ -5,97 +5,78 @@ CV management system
 
 Master branch auto-deploys to <a href="http://cv-master.herokuapp.com">cv-master.herokuapp.com</a>
 
+##  Heroku setup
 
-## Instructions to get the server running on macOS:
-
-### 1. Install and Configure Postgres
-   [More detail in this guide](https://www.codementor.io/devops/tutorial/getting-started-postgresql-server-mac-osx)
-
-   1. Get Homebrew
-
-     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-   2. Install Postgres
-
-     brew install postgresql  
-
-   3. Start the postgres server
-
-     pg_ctl -D /usr/local/var/postgres start && brew services start postgresql
+This creates a new Heroku app, adds a database, initializes it, and pushes the app to the repo.
+You need to have the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed.
 
 
-Configure the database. In the project directory run
+```Shell
+heroku create
+heroku addons:create heroku-postgresql:hobby-dev -a {app name}
+heroku git:remote -a {app name}
+cat SQL_table_creation.sql | heroku pg:psql -a {app name}
+git push heroku
+```
+The last command prints the url for the deployment.
 
-     ./init_db.sh
+
+### Config variables for heroku deployment
+
+  Needed for authentication, gotten from the [Google Dev Console](console.developers.google.com). The server looks for `AUTH_ID`, and does not use authentication if it doesn’t exist.
+```
+AUTH_ID:  
+AUTH_SECRET:  
+```
+
+The URL for the application, where the app redirects after login.  
+`CLIENT_URL: https://cv-master.herokuapp.com `
+
+What email domains are allowed to login.  
+`ALLOWED_LOGIN_DOMAINS: gmail.com,domain.com`
+
+Optional. If disabled does not update the pdf from the repository. Defaults to 1 if not present.  
+`UPDATE_PDF_FROM_FS: 0 `
+
+## Updating the template
+
+By default the template-styling for pdf-generation is loaded to the database on dyno startup, according to the files in `/server/pdf/`. You can opt to disable this and update templates to the database manually by setting an env flag `UPDATE_PDF_FROM_FS: 0`.
+
+## Running the app locally
+
+To run the app locally you need npm and node installed. You also need a PostgreSQL running with a user called `postges` configured with priviledges.
+
+```Shell
+git clone https://github.com/Martturi/cv_master.git
+cd cv_master
+npm install
+./init_db.sh
+npm run watch
+```
+
+### Config variables locally
+
+The app uses a `.env` -file, which can be configured with optional environment variables.
+Example:
+```JSON
+AUTH_ID=
+AUTH_SECRET=
+ALLOWED_LOGIN_DOMAINS=gmail.com,domain.fi
+```
 
 
-### 2. Start server
+## Running tests
 
-  Make sure you have npm installed
+There are some API tests for the server. Make sure to have a database running when you run them.
 
-#### Run the following commands:
+```Shell
+./init_db.sh
+npm install
+npm run test
+```
 
-    npm install
-    npm run watch //This runs a both the react app and the server, and restarts them on changes.
+## Interesting notes
 
-#### Run local tests:
+PDF Generation is implemented with [html-pdf](https://www.npmjs.com/package/html-pdf), which is buggy. For example [issue nr. 247](https://github.com/Martturi/cv_master/issues/247) is because of this.
 
-    npm test
-
-<br/>
-<br/>
-  
-## Detailed instructions to get the server running on a freshly installed Ubuntu 16.04:
-
-#### 1. Install PostgreSQL (installs version 9.5 as of March 1, 2018):
-
-    sudo apt-get update
-#####    
-    sudo apt-get install postgresql postgresql-contrib
-
-#### 2. Create a PostgreSQL user (replace yourusername with your Ubuntu username):
-
-    sudo -u postgres createuser -s yourusername
-
-#### 3. Configure PostgreSQL to trust local IPv4 connections (replace 9.5 with your PostgreSQL version):
-
-    sudo nano /etc/postgresql/9.5/main/pg_hba.conf
-
-1. Scroll down the file and change IPv4 local connections METHOD from *_md5_* to *_trust_*. 
-2. Exit and save file.
-3. Reload PostgreSQL configurations:  
-#####
-    sudo /etc/init.d/postgresql reload
-
-#### 4. Install curl:
-
-    sudo apt install curl
-    
-#### 5. Install Node.js (includes npm): 
-
-    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-    
-#### 6. Install Git:
-
-    sudo apt install git
-    
-#### 7. Clone this project:
-
-    git clone https://github.com/Martturi/cv_master.git
-    
-#### 8. Change to project directory:
-
-    cd cv_master
-    
-#### 9. Install required node modules:
-
-    npm install
-
-#### 10. Initialize database (WARNING: possible pre-existing databases 'cv_db' and 'cv_db_test' will be destroyed):
-
-    ./init_db.sh
-    
-#### 11. Start the server:
-
-     npm run watch
+The application was never designed to be responsive, and is therefore not usable on small screens. 

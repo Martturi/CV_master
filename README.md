@@ -23,7 +23,7 @@ The last command prints the url for the deployment.
 
 ### Config variables for heroku deployment
 
-  Needed for authentication, gotten from the OAUTH provider. The server looks for `AUTH_ID`, and does not use authentication if it doesn’t exist.
+  Needed for authentication, gotten from the [Google Dev Console](console.developers.google.com). The server looks for `AUTH_ID`, and does not use authentication if it doesn’t exist.
 ```
 AUTH_ID:  
 AUTH_SECRET:  
@@ -44,7 +44,7 @@ By default the template-styling for pdf-generation is loaded to the database on 
 
 ## Running the app locally
 
-To run the app locally you need npm and node installed. You also need a PostgreSQL running with a user called postges configured with priviledges.
+To run the app locally you need npm and node installed. You also need a PostgreSQL running with a user called `postges` configured with priviledges.
 
 ```Shell
 git clone https://github.com/Martturi/cv_master.git
@@ -56,7 +56,7 @@ npm run watch
 
 ### Config variables locally
 
-The app uses a .env -file, which can be configured with optional environment variables.
+The app uses a `.env` -file, which can be configured with optional environment variables.
 Example:
 ```JSON
 AUTH_ID=
@@ -67,7 +67,7 @@ ALLOWED_LOGIN_DOMAINS=gmail.com,domain.fi
 
 ## Running tests
 
-There are some API-tests for the server. Make sure to have a database running when you run them.
+There are some API tests for the server. Make sure to have a database running when you run them.
 
 ```Shell
 ./init_db.sh

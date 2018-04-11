@@ -74,3 +74,9 @@ There are some API tests for the server. Make sure to have a database running wh
 npm install
 npm run test
 ```
+
+## Interesting notes
+
+PDF Generation is implemented with [html-pdf](https://www.npmjs.com/package/html-pdf), which is buggy. For example [issue nr. 247](https://github.com/Martturi/cv_master/issues/247) is because of this.
+
+The application was never designed to be responsive, and is therefore not usable on small screens. 

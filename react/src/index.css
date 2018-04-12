@@ -31,10 +31,6 @@ away for search-icon button or myCVs-button.*/
   box-shadow: none;
 }
 
-/*Changes the outline color of the Export-dropdown*/
-.dropdown-menu {
-  border: 0.1vh solid #6c757d;
-}
 /*Affects the "search-header" in browse-view,
 the "back,save and export-header" in editor-view
 and the "exportbutton" holder in editor view*/

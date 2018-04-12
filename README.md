@@ -77,6 +77,6 @@ npm run test
 
 ## Interesting notes
 
-PDF Generation is implemented with [html-pdf](https://www.npmjs.com/package/html-pdf), which is buggy. For example [issue nr. 247](https://github.com/Martturi/cv_master/issues/247) is because of this.
+PDF Generation is implemented with [html-pdf](https://www.npmjs.com/package/html-pdf). The PDF does not render custom fonts in the header and the footer, so generic fonts are used in them. The generated PDF also looks different depending on the OS it's generated on. Also e.g. [issue nr. 247](https://github.com/Martturi/cv_master/issues/247) is because of this library.
 
 The application was never designed to be responsive, and is therefore not usable on small screens. 

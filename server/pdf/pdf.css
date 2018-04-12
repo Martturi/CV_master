@@ -1,13 +1,13 @@
 @font-face {
-font-family: 'Jungka-Light';
+font-family: 'Roboto-Light';
 src: url('/assets/font1.otf') format('opentype');
 }
 @font-face {
-font-family: 'Jungka-Regular';
+font-family: 'Roboto-Regular';
 src: url('/assets/font2.otf') format('opentype');
 }
 @font-face {
-font-family: 'Jungka-Medium';
+font-family: 'Roboto-Bold';
 src: url('/assets/font3.otf') format('opentype');
 }
 
@@ -25,7 +25,7 @@ src: url('/assets/font3.otf') format('opentype');
 header > .confidential{
   float:right;
   text-align: right;
-  font-family: "Jungka-Light", sans-serif;
+  font-family: "Roboto-Light", sans-serif;
   font-size: 9px;
   right: 0;
 }
@@ -59,7 +59,7 @@ header > .confidential{
 }
 
 .cv > p, .cv > ul > li {
-  font-family: "Jungka-Light";
+  font-family: "Roboto-Light";
   letter-spacing: 0.1px;
   font-size: 9px;
 }
@@ -88,19 +88,19 @@ header > .confidential{
 
 .cv > h1 {
   font-size: 20px;
-  font-family: "Jungka-Regular";
+  font-family: "Roboto-Regular";
 }
 
 .cv > h2 {
   font-size: 15px;
   padding-bottom: 3px;
-  font-family: "Jungka-Regular";
+  font-family: "Roboto-Regular";
 }
 
 .cv > h3 {
   float: left;
   width: 5rem;
-  font-family: "Jungka-Regular";
+  font-family: "Roboto-Regular";
   font-size: 12px;
   font-weight: 400;
   margin-left: 0;
@@ -111,18 +111,18 @@ header > .confidential{
 .cv > h4 {
   font-size: 11px;
   color: #FC6054;
-  font-family: "Jungka-Medium";
+  font-family: "Roboto-Bold";
   letter-spacing: -0.2px;
 }
 .cv > h5 {
   font-size: 11px;
-  font-family: "Jungka-Medium";
+  font-family: "Roboto-Bold";
   letter-spacing: -0.2px;
   color: #393929;
 }
 .cv > h6 {
   font-size: 10px;
-  font-family: "Jungka-Light";
+  font-family: "Roboto-Light";
 }
 
 .cv > p > code {
@@ -130,7 +130,7 @@ header > .confidential{
   font-size: 11px;
   width: 390px;
   color: #393929;
-  font-family: "Jungka-Light";
+  font-family: "Roboto-Light";
 }
 
 .cv > ul {
@@ -160,12 +160,12 @@ header > .confidential{
   font-size: 9px;
   color: #6C6C6C;
   margin-bottom: 10px;
-  font-family: "Jungka-Regular";
+  font-family: "Roboto-Regular";
 }
 
 footer .footer_contact {
   margin: 0px auto;
-  font-family: "Jungka-Light", sans-serif;
+  font-family: "Roboto-Light", sans-serif;
   font-size: 0.5em;
   text-align: center;
   width: 100%;

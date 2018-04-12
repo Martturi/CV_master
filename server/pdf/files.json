@@ -30,19 +30,19 @@
       "filename":"font1.otf",
       "filetype":"font/opentype",
       "base64":true,
-      "location":"Jungka-Light.txt"
+      "location":"Roboto-Light.txt"
     },
     {
       "filename":"font2.otf",
       "filetype":"font/opentype",
       "base64":true,
-      "location":"Jungka-Regular.txt"
+      "location":"Roboto-Regular.txt"
     },
     {
       "filename":"font3.otf",
       "filetype":"font/opentype",
       "base64":true,
-      "location":"Jungka-Medium.txt"
+      "location":"Roboto-Bold.txt"
     }
   ]
 }

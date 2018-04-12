@@ -1,27 +1,10 @@
-@font-face {
-  font-family: 'JungkaRegular';
-  src: url('/fonts/Jungka-Regular.otf');
-}
-
-@font-face {
-  font-family: 'JungkaMedium';
-  src: url('/fonts/Jungka-Medium.otf');
-}
-
-@font-face {
-  font-family: 'JungkaLight';
-  src: url('/fonts/Jungka-Light.otf');
-}
-
-@font-face {
-  font-family: 'JungkaBold';
-  src: url('/fonts/Jungka-Bold.otf');
-}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Roboto:700');
 
 /*Changes the font of all the placeholders.
 In example the font in the search field.*/
 ::placeholder {
-  font-family: 'JungkaLight';
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
 }
 
 /*Changes the color, font and deletes the box
@@ -29,7 +12,7 @@ shadow of all buttons. Doesn't take the box shadow
 away for search-icon button or myCVs-button.*/
 .button {
   color: #242730;
-  font-family: 'JungkaRegular';
+  font-family: 'Roboto', sans-serif;
   box-shadow: none;
 }
 
@@ -62,7 +45,7 @@ and the "exportbutton" holder in editor view*/
   padding-left: 0.5vw;
   padding-bottom: 15px;
   width: 50%;
-  font-family: 'JungkaRegular';
+  font-family: 'Roboto', sans-serif;
   height: 65px;
   box-shadow: none;
 }

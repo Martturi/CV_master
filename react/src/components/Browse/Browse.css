@@ -95,7 +95,8 @@ CVs are listed*/
   width: 25%;
 	min-width: 180px;
 	padding-left: 0.5vw;
-	font-family: 'JungkaRegular';
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
 	overflow: auto;
 	height: 82vh;
 }

@@ -73,7 +73,7 @@ class CvNameForm extends React.Component {
       )
     }
     return (
-      <div>
+      <div className="rename">
         {this.props.cvName}
         <Button
           outline

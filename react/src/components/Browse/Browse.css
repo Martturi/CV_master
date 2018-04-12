@@ -58,10 +58,17 @@
 
 /*Rename-button next to CVs name*/
 .rename-button {
-  padding: 0.2em 0.5em 0.2em 0.5em;
+  padding: 0.2em 0.5em;
   margin-left: 0.5rem;
   margin-bottom: 0.3rem;
   font-size: x-small;
+  visibility: hidden;
+}
+
+/*Shows rename-button only on hover*/
+.rename:hover .rename-button{
+  visibility: visible;
+  display: inline;
 }
 
 .cv-toolbar {
